@@ -34,6 +34,10 @@ namespace GhostrunnerRNG.Maps {
             return new Vector3f(x, y, z);
         }
 
+        internal void ClearAllPlanes() {
+            planes.Clear();
+        }
+
         public void SetMemoryPos(Process game, SpawnData spawn) {
             if(spawn.pos.IsEmpty()) return;
 

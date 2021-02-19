@@ -12,7 +12,7 @@ namespace GhostrunnerRNG.Maps {
         public bool FixedAngle = true;
         public Angle? angle { get; private set; } = null;
 
-        public static Random r;
+        public static Random r; // randomizer
 
         public SpawnPlane(Vector3f a, Vector3f b, Angle? angle) {
             // fix oriantation

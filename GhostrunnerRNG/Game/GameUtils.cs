@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GhostrunnerRNG.Game {
-    class GameUtils {
-        private static Dictionary<string, MapType> MapLevels = new Dictionary<string, MapType>() {
+    public class GameUtils {
+        public readonly static Dictionary<string, MapType> MapLevels = new Dictionary<string, MapType>() {
             { "/Game/Levels/MainMenu/MainMenu",                             MapType.MainMenu},
             { "/Game/Levels/Tutorial/L_Tutorial_Persistant",                MapType.AwakeningLookInside},
             { "/Game/Maps/damian_vr4",                                      MapType.LookInsideCV},
@@ -33,8 +34,11 @@ namespace GhostrunnerRNG.Game {
         };
 
         public enum MapType {
+            Unknown,
             MainMenu,
             AwakeningLookInside,
+            Awakening,
+            LookInside,
             LookInsideCV,
             TheClimb,
             ThEClimbCV,
@@ -62,11 +66,30 @@ namespace GhostrunnerRNG.Game {
             TheMonster
         }
 
+        // Spawn Rectangle: Awakening
+        public static readonly Vector3f SpawnRect_Awakening_PointA = new Vector3f(-20280, -67178, 2099);
+        public static readonly Vector3f SpawnRect_Awakening_PointB = new Vector3f(-20084, -66971, 2100);
+        // Spawn Rectangle: LookInside
+        public static readonly Vector3f SpawnRect_LookInside_PointA = new Vector3f(130553, -68616, 2400);
+        public static readonly Vector3f SpawnRect_LookInside_PointB = new Vector3f(130053, -67783, 1050);
+
         public static MapType GetMapName(string fullName) {
-            if(string.IsNullOrEmpty(fullName)) return MapType.MainMenu;
+            if(string.IsNullOrEmpty(fullName)) return MapType.Unknown;
             return MapLevels.ContainsKey(fullName) ? MapLevels[fullName] : MapType.MainMenu;
         }
 
-        public GameUtils() {}
+        /// <summary>
+        /// Checks if player within the rectangle of 2 points of the plane/box
+        /// </summary>
+        /// <param name="player">Player Pos</param>
+        /// <param name="posA">Pos A of rec</param>
+        /// <param name="posB">Pos B of rec, opposite point</param>
+        /// <returns>True if player is inside rec</returns>
+        public static bool PlayerWithinRectangle(Vector3f player, Vector3f posA, Vector3f posB) {
+            Vector3f A = new Vector3f(Math.Min(posA.X, posB.X), Math.Min(posA.Y, posB.Y), Math.Min(posA.Z, posB.Z));
+            Vector3f B = new Vector3f(Math.Max(posA.X, posB.X), Math.Max(posA.Y, posB.Y), Math.Max(posA.Z, posB.Z));
+            return (player.X > A.X && player.Y > A.Y && player.Z > A.Z &&
+                player.X < B.X && player.Y < B.Y && player.Z < B.Z);
+        }
     }
 }

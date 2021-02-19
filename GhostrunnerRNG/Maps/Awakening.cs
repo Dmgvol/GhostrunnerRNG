@@ -1,10 +1,11 @@
 ﻿using GhostrunnerRNG.Game;
+using static GhostrunnerRNG.Game.GameUtils;
 
 namespace GhostrunnerRNG.Maps {
     public class Awakening : MapCore {
         
 
-        public Awakening() : base("/Game/Levels/Tutorial/L_Tutorial_Persistant") {
+        public Awakening() : base(MapType.Awakening) {
 
             // add enemies
             for(int i = 0; i < 13; i++) {

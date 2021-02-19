@@ -10,25 +10,25 @@ using GhostrunnerRNG.Maps;
 using static GhostrunnerRNG.Game.GameUtils;
 
 namespace GhostrunnerRNG {
-	#pragma warning disable CS0162 // Unreachable code detected
+#pragma warning disable CS0162 // Unreachable code detected
 	public partial class MainWindow : Window {
 
 		public const bool DEBUG_MODE = true;
 
 		// Hook
-        globalKeyboardHook kbHook = new globalKeyboardHook();
-        Process game;
-        public bool hooked = false;
-        Timer updateTimer;
+		globalKeyboardHook kbHook = new globalKeyboardHook();
+		Process game;
+		public bool hooked = false;
+		Timer updateTimer;
 
 		//////// Pointer ////////
 		// Map
 		DeepPointer mapNameDP;
-        IntPtr mapNamePtr;
+		IntPtr mapNamePtr;
 		// timer
 		DeepPointer preciseTimeDP;
 		IntPtr preciseTimePtr;
-		float oldPreciseTimer, preciseTimer;
+		float oldPreciseTimer = -1, preciseTimer = -1;
 
 		// Debug stuff (pos + angle)
 		IntPtr xPosPtr, yPosPtr, zPosPtr, angleSinPtr, angleCosPtr;
@@ -40,47 +40,61 @@ namespace GhostrunnerRNG {
 
 		private string _mapName;
         public string MapName {
-			get {
-				return _mapName;
-            }
+			get { return _mapName; }
             set {
 				if(_mapName == value) return;
 				MapChanged(_mapName, value);
 				_mapName = value;
             }
         }
+		private MapType AccurateMapType;
 
         private void MapChanged(string from, string to) {
 			MapType mapTo = GetMapName(to);
 			MapType mapFrom = GetMapName(from);
 
-			if(mapTo == MapType.AwakeningLookInside && (currentMap is Awakening) == false) {
-				// entered Awakening/Look Inside
-				currentMap = new Awakening();
-				LogStatus("Loading level/cutscene...");
+			// rng started in middle of level, request to restart or menu
+			if(mapFrom == MapType.Unknown && mapTo != MapType.MainMenu) {
+				AccurateMapType = MapType.Unknown;
+				LogStatus("[!]Level is already running,\nreturn to MainMenu or restart level!");
 				return;
 			}
-			
-			if((currentMap != null && mapTo != GetMapName(currentMap.mapCodeName)) || mapTo == MapType.MainMenu) {
-				// has map but not as previous code name, new level
-				currentMap = null;
+
+			// entered a level, from menu
+			if(mapFrom == MapType.MainMenu && mapTo != MapType.MainMenu) {
+				LogStatus("Loading level/cutscene...");
+			}
+			AccurateMapType = mapTo;	// display temp map name
+
+			// Entered Menu
+			if(mapTo == MapType.MainMenu) {
+				// reset currMap if any and hide rng button
+				if(currentMap != null) { 
+					currentMap = null;
+					ButtonNewRng.Visibility = Visibility.Hidden;
+				}
 				LogStatus("Idle");
 				return;
 			}
 
-			if(mapTo != MapType.MainMenu && mapTo != MapType.LookInsideCV) {
-				LogStatus("Level not supported.");
-				return;
+			// Not mainMenu and not Awakening? - not supported!
+            if(mapTo != MapType.MainMenu && mapTo != MapType.AwakeningLookInside) {
+                LogStatus("Level not supported.");
+                return;
             }
-		}
+
+        }
 
         public MainWindow() {
             InitializeComponent();
+			// UI
+			ButtonNewRng.Visibility = Visibility.Hidden;
 
+			// HotKeys
 			kbHook.KeyDown += InputKeyDown;
 			kbHook.HookedKeys.Add(Keys.F7);
 
-            // debug 
+            // DEBUG 
             if(DEBUG_MODE) {
 				kbHook.HookedKeys.Add(Keys.NumPad1);
 				kbHook.HookedKeys.Add(Keys.NumPad2);
@@ -92,7 +106,7 @@ namespace GhostrunnerRNG {
                 outputBox.Visibility = Visibility.Collapsed;
 				copyButton.Visibility = Visibility.Collapsed;
 			}
-			// update timer
+			// Update Timer
             updateTimer = new Timer {
 				Interval = (100) // 0.1sec
 			};
@@ -102,6 +116,7 @@ namespace GhostrunnerRNG {
 			LogStatus("Idle");
 		}
 
+		// Timer Tick
         private void Update(object sender, EventArgs e) {
 			// Check if game is running/hooked
 			if(game == null || game.HasExited) {
@@ -128,48 +143,82 @@ namespace GhostrunnerRNG {
 			}
 
 			// Map name
-			string map;
+			string map = "";
 			game.ReadString(mapNamePtr, 250, out map);
-			label_levelName.Text = $"Current Level: {GameUtils.GetMapName(map)}";
-			MapName = map;
+            if(!string.IsNullOrEmpty(map)) {
+				if(currentMap != null) {
+					label_levelName.Text = $"Current Level: {currentMap.mapType}";	// load map type from object
+				} else {
+					label_levelName.Text = $"Current Level: {AccurateMapType}";		// last updated
+				}
+				MapName = map;
+            }
 
 			// Timer
 			oldPreciseTimer = preciseTimer;
 			game.ReadValue<float>(preciseTimePtr, out preciseTimer);
-
-			// map changed? 
-			if(currentMap != null && currentMap is Awakening && oldPreciseTimer == 0 && preciseTimer > 0 && checkbox_RngOnRestart.IsChecked == true) {
-				NewRNG();
-				LogStatus("RNG Generated! \nDie or load cp to see changes.");
-			}else if(currentMap != null && currentMap is Awakening && oldPreciseTimer == 0 && preciseTimer > 0 && checkbox_RngOnRestart.IsChecked == false) {
-				LogStatus("Level loaded.");
-			}
+			TimerTrackerUpdate();
 
 
-            //if(currentMap != null && currentMap is Awakening) {
-            //    string str = "";
-            //    for(int i = 0; i < currentMap.Enemies.Count; i++) {
-            //        str += $"enemy[{i}]: {currentMap.Enemies[i].GetMemoryPos(game)}\n";
-            //    }
+			/// DEBUG - print n enemies and their positions
+			//if(currentMap != null && currentMap is Awakening) {
+			//    string str = "";
+			//    for(int i = 0; i < currentMap.Enemies.Count; i++) {
+			//        str += $"enemy[{i}]: {currentMap.Enemies[i].GetMemoryPos(game)}\n";
+			//    }
+			//    label_RNGStatus.Text = str;
+			//}
 
-            //    label_RNGStatus.Text = str;
-            //}
+
+			////// Read Memory /////
+			game.ReadValue<float>(xPosPtr, out xPos);
+			game.ReadValue<float>(yPosPtr, out yPos);
+			game.ReadValue<float>(zPosPtr, out zPos);
 
 
-			/// DebugMode
-            if(DEBUG_MODE) {
-				game.ReadValue<float>(xPosPtr, out xPos);
-				game.ReadValue<float>(yPosPtr, out yPos);
-				game.ReadValue<float>(zPosPtr, out zPos);
+			/// DebugMode ///
+			if(DEBUG_MODE) {
 				game.ReadValue<float>(angleSinPtr, out angleSin);
 				game.ReadValue<float>(angleCosPtr, out angleCos);
 				angle.angleSin = angleSin;
 				angle.angleCos = angleCos;
 			}
-
         }
 
-		// DEBUG ONLY: copy generated code to clipboard
+
+		private void TimerTrackerUpdate() {
+			// New timer started?
+			if(oldPreciseTimer == 0 && preciseTimer > 0) {
+				// awakening/look inside?
+				if(MapLevels.FirstOrDefault(x => x.Value == MapType.AwakeningLookInside).Key == MapName) { // Lookinside or Awakening?
+					if(PlayerWithinRectangle(new Vector3f(xPos, yPos, zPos), SpawnRect_Awakening_PointA, SpawnRect_Awakening_PointB)) {
+						// awakening
+						if(currentMap == null || (currentMap is Awakening) == false) {
+							currentMap = new Awakening();
+							ButtonNewRng.Visibility = Visibility.Visible;
+							NewRNG();
+							LogStatus("RNG Generated! \nDie or load cp to see changes.");
+							AccurateMapType = MapType.Awakening;
+							return;
+						}
+					} else if(PlayerWithinRectangle(new Vector3f(xPos, yPos, zPos), SpawnRect_LookInside_PointA, SpawnRect_LookInside_PointB)) {
+						// Look Inside
+						//TODO: create LookInside object, but for now remove existing
+						currentMap = null;
+						ButtonNewRng.Visibility = Visibility.Hidden;
+						AccurateMapType = MapType.LookInside;
+						LogStatus("[!]Map not yet supported for RNG.");
+						return;
+					}
+                } else {
+					AccurateMapType = GetMapName(MapName);
+				}
+				LogStatus("Level loaded.");
+			}
+		}
+
+
+		// FOR DEBUG ONLY: copy generated code to clipboard
         private void copyButton_Click(object sender, RoutedEventArgs e) {
             System.Windows.Clipboard.SetText(outputBox.Text);
         }
@@ -210,7 +259,8 @@ namespace GhostrunnerRNG {
 					NewRNG();
 					break;
 
-				case Keys.NumPad1:
+                #region Debug
+                case Keys.NumPad1:
 					// 1 pos save
 					pos1 = new Vector3f(xPos, yPos, zPos);
 					break;
@@ -237,7 +287,8 @@ namespace GhostrunnerRNG {
 					// generate code: 2 pos, random angle
 					outputBox.Text = $"Enemies[n].AddPosPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z})).RandomAngle());";
 					break;
-				default:
+                #endregion
+                default:
 					break;
 			}
 			e.Handled = true;
@@ -306,6 +357,9 @@ namespace GhostrunnerRNG {
 			}
 		}
 
+		/// <summary>
+		/// Deref Pointers
+		/// </summary>
 		private void DerefPointers() {
 			mapNameDP.DerefOffsets(game, out mapNamePtr);
 			preciseTimeDP.DerefOffsets(game, out preciseTimePtr);
@@ -318,8 +372,10 @@ namespace GhostrunnerRNG {
 			angleCosPtr = capsulePtr + 0x1AC;
 		}
 
+		// Log
 		private void LogStatus(string str) => label_RNGStatus.Text = $"RNG Status:\n{str}";
 
+		// NewRng Button Click
         private void ButtonNewRng_Click(object sender, RoutedEventArgs e) {
 			NewRNG();
         }

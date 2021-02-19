@@ -26,7 +26,7 @@
             <TextBlock x:Name="label_levelName" HorizontalAlignment="Left" VerticalAlignment="Top" Text="Current Level: " FontSize="15"  Foreground="White"/>
             <TextBlock x:Name="label_RNGStatus" HorizontalAlignment="Left" VerticalAlignment="Top" Text="RNG Status: waiting..." FontSize="15" Foreground="White" />
         </StackPanel>
-        <Button Grid.Row="1" x:Name="ButtonNewRng"  Content="[F7] New RNG" HorizontalAlignment="Right" VerticalAlignment="Top" Height="28" Width="170" FontSize="16" Margin="10" Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonNewRng_Click"/>
+        <Button Grid.Row="1" x:Name="ButtonNewRng" Content="[F7] New RNG" HorizontalAlignment="Right" VerticalAlignment="Top" Height="28" Width="170" FontSize="16" Margin="10" Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonNewRng_Click"/>
         <CheckBox IsChecked="True" Grid.Row="1" x:Name="checkbox_RngOnRestart"  Content="New RNG on level restart/load" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="28" Width="auto" FontSize="16" Margin="10" Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonNewRng_Click"/>
         
         <TextBox Grid.Row="1" IsReadOnly="True" x:Name="outputBox" HorizontalAlignment="Left" MinWidth="400" VerticalAlignment="Bottom" Margin="10,0,10,42"  Height="30" Background="#FF666666" Foreground="White"/>
