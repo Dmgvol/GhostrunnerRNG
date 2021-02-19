@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GhostrunnerRNG"
         mc:Ignorable="d" 
         Background="#FF292929"
-        Title="Ghostrunner RNG Mod" Height="384.5" Width="500">
+        Title="Ghostrunner RNG Mod" Height="282.5" Width="500">
     <Grid Background="#FF292929" Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>

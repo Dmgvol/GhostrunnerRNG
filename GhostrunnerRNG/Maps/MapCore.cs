@@ -7,6 +7,10 @@ namespace GhostrunnerRNG.Maps {
 
         // List of all enemies(spawndata per enemy)
         public List<Enemy> Enemies = new List<Enemy>();
+
+        // room layouts (different gen)
+        protected List<RoomLayout> Rooms;
+
         public MapType mapType { get; private set; }
 
         public MapCore(MapType mapType) {
@@ -15,8 +19,16 @@ namespace GhostrunnerRNG.Maps {
 
         // new RNG
         public void RandomizeEnemies(Process game) {
-            for(int i = 0; i < Enemies.Count; i++) {
-                Enemies[i].SetMemoryPos(game, Enemies[i].GetSpawnData());
+            if(Rooms != null && Rooms.Count > 0) {
+                // RoomLayout Gen
+                for(int i = 0; i < Rooms.Count; i++) {
+                    Rooms[i].RandomizeEnemies(game);
+                }
+            } else {
+                // PerEnemy Gen
+                for(int i = 0; i < Enemies.Count; i++) {
+                    Enemies[i].SetMemoryPos(game, Enemies[i].GetSpawnData());
+                }
             }
         }
 

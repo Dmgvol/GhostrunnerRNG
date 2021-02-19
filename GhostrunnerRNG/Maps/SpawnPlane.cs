@@ -14,6 +14,10 @@ namespace GhostrunnerRNG.Maps {
 
         public static Random r; // randomizer
 
+        // max/curr enemies per plane(for RoomLayout)
+        public int MaxEnemies { get; private set; } = 1;
+        public int CurrEnemeies { get; private set; } = 0;
+
         public SpawnPlane(Vector3f a, Vector3f b, Angle? angle) {
             // fix oriantation
             cornerA = new Vector3f(Math.Min(a.X, b.X), Math.Min(a.Y, b.Y), Math.Min(a.Z, b.Z));
@@ -28,9 +32,15 @@ namespace GhostrunnerRNG.Maps {
             return this;
         }
 
+        public SpawnPlane SetMaxEnemeies(int maxEnemies) {
+            this.MaxEnemies = maxEnemies;
+            return this;
+        }
+
         // single pos
         public SpawnPlane(Vector3f a) {
             cornerA = a;
+            SetMaxEnemeies(1);
         }
 
         public SpawnPlane(Vector3f a, Angle angle) : this(a) {
@@ -67,5 +77,17 @@ namespace GhostrunnerRNG.Maps {
                 return new Angle((float)Math.Sin(angle), (float)Math.Cos(angle));
             }
         }
+
+        // for RoomLayout, to track curr enemies 
+        public void EnemyAdded() {
+            CurrEnemeies++;
+        }
+
+        public void ResetCurrEnemies() {
+            CurrEnemeies = 0;
+        }
+
+        public bool CanAddEnemies() => CurrEnemeies < MaxEnemies;
+
     }
 }

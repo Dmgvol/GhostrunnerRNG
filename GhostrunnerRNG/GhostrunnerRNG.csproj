@@ -66,6 +66,7 @@
     <Compile Include="Maps\Awakening.cs" />
     <Compile Include="Maps\Enemy.cs" />
     <Compile Include="Maps\MapCore.cs" />
+    <Compile Include="Maps\RoomLayout.cs" />
     <Compile Include="Maps\SpawnPlane.cs" />
     <Compile Include="MemoryUtils\DeepPointer.cs" />
     <Compile Include="globalKeyboardHook.cs" />

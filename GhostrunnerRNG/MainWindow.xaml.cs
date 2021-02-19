@@ -13,7 +13,7 @@ namespace GhostrunnerRNG {
 #pragma warning disable CS0162 // Unreachable code detected
 	public partial class MainWindow : Window {
 
-		public const bool DEBUG_MODE = true;
+		public const bool DEBUG_MODE = false;
 
 		// Hook
 		globalKeyboardHook kbHook = new globalKeyboardHook();
