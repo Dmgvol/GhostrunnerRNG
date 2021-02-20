@@ -66,13 +66,6 @@ namespace GhostrunnerRNG.Game {
             TheMonster
         }
 
-        // Spawn Rectangle: Awakening
-        //public static readonly Vector3f SpawnRect_Awakening_PointA = new Vector3f(-20362, -67338, 1888);
-        //public static readonly Vector3f SpawnRect_Awakening_PointB = new Vector3f(-19450, -66548, 2379);
-        // Spawn Rectangle: LookInside
-        //public static readonly Vector3f SpawnRect_LookInside_PointA = new Vector3f(129570, -67583, 719);
-        //public static readonly Vector3f SpawnRect_LookInside_PointB = new Vector3f(130812, -68690, 3263);
-
         public static MapType GetMapName(string fullName) {
             if(string.IsNullOrEmpty(fullName)) return MapType.Unknown;
             return MapLevels.ContainsKey(fullName) ? MapLevels[fullName] : MapType.MainMenu;

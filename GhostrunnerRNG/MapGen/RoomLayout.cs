@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace GhostrunnerRNG.Maps {
     public class RoomLayout {
@@ -8,13 +7,13 @@ namespace GhostrunnerRNG.Maps {
         private List<SpawnPlane> spawnPlanes = new List<SpawnPlane>();
         private List<Enemy> roomEnemies = new List<Enemy>();
 
-        
-
-        public RoomLayout(List<Enemy> enemies) {
-            roomEnemies = enemies;
+        public RoomLayout(params Enemy[] enemies) {
+            for(int i = 0; i < enemies.Length; i++) {
+                roomEnemies.Add(enemies[i]);
+            }
         }
 
-        public RoomLayout(Enemy enemy) {
+        public RoomLayout(Enemy enemy) { 
             AddEnemy(enemy);
         }
 
@@ -26,11 +25,8 @@ namespace GhostrunnerRNG.Maps {
             List<SpawnPlane> availableSpawnPlanes = new List<SpawnPlane>(spawnPlanes);
             availableSpawnPlanes.ForEach(x => x.ResetCurrEnemies());
 
-            
-
             for(int i = 0; i < roomEnemies.Count; i++) {
                 if(availableSpawnPlanes.Count == 0) break;
-
                 int selectedPlaneIndex = SpawnPlane.r.Next(0, availableSpawnPlanes.Count);
 
                 // can add enemies to that plane? 
@@ -38,7 +34,6 @@ namespace GhostrunnerRNG.Maps {
                     roomEnemies[i].SetMemoryPos(game, availableSpawnPlanes[selectedPlaneIndex].GetRandomSpawnData());
                     availableSpawnPlanes[selectedPlaneIndex].EnemyAdded();
                 }
-
                 // can't add anymore enemies? remove plane from available list
                 if(!availableSpawnPlanes[selectedPlaneIndex].CanAddEnemies())
                     availableSpawnPlanes.RemoveAt(selectedPlaneIndex);

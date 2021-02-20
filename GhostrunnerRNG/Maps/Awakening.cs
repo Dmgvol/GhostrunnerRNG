@@ -33,11 +33,9 @@ namespace GhostrunnerRNG.Maps {
 
             Rooms.Add(layout);
 
-
             //// broken bridge room ////
-            layout = new RoomLayout(Enemies[10]);
-            layout.AddEnemy(Enemies[11]);
-            layout.AddEnemy(Enemies[12]);
+
+            layout = new RoomLayout(Enemies[10], Enemies[11], Enemies[12]);
 
             // add spawnPlanes to room
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-8179, -54300, 3408), new Vector3f(-9091, -52688, 3402), new Angle(-0.9f, 0.43f)).SetMaxEnemies(2));
@@ -50,11 +48,8 @@ namespace GhostrunnerRNG.Maps {
 
             Rooms.Add(layout);
 
-
             //// 3 dudes hallway ////
-            layout = new RoomLayout(Enemies[7]);
-            layout.AddEnemy(Enemies[8]);
-            layout.AddEnemy(Enemies[9]);
+            layout = new RoomLayout(Enemies[7], Enemies[8], Enemies[9]);
 
             // spawnplanes for hallway
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(5740, -63956, 1468), new Vector3f(6337, -64859, 1468), new Angle(0.72f, 0.7f)).SetMaxEnemies(2));
@@ -67,11 +62,7 @@ namespace GhostrunnerRNG.Maps {
             Rooms.Add(layout);
 
             ///// Last Room ////
-            layout = new RoomLayout(Enemies[0]);
-            layout.AddEnemy(Enemies[1]);
-            layout.AddEnemy(Enemies[2]);
-            layout.AddEnemy(Enemies[3]);
-            layout.AddEnemy(Enemies[4]);
+            layout = new RoomLayout(Enemies[0], Enemies[1], Enemies[2], Enemies[3], Enemies[4]);
 
             // spawnplanes for last room
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(4603, -70321, -346), new Vector3f(3303, -68684, -350), new Angle(-0.71f, 0.71f)).SetMaxEnemies(2));
@@ -99,7 +90,6 @@ namespace GhostrunnerRNG.Maps {
 
             Rooms.Add(layout);
         }
-
   
         [Obsolete("PerPlane is deprecated, please use Gen_PerRoom instead.")]
         private void Gen_PerPlane() {

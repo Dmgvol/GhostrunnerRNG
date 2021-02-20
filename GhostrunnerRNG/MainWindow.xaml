@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GhostrunnerRNG"
         mc:Ignorable="d" 
         Background="#FF292929"
-        Title="Ghostrunner RNG Mod" Height="306" Width="482" MinWidth="400" MinHeight="280" MaxHeight="700" MaxWidth="600">
+        Title="Ghostrunner RNG Mod" Height="321" Width="482" MinWidth="400" MinHeight="280" MaxHeight="700" MaxWidth="600">
     <Grid Background="#FF292929" Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -23,10 +23,15 @@
             <TextBlock x:Name="label_RNGStatus" HorizontalAlignment="Left" VerticalAlignment="Top" Text="RNG Status: waiting..." FontSize="15" Foreground="White" />
         </StackPanel>
         <Button Grid.Row="1" x:Name="ButtonNewRng" Content="[F7] New RNG" HorizontalAlignment="Right" VerticalAlignment="Top" Height="28" Width="170" FontSize="16" Margin="10" Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonNewRng_Click"/>
-        <CheckBox IsChecked="True" Grid.Row="1" x:Name="checkbox_RngOnRestart"  Content="New RNG on level restart/load" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="28" Width="auto" FontSize="16" Margin="10" Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonNewRng_Click"/>
 
-        <TextBox Grid.Row="1" IsReadOnly="True" x:Name="outputBox" HorizontalAlignment="Stretch" MinWidth="400" VerticalAlignment="Bottom" Margin="10,0,70,42"  Height="30" Background="#FF666666" Foreground="White"/>
-        <Button x:Name="copyButton" Grid.Row="1" Content="Copy" Height="30" Width="50" Margin="0,0,10,42" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="copyButton_Click"/>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10">
+            <CheckBox IsChecked="True" x:Name="checkbox_RngOnRestart"  Content="New RNG on level restart/load" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+            <!--<CheckBox IsChecked="False" IsEnabled="False" x:Name="checkbox_RngCV" Content="RNG in CV" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>-->
+
+        </StackPanel>
+
+        <TextBox Grid.Row="1" IsReadOnly="True" x:Name="outputBox" HorizontalAlignment="Stretch" MinWidth="400" VerticalAlignment="Bottom" Margin="10,0,54,65"  Height="30" Background="#FF666666" Foreground="White"/>
+        <Button x:Name="copyButton" Grid.Row="1" Content="Copy" Height="30" Width="50" Margin="0,0,10,65" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="copyButton_Click"/>
 
 
         <!--bottom row-->

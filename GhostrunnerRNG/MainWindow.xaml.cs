@@ -10,10 +10,9 @@ using GhostrunnerRNG.Maps;
 using static GhostrunnerRNG.Game.GameUtils;
 
 namespace GhostrunnerRNG {
-#pragma warning disable CS0162 // Unreachable code detected
 	public partial class MainWindow : Window {
 
-		public const bool DEBUG_MODE = true;
+		public readonly bool DEBUG_MODE = Debugger.IsAttached;
 
 		// Hook
 		globalKeyboardHook kbHook = new globalKeyboardHook();
@@ -21,23 +20,13 @@ namespace GhostrunnerRNG {
 		public bool hooked = false;
 		Timer updateTimer;
 
-		//////// Pointer ////////
-		// Map
-		DeepPointer mapNameDP;
-		IntPtr mapNamePtr;
-		// hc mode
-		DeepPointer hcDP;
-		IntPtr hcPtr;
+		//////// Pointers ////////
+		DeepPointer mapNameDP, hcDP, preciseTimeDP, capsuleDP;
+		IntPtr mapNamePtr, hcPtr, preciseTimePtr, xPosPtr, yPosPtr, zPosPtr, angleSinPtr, angleCosPtr;
+
+		// player pos&aim, timer, hcFlag
 		public static bool IsHC;
-
-		// timer
-		DeepPointer preciseTimeDP;
-		IntPtr preciseTimePtr;
 		float oldPreciseTimer = -1, preciseTimer = -1;
-
-		// Debug stuff (pos + angle)
-		IntPtr xPosPtr, yPosPtr, zPosPtr, angleSinPtr, angleCosPtr;
-		DeepPointer capsuleDP;
 		float xPos, yPos, zPos, angleSin, angleCos;
 
 		// MAP OBJECT
@@ -60,7 +49,7 @@ namespace GhostrunnerRNG {
 			// rng started in middle of level, request to restart or menu
 			if(mapFrom == MapType.Unknown && mapTo != MapType.MainMenu) {
 				AccurateMapType = MapType.Unknown;
-				LogStatus("[!]Level is already running,\nreturn to MainMenu or restart level!");
+				LogStatus("[!] Level is already running,\nreturn to MainMenu or restart level!");
 				return;
 			}
 
@@ -80,16 +69,11 @@ namespace GhostrunnerRNG {
 				LogStatus("Idle");
 				return;
 			}
-
-			// Not mainMenu and not Awakening? - not supported!
-			if(mapTo != MapType.MainMenu && mapTo != MapType.AwakeningLookInside) {
-				LogStatus("Level not supported.");
-				return;
-			}
 		}
 
 		public MainWindow() {
 			InitializeComponent();
+
 			// UI
 			ButtonNewRng.Visibility = Visibility.Hidden;
 
@@ -176,6 +160,9 @@ namespace GhostrunnerRNG {
 
 
 		private void TimerTrackerUpdate() {
+			// we don't need main menu
+			if(AccurateMapType == MapType.MainMenu) return;
+
 			// New timer started?
 			if(oldPreciseTimer == 0 && preciseTimer > 0) {
 				//TODO: ADD HC SUPPORT
@@ -194,23 +181,31 @@ namespace GhostrunnerRNG {
 					if(xPos < 50000) {
 						// awakening
 						currentMap = new Awakening(IsHC);
-						ButtonNewRng.Visibility = Visibility.Visible;
 						NewRNG();
 						AccurateMapType = MapType.Awakening;
 						return;
-
 					} else {
 						// Look Inside
 						currentMap = new LookInside(IsHC);
-						//NewRNG();
+						NewRNG();
 						AccurateMapType = MapType.LookInside;
-						LogStatus(currentMap.GetAllEnemyPositions(game));
 						return;
 					}
 				} else {
+					currentMap = null;
 					AccurateMapType = GetMapName(MapName);
+					
 				}
-				LogStatus("Level loaded.");
+				// Not mainMenu and not Awakening? - not supported!
+				if(AccurateMapType != MapType.MainMenu
+					&& AccurateMapType != MapType.AwakeningLookInside
+					&& AccurateMapType != MapType.Awakening
+					&& AccurateMapType != MapType.LookInside) {
+					LogStatus("Level not supported.");
+					return;
+                } else {
+					LogStatus("Level loaded.");
+                }
 			}
 		}
 
@@ -242,8 +237,8 @@ namespace GhostrunnerRNG {
 			}
 		}
 
-		// New RNG
-		private void NewRNG(bool force = false) {
+        // New RNG
+        private void NewRNG(bool force = false) {
 			if(currentMap != null && (checkbox_RngOnRestart.IsChecked == true || force)) {
 				SpawnPlane.r = new Random();
 				currentMap.RandomizeEnemies(game);
@@ -257,7 +252,7 @@ namespace GhostrunnerRNG {
 					NewRNG(true);
 					break;
 
-				#region Debug
+#region Debug
 				case Keys.NumPad1:
 					// 1 pos save
 					pos1 = new Vector3f(xPos, yPos, zPos);
@@ -270,22 +265,22 @@ namespace GhostrunnerRNG {
 
 				case Keys.NumPad3:
 					// generate code: 2 pos, fixed current angle
-					outputBox.Text = $"Enemies[n].AddPosPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z}), new Angle({angle.angleSin:0.00}f, {angle.angleCos:0.00}f)));";
+					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z}), new Angle({angle.angleSin:0.00}f, {angle.angleCos:0.00}f)));";
 					break;
 
 				case Keys.NumPad4:
 					// generate code: 1 pos, fixed current angle
-					outputBox.Text = $"Enemies[n].AddPosPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Angle({angle.angleSin:0.00}f, {angle.angleCos:0.00}f)));";
+					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Angle({angle.angleSin:0.00}f, {angle.angleCos:0.00}f)));";
 					break;
 				case Keys.NumPad5:
 					// generate code: 2 pos, random angle
-					outputBox.Text = $"Enemies[n].AddPosPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z})).RandomAngle());";
+					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z})).RandomAngle());";
 					break;
 				case Keys.NumPad6:
 					// generate code: 2 pos, random angle
-					outputBox.Text = $"Enemies[n].AddPosPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z})).RandomAngle());";
+					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z})).RandomAngle());";
 					break;
-				#endregion
+#endregion
 				default:
 					break;
 			}

@@ -64,7 +64,7 @@ namespace GhostrunnerRNG.Maps {
         }
 
         private Angle? GetAngle() {
-            // no defined angle + fixedAngle tag = retur null(won't change angle)
+            // no defined angle + fixedAngle tag = return null(won't change angle)
             if(angle == null && FixedAngle == true) return null;
 
             // fixed angle? return it
@@ -79,15 +79,10 @@ namespace GhostrunnerRNG.Maps {
         }
 
         // for RoomLayout, to track curr enemies 
-        public void EnemyAdded() {
-            CurrEnemeies++;
-        }
-
-        public void ResetCurrEnemies() {
-            CurrEnemeies = 0;
-        }
-
+        public void EnemyAdded() => CurrEnemeies++;
+        
+        public void ResetCurrEnemies() =>CurrEnemeies = 0;
+        
         public bool CanAddEnemies() => CurrEnemeies < MaxEnemies;
-
     }
 }
