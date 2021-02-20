@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using static GhostrunnerRNG.Game.GameUtils;
 
@@ -17,6 +18,23 @@ namespace GhostrunnerRNG.Maps {
             this.mapType = mapType;
         }
 
+
+        // FOR DEBUG
+        public string GetAllEnemyPositions(Process game) {
+            string str = "";
+            int totalEnemies = 0;
+            Enemy enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, 0x20, 0x4F0));
+            while(!enemy.GetMemoryPos(game).IsEmpty()) {
+                str += $"enemy[{totalEnemies}]: {enemy.GetMemoryPos(game)}\n";
+
+                totalEnemies++;
+                enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, (0x20 * (totalEnemies + 1)), 0x4F0));
+            }
+            return str;
+        }
+
+        protected abstract void Gen_PerRoom();
+
         // new RNG
         public void RandomizeEnemies(Process game) {
             if(Rooms != null && Rooms.Count > 0) {
@@ -32,6 +50,7 @@ namespace GhostrunnerRNG.Maps {
             }
         }
 
+        [Obsolete("No need, it derefs per enemy once needed to change memory")]
         public void DerefPointers(Process game) {
             for(int i = 0; i < Enemies.Count; i++) {
                 Enemies[i].DerefPointer(game);

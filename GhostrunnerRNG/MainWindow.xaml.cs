@@ -13,7 +13,7 @@ namespace GhostrunnerRNG {
 #pragma warning disable CS0162 // Unreachable code detected
 	public partial class MainWindow : Window {
 
-		public const bool DEBUG_MODE = false;
+		public const bool DEBUG_MODE = true;
 
 		// Hook
 		globalKeyboardHook kbHook = new globalKeyboardHook();
@@ -25,6 +25,11 @@ namespace GhostrunnerRNG {
 		// Map
 		DeepPointer mapNameDP;
 		IntPtr mapNamePtr;
+		// hc mode
+		DeepPointer hcDP;
+		IntPtr hcPtr;
+		public static bool IsHC;
+
 		// timer
 		DeepPointer preciseTimeDP;
 		IntPtr preciseTimePtr;
@@ -37,19 +42,18 @@ namespace GhostrunnerRNG {
 
 		// MAP OBJECT
 		MapCore currentMap;
-
 		private string _mapName;
-        public string MapName {
+		public string MapName {
 			get { return _mapName; }
-            set {
+			set {
 				if(_mapName == value) return;
 				MapChanged(_mapName, value);
 				_mapName = value;
-            }
-        }
+			}
+		}
 		private MapType AccurateMapType;
 
-        private void MapChanged(string from, string to) {
+		private void MapChanged(string from, string to) {
 			MapType mapTo = GetMapName(to);
 			MapType mapFrom = GetMapName(from);
 
@@ -64,12 +68,12 @@ namespace GhostrunnerRNG {
 			if(mapFrom == MapType.MainMenu && mapTo != MapType.MainMenu) {
 				LogStatus("Loading level/cutscene...");
 			}
-			AccurateMapType = mapTo;	// display temp map name
+			AccurateMapType = mapTo;    // display temp map name
 
 			// Entered Menu
 			if(mapTo == MapType.MainMenu) {
 				// reset currMap if any and hide rng button
-				if(currentMap != null) { 
+				if(currentMap != null) {
 					currentMap = null;
 					ButtonNewRng.Visibility = Visibility.Hidden;
 				}
@@ -78,15 +82,14 @@ namespace GhostrunnerRNG {
 			}
 
 			// Not mainMenu and not Awakening? - not supported!
-            if(mapTo != MapType.MainMenu && mapTo != MapType.AwakeningLookInside) {
-                LogStatus("Level not supported.");
-                return;
-            }
+			if(mapTo != MapType.MainMenu && mapTo != MapType.AwakeningLookInside) {
+				LogStatus("Level not supported.");
+				return;
+			}
+		}
 
-        }
-
-        public MainWindow() {
-            InitializeComponent();
+		public MainWindow() {
+			InitializeComponent();
 			// UI
 			ButtonNewRng.Visibility = Visibility.Hidden;
 
@@ -94,30 +97,30 @@ namespace GhostrunnerRNG {
 			kbHook.KeyDown += InputKeyDown;
 			kbHook.HookedKeys.Add(Keys.F7);
 
-            // DEBUG 
-            if(DEBUG_MODE) {
+			// DEBUG 
+			if(DEBUG_MODE) {
 				kbHook.HookedKeys.Add(Keys.NumPad1);
 				kbHook.HookedKeys.Add(Keys.NumPad2);
 				kbHook.HookedKeys.Add(Keys.NumPad3);
 				kbHook.HookedKeys.Add(Keys.NumPad4);
 				kbHook.HookedKeys.Add(Keys.NumPad5);
 				kbHook.HookedKeys.Add(Keys.NumPad6);
-            } else {
-                outputBox.Visibility = Visibility.Collapsed;
+			} else {
+				outputBox.Visibility = Visibility.Collapsed;
 				copyButton.Visibility = Visibility.Collapsed;
 			}
 			// Update Timer
-            updateTimer = new Timer {
+			updateTimer = new Timer {
 				Interval = (100) // 0.1sec
 			};
-            updateTimer.Tick += new EventHandler(Update);
-            updateTimer.Start();
+			updateTimer.Tick += new EventHandler(Update);
+			updateTimer.Start();
 
 			LogStatus("Idle");
 		}
 
 		// Timer Tick
-        private void Update(object sender, EventArgs e) {
+		private void Update(object sender, EventArgs e) {
 			// Check if game is running/hooked
 			if(game == null || game.HasExited) {
 				game = null;
@@ -125,9 +128,7 @@ namespace GhostrunnerRNG {
 
 				errorGrid.Visibility = Visibility.Visible;
 				errorMsg.Content = "Ghostrunner not found";
-				label_gameStatus.Text = "Ghostrunner: not found";
 			} else {
-				label_gameStatus.Text = "Ghostrunner: found";
 				errorGrid.Visibility = Visibility.Hidden;
 				errorMsg.Content = "";
 			}
@@ -145,36 +146,24 @@ namespace GhostrunnerRNG {
 			// Map name
 			string map = "";
 			game.ReadString(mapNamePtr, 250, out map);
-            if(!string.IsNullOrEmpty(map)) {
+			if(!string.IsNullOrEmpty(map)) {
 				if(currentMap != null) {
-					label_levelName.Text = $"Current Level: {currentMap.mapType}";	// load map type from object
+					label_levelName.Text = $"Current Level: {currentMap.mapType}";  // load map type from object
 				} else {
-					label_levelName.Text = $"Current Level: {AccurateMapType}";		// last updated
+					label_levelName.Text = $"Current Level: {AccurateMapType}";     // last updated
 				}
 				MapName = map;
-            }
+			}
 
 			// Timer
 			oldPreciseTimer = preciseTimer;
 			game.ReadValue<float>(preciseTimePtr, out preciseTimer);
 			TimerTrackerUpdate();
 
-
-			/// DEBUG - print n enemies and their positions
-			//if(currentMap != null && currentMap is Awakening) {
-			//    string str = "";
-			//    for(int i = 0; i < currentMap.Enemies.Count; i++) {
-			//        str += $"enemy[{i}]: {currentMap.Enemies[i].GetMemoryPos(game)}\n";
-			//    }
-			//    label_RNGStatus.Text = str;
-			//}
-
-
 			////// Read Memory /////
 			game.ReadValue<float>(xPosPtr, out xPos);
 			game.ReadValue<float>(yPosPtr, out yPos);
 			game.ReadValue<float>(zPosPtr, out zPos);
-
 
 			/// DebugMode ///
 			if(DEBUG_MODE) {
@@ -183,34 +172,42 @@ namespace GhostrunnerRNG {
 				angle.angleSin = angleSin;
 				angle.angleCos = angleCos;
 			}
-        }
+		}
 
 
 		private void TimerTrackerUpdate() {
 			// New timer started?
 			if(oldPreciseTimer == 0 && preciseTimer > 0) {
+				//TODO: ADD HC SUPPORT
+				checkHCMode();
+				if(IsHC) {
+					currentMap = null;
+					ButtonNewRng.Visibility = Visibility.Hidden;
+					AccurateMapType = MapType.Unknown;
+					LogStatus("[!] Hardcore mode is not supported for any map.");
+					return;
+				}
+
 				// awakening/look inside?
 				if(MapLevels.FirstOrDefault(x => x.Value == MapType.AwakeningLookInside).Key == MapName) { // Lookinside or Awakening?
-					if(PlayerWithinRectangle(new Vector3f(xPos, yPos, zPos), SpawnRect_Awakening_PointA, SpawnRect_Awakening_PointB)) {
+					ButtonNewRng.Visibility = Visibility.Visible;
+					if(xPos < 50000) {
 						// awakening
-						if(currentMap == null || (currentMap is Awakening) == false) {
-							currentMap = new Awakening();
-							ButtonNewRng.Visibility = Visibility.Visible;
-							NewRNG();
-							LogStatus("RNG Generated! \nDie or load cp to see changes.");
-							AccurateMapType = MapType.Awakening;
-							return;
-						}
-					} else if(PlayerWithinRectangle(new Vector3f(xPos, yPos, zPos), SpawnRect_LookInside_PointA, SpawnRect_LookInside_PointB)) {
+						currentMap = new Awakening(IsHC);
+						ButtonNewRng.Visibility = Visibility.Visible;
+						NewRNG();
+						AccurateMapType = MapType.Awakening;
+						return;
+
+					} else {
 						// Look Inside
-						//TODO: create LookInside object, but for now remove existing
-						currentMap = null;
-						ButtonNewRng.Visibility = Visibility.Hidden;
+						currentMap = new LookInside(IsHC);
+						//NewRNG();
 						AccurateMapType = MapType.LookInside;
-						LogStatus("[!]Map not yet supported for RNG.");
+						LogStatus(currentMap.GetAllEnemyPositions(game));
 						return;
 					}
-                } else {
+				} else {
 					AccurateMapType = GetMapName(MapName);
 				}
 				LogStatus("Level loaded.");
@@ -219,12 +216,12 @@ namespace GhostrunnerRNG {
 
 
 		// FOR DEBUG ONLY: copy generated code to clipboard
-        private void copyButton_Click(object sender, RoutedEventArgs e) {
-            System.Windows.Clipboard.SetText(outputBox.Text);
-        }
+		private void copyButton_Click(object sender, RoutedEventArgs e) {
+			System.Windows.Clipboard.SetText(outputBox.Text);
+		}
 
 		// Hook Game
-        private bool Hook() {
+		private bool Hook() {
 			List<Process> processList = Process.GetProcesses().ToList().FindAll(x => x.ProcessName.Contains("Ghostrunner-Win64-Shipping"));
 			if(processList.Count == 0) {
 				game = null;
@@ -246,21 +243,22 @@ namespace GhostrunnerRNG {
 		}
 
 		// New RNG
-		private void NewRNG() {
-			if(currentMap!= null) {
+		private void NewRNG(bool force = false) {
+			if(currentMap != null && (checkbox_RngOnRestart.IsChecked == true || force)) {
 				SpawnPlane.r = new Random();
 				currentMap.RandomizeEnemies(game);
-            }
-        }
+				LogStatus("RNG Generated! \nDie or load cp to see changes.");
+			}
+		}
 
 		private void InputKeyDown(object sender, KeyEventArgs e) {
 			switch(e.KeyCode) {
 				case Keys.F7:
-					NewRNG();
+					NewRNG(true);
 					break;
 
-                #region Debug
-                case Keys.NumPad1:
+				#region Debug
+				case Keys.NumPad1:
 					// 1 pos save
 					pos1 = new Vector3f(xPos, yPos, zPos);
 					break;
@@ -287,8 +285,8 @@ namespace GhostrunnerRNG {
 					// generate code: 2 pos, random angle
 					outputBox.Text = $"Enemies[n].AddPosPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z})).RandomAngle());";
 					break;
-                #endregion
-                default:
+				#endregion
+				default:
 					break;
 			}
 			e.Handled = true;
@@ -300,69 +298,47 @@ namespace GhostrunnerRNG {
 
 		private void SetPointersByModuleSize(int moduleSize) {
 			switch(moduleSize) {
-				case 78057472:
-					Debug.WriteLine("found steam1");
-					capsuleDP = new DeepPointer(0x042E16B8, 0x30, 0x130, 0x0);
-					mapNameDP = new DeepPointer(0x042E1678, 0x30, 0xF8, 0x0);
-					preciseTimeDP = new DeepPointer(0x042E1678, 0x1A8, 0x284);
-					break;
-				case 78086144:
-					Debug.WriteLine("found steam3");
-					capsuleDP = new DeepPointer(0x042E78F8, 0x30, 0x130, 0x0);
-					mapNameDP = new DeepPointer(0x042E78D0, 0x30, 0xF8, 0x0);
-					preciseTimeDP = new DeepPointer(0x042E78D0, 0x1A8, 0x284);
-					break;
+
 				case 78376960:
 					Debug.WriteLine("found steam5");
 					capsuleDP = new DeepPointer(0x04328538, 0x30, 0x130, 0x0);
 					mapNameDP = new DeepPointer(0x04328548, 0x30, 0xF8, 0x0);
-					preciseTimeDP = new DeepPointer(0x04328548, 0x1A8, 0x284);
+					preciseTimeDP = new DeepPointer(0x045A3C20, 0x52C);
+					hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
 					break;
-				case 78036992:
-					Debug.WriteLine("found gog1");
-					capsuleDP = new DeepPointer(0x0430CC48, 0x30, 0x130, 0x0);
-					mapNameDP = new DeepPointer(0x0430CC10, 0x30, 0xF8, 0x0);
-					preciseTimeDP = new DeepPointer(0x0430CC10, 0x1A8, 0x284);
-					break;
+
 				case 78168064:
 					Debug.WriteLine("found gog5");
 					capsuleDP = new DeepPointer(0x04328538, 0x30, 0x130, 0x0);
 					mapNameDP = new DeepPointer(0x04328548, 0x30, 0xF8, 0x0);
-					preciseTimeDP = new DeepPointer(0x04328548, 0x1A8, 0x284);
+					preciseTimeDP = new DeepPointer(0x045A3C20, 0x52C);
+					hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
 					break;
-				case 77885440:
-					Debug.WriteLine("found egs1");
-					capsuleDP = new DeepPointer(0x042EA0D0, 0x30, 0x130, 0x0);
-					mapNameDP = new DeepPointer(0x042EA098, 0x30, 0xF8, 0x0);
-					preciseTimeDP = new DeepPointer(0x042EA098, 0x1A8, 0x284);
-					break;
-				case 77881344:
-					Debug.WriteLine("found egs2");
-					capsuleDP = new DeepPointer(0x042E90D0, 0x30, 0x130, 0x0);
-					mapNameDP = new DeepPointer(0x042E9098, 0x30, 0xF8, 0x0);
-					preciseTimeDP = new DeepPointer(0x042E9098, 0x1A8, 0x284);
-					break;
+
 				case 77910016:
 					Debug.WriteLine("found egs3");
 					capsuleDP = new DeepPointer(0x042F0310, 0x30, 0x130, 0x0);
 					mapNameDP = new DeepPointer(0x042F02E8, 0x30, 0xF8, 0x0);
-					preciseTimeDP = new DeepPointer(0x042F02E8, 0x1A8, 0x284);
+					preciseTimeDP = new DeepPointer(0x045A3C20, 0x52C);
+					hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
 					break;
 				default:
 					updateTimer.Stop();
 					Console.WriteLine(moduleSize.ToString());
-                    System.Windows.MessageBox.Show("This game version (" + moduleSize.ToString() + ") is not supported.\nPlease Contact c", "Unsupported Game Version", MessageBoxButton.OK, MessageBoxImage.Error);
+					System.Windows.MessageBox.Show("This game version (" + moduleSize.ToString() + ") is not supported.\nPlease Contact the developers.", "Unsupported Game Version", MessageBoxButton.OK, MessageBoxImage.Error);
 					Environment.Exit(0);
 					break;
 			}
 		}
 
-		/// <summary>
-		/// Deref Pointers
-		/// </summary>
+		/// <summary>		
+		/// Deref Pointers	
+		/// </summary>		
 		private void DerefPointers() {
 			mapNameDP.DerefOffsets(game, out mapNamePtr);
 			preciseTimeDP.DerefOffsets(game, out preciseTimePtr);
+			hcDP.DerefOffsets(game, out hcPtr);
+
 			IntPtr capsulePtr;
 			capsuleDP.DerefOffsets(game, out capsulePtr);
 			xPosPtr = capsulePtr + 0x1D0;
@@ -373,11 +349,18 @@ namespace GhostrunnerRNG {
 		}
 
 		// Log
-		private void LogStatus(string str) => label_RNGStatus.Text = $"RNG Status:\n{str}";
+		private void LogStatus(string str) {
+			str = str.Replace("\n", "\n ");
+			label_RNGStatus.Text = $"RNG Status:\n {str}";
+		}
+
+		private void checkHCMode() {
+			game.ReadValue<bool>(hcPtr, out IsHC);
+		}
 
 		// NewRng Button Click
         private void ButtonNewRng_Click(object sender, RoutedEventArgs e) {
-			NewRNG();
+			NewRNG(true);
         }
     }
 }

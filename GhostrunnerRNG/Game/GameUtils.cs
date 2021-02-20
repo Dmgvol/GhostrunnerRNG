@@ -16,8 +16,7 @@ namespace GhostrunnerRNG.Game {
             { "/Game/Levels/01_INDUSTRIAL/01_04/01_04_World",               MapType.RoadToAmida},
             { "/Game/Levels/Test_levels/Ld_test/01_04_Cyberspace",          MapType.RoadToAmidaCV},
             { "/Game/Maps/Force_Push_Tutorial",                             MapType.TempestCV},
-            { "/Game/Levels/01_INDUSTRIAL/01_05/01_05_World",               MapType.RunUp},
-            { "/Game/Levels/01_INDUSTRIAL/01_05/01_05_world ",              MapType.Gatekeeper},
+            { "/Game/Levels/01_INDUSTRIAL/01_05/01_05_World",               MapType.RunUpGatekeeper},
             { "/Game/Levels/02_CYBERCITY/02_01/02_01_world",                MapType.DharmaCity},
             { "/Game/Levels/02_CYBERCITY/02_02/02_02_world",                MapType.Echoes},
             { "/Game/Maps/ragis_lvl_vr5",                                   MapType.EchoesCV},
@@ -49,6 +48,7 @@ namespace GhostrunnerRNG.Game {
             RoadToAmida,
             RoadToAmidaCV,
             TempestCV,
+            RunUpGatekeeper,
             RunUp,
             Gatekeeper,
             DharmaCity,
@@ -67,11 +67,11 @@ namespace GhostrunnerRNG.Game {
         }
 
         // Spawn Rectangle: Awakening
-        public static readonly Vector3f SpawnRect_Awakening_PointA = new Vector3f(-20280, -67178, 2099);
-        public static readonly Vector3f SpawnRect_Awakening_PointB = new Vector3f(-20084, -66971, 2100);
+        //public static readonly Vector3f SpawnRect_Awakening_PointA = new Vector3f(-20362, -67338, 1888);
+        //public static readonly Vector3f SpawnRect_Awakening_PointB = new Vector3f(-19450, -66548, 2379);
         // Spawn Rectangle: LookInside
-        public static readonly Vector3f SpawnRect_LookInside_PointA = new Vector3f(130553, -68616, 2400);
-        public static readonly Vector3f SpawnRect_LookInside_PointB = new Vector3f(130053, -67783, 1050);
+        //public static readonly Vector3f SpawnRect_LookInside_PointA = new Vector3f(129570, -67583, 719);
+        //public static readonly Vector3f SpawnRect_LookInside_PointB = new Vector3f(130812, -68690, 3263);
 
         public static MapType GetMapName(string fullName) {
             if(string.IsNullOrEmpty(fullName)) return MapType.Unknown;

@@ -32,15 +32,15 @@ namespace GhostrunnerRNG.Maps {
             return this;
         }
 
-        public SpawnPlane SetMaxEnemeies(int maxEnemies) {
-            this.MaxEnemies = maxEnemies;
+        public SpawnPlane SetMaxEnemies(int MaxEnemies) {
+            this.MaxEnemies = MaxEnemies;
             return this;
         }
 
         // single pos
         public SpawnPlane(Vector3f a) {
             cornerA = a;
-            SetMaxEnemeies(1);
+            SetMaxEnemies(1);
         }
 
         public SpawnPlane(Vector3f a, Angle angle) : this(a) {
