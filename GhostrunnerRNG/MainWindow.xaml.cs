@@ -203,6 +203,13 @@ namespace GhostrunnerRNG {
 					ToggleButton(ButtonNewRng, true);
 					return;
 
+				} else if(AccurateMapType == MapType.JackedUp) {
+					// the JackedUp
+					currentMap = new JackedUp(IsHC);
+					NewRNG();
+					ToggleButton(ButtonNewRng, true);
+					return;
+
 				} else {
 					currentMap = null;
 					AccurateMapType = GetMapType(MapName);
