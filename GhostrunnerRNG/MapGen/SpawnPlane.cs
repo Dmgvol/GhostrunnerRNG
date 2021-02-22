@@ -18,10 +18,14 @@ namespace GhostrunnerRNG.Maps {
         public int MaxEnemies { get; private set; } = 1;
         public int CurrEnemeies { get; private set; } = 0;
 
+        // Vertical Plane - used for spawning orbs along side of billboards
+        // Settings to FALSE - will treat it as a volume object (Rectangle of diagonal points)
+        public bool IsVerticalPlane = false;
+
+
         public SpawnPlane(Vector3f a, Vector3f b, Angle? angle) {
-            // fix oriantation
-            cornerA = new Vector3f(Math.Min(a.X, b.X), Math.Min(a.Y, b.Y), Math.Min(a.Z, b.Z));
-            cornerB = new Vector3f(Math.Max(a.X, b.X), Math.Max(a.Y, b.Y), Math.Max(a.Z, b.Z));
+            cornerA = a;
+            cornerB = b;
             this.angle = angle;
         }
 
@@ -29,6 +33,11 @@ namespace GhostrunnerRNG.Maps {
 
         public SpawnPlane RandomAngle() {
             FixedAngle = false;
+            return this;
+        }
+
+        public SpawnPlane AsVerticalPlane() {
+            IsVerticalPlane = true;
             return this;
         }
 
@@ -52,15 +61,32 @@ namespace GhostrunnerRNG.Maps {
             if(cornerB.IsEmpty()) {
                 return new SpawnData(cornerA, GetAngle());
             } else {
-                // generate random spot within 2 points
-                Vector3f newPos = new Vector3f(
-                    cornerA.X + r.Next((int)Math.Abs(cornerB.X - cornerA.X)),
-                    cornerA.Y + r.Next((int)Math.Abs(cornerB.Y - cornerA.Y)),
-                    cornerA.Z + r.Next((int)Math.Abs(cornerB.Z - cornerA.Z))
-                    );
-
-                return new SpawnData(newPos, GetAngle());
+                if(IsVerticalPlane) {
+                    return new SpawnData(RandomWithInVerticalPlane(cornerA, cornerB), GetAngle());
+                } else {
+                    return new SpawnData(RandomWithinRect(cornerA, cornerB), GetAngle());
+                }
             }
+        }
+
+        private Vector3f RandomWithinRect(Vector3f a, Vector3f b) {
+            float xDelta = Math.Max(a.X, b.X) - Math.Min(a.X, b.X);
+            float newX = Math.Min(a.X, b.X) + r.Next((int)xDelta);
+
+            float yDelta = Math.Max(a.Y, b.Y) - Math.Min(a.Y, b.Y);
+            float newY = Math.Min(a.Y, b.Y) + r.Next((int)yDelta);
+
+            float zDelta = Math.Max(a.Z, b.Z) - Math.Min(a.Z, b.Z);
+            float newZ = Math.Min(a.Z, b.Z) + r.Next((int)zDelta);
+
+            return new Vector3f(newX, newY, newZ);
+        }
+
+        private Vector3f RandomWithInVerticalPlane(Vector3f a, Vector3f b) {
+            float x = r.Next(Math.Min((int)a.X, (int)b.X), Math.Max((int)a.X, (int)b.X));
+            float y = a.Y + (b.Y - a.Y) / (b.X - a.X) * (x - a.X);
+            float z = r.Next(Math.Min((int)a.Z, (int)b.Z), Math.Max((int)a.Z, (int)b.Z));
+            return new Vector3f(x, y, z);
         }
 
         private Angle? GetAngle() {

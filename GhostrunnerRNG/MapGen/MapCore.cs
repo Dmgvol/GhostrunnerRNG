@@ -63,12 +63,19 @@ namespace GhostrunnerRNG.Maps {
             }
         }
 
+        protected void PrintEnemyPos(List<Enemy> enemies) {
+            string str = "";
+            foreach(Enemy e in enemies) str += e.Pos + "\n";
+            Console.WriteLine(str);
+        }
+
         [Obsolete("No need, it derefs per enemy once needed to change memory")]
         public void DerefPointers(Process game) {
             for(int i = 0; i < Enemies.Count; i++) {
                 Enemies[i].DerefPointer(game);
             }
         }
+
 
          ~MapCore() {
             foreach(Enemy e in Enemies) {

@@ -17,8 +17,9 @@ namespace GhostrunnerRNG.MapGen {
         }
 
         private bool IsEnemyInRoom(Enemy enemy) {
-            return (enemy.Pos.X > pointA.X && enemy.Pos.Y > pointA.Y && enemy.Pos.Z > pointA.Z &&
-                enemy.Pos.X < pointB.X && enemy.Pos.Y < pointB.Y && enemy.Pos.Z < pointB.Z);
+            return (enemy.Pos.X >= Math.Min(pointA.X, pointB.X) && enemy.Pos.X <= Math.Max(pointA.X, pointB.X) &&
+               enemy.Pos.Y >= Math.Min(pointA.Y, pointB.Y) && enemy.Pos.Y <= Math.Max(pointA.Y, pointB.Y) &&
+               enemy.Pos.Z >= Math.Min(pointA.Z, pointB.Z) && enemy.Pos.Z <= Math.Max(pointA.Z, pointB.Z));
         }
 
         public List<Enemy> ReturnEnemiesInRoom(List<Enemy> allEnemies) => allEnemies.Where(x => IsEnemyInRoom(x)).ToList();

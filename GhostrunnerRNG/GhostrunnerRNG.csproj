@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Game\Config.cs" />
     <Compile Include="Game\GameUtils.cs" />
     <Compile Include="Game\SpawnData.cs" />
     <Compile Include="MapGen\Enemy.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="MapGen\Room.cs" />
     <Compile Include="MapGen\SpawnPlane.cs" />
     <Compile Include="Maps\Awakening.cs" />
+    <Compile Include="Maps\BlinkCV.cs" />
     <Compile Include="Maps\LookInside.cs" />
     <Compile Include="Maps\TheClimb.cs" />
     <Compile Include="MemoryUtils\DeepPointer.cs" />
@@ -77,6 +79,12 @@
     <Compile Include="MemoryUtils\ProcessExtensions.cs" />
     <Compile Include="MemoryUtils\SignatureScanner.cs" />
     <Compile Include="MemoryUtils\WinAPI.cs" />
+    <Compile Include="Windows\DevWindow.xaml.cs">
+      <DependentUpon>DevWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -89,6 +97,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\DevWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.Maps;
 using static GhostrunnerRNG.Game.GameUtils;
+using GhostrunnerRNG.Windows;
 
 namespace GhostrunnerRNG {
 	public partial class MainWindow : Window {
@@ -22,17 +23,19 @@ namespace GhostrunnerRNG {
 
 		//////// Pointers ////////
 		DeepPointer mapNameDP, hcDP, preciseTimeDP, capsuleDP;
-		IntPtr mapNamePtr, hcPtr, preciseTimePtr, xPosPtr, yPosPtr, zPosPtr, angleSinPtr, angleCosPtr;
+		public static IntPtr mapNamePtr, hcPtr, preciseTimePtr, xPosPtr, yPosPtr, zPosPtr, angleSinPtr, angleCosPtr;
 
 		// player pos&aim, timer, hcFlag
 		public static bool IsHC;
 		float oldPreciseTimer = -1, preciseTimer = -1;
 		public static float xPos, yPos, zPos, angleSin, angleCos;
+		public static Angle angle;
 
 		// MAP OBJECT
 		MapCore currentMap;
 		private string _mapName;
-		public string MapName {
+
+        public string MapName {
 			get { return _mapName; }
 			set {
 				if(_mapName == value) return;
@@ -42,7 +45,13 @@ namespace GhostrunnerRNG {
 		}
 		private MapType AccurateMapType;
 
-		private void MapChanged(string from, string to) {
+        private void ButtonSettings_Click(object sender, RoutedEventArgs e) {
+			Window settingsWindow = new Settings();
+			
+			settingsWindow.ShowDialog();
+        }
+
+        private void MapChanged(string from, string to) {
 			MapType mapTo = GetMapType(to);
 			MapType mapFrom = GetMapType(from);
 
@@ -73,29 +82,20 @@ namespace GhostrunnerRNG {
 
 		public MainWindow() {
 			InitializeComponent();
+			Config.GetInstance();
 
 			// UI
-			ButtonNewRng.Visibility = Visibility.Hidden;
+			ToggleButton(ButtonNewRng, false);
+			ButtonDev.Visibility = DEBUG_MODE ? Visibility.Visible : Visibility.Collapsed;
+			ButtonDev.IsEnabled = DEBUG_MODE;
 
 			// HotKeys
 			kbHook.KeyDown += InputKeyDown;
 			kbHook.HookedKeys.Add(Keys.F7);
 
-			// DEBUG 
-			if(DEBUG_MODE) {
-				kbHook.HookedKeys.Add(Keys.NumPad1);
-				kbHook.HookedKeys.Add(Keys.NumPad2);
-				kbHook.HookedKeys.Add(Keys.NumPad3);
-				kbHook.HookedKeys.Add(Keys.NumPad4);
-				kbHook.HookedKeys.Add(Keys.NumPad5);
-				kbHook.HookedKeys.Add(Keys.NumPad6);
-			} else {
-				outputBox.Visibility = Visibility.Collapsed;
-				copyButton.Visibility = Visibility.Collapsed;
-			}
 			// Update Timer
 			updateTimer = new Timer {
-				Interval = (100) // 0.1sec
+				Interval = (200) // 0.2sec
 			};
 			updateTimer.Tick += new EventHandler(Update);
 			updateTimer.Start();
@@ -158,7 +158,6 @@ namespace GhostrunnerRNG {
 			}
 		}
 
-
 		private void TimerTrackerUpdate() {
 			// we don't need main menu
 			if(AccurateMapType == MapType.MainMenu) return;
@@ -174,7 +173,7 @@ namespace GhostrunnerRNG {
 				checkHCMode();
 				if(IsHC) {
 					currentMap = null;
-					ButtonNewRng.Visibility = Visibility.Hidden;
+					ToggleButton(ButtonNewRng, false);
 					AccurateMapType = MapType.Unknown;
 					LogStatus("[!] Hardcore mode is not supported for any map.");
 					return;
@@ -182,7 +181,7 @@ namespace GhostrunnerRNG {
 
 				// awakening/look inside?
 				if(MapLevels.FirstOrDefault(x => x.Value == MapType.AwakeningLookInside).Key == MapName) { // Lookinside or Awakening?
-					ButtonNewRng.Visibility = Visibility.Visible;
+					ToggleButton(ButtonNewRng, true);
 					if(xPos < 50000) {
 						// awakening
 						currentMap = new Awakening(IsHC);
@@ -201,7 +200,7 @@ namespace GhostrunnerRNG {
 					// the climb
 					currentMap = new TheClimb(IsHC);
 					NewRNG();
-					ButtonNewRng.Visibility = Visibility.Visible;
+					ToggleButton(ButtonNewRng, true);
 					return;
 
 				} else {
@@ -209,6 +208,13 @@ namespace GhostrunnerRNG {
 					AccurateMapType = GetMapType(MapName);
 					
 				}
+
+				// Maps without RNG
+				if(AccurateMapType == MapType.TheClimbCV) {
+					LogStatus("No RNG for this level.");
+					return;
+				}
+
 				// Not mainMenu and not Awakening? - not supported!
 				if(AccurateMapType != MapType.MainMenu
 					&& AccurateMapType != MapType.AwakeningLookInside
@@ -222,12 +228,6 @@ namespace GhostrunnerRNG {
 					LogStatus("Level loaded.");
                 }
 			}
-		}
-
-
-		// FOR DEBUG ONLY: copy generated code to clipboard
-		private void copyButton_Click(object sender, RoutedEventArgs e) {
-			System.Windows.Clipboard.SetText(outputBox.Text);
 		}
 
 		// Hook Game
@@ -254,57 +254,24 @@ namespace GhostrunnerRNG {
 
         // New RNG
         private void NewRNG(bool force = false) {
-			if(currentMap != null && (checkbox_RngOnRestart.IsChecked == true || force)) {
-				SpawnPlane.r = new Random();
-				currentMap.RandomizeEnemies(game);
-				LogStatus("RNG Generated! \nDie or load cp to see changes.");
-			}
-		}
+            if(currentMap != null && (Config.GetInstance().Gen_RngOnRestart || force)) {
+                SpawnPlane.r = new Random();
+                currentMap.RandomizeEnemies(game);
+                LogStatus("RNG Generated! \nDie or load cp to see changes.");
+            }
+        }
 
 		private void InputKeyDown(object sender, KeyEventArgs e) {
 			switch(e.KeyCode) {
 				case Keys.F7:
 					NewRNG(true);
 					break;
-
-#region Debug
-				case Keys.NumPad1:
-					// 1 pos save
-					pos1 = new Vector3f(xPos, yPos, zPos);
-					break;
-
-				case Keys.NumPad2:
-					// 2'nd pos save
-					pos2 = new Vector3f(xPos, yPos, zPos);
-					break;
-
-				case Keys.NumPad3:
-					// generate code: 2 pos, fixed current angle
-					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z}), new Angle({angle.angleSin:0.00}f, {angle.angleCos:0.00}f)));";
-					break;
-
-				case Keys.NumPad4:
-					// generate code: 1 pos, fixed current angle
-					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Angle({angle.angleSin:0.00}f, {angle.angleCos:0.00}f)));";
-					break;
-				case Keys.NumPad5:
-					// generate code: 2 pos, random angle
-					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z})).RandomAngle());";
-					break;
-				case Keys.NumPad6:
-					// generate code: 2 pos, random angle
-					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z})).RandomAngle());";
-					break;
-#endregion
 				default:
 					break;
 			}
 			e.Handled = true;
 		}
 
-		// for debug ^^^
-		private Vector3f pos1, pos2;
-		private Angle angle;
 
 		private void SetPointersByModuleSize(int moduleSize) {
 			switch(moduleSize) {
@@ -373,5 +340,15 @@ namespace GhostrunnerRNG {
 			if(ButtonNewRng.Visibility == Visibility.Visible)
 				NewRNG(true);
         }
-    }
+
+		public void ToggleButton(System.Windows.Controls.Control control, bool flag) {
+			control.Visibility = flag ? Visibility.Visible : Visibility.Hidden;
+			control.IsEnabled = flag;
+        }
+
+		private void ButtonDev_Click(object sender, RoutedEventArgs e) {
+			Window devWindow = new DevWindow();
+			devWindow.ShowDialog();
+		}
+	}
 }

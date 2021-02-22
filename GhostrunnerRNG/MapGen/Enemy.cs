@@ -9,9 +9,8 @@ namespace GhostrunnerRNG.Maps {
         // pointers
         private DeepPointer EnemyDP;
         public IntPtr EnemyPtr, EnemyTypePtr;
-        // 3D virtual planes when enemy can spawn
+        // 3D virtual rectangle/volumes where enemy can spawn
         private List<SpawnPlane> planes = new List<SpawnPlane>();
-        //public byte[] enemyType = new byte[8];
 
         // Last known pos
         public Vector3f Pos { get; private set; } = Vector3f.Empty;
@@ -29,10 +28,6 @@ namespace GhostrunnerRNG.Maps {
             float z;
             game.ReadValue<float>(EnemyPtr + 8, out z);
             Pos = new Vector3f(x, y, z);
-
-            // type
-            //enemyType = game.ReadBytes(EnemyPtr - 0x4F0, 8);
-
             return Pos;
         }
 

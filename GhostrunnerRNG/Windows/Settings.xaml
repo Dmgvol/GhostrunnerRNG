@@ -1,0 +1,40 @@
+﻿<Window x:Class="GhostrunnerRNG.Windows.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GhostrunnerRNG.Windows"
+        mc:Ignorable="d"
+        Background="#FF292929"
+        Title="Settings" Height="321" Width="482" MinWidth="400" MinHeight="280" MaxHeight="700" MaxWidth="600">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <!--Title-->
+        <Label Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Settings" FontSize="20" Foreground="White"  />
+
+        <!--Settings-->
+        <StackPanel Grid.Row="1" Margin="10">
+            <CheckBox IsChecked="True" x:Name="checkbox_RngOnRestart"  Content="New RNG on level restart/load" HorizontalAlignment="Left" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+            <CheckBox IsChecked="True" x:Name="checkbox_RngOrbs"  Content="Randomize Shield Orbs" HorizontalAlignment="Left" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+            <CheckBox IsChecked="True" x:Name="checkbox_RngCybervoid"  Content="RNG Cybervoids" HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+
+            <Grid>
+                <CheckBox  Content="Focus on SR routes"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>    
+            </Grid>
+            
+        </StackPanel>
+
+
+        <!--Controls-->
+        <Label Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="*Restart level to see changes" FontSize="16" Foreground="White"  />
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" FlowDirection="RightToLeft" VerticalAlignment="Center">
+            <Button Content="Apply" Height="30" Width="80" x:Name="ApplyButton" Click="ApplyButton_Click" Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+            <Button Content="Cancel" Height="30" Width="80" x:Name="CancelButton" Click="CancelButton_Click" Margin="5, 0" Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+        </StackPanel>
+    </Grid>
+</Window>

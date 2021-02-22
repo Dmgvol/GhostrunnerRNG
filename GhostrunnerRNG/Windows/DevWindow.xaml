@@ -1,0 +1,33 @@
+﻿<Window x:Class="GhostrunnerRNG.Windows.DevWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GhostrunnerRNG.Windows"
+        mc:Ignorable="d"
+        Background="#FF292929"
+        Title="Dev-Window" Height="324.743" Width="693.435" MinWidth="400" MinHeight="280">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="10">
+            <!--Testing-->
+            <Label Content="SpawnPlane Command Testing" FontSize="15"  Foreground="White"/>
+            <TextBox x:Name="textbox_commands" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0, 30"  Background="#FF666666" Foreground="White" TextChanged="textbox_commands_TextChanged"/>
+            <Label Content="7 - Tp to pos1&#x09;8 - Tp to pos2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10, 0" FontSize="15"  Foreground="White"/>
+            <CheckBox x:Name="checkbox_normPoints" Content="Normalized Points(as SpawnPlane )" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+        </Grid>
+
+        <Border BorderBrush="#FF666666" BorderThickness="1" HorizontalAlignment="Stretch" Height="1" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" />
+        <Grid Grid.Row="1" Margin="10">
+            <!--Creation-->
+            <Label Content="SpawnPlane Command Creation" FontSize="15"  Foreground="White"/>
+            <TextBox IsReadOnly="True" x:Name="outputBox" HorizontalAlignment="Stretch" MinWidth="400" VerticalAlignment="Top" Margin="0,30,60,0"  Height="30" Background="#FF666666" Foreground="White"/>
+            <Button x:Name="copyButton" Content="Copy" Height="30" Width="50" Margin="0,30,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="copyButton_Click"/>
+            <Label Content="1 - Save Pos A&#x09;2 - Save Pos B&#x0a;3 - Create 2Pos plane(fixed angle)&#x09;4 - Create 1Pos, fixed angle      5 - create 1 pos(no angle)" FontSize="15"  Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 60, 0, 00"/>
+        </Grid>
+
+    </Grid>
+</Window>
