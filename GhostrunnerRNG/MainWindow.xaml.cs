@@ -16,7 +16,7 @@ namespace GhostrunnerRNG {
 
 		// Hook
 		globalKeyboardHook kbHook = new globalKeyboardHook();
-		Process game;
+		public static Process game { get; private set; }
 		public bool hooked = false;
 		Timer updateTimer;
 
@@ -27,7 +27,7 @@ namespace GhostrunnerRNG {
 		// player pos&aim, timer, hcFlag
 		public static bool IsHC;
 		float oldPreciseTimer = -1, preciseTimer = -1;
-		float xPos, yPos, zPos, angleSin, angleCos;
+		public static float xPos, yPos, zPos, angleSin, angleCos;
 
 		// MAP OBJECT
 		MapCore currentMap;
@@ -43,8 +43,8 @@ namespace GhostrunnerRNG {
 		private MapType AccurateMapType;
 
 		private void MapChanged(string from, string to) {
-			MapType mapTo = GetMapName(to);
-			MapType mapFrom = GetMapName(from);
+			MapType mapTo = GetMapType(to);
+			MapType mapFrom = GetMapType(from);
 
 			// rng started in middle of level, request to restart or menu
 			if(mapFrom == MapType.Unknown && mapTo != MapType.MainMenu) {
@@ -162,9 +162,14 @@ namespace GhostrunnerRNG {
 		private void TimerTrackerUpdate() {
 			// we don't need main menu
 			if(AccurateMapType == MapType.MainMenu) return;
+			// level loaded but that's no menu? 
+			if(AccurateMapType == MapType.Unknown) {
+				AccurateMapType = GetMapType(MapName);
+            }
 
 			// New timer started?
 			if(oldPreciseTimer == 0 && preciseTimer > 0) {
+				System.Threading.Thread.Sleep(1000);
 				//TODO: ADD HC SUPPORT
 				checkHCMode();
 				if(IsHC) {
@@ -191,16 +196,26 @@ namespace GhostrunnerRNG {
 						AccurateMapType = MapType.LookInside;
 						return;
 					}
+
+				}else if(AccurateMapType == MapType.TheClimb) {
+					// the climb
+					currentMap = new TheClimb(IsHC);
+					NewRNG();
+					ButtonNewRng.Visibility = Visibility.Visible;
+					return;
+
 				} else {
 					currentMap = null;
-					AccurateMapType = GetMapName(MapName);
+					AccurateMapType = GetMapType(MapName);
 					
 				}
 				// Not mainMenu and not Awakening? - not supported!
 				if(AccurateMapType != MapType.MainMenu
 					&& AccurateMapType != MapType.AwakeningLookInside
 					&& AccurateMapType != MapType.Awakening
-					&& AccurateMapType != MapType.LookInside) {
+					&& AccurateMapType != MapType.LookInside
+					&& AccurateMapType != MapType.TheClimb
+					) {
 					LogStatus("Level not supported.");
 					return;
                 } else {
@@ -355,7 +370,8 @@ namespace GhostrunnerRNG {
 
 		// NewRng Button Click
         private void ButtonNewRng_Click(object sender, RoutedEventArgs e) {
-			NewRNG(true);
+			if(ButtonNewRng.Visibility == Visibility.Visible)
+				NewRNG(true);
         }
     }
 }

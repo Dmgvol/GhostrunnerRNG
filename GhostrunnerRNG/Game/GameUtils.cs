@@ -8,7 +8,7 @@ namespace GhostrunnerRNG.Game {
             { "/Game/Levels/Tutorial/L_Tutorial_Persistant",                MapType.AwakeningLookInside},
             { "/Game/Maps/damian_vr4",                                      MapType.LookInsideCV},
             { "/Game/Levels/01_INDUSTRIAL/01_01/01_01_World",               MapType.TheClimb},
-            { "/Game/Maps/ragis_lvl_vr9_2J",                                MapType.ThEClimbCV},
+            { "/Game/Maps/ragis_lvl_vr9_2J",                                MapType.TheClimbCV},
             { "/Game/Levels/Cyberspace/Furrashu_Tutorial/furasshu_tutorial",MapType.BlinkCV},
             { "/Game/Levels/Industrial/L_Industrial_Persistant",            MapType.JackedUp},
             { "/Game/Levels/01_INDUSTRIAL/01_03/01_03_world",               MapType.BreatheIn},
@@ -40,7 +40,7 @@ namespace GhostrunnerRNG.Game {
             LookInside,
             LookInsideCV,
             TheClimb,
-            ThEClimbCV,
+            TheClimbCV,
             BlinkCV,
             JackedUp,
             BreatheIn,
@@ -66,7 +66,7 @@ namespace GhostrunnerRNG.Game {
             TheMonster
         }
 
-        public static MapType GetMapName(string fullName) {
+        public static MapType GetMapType(string fullName) {
             if(string.IsNullOrEmpty(fullName)) return MapType.Unknown;
             return MapLevels.ContainsKey(fullName) ? MapLevels[fullName] : MapType.MainMenu;
         }

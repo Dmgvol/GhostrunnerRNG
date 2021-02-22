@@ -8,19 +8,16 @@ namespace GhostrunnerRNG.Maps {
 
         // pointers
         private DeepPointer EnemyDP;
-        public IntPtr EnemyPtr;
+        public IntPtr EnemyPtr, EnemyTypePtr;
         // 3D virtual planes when enemy can spawn
         private List<SpawnPlane> planes = new List<SpawnPlane>();
-        // default pos
-        private Vector3f defaultPos = Vector3f.Empty;
-        
+        //public byte[] enemyType = new byte[8];
+
+        // Last known pos
+        public Vector3f Pos { get; private set; } = Vector3f.Empty;
 
         public Enemy(DeepPointer DP) {
             EnemyDP = DP;
-        }
-
-        public Enemy(DeepPointer DP, Vector3f defaultPos) : this(DP) {
-            this.defaultPos = defaultPos;
         }
 
         public Vector3f GetMemoryPos(Process game) {
@@ -31,7 +28,12 @@ namespace GhostrunnerRNG.Maps {
             game.ReadValue<float>(EnemyPtr + 4, out y);
             float z;
             game.ReadValue<float>(EnemyPtr + 8, out z);
-            return new Vector3f(x, y, z);
+            Pos = new Vector3f(x, y, z);
+
+            // type
+            //enemyType = game.ReadBytes(EnemyPtr - 0x4F0, 8);
+
+            return Pos;
         }
 
         internal void ClearAllPlanes() {
@@ -69,11 +71,10 @@ namespace GhostrunnerRNG.Maps {
 
         // get random spawndata
         public SpawnData GetSpawnData() {
-            if(planes.Count > 0) {
-                int plane = SpawnPlane.r.Next(0, planes.Count);
-                return planes[plane].GetRandomSpawnData();
-            }
-            return new SpawnData(defaultPos);
+            if(planes == null || planes.Count == 0) throw new IndexOutOfRangeException();
+
+            int plane = SpawnPlane.r.Next(0, planes.Count);
+            return planes[plane].GetRandomSpawnData();
         }
     }
 }

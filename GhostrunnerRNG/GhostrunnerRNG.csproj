@@ -66,11 +66,13 @@
     <Compile Include="MapGen\Enemy.cs" />
     <Compile Include="MapGen\MapCore.cs" />
     <Compile Include="MapGen\RoomLayout.cs" />
+    <Compile Include="MapGen\Room.cs" />
     <Compile Include="MapGen\SpawnPlane.cs" />
     <Compile Include="Maps\Awakening.cs" />
     <Compile Include="Maps\LookInside.cs" />
+    <Compile Include="Maps\TheClimb.cs" />
     <Compile Include="MemoryUtils\DeepPointer.cs" />
-    <Compile Include="globalKeyboardHook.cs" />
+    <Compile Include="MemoryUtils\globalKeyboardHook.cs" />
     <Compile Include="MemoryUtils\MemoryWatcher.cs" />
     <Compile Include="MemoryUtils\ProcessExtensions.cs" />
     <Compile Include="MemoryUtils\SignatureScanner.cs" />

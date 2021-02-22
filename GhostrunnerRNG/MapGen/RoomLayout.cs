@@ -13,12 +13,10 @@ namespace GhostrunnerRNG.Maps {
             }
         }
 
-        public RoomLayout(Enemy enemy) { 
-            AddEnemy(enemy);
-        }
-
-        public void AddEnemy(Enemy enemy) {
-            roomEnemies.Add(enemy);
+        public RoomLayout(List<Enemy> enemies) {
+            for(int i = 0; i < enemies.Count; i++) {
+                roomEnemies.Add(enemies[i]);
+            }
         }
 
         public void RandomizeEnemies(Process game) {
