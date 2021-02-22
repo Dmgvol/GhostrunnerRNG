@@ -71,6 +71,7 @@
     <Compile Include="MapGen\SpawnPlane.cs" />
     <Compile Include="Maps\Awakening.cs" />
     <Compile Include="Maps\BlinkCV.cs" />
+    <Compile Include="Maps\JackedUp.cs" />
     <Compile Include="Maps\LookInside.cs" />
     <Compile Include="Maps\TheClimb.cs" />
     <Compile Include="MemoryUtils\DeepPointer.cs" />

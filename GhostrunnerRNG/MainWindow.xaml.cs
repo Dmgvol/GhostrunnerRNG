@@ -221,6 +221,7 @@ namespace GhostrunnerRNG {
 					&& AccurateMapType != MapType.Awakening
 					&& AccurateMapType != MapType.LookInside
 					&& AccurateMapType != MapType.TheClimb
+					&& AccurateMapType != MapType.JackedUp
 					) {
 					LogStatus("Level not supported.");
 					return;
