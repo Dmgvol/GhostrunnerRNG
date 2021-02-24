@@ -17,7 +17,6 @@
             <Label Content="SpawnPlane Command Testing" FontSize="15"  Foreground="White"/>
             <TextBox x:Name="textbox_commands" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0, 30"  Background="#FF666666" Foreground="White" TextChanged="textbox_commands_TextChanged"/>
             <Label Content="7 - Tp to pos1&#x09;8 - Tp to pos2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10, 0" FontSize="15"  Foreground="White"/>
-            <CheckBox x:Name="checkbox_normPoints" Content="Normalized Points(as SpawnPlane )" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
         </Grid>
 
         <Border BorderBrush="#FF666666" BorderThickness="1" HorizontalAlignment="Stretch" Height="1" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" />

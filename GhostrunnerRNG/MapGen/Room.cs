@@ -10,10 +10,8 @@ namespace GhostrunnerRNG.MapGen {
         Vector3f pointA, pointB;
 
         public Room(Vector3f a, Vector3f b) {
-            // makes PointA the smallest and PointB the biggest for easy math,
-            // they might be flipped but work the same
-            pointA = new Vector3f(Math.Min(a.X, b.X), Math.Min(a.Y, b.Y), Math.Min(a.Z, b.Z));
-            pointB = new Vector3f(Math.Max(a.X, b.X), Math.Max(a.Y, b.Y), Math.Max(a.Z, b.Z));
+            pointA = a;
+            pointB = b;
         }
 
         private bool IsEnemyInRoom(Enemy enemy) {

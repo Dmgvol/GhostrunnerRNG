@@ -1,6 +1,5 @@
 ﻿using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
-using System;
 using System.Collections.Generic;
 using static GhostrunnerRNG.Game.GameUtils;
 
@@ -8,7 +7,6 @@ namespace GhostrunnerRNG.Maps {
     class JackedUp : MapCore {
 
         // Note: Enemies are not in the same order in this map, so we group them by their RoomRectangle
-
         private Room room_1 = new Room(new Vector3f(-9297, -23929, 546), new Vector3f(-5180, -17091, 2281));
         private Room room_2 = new Room(new Vector3f(-30424, -22624, 155), new Vector3f(-21734, -16856, 3089));
         private Room room_3 = new Room(new Vector3f(-40820, -11223, 5152), new Vector3f(-32991, -4121, 10285));
@@ -17,7 +15,6 @@ namespace GhostrunnerRNG.Maps {
 
 
         public JackedUp(bool isHC) : base(MapType.JackedUp) {
-
             if(!isHC) {
                 Gen_PerRoom();
             } else {
@@ -77,7 +74,7 @@ namespace GhostrunnerRNG.Maps {
             enemies = room_4.ReturnEnemiesInRoom(AllEnemies);
             layout = new RoomLayout(enemies[0]); //orb
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-65251, -20095, 10823), new Vector3f(-66206, -19589, 11027)));//near most left enemy
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-62300, -26600, 10131), new Vector3f(-62300, -2500, 10564)));//back side of the billboard
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-62300, -26600, 10131), new Vector3f(-62300, -25600, 10564)));//back side of the billboard
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-63103, -27335, 10716)));//top of the second billboard
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-65438, -25916, 12028)));//uptop moving platform on the right
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-67475, -23533, 9396), new Vector3f(-67475, -22526, 9750)));//billboard near exit
@@ -99,8 +96,6 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-64454, -26275, 10162), new Vector3f(-63856, -25658, 10163), new Angle(0.46f, 0.89f)));//closer right enemy spawn plane
 
             Rooms.Add(layout);
-
-
         }
     }
 }

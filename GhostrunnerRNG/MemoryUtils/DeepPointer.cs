@@ -17,6 +17,16 @@ namespace GhostrunnerRNG {
         private List<OffsetT> _offsets;
         private string _module;
 
+        internal OffsetT GetBase() => _base;
+        internal List<OffsetT> GetGetOffsets() => _offsets;
+
+        public DeepPointer(DeepPointer deepPointer, params OffsetT[] offsets) {
+            _base = deepPointer.GetBase();
+            List<OffsetT> offsetLst = new List<OffsetT>(deepPointer.GetGetOffsets());
+            offsetLst.AddRange(offsets);
+            _offsets = offsetLst;
+        }
+
         public DeepPointer(IntPtr absoluteBase, params OffsetT[] offsets) {
             _absoluteBase = absoluteBase;
             _usingAbsoluteBase = true;
@@ -204,5 +214,13 @@ namespace GhostrunnerRNG {
         public override string ToString() {
             return X + " " + Y + " " + Z;
         }
+
+        public static Vector3f operator+ (Vector3f a, Vector3f b) {
+            return new Vector3f(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+        }
+        public static Vector3f operator- (Vector3f a, Vector3f b) {
+            return new Vector3f(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+        }
+
     }
 }

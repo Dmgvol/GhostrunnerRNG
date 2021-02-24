@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Windows;
 using System.Diagnostics;
-using System.Linq;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-using GhostrunnerRNG.Game;
-using GhostrunnerRNG.Maps;
-using static GhostrunnerRNG.Game.GameUtils;
-using GhostrunnerRNG.Windows;
 using System.Windows.Controls;
 
 namespace GhostrunnerRNG.Windows {
 
 
-	public partial class DevWindow : Window {
+    public partial class DevWindow : Window {
 
 
 		// Hook
@@ -70,13 +64,8 @@ namespace GhostrunnerRNG.Windows {
 						float y2 = float.Parse(c.Substring(0, c.IndexOf(",")));
 						c = c.Remove(0, c.IndexOf(",") + 1);
 						float z2 = float.Parse(c.Substring(0, c.IndexOf(")")));
-
-                        if(checkbox_normPoints.IsChecked == true) {
-							test_pos1 = new Vector3f(Math.Min(x1, x2), Math.Min(y1, y2), Math.Min(z1, z2));
-							test_pos2 = new Vector3f(Math.Max(x1, x2), Math.Max(y1, y2), Math.Max(z1, z2));
-						} else {
-							test_pos2 = new Vector3f(x2, y2, z2);
-                        }
+						test_pos2 = new Vector3f(x2, y2, z2);
+                       
 					} else {
 						test_pos2 = Vector3f.Empty;
                     }
@@ -113,7 +102,7 @@ namespace GhostrunnerRNG.Windows {
 					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Angle({MainWindow.angle.angleSin:0.00}f, {MainWindow.angle.angleCos:0.00}f)));";
 					break;
 				case Keys.NumPad5:
-					// generate code: 2 pos, random angle
+					// generate code: 1 pos
 					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z})));";
 					break;
 

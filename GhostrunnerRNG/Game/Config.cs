@@ -1,5 +1,7 @@
 ﻿namespace GhostrunnerRNG.Game {
     class Config {
+        public const string VERSION = "0.2";
+
         private static Config instance;
 
         // Settings
@@ -18,8 +20,6 @@
             instance = cfg;
         }
 
-        public Config() {
-
-        }
+        public Config() {}
     }
 }

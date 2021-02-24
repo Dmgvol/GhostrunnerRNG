@@ -66,6 +66,26 @@ namespace GhostrunnerRNG.Game {
             TheMonster
         }
 
+        private static List<MapType> MapsWithoutRNG = new List<MapType>() {
+            MapType.LookInsideCV,  
+            MapType.TheClimbCV
+        };
+
+        private static List<MapType> SupportedMaps = new List<MapType>() {
+            MapType.MainMenu, 
+            MapType.AwakeningLookInside, 
+            MapType.Awakening, 
+            MapType.LookInside,
+            MapType.TheClimb, 
+            MapType.JackedUp,
+            MapType.BlinkCV,
+            MapType.BreatheIn
+        };
+
+        public static bool MapHasRng(MapType type) => !MapsWithoutRNG.Contains(type);
+        public static bool MapSupported(MapType type) => SupportedMaps.Contains(type);
+
+
         public static MapType GetMapType(string fullName) {
             if(string.IsNullOrEmpty(fullName)) return MapType.Unknown;
             return MapLevels.ContainsKey(fullName) ? MapLevels[fullName] : MapType.MainMenu;

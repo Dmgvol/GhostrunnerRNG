@@ -15,14 +15,14 @@
         </Grid.RowDefinitions>
 
         <!--Top row-->
-        <Label Grid.Row="0" x:Name="label_Title" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Ghostrunner RNG Mod v0.1" FontSize="20" Foreground="White" FontWeight="Bold"/>
+        <Label Grid.Row="0" x:Name="label_Title" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Ghostrunner RNG Mod" FontSize="20" Foreground="White" FontWeight="Bold"/>
 
         <!--2nd row (main)-->
         <StackPanel Grid.Row="1" Margin="10, 0">
             <TextBlock x:Name="label_levelName" HorizontalAlignment="Left" VerticalAlignment="Top" Text="Current Level: " FontSize="15"  Foreground="White"/>
             <TextBlock x:Name="label_RNGStatus" HorizontalAlignment="Left" VerticalAlignment="Top" Text="RNG Status: waiting..." FontSize="15" Foreground="White" />
         </StackPanel>
-        <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="0, 10">
+        <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="0, 20">
             
             <Button x:Name="ButtonNewRng" Content="[F7] New RNG" HorizontalAlignment="Right" VerticalAlignment="Top" Height="28" Width="170" FontSize="16" Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonNewRng_Click"/>
             <Button x:Name="ButtonSettings" Content="Settings" HorizontalAlignment="Right" VerticalAlignment="Top" Height="28" Width="170" FontSize="16" Margin="0, 5"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonSettings_Click"/>
@@ -30,7 +30,7 @@
         </StackPanel>
         <!--bottom row-->
         <Label Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="by Dmgvol, LongerWarrior" Foreground="White"/>
-
+        <Button Grid.Row="2" x:Name="ButtonAbout" Content="About" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="25" Width="100" FontSize="16" Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonAbout_Click"/>
         <Grid Background="#FF292929" Visibility="Hidden" x:Name="errorGrid" Grid.RowSpan="3">
             <Label x:Name="errorMsg" Content="Unknown Error" HorizontalAlignment="Center" Height="35" VerticalAlignment="Center" Width="auto" FontSize="20" Foreground="White"/>
         </Grid>

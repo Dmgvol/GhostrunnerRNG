@@ -45,9 +45,13 @@ namespace GhostrunnerRNG {
 		}
 		private MapType AccurateMapType;
 
+        private void ButtonAbout_Click(object sender, RoutedEventArgs e) {
+			Window aboutWindow = new About();
+			aboutWindow.ShowDialog();
+		}
+
         private void ButtonSettings_Click(object sender, RoutedEventArgs e) {
 			Window settingsWindow = new Settings();
-			
 			settingsWindow.ShowDialog();
         }
 
@@ -83,6 +87,7 @@ namespace GhostrunnerRNG {
 		public MainWindow() {
 			InitializeComponent();
 			Config.GetInstance();
+			label_Title.Content += $" v{Config.VERSION}";
 
 			// UI
 			ToggleButton(ButtonNewRng, false);
@@ -143,7 +148,7 @@ namespace GhostrunnerRNG {
 			oldPreciseTimer = preciseTimer;
 			game.ReadValue<float>(preciseTimePtr, out preciseTimer);
 			TimerTrackerUpdate();
-
+		
 			////// Read Memory /////
 			game.ReadValue<float>(xPosPtr, out xPos);
 			game.ReadValue<float>(yPosPtr, out yPos);
@@ -169,7 +174,8 @@ namespace GhostrunnerRNG {
 			// New timer started?
 			if(oldPreciseTimer == 0 && preciseTimer > 0) {
 				System.Threading.Thread.Sleep(1000);
-				//TODO: ADD HC SUPPORT
+
+				//HC not supported
 				checkHCMode();
 				if(IsHC) {
 					currentMap = null;
@@ -184,15 +190,15 @@ namespace GhostrunnerRNG {
 					ToggleButton(ButtonNewRng, true);
 					if(xPos < 50000) {
 						// awakening
+						AccurateMapType = MapType.Awakening;
 						currentMap = new Awakening(IsHC);
 						NewRNG();
-						AccurateMapType = MapType.Awakening;
 						return;
 					} else {
 						// Look Inside
+						AccurateMapType = MapType.LookInside;
 						currentMap = new LookInside(IsHC);
 						NewRNG();
-						AccurateMapType = MapType.LookInside;
 						return;
 					}
 
@@ -210,6 +216,24 @@ namespace GhostrunnerRNG {
 					ToggleButton(ButtonNewRng, true);
 					return;
 
+				} else if(AccurateMapType == MapType.BlinkCV) {
+                    // the BlinkCV
+                    if(!Config.GetInstance().Gen_RngCV) {
+						currentMap = null;
+						LogStatus("CV-RNG is disabled by user.");
+						return;
+                    }
+					currentMap = new BlinkCV();
+					NewRNG();
+					ToggleButton(ButtonNewRng, true);
+					return;
+
+				} else if(AccurateMapType == MapType.BreatheIn) {
+					// the JackedUp
+					currentMap = new BreatheIn(IsHC);
+					NewRNG();
+					ToggleButton(ButtonNewRng, true);
+					return;
 				} else {
 					currentMap = null;
 					AccurateMapType = GetMapType(MapName);
@@ -217,19 +241,15 @@ namespace GhostrunnerRNG {
 				}
 
 				// Maps without RNG
-				if(AccurateMapType == MapType.TheClimbCV) {
+				if(!MapHasRng(AccurateMapType)) {
+					currentMap = null;
 					LogStatus("No RNG for this level.");
 					return;
 				}
 
-				// Not mainMenu and not Awakening? - not supported!
-				if(AccurateMapType != MapType.MainMenu
-					&& AccurateMapType != MapType.AwakeningLookInside
-					&& AccurateMapType != MapType.Awakening
-					&& AccurateMapType != MapType.LookInside
-					&& AccurateMapType != MapType.TheClimb
-					&& AccurateMapType != MapType.JackedUp
-					) {
+				// Supported maps
+				if(!MapSupported(AccurateMapType)) {
+					currentMap = null;
 					LogStatus("Level not supported.");
 					return;
                 } else {
@@ -280,10 +300,8 @@ namespace GhostrunnerRNG {
 			e.Handled = true;
 		}
 
-
 		private void SetPointersByModuleSize(int moduleSize) {
 			switch(moduleSize) {
-
 				case 78376960:
 					Debug.WriteLine("found steam5");
 					capsuleDP = new DeepPointer(0x04328538, 0x30, 0x130, 0x0);

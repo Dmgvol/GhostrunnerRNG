@@ -24,21 +24,17 @@ namespace GhostrunnerRNG.Maps {
             Enemy enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, 0x20, 0x4F0));
             while(!enemy.GetMemoryPos(game).IsEmpty()) {
                 str += $"enemy[{totalEnemies}]: {enemy.GetMemoryPos(game)}\n";
-
                 totalEnemies++;
-
                 enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, (0x20 * (totalEnemies + 1)), 0x4F0));
             }
             return str;
         }
 
         public List<Enemy> GetAllEnemies(Process game) {
-            string str = "";
             int totalEnemies = 0;
             List<Enemy> enemies = new List<Enemy>();
             Enemy enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, 0x20, 0x4F0));
             while(!enemy.GetMemoryPos(game).IsEmpty()) {
-                //str += $"enemy[{totalEnemies}]: {enemy.GetMemoryPos(game)}\n";
                 totalEnemies++;
                 enemies.Add(enemy);
                 enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, (0x20 * (totalEnemies + 1)), 0x4F0));
@@ -49,7 +45,7 @@ namespace GhostrunnerRNG.Maps {
         protected abstract void Gen_PerRoom();
 
         // new RNG
-        public void RandomizeEnemies(Process game) {
+        public virtual void RandomizeEnemies(Process game) {
             if(Rooms != null && Rooms.Count > 0) {
                 // RoomLayout Gen
                 for(int i = 0; i < Rooms.Count; i++) {
@@ -63,19 +59,19 @@ namespace GhostrunnerRNG.Maps {
             }
         }
 
+        protected void ModifyCP(DeepPointer dp, Vector3f pos, Process game) {
+            IntPtr cpPtr;
+            dp.DerefOffsets(game, out cpPtr);
+            game.WriteBytes(cpPtr, BitConverter.GetBytes(pos.X));
+            game.WriteBytes(cpPtr + 4, BitConverter.GetBytes(pos.Y));
+            game.WriteBytes(cpPtr + 8, BitConverter.GetBytes(pos.Z));
+        }
+
         protected void PrintEnemyPos(List<Enemy> enemies) {
             string str = "";
             foreach(Enemy e in enemies) str += e.Pos + "\n";
             Console.WriteLine(str);
         }
-
-        [Obsolete("No need, it derefs per enemy once needed to change memory")]
-        public void DerefPointers(Process game) {
-            for(int i = 0; i < Enemies.Count; i++) {
-                Enemies[i].DerefPointer(game);
-            }
-        }
-
 
          ~MapCore() {
             foreach(Enemy e in Enemies) {
