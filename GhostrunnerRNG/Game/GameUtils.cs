@@ -35,7 +35,7 @@ namespace GhostrunnerRNG.Game {
         public enum MapType {
             Unknown,
             MainMenu,
-            AwakeningLookInside,
+            AwakeningLookInside, // map combination
             Awakening,
             LookInside,
             LookInsideCV,
@@ -48,12 +48,13 @@ namespace GhostrunnerRNG.Game {
             RoadToAmida,
             RoadToAmidaCV,
             TempestCV,
-            RunUpGatekeeper,
+            RunUpGatekeeper,    // map combination
             RunUp,
             Gatekeeper,
             DharmaCity,
             Echoes,
             EchoesCV,
+            FasterInHerOwnImage,// map combination
             Faster,
             InHerOwnImage,
             SurgeCV,
@@ -67,8 +68,17 @@ namespace GhostrunnerRNG.Game {
         }
 
         private static List<MapType> MapsWithoutRNG = new List<MapType>() {
-            MapType.LookInsideCV,  
-            MapType.TheClimbCV
+            MapType.LookInsideCV,
+            MapType.TheClimbCV,
+            MapType.TempestCV,
+            MapType.RoadToAmidaCV,
+            MapType.TempestCV,
+            MapType.EchoesCV,
+            MapType.Gatekeeper,
+            MapType.InHerOwnImage,
+            MapType.SurgeCV,
+            MapType.ReignInHellCV,
+            MapType.TheSummit,
         };
 
         private static List<MapType> SupportedMaps = new List<MapType>() {
@@ -80,6 +90,19 @@ namespace GhostrunnerRNG.Game {
             MapType.JackedUp,
             MapType.BlinkCV,
             MapType.BreatheIn
+
+            /*TODO:
+            Road to Amida
+            Run Up
+            DharmaCity
+            Echoes
+            Faster
+            ForbiddenZone
+            ReignInHell
+            OverlordCV
+            TYWB
+            TheMonster
+            */
         };
 
         public static bool MapHasRng(MapType type) => !MapsWithoutRNG.Contains(type);

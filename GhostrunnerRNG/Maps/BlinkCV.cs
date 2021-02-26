@@ -16,6 +16,7 @@ namespace GhostrunnerRNG.Maps {
 
         // predefined spawns for platforms
         List<PlatformSpawner> platformSpawns = new List<PlatformSpawner>();
+        List<CVPlatform> platforms = new List<CVPlatform>();
 
         public BlinkCV() : base(GameUtils.MapType.BlinkCV) {
             Gen_PerRoom();
@@ -62,6 +63,11 @@ namespace GhostrunnerRNG.Maps {
                 p3_start = new Vector3f(-7202, 8610, 463),
                 p3_end = new Vector3f(-8097, 8889, 463)
             });
+
+            // platforms 
+            platforms.Add(new CVPlatform(new DeepPointer(0x045A3C20, 0x30, 0xA8, 0x138)));
+            platforms.Add(new CVPlatform(new DeepPointer(0x045A3C20, 0x30, 0xA8, 0x128)));
+            platforms.Add(new CVPlatform(new DeepPointer(0x045A3C20, 0x30, 0xA8, 0x130)));
         }
 
         // Custom Randomizer
@@ -91,26 +97,23 @@ namespace GhostrunnerRNG.Maps {
             Enemies_Room2[1].SetMemoryPos(game, new SpawnData(pos5));
             Enemies_Room2[2].SetMemoryPos(game, new SpawnData(pos6));
 
-            //// room 3 ////
+            //// room 3 - platforms ////
             int spawnIndex = SpawnPlane.r.Next(platformSpawns.Count);
 
             // asign platform values
-            CVPlatform platform1 = new CVPlatform(new DeepPointer(0x045A3C20, 0x30, 0xA8, 0x138));
-            platform1.SpawnPoint = platformSpawns[spawnIndex].p1_start;
-            platform1.EndPoint = platformSpawns[spawnIndex].p1_end;
-            platform1.WriteMemory(MainWindow.game);
+            platforms[0].Pos = platformSpawns[spawnIndex].p1_start;
+            platforms[0].EndPoint = platformSpawns[spawnIndex].p1_end;
+            platforms[0].WriteMemory(MainWindow.game);
 
-            CVPlatform platform2 = new CVPlatform(new DeepPointer(0x045A3C20, 0x30, 0xA8, 0x128));
-            platform2.SpawnPoint = platformSpawns[spawnIndex].p2_start;
-            platform2.EndPoint = platformSpawns[spawnIndex].p2_end;
-            platform2.WriteMemory(MainWindow.game);
+            platforms[1].Pos = platformSpawns[spawnIndex].p2_start;
+            platforms[1].EndPoint = platformSpawns[spawnIndex].p2_end;
+            platforms[1].WriteMemory(MainWindow.game);
 
-            CVPlatform platform3 = new CVPlatform(new DeepPointer(0x045A3C20, 0x30, 0xA8, 0x130));
-            platform3.SpawnPoint = platformSpawns[spawnIndex].p3_start;
-            platform3.EndPoint = platformSpawns[spawnIndex].p3_end;
-            platform3.WriteMemory(MainWindow.game);
+            platforms[2].Pos = platformSpawns[spawnIndex].p3_start;
+            platforms[2].EndPoint = platformSpawns[spawnIndex].p3_end;
+            platforms[2].WriteMemory(MainWindow.game);
 
-            // asign enemies
+            // asign enemies based on platform rng
             Enemies_Room3[0].SetMemoryPos(game, new SpawnData(platformSpawns[spawnIndex].p1_start + new Vector3f(0, -25, 110)));
             Enemies_Room3[1].SetMemoryPos(game, new SpawnData(platformSpawns[spawnIndex].p2_start + new Vector3f(0, -25, 110)));
             Enemies_Room3[2].SetMemoryPos(game, new SpawnData(platformSpawns[spawnIndex].p3_start + new Vector3f(0, -25, 110)));

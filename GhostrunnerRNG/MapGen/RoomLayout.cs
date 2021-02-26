@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GhostrunnerRNG.MapGen;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace GhostrunnerRNG.Maps {
@@ -16,6 +17,14 @@ namespace GhostrunnerRNG.Maps {
         public RoomLayout(List<Enemy> enemies) {
             for(int i = 0; i < enemies.Count; i++) {
                 roomEnemies.Add(enemies[i]);
+            }
+        }
+
+        public void FixOrbBeams(Process game) {
+            for(int i = 0; i < roomEnemies.Count; i++) {
+                if(roomEnemies[i] is ShieldOrb) {
+                    ((ShieldOrb)roomEnemies[i]).FixBeams(game);
+                }
             }
         }
 

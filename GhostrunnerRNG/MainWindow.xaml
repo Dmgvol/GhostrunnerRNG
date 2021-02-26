@@ -24,13 +24,13 @@
         </StackPanel>
         <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="0, 20">
             
-            <Button x:Name="ButtonNewRng" Content="[F7] New RNG" HorizontalAlignment="Right" VerticalAlignment="Top" Height="28" Width="170" FontSize="16" Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonNewRng_Click"/>
-            <Button x:Name="ButtonSettings" Content="Settings" HorizontalAlignment="Right" VerticalAlignment="Top" Height="28" Width="170" FontSize="16" Margin="0, 5"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonSettings_Click"/>
-            <Button x:Name="ButtonDev" Content="Dev" HorizontalAlignment="Right" VerticalAlignment="Top" Height="28" Width="170" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonDev_Click"/>
+            <Button x:Name="ButtonNewRng" Content="[F7] New RNG" HorizontalAlignment="Right" VerticalAlignment="Top" Height="28" Width="170" FontSize="16" Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonNewRng_Click" IsTabStop="False"/>
+            <Button x:Name="ButtonSettings" Content="Settings" HorizontalAlignment="Right" VerticalAlignment="Top" Height="28" Width="170" FontSize="16" Margin="0, 5"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonSettings_Click" IsTabStop="False"/>
+            <Button x:Name="ButtonDev" Content="Dev" HorizontalAlignment="Right" VerticalAlignment="Top" Height="28" Width="170" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonDev_Click" IsTabStop="False"/>
         </StackPanel>
         <!--bottom row-->
         <Label Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="by Dmgvol, LongerWarrior" Foreground="White"/>
-        <Button Grid.Row="2" x:Name="ButtonAbout" Content="About" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="25" Width="100" FontSize="16" Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonAbout_Click"/>
+        <Button Grid.Row="2" x:Name="ButtonAbout" Content="About" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="25" Width="100" FontSize="16" Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonAbout_Click" IsTabStop="False"/>
         <Grid Background="#FF292929" Visibility="Hidden" x:Name="errorGrid" Grid.RowSpan="3">
             <Label x:Name="errorMsg" Content="Unknown Error" HorizontalAlignment="Center" Height="35" VerticalAlignment="Center" Width="auto" FontSize="20" Foreground="White"/>
         </Grid>

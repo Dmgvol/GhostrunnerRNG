@@ -20,13 +20,9 @@ namespace GhostrunnerRNG.Maps {
         // FOR DEBUG
         public string GetAllEnemyPositions(Process game) {
             string str = "";
-            int totalEnemies = 0;
-            Enemy enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, 0x20, 0x4F0));
-            while(!enemy.GetMemoryPos(game).IsEmpty()) {
-                str += $"enemy[{totalEnemies}]: {enemy.GetMemoryPos(game)}\n";
-                totalEnemies++;
-                enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, (0x20 * (totalEnemies + 1)), 0x4F0));
-            }
+            List<Enemy> enemies = GetAllEnemies(game);
+            for(int i = 0; i < enemies.Count; i++)
+                str += $"enemy[{i}]: {enemies[i].GetMemoryPos(game)}\n";
             return str;
         }
 
@@ -51,12 +47,12 @@ namespace GhostrunnerRNG.Maps {
                 for(int i = 0; i < Rooms.Count; i++) {
                     Rooms[i].RandomizeEnemies(game);
                 }
-            } else {
-                // PerEnemy Gen
-                for(int i = 0; i < Enemies.Count; i++) {
-                    Enemies[i].SetMemoryPos(game, Enemies[i].GetSpawnData());
+
+                // fix orb beams
+                for(int i = 0; i < Rooms.Count; i++) {
+                    Rooms[i].FixOrbBeams(game);
                 }
-            }
+            } 
         }
 
         protected void ModifyCP(DeepPointer dp, Vector3f pos, Process game) {

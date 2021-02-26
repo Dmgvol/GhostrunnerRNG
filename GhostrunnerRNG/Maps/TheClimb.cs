@@ -1,6 +1,5 @@
 ﻿using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
-using System;
 using System.Collections.Generic;
 using static GhostrunnerRNG.Game.GameUtils;
 
@@ -10,6 +9,7 @@ namespace GhostrunnerRNG.Maps {
         // Note: Enemies are not in the same order in this map, so we group them by their RoomRectangle
 
         // Before CV
+        #region rooms
         private Room room_1 = new Room(new Vector3f(40993, -88500, 788), new Vector3f(43638, -85855, 3355));
         private Room room_2 = new Room(new Vector3f(40356, -95096, 1319), new Vector3f(43451, -92059, 3319));
         private Room room_3 = new Room(new Vector3f(38061, -103028, 1253), new Vector3f(43340, -99754, 4518));
@@ -21,9 +21,13 @@ namespace GhostrunnerRNG.Maps {
         private Room room_7 = new Room(new Vector3f(34349, -110338, 34550), new Vector3f(39229, -96696, 38252));
         private Room room_8 = new Room(new Vector3f(24390, -94999, 37350), new Vector3f(34033, -92643, 40013));
         private Room room_9 = new Room(new Vector3f(31865, -90089, 38183), new Vector3f(40204, -77399, 43482));
+        #endregion
 
         // cv flag
         private bool BeforeCV = true;
+
+        // beams
+
 
         public TheClimb(bool isHC) : base(MapType.TheClimb) {
 
@@ -48,8 +52,9 @@ namespace GhostrunnerRNG.Maps {
 
             //// room 1 layout ////
             List<Enemy> enemies = room_1.ReturnEnemiesInRoom(AllEnemies);
+            ShieldOrb shieldOrb1 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x20, 0x128, 0xA8, 0x1D8, 0x6C0, 0x130, 0x1D0));
             if(Config.GetInstance().Gen_RngOrbs) {
-                layout = new RoomLayout(enemies[0]); //orb
+                layout = new RoomLayout(shieldOrb1); //orb
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(42793, -87934, 2868))); // top of board
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(43265, -87967, 2867))); // ""
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(43595, -87582, 2867))); // ""
@@ -69,8 +74,13 @@ namespace GhostrunnerRNG.Maps {
 
             //// room 2 layout ////
             enemies = room_2.ReturnEnemiesInRoom(AllEnemies);
+            shieldOrb1 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x20, 0x128, 0xA8, 0x1E8, 0x6C0, 0x130, 0x1D0));    // shield obj +  orb glow ptr
+            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x20, 0x128, 0xA8, 0x3F0, 0x220)); // enemy beam ptr
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x20, 0x128, 0xA8, 0x3F0, 0x200, 0x8, 0x1D0)); // hide beam ptr
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x20, 0x128, 0xA8, 0x3F0, 0x200, 0x10, 0x1D0)); // hide beam ptr
+
             if(Config.GetInstance().Gen_RngOrbs) {
-                layout = new RoomLayout(enemies[0]); //orb
+                layout = new RoomLayout(shieldOrb1); //orb
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(40763, -94801, 2352), new Vector3f(42273, -94740, 2841))); // far board
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(40669, -94750, 1974), new Vector3f(40749, -93083, 2692))); // left board
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(43342, -94759, 2702))); // top of lamp
@@ -88,8 +98,13 @@ namespace GhostrunnerRNG.Maps {
 
             ///// Room 3 layout ////
             enemies = room_3.ReturnEnemiesInRoom(AllEnemies);
+            shieldOrb1 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x20, 0x128, 0xA8, 0x1E0, 0x6C0, 0x130, 0x1D0));
+            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x20, 0x128, 0xA8, 0x3E8, 0x220));
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x20, 0x128, 0xA8, 0x3E8, 0x200, 0x8, 0x1D0));
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x20, 0x128, 0xA8, 0x3E8, 0x200, 0x10, 0x1D0));
+
             if(Config.GetInstance().Gen_RngOrbs) {
-                layout = new RoomLayout(enemies[0]); //orb
+                layout = new RoomLayout(shieldOrb1); //orb
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(40630, -99888, 3348), new Vector3f(39787, -100567, 3969)));
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(41928, -102540, 2555), new Vector3f(42390, -101542, 3340)));
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(38478, -102376, 3597)));
@@ -111,8 +126,14 @@ namespace GhostrunnerRNG.Maps {
 
             ///// Room 4 layout ////
             enemies = room_4.ReturnEnemiesInRoom(AllEnemies);
+            shieldOrb1 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0xC8, 0x6C0, 0x130, 0x1D0));
+            ShieldOrb shieldOrb2 = new ShieldOrb(enemies[1], new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0xD0, 0x6C0, 0x130, 0x1D0));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0x1F8, 0x200, 0x8, 0x1D0));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0x1F8, 0x200, 0x10, 0x1D0));
+            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0x1F8, 0x220));
+
             if(Config.GetInstance().Gen_RngOrbs) {
-                layout = new RoomLayout(enemies[0], enemies[1]); //orbs
+                layout = new RoomLayout(shieldOrb1, shieldOrb2); //orbs
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(32801, -81293, 7200), new Vector3f(32963, -78668, 6500)));
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(30726, -79067, 6810)));
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(32963, -78668, 6858), new Vector3f(31444, -80495, 6754)));
@@ -132,8 +153,28 @@ namespace GhostrunnerRNG.Maps {
 
             ///// Room 5 layout ////
             enemies = room_5.ReturnEnemiesInRoom(AllEnemies);
+            shieldOrb1 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x1D8, 0x6C0, 0x130, 0x1D0));
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC58, 0x200, 0x8, 0x1D0));
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC58, 0x200, 0x10, 0x1D0));
+            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC58, 0x220));
+
+            shieldOrb2 = new ShieldOrb(enemies[1], new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x1E0, 0x6C0, 0x130, 0x1D0));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC60, 0x200, 0x8, 0x1D0));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC60, 0x200, 0x20, 0x1D0));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC68, 0x200, 0x8, 0x1D0));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC68, 0x200, 0x20, 0x1D0));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC48, 0x200, 0x8, 0x1D0));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC48, 0x200, 0x20, 0x1D0));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x318, 0x200, 0x8, 0x1D0));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x318, 0x200, 0x20, 0x1D0));
+
+            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC60, 0x220));
+            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC68, 0x220));
+            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC48, 0x220));
+            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x318, 0x220));
+
             if(Config.GetInstance().Gen_RngOrbs) {
-                layout = new RoomLayout(enemies[0], enemies[1]); //orbs
+                layout = new RoomLayout(shieldOrb1, shieldOrb2); //orbs
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(40772, -91647, 9705)));
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(41699, -89639, 10120)));
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(39926, -91072, 10094)));

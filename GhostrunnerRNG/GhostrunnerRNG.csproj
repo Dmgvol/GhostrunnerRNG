@@ -73,7 +73,9 @@
     <Compile Include="MapGen\MapCore.cs" />
     <Compile Include="MapGen\RoomLayout.cs" />
     <Compile Include="MapGen\Room.cs" />
+    <Compile Include="MapGen\ShieldOrb.cs" />
     <Compile Include="MapGen\SpawnPlane.cs" />
+    <Compile Include="MapGen\WorldObject.cs" />
     <Compile Include="Maps\Awakening.cs" />
     <Compile Include="Maps\BlinkCV.cs" />
     <Compile Include="Maps\BreatheIn.cs" />

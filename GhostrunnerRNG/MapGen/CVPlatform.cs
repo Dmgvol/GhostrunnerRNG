@@ -2,32 +2,28 @@
 using System.Diagnostics;
 
 namespace GhostrunnerRNG.MapGen {
-    class CVPlatform {
-        // Which ptr? if spawn point is 045A3C20+30+A8+138+248+1D0, then head ptr will be +045A3C20+30+A8+138
-        DeepPointer spawnPointDP, endPointDP, startMoveDelayDP, timeLerpA_DP, timeLerpB_DP;
-        IntPtr spawnPointPtr, endPointPtr, startMoveDelayPtr, timeLerpA_Ptr, timeLerpB_Ptr;
+    class CVPlatform : WorldObject {
+        // Head/Main PTR is :if full ptr is 045A3C20+30+A8+138+248+1D0, then head ptr will be +045A3C20+30+A8+138
+        DeepPointer endPointDP, startMoveDelayDP, timeLerpA_DP, timeLerpB_DP;
+        IntPtr endPointPtr, startMoveDelayPtr, timeLerpA_Ptr, timeLerpB_Ptr;
 
-        public Vector3f SpawnPoint, EndPoint, LastPos;
+        //public Vector3f SpawnPoint, EndPoint, LastPos;
+        public Vector3f EndPoint, LastPos;
         public float StartMoveDelay = 1, TimeLerpA = 2, TimeLerpB = 2;
 
-        public CVPlatform(DeepPointer PlatformDP) {
-            spawnPointDP = new DeepPointer(PlatformDP, 0x248, 0x1d0);
+        public CVPlatform(DeepPointer PlatformDP) : base(new DeepPointer(PlatformDP, 0x248, 0x1d0)) {
             endPointDP = new DeepPointer(PlatformDP, 0x240, 0x1d0);
             startMoveDelayDP = new DeepPointer(PlatformDP, 0x280);
             timeLerpA_DP = new DeepPointer(PlatformDP, 0x284);
             timeLerpB_DP = new DeepPointer(PlatformDP, 0x278);
-            SpawnPoint = EndPoint = LastPos = Vector3f.Empty;
+            Pos = EndPoint = LastPos = Vector3f.Empty;
         }
 
         public void ReadMemoryData(Process game) {
             DerefPointer(game);
-            // SpawnPoint
+            GetMemoryPos(game); // SpawnPoint is handled in WorldObject
+            
             float x, y, z;
-            game.ReadValue<float>(spawnPointPtr, out x);
-            game.ReadValue<float>(spawnPointPtr + 4, out y);
-            game.ReadValue<float>(spawnPointPtr + 8, out z);
-            SpawnPoint = new Vector3f(x, y, z);
-
             // End point
             game.ReadValue<float>(endPointPtr, out x);
             game.ReadValue<float>(endPointPtr + 4, out y);
@@ -42,13 +38,9 @@ namespace GhostrunnerRNG.MapGen {
 
         public void WriteMemory(Process game) {
             DerefPointer(game);
-            // spawn point
-            if(!SpawnPoint.VecEquals(Vector3f.Empty)) {
-                game.WriteBytes(spawnPointPtr, BitConverter.GetBytes((float)SpawnPoint.X));
-                game.WriteBytes(spawnPointPtr + 4, BitConverter.GetBytes((float)SpawnPoint.Y));
-                game.WriteBytes(spawnPointPtr + 8, BitConverter.GetBytes((float)SpawnPoint.Z));
-            }
-            // end point
+            SetMemoryPos(game, Pos); // SpawnPoint is handled in WorldObject
+
+            // End Point
             if(!EndPoint.VecEquals(Vector3f.Empty)) {
                 game.WriteBytes(endPointPtr, BitConverter.GetBytes((float)EndPoint.X));
                 game.WriteBytes(endPointPtr + 4, BitConverter.GetBytes((float)EndPoint.Y));
@@ -60,8 +52,8 @@ namespace GhostrunnerRNG.MapGen {
             game.WriteBytes(timeLerpB_Ptr, BitConverter.GetBytes((float)TimeLerpB));
         }
 
-        public void DerefPointer(Process game) {
-            spawnPointDP.DerefOffsets(game, out spawnPointPtr);
+        protected override void DerefPointer(Process game) {
+            base.DerefPointer(game); // deref WorldObject (spawnPoint)
             endPointDP.DerefOffsets(game, out endPointPtr);
             startMoveDelayDP.DerefOffsets(game, out startMoveDelayPtr);
             timeLerpA_DP.DerefOffsets(game, out timeLerpA_Ptr);

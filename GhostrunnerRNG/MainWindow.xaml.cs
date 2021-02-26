@@ -11,7 +11,7 @@ using static GhostrunnerRNG.Game.GameUtils;
 using GhostrunnerRNG.Windows;
 
 namespace GhostrunnerRNG {
-	public partial class MainWindow : Window {
+    public partial class MainWindow : Window {
 
 		public readonly bool DEBUG_MODE = Debugger.IsAttached;
 
