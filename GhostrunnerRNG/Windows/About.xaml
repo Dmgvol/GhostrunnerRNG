@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
        Background="#FF292929"
-        Title="About" Height="330" Width="425">
+        Title="About" Height="394" Width="425">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
@@ -22,7 +22,7 @@
         </StackPanel>
         <!--Description-->
         <StackPanel Grid.Row="2" HorizontalAlignment="Center">
-            <Label  Foreground="White" FontSize="15" Content="Adds extra challenge to your gameplay," Padding="-10" HorizontalAlignment="Center"/>
+            <Label  Foreground="White" FontSize="15" Content="Adds extra challenge to your gameplay" Padding="-10" HorizontalAlignment="Center"/>
             <Label  Foreground="White" FontSize="15" Content="by randomizing objects such as enemies in unexpected " Padding="-10" HorizontalAlignment="Center"/>
             <Label  Foreground="White" FontSize="15" Content="and challenging ways, every time you load a level." Padding="-10" HorizontalAlignment="Center"/>
             <Label  Foreground="White" FontSize="15" Content=""  HorizontalAlignment="Center" Margin="0, -5"/> <!--spacer-->
@@ -37,6 +37,9 @@
                     Join Official GR Discord Server
                 </Hyperlink>
             </TextBlock>
+
+            <Label Grid.Row="2" Margin="0,15, 0, 0" Padding="0" Foreground="White" FontSize="13" Content="Disclaimer: this is an early stage of the mod and does not" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+            <Label Grid.Row="2" Padding="0" Foreground="White" FontSize="13" Content="reflect the final version, you may and will experience bugs." HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         </StackPanel>
         <!--Credits-->
         <Label Grid.Row="2" Foreground="White" FontSize="13" Content="Designed and created by DmgVol and LongerWarrior" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>

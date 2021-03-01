@@ -1,6 +1,8 @@
-﻿using System;
+﻿using GhostrunnerRNG.Game;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using static GhostrunnerRNG.Game.GameUtils;
 
 namespace GhostrunnerRNG.Maps {
@@ -12,33 +14,27 @@ namespace GhostrunnerRNG.Maps {
         // room layouts (different gen)
         protected List<RoomLayout> Rooms;
 
+        // enemies without cp
+        protected List<Enemy> EnemiesWithoutCP = new List<Enemy>();
+
         public MapType mapType { get; private set; }
         public MapCore(MapType mapType) {
             this.mapType = mapType;
         }
 
-        // FOR DEBUG
-        public string GetAllEnemyPositions(Process game) {
-            string str = "";
-            List<Enemy> enemies = GetAllEnemies(game);
-            for(int i = 0; i < enemies.Count; i++)
-                str += $"enemy[{i}]: {enemies[i].GetMemoryPos(game)}\n";
-            return str;
+        public List<Enemy> GetAllEnemies(Process game, int startIndex = 0) {
+            int index = startIndex;
+            List<Enemy> enemies = new List<Enemy>();
+            Enemy enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, 0x20, 0x4F0));
+            while(!enemy.GetMemoryPos(game).IsEmpty()) {
+                index++;
+                enemies.Add(enemy);
+                enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, (0x20 * (index + 1)), 0x4F0));
+            }
+            return enemies;
         }
 
-        //public List<Enemy> GetAllEnemies(Process game) {
-        //    int totalEnemies = 0;
-        //    List<Enemy> enemies = new List<Enemy>();
-        //    Enemy enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, 0x20, 0x4F0));
-        //    while(!enemy.GetMemoryPos(game).IsEmpty()) {
-        //        totalEnemies++;
-        //        enemies.Add(enemy);
-        //        enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, (0x20 * (totalEnemies + 1)), 0x4F0));
-        //    }
-        //    return enemies;
-        //}
-
-        public List<Enemy> GetAllEnemies(Process game, int startIndex = 0, int enemiesTarget = 100) {
+        public List<Enemy> GetAllEnemies(Process game, int startIndex, int enemiesTarget) {
             int index = startIndex;
             List<Enemy> enemies = new List<Enemy>();
             int threshold = 5;
@@ -64,7 +60,6 @@ namespace GhostrunnerRNG.Maps {
             return enemies;
         }
 
-
         protected abstract void Gen_PerRoom();
 
         // new RNG
@@ -79,7 +74,23 @@ namespace GhostrunnerRNG.Maps {
                 for(int i = 0; i < Rooms.Count; i++) {
                     Rooms[i].FixOrbBeams(game);
                 }
-            } 
+
+                // enemies without cp
+                if(EnemiesWithoutCP.Count > 0) {
+                    List<SpawnPlane> spawnPlanesLeft = new List<SpawnPlane>();
+                    var roomsList = Rooms.Where(x => x.IsRoomDefaultType()).ToList(); // to avoid orb planes
+                    // add all remaining spawn planes from all rooms into one list
+                    for(int i = 0; i < roomsList.Count; i++) {
+                        spawnPlanesLeft.AddRange(roomsList[i].availableSpawnPlanes);
+                    }
+
+                    for(int i = 0; i < EnemiesWithoutCP.Count; i++) {
+                        // pick random room, and plane with in
+                        int planeIndex = SpawnPlane.r.Next(0, spawnPlanesLeft.Count);
+                        EnemiesWithoutCP[i].SetMemoryPos(game, spawnPlanesLeft[planeIndex].GetRandomSpawnData());
+                    }
+                }
+            }
         }
 
         protected void ModifyCP(DeepPointer dp, Vector3f pos, Process game) {

@@ -1,10 +1,12 @@
 ﻿using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GhostrunnerRNG.Maps {
     class RoadToAmida : MapCore {
 
+        #region Rooms
         private Room room_1 = new Room(new Vector3f(-119169, -37299, -8955), new Vector3f(-124655, -30482, -12887));
         private Room room_2 = new Room(new Vector3f(-120841, -30147, -11238), new Vector3f(-123170, -25538, -13420));
         private Room room_3 = new Room(new Vector3f(-120674, -25268, -11602), new Vector3f(-123211, -20627, -13942));
@@ -17,7 +19,7 @@ namespace GhostrunnerRNG.Maps {
         private Room room_10 = new Room(new Vector3f(-91765, 14668, -13922), new Vector3f(-80907, 6970, -11828)); // first fan room
         private Room room_11 = new Room(new Vector3f(-74147, 3981, -1563), new Vector3f(-69076, 11619, -6770)); // line of uzi  - no cp needed
         private Room room_12 = new Room(new Vector3f(-70360, -1874, -3384), new Vector3f(-64374, 480, -5589)); // room before 2'nd fan
-
+        #endregion
 
         public RoadToAmida(bool isHC) : base(GameUtils.MapType.RoadToAmida) {
             if(!isHC) {
@@ -28,8 +30,8 @@ namespace GhostrunnerRNG.Maps {
             }
         }
         protected override void Gen_PerRoom() {
-            List<Enemy> AllEnemies = GetAllEnemies(MainWindow.game, enemiesTarget:38);
-            MainWindow.GlobalLog = "Enemies found: " + AllEnemies.Count;
+            List<Enemy> AllEnemies = GetAllEnemies(MainWindow.game, 0, 16);
+            AllEnemies.AddRange(GetAllEnemies(MainWindow.game, 20, 22));
 
             Rooms = new List<RoomLayout>();
             RoomLayout layout;
@@ -191,6 +193,7 @@ namespace GhostrunnerRNG.Maps {
             //// Rooms 10 ////
             enemies = room_10.ReturnEnemiesInRoom(AllEnemies);
             layout = new RoomLayout(enemies);
+
             // default
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-91390, 11132, -13168), new Vector3f(-90763, 12708, -13169), new Angle(0.36f, 0.93f)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-85818, 11297, -13169), new Vector3f(-87700, 10952, -13169), new Angle(-1.00f, 0.00f)));
@@ -205,7 +208,7 @@ namespace GhostrunnerRNG.Maps {
 
             //// Room 11 ////
             enemies = room_11.ReturnEnemiesInRoom(AllEnemies);
-            layout = new RoomLayout(enemies);
+            layout = new RoomLayout(enemies.Take(2).ToList()); // just the first 2
 
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-68144, 11533, -5931), new Angle(-0.96f, 0.27f))); // corner concrete block
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-67995, 10868, -5821), new Angle(1.00f, 0.00f))); // concerete door frame
@@ -218,6 +221,9 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-70111, 8409, -6211), new Vector3f(-69343, 6820, -6226), new Angle(1.00f, 0.00f)));
             Rooms.Add(layout);
 
+            // The rest to EnemiesWithoutCP
+            EnemiesWithoutCP.AddRange(enemies.Skip(2));
+
             //// Room 12 ////
             enemies = room_12.ReturnEnemiesInRoom(AllEnemies);
             layout = new RoomLayout(enemies);
@@ -227,8 +233,14 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-64548, 320, -4651), new Vector3f(-65881, -557, -4651), new Angle(-1.00f, 0.03f)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-67032, -100, -5161), new Vector3f(-68004, -743, -5161), new Angle(-1.00f, 0.01f)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-69590, -618, -4452), new Angle(-0.79f, 0.61f))); // right corner
-            Rooms.Add(layout);
 
+            // high places
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-70106, -695, -3644), new Angle(-0.93f, 0.37f))); // pillar
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-69710, -141, -4041), new Angle(-0.62f, 0.78f))); // umbrella
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-67664, -1676, -4756), new Angle(0.71f, 0.70f))); // concrete door frame (middle left)
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-70276, 1, -3851), new Angle(-0.96f, 0.29f))); // wall generator
+
+            Rooms.Add(layout);
         }
     }
 }

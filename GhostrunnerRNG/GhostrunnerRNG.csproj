@@ -82,6 +82,7 @@
     <Compile Include="Maps\JackedUp.cs" />
     <Compile Include="Maps\LookInside.cs" />
     <Compile Include="Maps\RoadToAmida.cs" />
+    <Compile Include="Maps\RunUp.cs" />
     <Compile Include="Maps\TheClimb.cs" />
     <Compile Include="MemoryUtils\DeepPointer.cs" />
     <Compile Include="MemoryUtils\globalKeyboardHook.cs" />

@@ -28,8 +28,18 @@ namespace GhostrunnerRNG.Maps {
             }
         }
 
+        public List<SpawnPlane> availableSpawnPlanes;
+
+        // returns false if enemies has ShieldOrbs
+        public bool IsRoomDefaultType() {
+            for(int i = 0; i < roomEnemies.Count; i++) {
+                if(roomEnemies[i] is ShieldOrb) return false;
+            }
+            return true;
+        }
+
         public void RandomizeEnemies(Process game) {
-            List<SpawnPlane> availableSpawnPlanes = new List<SpawnPlane>(spawnPlanes);
+            availableSpawnPlanes = new List<SpawnPlane>(spawnPlanes);
             availableSpawnPlanes.ForEach(x => x.ResetCurrEnemies());
 
             for(int i = 0; i < roomEnemies.Count; i++) {

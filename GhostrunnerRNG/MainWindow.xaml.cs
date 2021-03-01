@@ -22,13 +22,13 @@ namespace GhostrunnerRNG {
 		Timer updateTimer;
 
 		//////// Pointers ////////
-		DeepPointer mapNameDP, hcDP, preciseTimeDP, capsuleDP;
-		public static IntPtr mapNamePtr, hcPtr, preciseTimePtr, xPosPtr, yPosPtr, zPosPtr, angleSinPtr, angleCosPtr;
+		DeepPointer mapNameDP, hcDP, capsuleDP, LoadingDP;
+		public static IntPtr mapNamePtr, hcPtr, xPosPtr, yPosPtr, zPosPtr, angleSinPtr, angleCosPtr, LoadingPtr; 
 
 		// player pos&aim, timer, hcFlag
 		public static bool IsHC;
-		float oldPreciseTimer = -1, preciseTimer = -1;
 		public static float xPos, yPos, zPos, angleSin, angleCos;
+		private bool IsLoadingOld, IsLoading;
 		public static Angle angle;
 
 		// MAP OBJECT
@@ -148,8 +148,10 @@ namespace GhostrunnerRNG {
 			}
 
 			// Timer
-			oldPreciseTimer = preciseTimer;
-			game.ReadValue<float>(preciseTimePtr, out preciseTimer);
+			//oldPreciseTimer = preciseTimer;
+			//game.ReadValue<float>(preciseTimePtr, out preciseTimer);
+			IsLoadingOld = IsLoading;
+			game.ReadValue<bool>(LoadingPtr, out IsLoading);
 			TimerTrackerUpdate();
 		
 			////// Read Memory /////
@@ -170,6 +172,7 @@ namespace GhostrunnerRNG {
 			CheckOutsideLog();
 		}
 
+
 		private void TimerTrackerUpdate() {
 			// we don't need main menu
 			if(AccurateMapType == MapType.MainMenu) return;
@@ -178,12 +181,10 @@ namespace GhostrunnerRNG {
 				AccurateMapType = GetMapType(MapName);
             }
 
-			// New timer started?
-			if(oldPreciseTimer == 0 && preciseTimer > 0) {
-				System.Threading.Thread.Sleep(1000);
-
-				//HC not supported
-				checkHCMode();
+			// done loading?
+			if(IsLoadingOld && !IsLoading) {
+                //HC not supported
+                checkHCMode();
 				if(IsHC) {
 					currentMap = null;
 					ToggleButton(ButtonNewRng, false);
@@ -209,8 +210,8 @@ namespace GhostrunnerRNG {
 						return;
 					}
 
-				}else if(AccurateMapType == MapType.TheClimb) {
-					// the climb
+				} else if(AccurateMapType == MapType.TheClimb) {
+					// TheClimb
 					currentMap = new TheClimb(IsHC);
 					NewRNG();
 					ToggleButton(ButtonNewRng, true);
@@ -236,17 +237,32 @@ namespace GhostrunnerRNG {
 					return;
 
 				} else if(AccurateMapType == MapType.BreatheIn) {
-					// the JackedUp
+					// the BreatheIn
 					currentMap = new BreatheIn(IsHC);
 					NewRNG();
 					ToggleButton(ButtonNewRng, true);
 					return;
 				} else if(AccurateMapType == MapType.RoadToAmida) {
-					// the JackedUp
+					// the RoadToAmida
 					currentMap = new RoadToAmida(IsHC);
 					NewRNG();
 					ToggleButton(ButtonNewRng, true);
 					return;
+				}else if(MapLevels.FirstOrDefault(x => x.Value == MapType.RunUpGatekeeper).Key == MapName) { // RunUp or Tom?
+					ToggleButton(ButtonNewRng, true);
+					if(yPos < 14000) {
+						// RunUp
+						AccurateMapType = MapType.RunUp;
+						currentMap = new RunUp(IsHC);
+						NewRNG();
+						return;
+					} else {
+						// Tom
+						AccurateMapType = MapType.Gatekeeper;
+						//currentMap = new GateKeeper(IsHC);
+						//NewRNG();
+						//return;
+					}
 				} else {
 					currentMap = null;
 					AccurateMapType = GetMapType(MapName);
@@ -257,6 +273,7 @@ namespace GhostrunnerRNG {
 				if(!MapHasRng(AccurateMapType)) {
 					currentMap = null;
 					LogStatus("No RNG for this level.");
+					ToggleButton(ButtonNewRng, false);
 					return;
 				}
 
@@ -264,6 +281,7 @@ namespace GhostrunnerRNG {
 				if(!MapSupported(AccurateMapType)) {
 					currentMap = null;
 					LogStatus("Level not supported.");
+					ToggleButton(ButtonNewRng, false);
 					return;
                 } else {
 					LogStatus("Level loaded.");
@@ -326,24 +344,27 @@ namespace GhostrunnerRNG {
 					Debug.WriteLine("found steam5");
 					capsuleDP = new DeepPointer(0x04328538, 0x30, 0x130, 0x0);
 					mapNameDP = new DeepPointer(0x04328548, 0x30, 0xF8, 0x0);
-					preciseTimeDP = new DeepPointer(0x045A3C20, 0x52C);
+					//preciseTimeDP = new DeepPointer(0x045A3C20, 0x52C);
 					hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
+					LoadingDP = new DeepPointer(0x0445ED38, 0x1E8);
 					break;
 
 				case 78168064:
 					Debug.WriteLine("found gog5");
 					capsuleDP = new DeepPointer(0x04328538, 0x30, 0x130, 0x0);
 					mapNameDP = new DeepPointer(0x04328548, 0x30, 0xF8, 0x0);
-					preciseTimeDP = new DeepPointer(0x045A3C20, 0x52C);
+					//preciseTimeDP = new DeepPointer(0x045A3C20, 0x52C);
 					hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
+					LoadingDP = new DeepPointer(0x0445ED38, 0x1E8);
 					break;
 
 				case 77910016:
 					Debug.WriteLine("found egs3");
 					capsuleDP = new DeepPointer(0x042F0310, 0x30, 0x130, 0x0);
 					mapNameDP = new DeepPointer(0x042F02E8, 0x30, 0xF8, 0x0);
-					preciseTimeDP = new DeepPointer(0x045A3C20, 0x52C);
+					//preciseTimeDP = new DeepPointer(0x045A3C20, 0x52C);
 					hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
+					LoadingDP = new DeepPointer(0x0445ED38, 0x1E8);
 					break;
 				default:
 					updateTimer.Stop();
@@ -359,8 +380,8 @@ namespace GhostrunnerRNG {
 		/// </summary>		
 		private void DerefPointers() {
 			mapNameDP.DerefOffsets(game, out mapNamePtr);
-			preciseTimeDP.DerefOffsets(game, out preciseTimePtr);
 			hcDP.DerefOffsets(game, out hcPtr);
+			LoadingDP.DerefOffsets(game, out LoadingPtr);
 
 			IntPtr capsulePtr;
 			capsuleDP.DerefOffsets(game, out capsulePtr);
