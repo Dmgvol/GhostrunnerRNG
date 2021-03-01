@@ -14,7 +14,7 @@ namespace GhostrunnerRNG.Game {
             { "/Game/Levels/01_INDUSTRIAL/01_03/01_03_world",               MapType.BreatheIn},
             { "/Game/Maps/ragis_lvl_vr10_6",                                MapType.BreatheInCV},
             { "/Game/Levels/01_INDUSTRIAL/01_04/01_04_World",               MapType.RoadToAmida},
-            { "/Game/Levels/Test_levels/Ld_test/01_04_Cyberspace",          MapType.RoadToAmidaCV},
+            { "/Game/Levels/Test_Levels/Ld_test/01_04_Cyberspace",          MapType.RoadToAmidaCV},
             { "/Game/Maps/Force_Push_Tutorial",                             MapType.TempestCV},
             { "/Game/Levels/01_INDUSTRIAL/01_05/01_05_World",               MapType.RunUpGatekeeper},
             { "/Game/Levels/02_CYBERCITY/02_01/02_01_world",                MapType.DharmaCity},
@@ -89,10 +89,10 @@ namespace GhostrunnerRNG.Game {
             MapType.TheClimb, 
             MapType.JackedUp,
             MapType.BlinkCV,
-            MapType.BreatheIn
+            MapType.BreatheIn,
+            MapType.RoadToAmida
 
             /*TODO:
-            Road to Amida
             Run Up
             DharmaCity
             Echoes

@@ -26,17 +26,44 @@ namespace GhostrunnerRNG.Maps {
             return str;
         }
 
-        public List<Enemy> GetAllEnemies(Process game) {
-            int totalEnemies = 0;
+        //public List<Enemy> GetAllEnemies(Process game) {
+        //    int totalEnemies = 0;
+        //    List<Enemy> enemies = new List<Enemy>();
+        //    Enemy enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, 0x20, 0x4F0));
+        //    while(!enemy.GetMemoryPos(game).IsEmpty()) {
+        //        totalEnemies++;
+        //        enemies.Add(enemy);
+        //        enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, (0x20 * (totalEnemies + 1)), 0x4F0));
+        //    }
+        //    return enemies;
+        //}
+
+        public List<Enemy> GetAllEnemies(Process game, int startIndex = 0, int enemiesTarget = 100) {
+            int index = startIndex;
             List<Enemy> enemies = new List<Enemy>();
-            Enemy enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, 0x20, 0x4F0));
-            while(!enemy.GetMemoryPos(game).IsEmpty()) {
-                totalEnemies++;
-                enemies.Add(enemy);
-                enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, (0x20 * (totalEnemies + 1)), 0x4F0));
+            int threshold = 5;
+            Enemy enemy;
+            bool ValidEnemy = true;
+            index--;
+
+            while(ValidEnemy || threshold > 0) {
+                index++;
+                enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, (0x20 * (index + 1)), 0x4F0));
+                ValidEnemy = !enemy.GetMemoryPos(game).IsEmpty();
+                if(!ValidEnemy) {
+                    threshold--;
+                } else {
+                    threshold = 5;
+                    enemies.Add(enemy);
+
+                    // N enemies reached? return list
+                    if(enemies.Count == enemiesTarget)
+                        return enemies;
+                }
             }
             return enemies;
         }
+
 
         protected abstract void Gen_PerRoom();
 

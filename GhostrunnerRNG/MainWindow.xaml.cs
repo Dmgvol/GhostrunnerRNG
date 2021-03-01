@@ -45,6 +45,9 @@ namespace GhostrunnerRNG {
 		}
 		private MapType AccurateMapType;
 
+		public static string GlobalLog;
+
+
         private void ButtonAbout_Click(object sender, RoutedEventArgs e) {
 			Window aboutWindow = new About();
 			aboutWindow.ShowDialog();
@@ -161,6 +164,10 @@ namespace GhostrunnerRNG {
 				angle.angleSin = angleSin;
 				angle.angleCos = angleCos;
 			}
+
+
+			// global Log check (if logs are sent from outside MainWindow)
+			CheckOutsideLog();
 		}
 
 		private void TimerTrackerUpdate() {
@@ -217,12 +224,12 @@ namespace GhostrunnerRNG {
 					return;
 
 				} else if(AccurateMapType == MapType.BlinkCV) {
-                    // the BlinkCV
-                    if(!Config.GetInstance().Gen_RngCV) {
+					// the BlinkCV
+					if(!Config.GetInstance().Gen_RngCV) {
 						currentMap = null;
 						LogStatus("CV-RNG is disabled by user.");
 						return;
-                    }
+					}
 					currentMap = new BlinkCV();
 					NewRNG();
 					ToggleButton(ButtonNewRng, true);
@@ -231,6 +238,12 @@ namespace GhostrunnerRNG {
 				} else if(AccurateMapType == MapType.BreatheIn) {
 					// the JackedUp
 					currentMap = new BreatheIn(IsHC);
+					NewRNG();
+					ToggleButton(ButtonNewRng, true);
+					return;
+				} else if(AccurateMapType == MapType.RoadToAmida) {
+					// the JackedUp
+					currentMap = new RoadToAmida(IsHC);
 					NewRNG();
 					ToggleButton(ButtonNewRng, true);
 					return;
@@ -282,10 +295,17 @@ namespace GhostrunnerRNG {
 
         // New RNG
         private void NewRNG(bool force = false) {
-            if(currentMap != null && (Config.GetInstance().Gen_RngOnRestart || force)) {
-                SpawnPlane.r = new Random();
-                currentMap.RandomizeEnemies(game);
-                LogStatus("RNG Generated! \nDie or load cp to see changes.");
+			// Can RNG?
+			if(!Config.GetInstance().Gen_RngOnRestart) {
+				currentMap = null;
+				LogStatus("RNG is disabled by user.");
+				return;
+			}
+
+			if(currentMap != null && (Config.GetInstance().Gen_RngOnRestart || force)) {
+				SpawnPlane.r = new Random();
+				currentMap.RandomizeEnemies(game);
+				LogStatus("RNG Generated! \nDie or load cp to see changes.");
             }
         }
 
@@ -356,6 +376,15 @@ namespace GhostrunnerRNG {
 			str = str.Replace("\n", "\n ");
 			label_RNGStatus.Text = $"RNG Status:\n {str}";
 		}
+
+
+		private string globalLogTemp = GlobalLog;
+		private void CheckOutsideLog() {
+			if(globalLogTemp != GlobalLog) {
+				globalLogTemp = GlobalLog;
+				label_GlobalLog.Text = "Debug: " + GlobalLog;
+            }
+        }
 
 		private void checkHCMode() {
 			game.ReadValue<bool>(hcPtr, out IsHC);

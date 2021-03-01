@@ -6,8 +6,6 @@ using static GhostrunnerRNG.Game.GameUtils;
 namespace GhostrunnerRNG.Maps {
     class TheClimb : MapCore {
 
-        // Note: Enemies are not in the same order in this map, so we group them by their RoomRectangle
-
         // Before CV
         #region rooms
         private Room room_1 = new Room(new Vector3f(40993, -88500, 788), new Vector3f(43638, -85855, 3355));
@@ -25,9 +23,6 @@ namespace GhostrunnerRNG.Maps {
 
         // cv flag
         private bool BeforeCV = true;
-
-        // beams
-
 
         public TheClimb(bool isHC) : base(MapType.TheClimb) {
 
@@ -126,10 +121,12 @@ namespace GhostrunnerRNG.Maps {
 
             ///// Room 4 layout ////
             enemies = room_4.ReturnEnemiesInRoom(AllEnemies);
-            shieldOrb1 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0xC8, 0x6C0, 0x130, 0x1D0));
-            ShieldOrb shieldOrb2 = new ShieldOrb(enemies[1], new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0xD0, 0x6C0, 0x130, 0x1D0));
+            shieldOrb1 = new ShieldOrb(enemies[1], new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0xC8, 0x6C0, 0x130, 0x1D0));
+
+            ShieldOrb shieldOrb2 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0xD0, 0x6C0, 0x130, 0x1D0));
             shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0x1F8, 0x200, 0x8, 0x1D0));
             shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0x1F8, 0x200, 0x10, 0x1D0));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0x1F8, 0x200, 0x18, 0x1D0));
             shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0x1F8, 0x220));
 
             if(Config.GetInstance().Gen_RngOrbs) {
@@ -153,25 +150,22 @@ namespace GhostrunnerRNG.Maps {
 
             ///// Room 5 layout ////
             enemies = room_5.ReturnEnemiesInRoom(AllEnemies);
-            shieldOrb1 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x1D8, 0x6C0, 0x130, 0x1D0));
+            shieldOrb1 = new ShieldOrb(enemies[1], new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x1D8, 0x6C0, 0x130, 0x1D0));
             shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC58, 0x200, 0x8, 0x1D0));
             shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC58, 0x200, 0x10, 0x1D0));
             shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC58, 0x220));
+            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC60, 0x220));
+            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC48, 0x220));
 
-            shieldOrb2 = new ShieldOrb(enemies[1], new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x1E0, 0x6C0, 0x130, 0x1D0));
-            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC60, 0x200, 0x8, 0x1D0));
-            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC60, 0x200, 0x20, 0x1D0));
-            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC68, 0x200, 0x8, 0x1D0));
-            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC68, 0x200, 0x20, 0x1D0));
-            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC48, 0x200, 0x8, 0x1D0));
-            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC48, 0x200, 0x20, 0x1D0));
-            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x318, 0x200, 0x8, 0x1D0));
-            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x318, 0x200, 0x20, 0x1D0));
+            shieldOrb2 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x1E0, 0x6C0, 0x130, 0x1D0));
+            shieldOrb2.HideBeam_Range(0x30, 0xC60, 0x8, 0x20);
+            shieldOrb2.HideBeam_Range(0x30, 0xC68, 0x8, 0x20);
+            shieldOrb2.HideBeam_Range(0x30, 0xC48, 0x8, 0x20);
+            shieldOrb2.HideBeam_Range(0x30, 0x318, 0x8, 0x20);
 
-            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC60, 0x220));
             shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC68, 0x220));
-            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xC48, 0x220));
             shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x318, 0x220));
+
 
             if(Config.GetInstance().Gen_RngOrbs) {
                 layout = new RoomLayout(shieldOrb1, shieldOrb2); //orbs
@@ -229,8 +223,29 @@ namespace GhostrunnerRNG.Maps {
 
             //// room 7 layout (room 1 after cv) ////
             List<Enemy> enemies = room_7.ReturnEnemiesInRoom(AllEnemies);
+            ShieldOrb shieldOrb1 = new ShieldOrb(enemies[1], new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x270, 0x6C0, 0x130, 0x1D0));
+
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x718, 0x200, 0x8, 0x1D0));
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x718, 0x200, 0x10, 0x1D0));
+            shieldOrb1.HideBeam_Range(0x40, 0x710, 0x8, 0x20);
+            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x710, 0x220));
+            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x718, 0x220)); 
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x708, 0x200, 0x8, 0x1D0));
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x708, 0x200, 0x10, 0x1D0));
+            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x708, 0x220));
+
+            ShieldOrb shieldOrb2 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x278, 0x6C0, 0x130, 0x1D0));
+            shieldOrb2.HideBeam_Range(0x40, 0x720, 0x8, 0x58);
+            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x720, 0x220));
+            shieldOrb2.HideBeam_Range(0x40, 0x728, 0x8, 0x38);
+            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x728, 0x220));
+            shieldOrb2.HideBeam_Range(0x40, 0x730, 0x8, 0x18);
+            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x730, 0x220));
+            shieldOrb2.HideBeam_Range(0x40, 0x738, 0x8, 0x18);
+            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x738, 0x220));
+
             if(Config.GetInstance().Gen_RngOrbs) {
-                layout = new RoomLayout(enemies[0], enemies[1]);  // orbs
+                layout = new RoomLayout(shieldOrb1, shieldOrb2);  // orbs
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(36199, -102430, 36315), new Vector3f(35921, -104041, 35664)));
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(37580, -110193, 36965), new Vector3f(35062, -110185, 36295)));
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(35600, -105332, 36137), new Vector3f(34698, -105495, 36134)));
@@ -258,8 +273,21 @@ namespace GhostrunnerRNG.Maps {
 
             //// room 8 layout (room 2 after cv) ////
             enemies = room_8.ReturnEnemiesInRoom(AllEnemies);
+            shieldOrb1 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x48, 0x128, 0xA8, 0x110, 0x6C0, 0x130, 0x1D0));
+
+            shieldOrb2 = new ShieldOrb(enemies[1], new DeepPointer(0x045A3C20, 0x98, 0x48, 0x128, 0xA8, 0x108, 0x6C0, 0x130, 0x1D0));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x48, 0x128, 0xA8, 0x170, 0x200, 0x8, 0x1D0));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x48, 0x128, 0xA8, 0x170, 0x200, 0x10, 0x1D0));
+            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x48, 0x128, 0xA8, 0x170, 0x220));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x48, 0x128, 0xA8, 0x178, 0x200, 0x8, 0x1D0));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x48, 0x128, 0xA8, 0x178, 0x200, 0x10, 0x1D0));
+            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x48, 0x128, 0xA8, 0x178, 0x220));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x48, 0x128, 0xA8, 0x180, 0x200, 0x8, 0x1D0));
+            shieldOrb2.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x48, 0x128, 0xA8, 0x180, 0x200, 0x10, 0x1D0));
+            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x48, 0x128, 0xA8, 0x180, 0x220));
+
             if(Config.GetInstance().Gen_RngOrbs) {
-                layout = new RoomLayout(enemies[0], enemies[1]);  // orbs
+                layout = new RoomLayout(shieldOrb1, shieldOrb2);  // orbs
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(32656, -94724, 38985), new Vector3f(31683, -93829, 38580)));
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(30027, -93905, 38775), new Vector3f(28794, -94487, 38408)));
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(28027, -93197, 39472), new Vector3f(26791, -93620, 39126)));
@@ -282,10 +310,23 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(27090, -93440, 38467), new Angle(-0.83f, 0.56f)));
             Rooms.Add(layout);
 
-            //// room 9 layout (room 1 after cv) ////
+            //// room 9 layout (room 3 after cv) ////
             enemies = room_9.ReturnEnemiesInRoom(AllEnemies);
+            shieldOrb1 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x8, 0x128, 0xA8, 0x98, 0x6C0, 0x130, 0x1D0));
+            shieldOrb2 = new ShieldOrb(enemies[1], new DeepPointer(0x045A3C20, 0x98, 0x8, 0x128, 0xA8, 0x90, 0x6C0, 0x130, 0x1D0));
+            shieldOrb2.HideBeam_Range(0x8, 0x300, 0x8, 0x38);
+            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x8, 0x128, 0xA8, 0x300, 0x220));
+            shieldOrb2.HideBeam_Range(0x8, 0x308, 0x8, 0x18);
+            shieldOrb2.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x8, 0x128, 0xA8, 0x308, 0x220));
+            ShieldOrb shieldOrb3 = new ShieldOrb(enemies[2], new DeepPointer(0x045A3C20, 0x98, 0x8, 0x128, 0xA8, 0x88, 0x6C0, 0x130, 0x1D0));
+            shieldOrb3.HideBeam_Range(0x8, 0x318, 0x8, 0x28);
+            shieldOrb3.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x8, 0x128, 0xA8, 0x318, 0x220));
+            shieldOrb3.HideBeam_Range(0x8, 0x310, 0x8, 0x58);
+            shieldOrb3.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x8, 0x128, 0xA8, 0x310, 0x220));
+
+
             if(Config.GetInstance().Gen_RngOrbs) {
-                layout = new RoomLayout(enemies[0], enemies[1], enemies[2]);  // orbs
+                layout = new RoomLayout(shieldOrb1, shieldOrb2, shieldOrb3);  // orbs
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(39018, -83449, 40132), new Vector3f(38939, -79619, 41707)));
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(33321, -79567, 41707), new Vector3f(33240, -83034, 40020)));
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(34728, -78034, 40088), new Vector3f(33554, -79341, 41649)));
@@ -304,7 +345,6 @@ namespace GhostrunnerRNG.Maps {
                 Rooms.Add(layout);
             }
 
-
             layout = new RoomLayout(enemies[3], enemies[4], enemies[5], enemies[6]);  // pistols
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(36455, -78195, 39302), new Vector3f(35669, -81768, 39302), new Angle(-0.72f, 0.69f)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(35810, -83480, 39302), new Vector3f(36540, -85379, 39300), new Angle(-0.70f, 0.71f)));
@@ -320,7 +360,6 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(39068, -85413, 42097), new Angle(-0.99f, 0.13f)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(33705, -86431, 42087), new Angle(0.07f, 1.00f)));
             Rooms.Add(layout);
-
         }
     }
 }

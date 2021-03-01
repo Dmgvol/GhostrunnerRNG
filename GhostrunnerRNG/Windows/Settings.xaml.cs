@@ -14,6 +14,7 @@ namespace GhostrunnerRNG.Windows {
             checkbox_RngCybervoid.IsChecked = Config.GetInstance().Gen_RngCV;
         }
 
+        // OK Button
         private void ApplyButton_Click(object sender, RoutedEventArgs e) {
             // save changes
             Config cfg = new Config();
@@ -21,6 +22,9 @@ namespace GhostrunnerRNG.Windows {
             cfg.Gen_RngOrbs = checkbox_RngOrbs.IsChecked == true;
             cfg.Gen_RngCV = checkbox_RngCybervoid.IsChecked == true;
             Config.GetInstance().SetInstance(cfg);
+
+            // and close
+            Close();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e) {

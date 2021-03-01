@@ -17,6 +17,7 @@ namespace GhostrunnerRNG.Maps {
         public JackedUp(bool isHC) : base(MapType.JackedUp) {
             if(!isHC) {
                 Gen_PerRoom();
+               
             } else {
                 // hardcore
                 //TODO: remove temporary block/msg and add hc enemies and gen
@@ -25,7 +26,6 @@ namespace GhostrunnerRNG.Maps {
 
         protected override void Gen_PerRoom() {
             List<Enemy> AllEnemies = GetAllEnemies(MainWindow.game);
-
             Rooms = new List<RoomLayout>();
             RoomLayout layout;
 
@@ -72,7 +72,15 @@ namespace GhostrunnerRNG.Maps {
 
             //// room 4 layout ////
             enemies = room_4.ReturnEnemiesInRoom(AllEnemies);
-            layout = new RoomLayout(enemies[0]); //orb
+            ShieldOrb shieldOrb1 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x910, 0x130, 0x1D0));
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x2F0, 0x200, 0x8, 0x1D0));
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x2F0, 0x200, 0x10, 0x1D0));
+            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x2F0, 0x220));
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x2F8, 0x200, 0x8, 0x1D0));
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x2F8, 0x200, 0x10, 0x1D0));
+            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x2F8, 0x220));
+
+            layout = new RoomLayout(shieldOrb1); //orb
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-65251, -20095, 10823), new Vector3f(-66206, -19589, 11027)));//near most left enemy
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-62300, -26600, 10131), new Vector3f(-62300, -25600, 10564)));//back side of the billboard
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-63103, -27335, 10716)));//top of the second billboard

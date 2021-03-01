@@ -24,10 +24,12 @@ namespace GhostrunnerRNG.MapGen {
         public virtual Vector3f GetMemoryPos(Process game) {
             DerefPointer(game);
             float x, y, z;
-            game.ReadValue<float>(ObjectPtr, out x);
-            game.ReadValue<float>(ObjectPtr + 4, out y);
-            game.ReadValue<float>(ObjectPtr + 8, out z);
-            Pos = new Vector3f(x,y,z);
+            bool flag1 = game.ReadValue<float>(ObjectPtr, out x);
+            bool flag2 = game.ReadValue<float>(ObjectPtr + 4, out y);
+            bool flag3 = game.ReadValue<float>(ObjectPtr + 8, out z);
+            if(flag1 && flag2 && flag3 && !float.IsNaN(x) && !float.IsNaN(y) && !float.IsNaN(z)) // check if there's no NaN floats
+                Pos = new Vector3f(x,y,z);
+
             return Pos;
         }
 

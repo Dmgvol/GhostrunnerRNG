@@ -100,8 +100,17 @@ namespace GhostrunnerRNG.Maps {
             enemies1 = room_4.ReturnEnemiesInRoom(AllEnemies);
             enemies2 = room_5.ReturnEnemiesInRoom(AllEnemies);
             enemies = room_14.ReturnEnemiesInRoom(AllEnemies);
+
+            ShieldOrb shieldOrb1 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0xC18, 0x130, 0x1D0));
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0x228, 0x200, 0x8, 0x1D0));
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0x228, 0x200, 0x10, 0x1D0));
+            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0x228, 0x220));
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0x230, 0x200, 0x8, 0x1D0));
+            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0x230, 0x200, 0x10, 0x1D0));
+            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8 + 228, 0x220));
+
             if(Config.GetInstance().Gen_RngOrbs) {
-                layout = new RoomLayout(enemies[0]); //orb
+                layout = new RoomLayout(shieldOrb1); //orb
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(148695, -88911, 3261)));//behind billboard near middle platform
                 //layout.AddSpawnPlane(new SpawnPlane(new Vector3f(152815, -87759, 2230)));//under right platform
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(150835, -87631, 2750), new Vector3f(148114, -85596, 3600)));//middle platform
@@ -203,8 +212,10 @@ namespace GhostrunnerRNG.Maps {
             enemies = room_19.ReturnEnemiesInRoom(AllEnemies);
             enemies1 = room_6.ReturnEnemiesInRoom(AllEnemies);
 
+            shieldOrb1 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x50, 0x128, 0xA8, 0x9A8, 0x130, 0x1D0));
+
             if(Config.GetInstance().Gen_RngOrbs) {
-                layout = new RoomLayout(enemies[0]); //orb
+                layout = new RoomLayout(shieldOrb1); //orb
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(72728, -100985, 4608)));//colectible spot
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(69685, -98975, 5239), new Vector3f(68705, -98975, 5239)));//
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(67944, -101616, 4558)));//cv spot

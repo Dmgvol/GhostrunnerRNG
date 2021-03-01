@@ -21,6 +21,7 @@
         <StackPanel Grid.Row="1" Margin="10, 0">
             <TextBlock x:Name="label_levelName" HorizontalAlignment="Left" VerticalAlignment="Top" Text="Current Level: " FontSize="15"  Foreground="White"/>
             <TextBlock x:Name="label_RNGStatus" HorizontalAlignment="Left" VerticalAlignment="Top" Text="RNG Status: waiting..." FontSize="15" Foreground="White" />
+            <TextBlock x:Name="label_GlobalLog" HorizontalAlignment="Left" Margin="0, 50" Text="" FontSize="15" Foreground="White" />
         </StackPanel>
         <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="0, 20">
             

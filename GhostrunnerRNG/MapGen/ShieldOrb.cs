@@ -49,7 +49,12 @@ namespace GhostrunnerRNG.MapGen {
                 game.WriteBytes(beamPtr + 8, BitConverter.GetBytes((float)Pos.Z));
             }
         }
-       
+
+        public void HideBeam_Range(int firstOffset, int secondOffset, int startIndex, int endIndex) {
+            for(int i = startIndex; i <= endIndex; i += 0x8) {
+                HideBeam(new DeepPointer(0x045A3C20, 0x98, firstOffset, 0x128, 0xA8, secondOffset, 0x200, i, 0x1D0));
+            }
+        }
 
         public void HideBeam(DeepPointer dp) {
             // hide
