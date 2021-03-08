@@ -9,6 +9,7 @@ using GhostrunnerRNG.Game;
 using GhostrunnerRNG.Maps;
 using static GhostrunnerRNG.Game.GameUtils;
 using GhostrunnerRNG.Windows;
+using GhostrunnerRNG.MapGen;
 
 namespace GhostrunnerRNG {
     public partial class MainWindow : Window {
@@ -22,13 +23,13 @@ namespace GhostrunnerRNG {
 		Timer updateTimer;
 
 		//////// Pointers ////////
-		DeepPointer mapNameDP, hcDP, capsuleDP, LoadingDP;
-		public static IntPtr mapNamePtr, hcPtr, xPosPtr, yPosPtr, zPosPtr, angleSinPtr, angleCosPtr, LoadingPtr; 
+		DeepPointer mapNameDP, hcDP, capsuleDP, LoadingDP, preciseTimeDP;
+		public static IntPtr mapNamePtr, hcPtr, xPosPtr, yPosPtr, zPosPtr, angleSinPtr, angleCosPtr, LoadingPtr, preciseTimePtr; 
 
 		// player pos&aim, timer, hcFlag
 		public static bool IsHC;
 		public static float xPos, yPos, zPos, angleSin, angleCos;
-		private bool IsLoadingOld, IsLoading;
+		public float oldPreciseTimer, preciseTimer;
 		public static Angle angle;
 
 		// MAP OBJECT
@@ -61,6 +62,7 @@ namespace GhostrunnerRNG {
         private void MapChanged(string from, string to) {
 			MapType mapTo = GetMapType(to);
 			MapType mapFrom = GetMapType(from);
+			
 
 			// rng started in middle of level, request to restart or menu
 			if(mapFrom == MapType.Unknown && mapTo != MapType.MainMenu) {
@@ -91,6 +93,8 @@ namespace GhostrunnerRNG {
 			InitializeComponent();
 			Config.GetInstance();
 			label_Title.Content += $" v{Config.VERSION}";
+
+			oldPreciseTimer = preciseTimer = -1;
 
 			// UI
 			ToggleButton(ButtonNewRng, false);
@@ -147,31 +151,28 @@ namespace GhostrunnerRNG {
 				MapName = map;
 			}
 
-			// Timer
-			//oldPreciseTimer = preciseTimer;
-			//game.ReadValue<float>(preciseTimePtr, out preciseTimer);
-			IsLoadingOld = IsLoading;
-			game.ReadValue<bool>(LoadingPtr, out IsLoading);
+			// Timer + LoadFlag
+			oldPreciseTimer = preciseTimer;
+			game.ReadValue<float>(preciseTimePtr, out preciseTimer);
 			TimerTrackerUpdate();
 		
-			////// Read Memory /////
+			////// Read Memory /////  - PLAYER POS
 			game.ReadValue<float>(xPosPtr, out xPos);
 			game.ReadValue<float>(yPosPtr, out yPos);
 			game.ReadValue<float>(zPosPtr, out zPos);
 
 			/// DebugMode ///
 			if(DEBUG_MODE) {
+				// Player Angle (for dev)
 				game.ReadValue<float>(angleSinPtr, out angleSin);
 				game.ReadValue<float>(angleCosPtr, out angleCos);
 				angle.angleSin = angleSin;
 				angle.angleCos = angleCos;
 			}
 
-
 			// global Log check (if logs are sent from outside MainWindow)
 			CheckOutsideLog();
 		}
-
 
 		private void TimerTrackerUpdate() {
 			// we don't need main menu
@@ -182,9 +183,9 @@ namespace GhostrunnerRNG {
             }
 
 			// done loading?
-			if(IsLoadingOld && !IsLoading) {
-                //HC not supported
-                checkHCMode();
+			if(oldPreciseTimer == 0 && preciseTimer > 0) {
+				//HC not supported
+				checkHCMode();
 				if(IsHC) {
 					currentMap = null;
 					ToggleButton(ButtonNewRng, false);
@@ -218,14 +219,14 @@ namespace GhostrunnerRNG {
 					return;
 
 				} else if(AccurateMapType == MapType.JackedUp) {
-					// the JackedUp
+					// JackedUp
 					currentMap = new JackedUp(IsHC);
 					NewRNG();
 					ToggleButton(ButtonNewRng, true);
 					return;
 
 				} else if(AccurateMapType == MapType.BlinkCV) {
-					// the BlinkCV
+					// BlinkCV
 					if(!Config.GetInstance().Gen_RngCV) {
 						currentMap = null;
 						LogStatus("CV-RNG is disabled by user.");
@@ -237,13 +238,13 @@ namespace GhostrunnerRNG {
 					return;
 
 				} else if(AccurateMapType == MapType.BreatheIn) {
-					// the BreatheIn
+					// BreatheIn
 					currentMap = new BreatheIn(IsHC);
 					NewRNG();
 					ToggleButton(ButtonNewRng, true);
 					return;
 				} else if(AccurateMapType == MapType.RoadToAmida) {
-					// the RoadToAmida
+					// RoadToAmida
 					currentMap = new RoadToAmida(IsHC);
 					NewRNG();
 					ToggleButton(ButtonNewRng, true);
@@ -259,10 +260,13 @@ namespace GhostrunnerRNG {
 					} else {
 						// Tom
 						AccurateMapType = MapType.Gatekeeper;
-						//currentMap = new GateKeeper(IsHC);
-						//NewRNG();
-						//return;
 					}
+				} else if(AccurateMapType == MapType.DharmaCity) {
+					// DharmaCity
+					currentMap = new DharmaCity(IsHC);
+					NewRNG();
+					ToggleButton(ButtonNewRng, true);
+					return;
 				} else {
 					currentMap = null;
 					AccurateMapType = GetMapType(MapName);
@@ -305,8 +309,8 @@ namespace GhostrunnerRNG {
 				int mainModuleSize = game.MainModule.ModuleMemorySize;
 				SetPointersByModuleSize(mainModuleSize);
 				return true;
-			} catch(Win32Exception ex) {
-				Console.WriteLine(ex.ErrorCode);
+			} catch(Exception ex) {
+				Console.WriteLine(ex.Message);
 				return false;
 			}
 		}
@@ -345,6 +349,7 @@ namespace GhostrunnerRNG {
 					capsuleDP = new DeepPointer(0x04328538, 0x30, 0x130, 0x0);
 					mapNameDP = new DeepPointer(0x04328548, 0x30, 0xF8, 0x0);
 					//preciseTimeDP = new DeepPointer(0x045A3C20, 0x52C);
+					preciseTimeDP = new DeepPointer(0x045A3C20, 0x138, 0xB0, 0x128);
 					hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
 					LoadingDP = new DeepPointer(0x0445ED38, 0x1E8);
 					break;
@@ -354,6 +359,7 @@ namespace GhostrunnerRNG {
 					capsuleDP = new DeepPointer(0x04328538, 0x30, 0x130, 0x0);
 					mapNameDP = new DeepPointer(0x04328548, 0x30, 0xF8, 0x0);
 					//preciseTimeDP = new DeepPointer(0x045A3C20, 0x52C);
+					preciseTimeDP = new DeepPointer(0x045A3C20, 0x138, 0xB0, 0x128);
 					hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
 					LoadingDP = new DeepPointer(0x0445ED38, 0x1E8);
 					break;
@@ -363,6 +369,7 @@ namespace GhostrunnerRNG {
 					capsuleDP = new DeepPointer(0x042F0310, 0x30, 0x130, 0x0);
 					mapNameDP = new DeepPointer(0x042F02E8, 0x30, 0xF8, 0x0);
 					//preciseTimeDP = new DeepPointer(0x045A3C20, 0x52C);
+					preciseTimeDP = new DeepPointer(0x045A3C20, 0x138, 0xB0, 0x128);
 					hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
 					LoadingDP = new DeepPointer(0x0445ED38, 0x1E8);
 					break;
@@ -382,6 +389,7 @@ namespace GhostrunnerRNG {
 			mapNameDP.DerefOffsets(game, out mapNamePtr);
 			hcDP.DerefOffsets(game, out hcPtr);
 			LoadingDP.DerefOffsets(game, out LoadingPtr);
+			preciseTimeDP.DerefOffsets(game, out preciseTimePtr);
 
 			IntPtr capsulePtr;
 			capsuleDP.DerefOffsets(game, out capsulePtr);

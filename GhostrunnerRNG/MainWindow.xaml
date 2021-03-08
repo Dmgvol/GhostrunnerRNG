@@ -16,7 +16,7 @@
 
         <!--Top row-->
         <Label Grid.Row="0" x:Name="label_Title" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Ghostrunner RNG Mod" FontSize="20" Foreground="White" FontWeight="Bold"/>
-        <Label Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Closed Alpha"  FontSize="14" Foreground="White" Margin="0,6,10,0" />
+        <!--<Label Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Closed Alpha"  FontSize="14" Foreground="White" Margin="0,6,10,0" />-->
 
         <!--2nd row (main)-->
         <StackPanel Grid.Row="1" Margin="10, 0">
@@ -33,8 +33,8 @@
         <!--bottom row-->
         <Label Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="by Dmgvol, LongerWarrior" Foreground="White"/>
         <Button Grid.Row="2" x:Name="ButtonAbout" Content="About" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="25" Width="100" FontSize="16" Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonAbout_Click" IsTabStop="False"/>
-        <Grid Background="#FF292929" Visibility="Hidden" x:Name="errorGrid" Grid.RowSpan="3">
-            <Label x:Name="errorMsg" Content="Unknown Error" HorizontalAlignment="Center" Height="35" VerticalAlignment="Center" Width="auto" FontSize="20" Foreground="White"/>
+        <Grid Background="#FF292929" Visibility="Visible" x:Name="errorGrid" Grid.RowSpan="2">
+            <Label x:Name="errorMsg" Content="" HorizontalAlignment="Center" Height="35" VerticalAlignment="Center" Width="auto" FontSize="20" Foreground="White"/>
         </Grid>
     </Grid>
 </Window>

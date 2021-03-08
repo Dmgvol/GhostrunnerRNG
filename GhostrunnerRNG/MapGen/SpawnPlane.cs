@@ -1,7 +1,8 @@
 ﻿using GhostrunnerRNG.Game;
 using System;
+using System.Collections.Generic;
 
-namespace GhostrunnerRNG.Maps {
+namespace GhostrunnerRNG.MapGen {
     public class SpawnPlane {
 
         // 2 sides of the plane
@@ -22,6 +23,12 @@ namespace GhostrunnerRNG.Maps {
         // Settings to FALSE - will treat it as a volume object (Rectangle of diagonal points)
         public bool IsVerticalPlane = false;
 
+        // enemy types
+        public List<Enemy.EnemyTypes> BannedTypes = new List<Enemy.EnemyTypes>();
+
+        // patrol points - for drones
+        public List<Tuple<DeepPointer, Vector3f>> PatrolPoints = new List<Tuple<DeepPointer, Vector3f>>();
+
 
         public SpawnPlane(Vector3f a, Vector3f b, Angle? angle) {
             cornerA = a;
@@ -41,9 +48,26 @@ namespace GhostrunnerRNG.Maps {
             return this;
         }
 
+        public SpawnPlane AddPatrolPoint(DeepPointer dp, Vector3f pos) {
+            PatrolPoints.Add(new Tuple<DeepPointer, Vector3f>(dp, pos));
+            return this;
+        }
+
         public SpawnPlane SetMaxEnemies(int MaxEnemies) {
             this.MaxEnemies = MaxEnemies;
             return this;
+        }
+
+        // ban enemy type from using this spawnPlane
+        public SpawnPlane BanEnemyType(Enemy.EnemyTypes enemyType) {
+            if(BannedTypes.Contains(enemyType)) return this;
+            BannedTypes.Add(enemyType);
+            return this;
+        }
+
+        public bool IsEnemyAllowed(Enemy.EnemyTypes enemyType) {
+            if(BannedTypes.Count == 0) return true;
+            return !BannedTypes.Contains(enemyType);
         }
 
         // single pos
@@ -59,12 +83,12 @@ namespace GhostrunnerRNG.Maps {
         public SpawnData GetRandomSpawnData() {
             // only 1 point, send cornerA as single pos
             if(cornerB.IsEmpty()) {
-                return new SpawnData(cornerA, GetAngle());
+                return new SpawnData(cornerA, GetAngle(), PatrolPoints);
             } else {
                 if(IsVerticalPlane) {
-                    return new SpawnData(RandomWithInVerticalPlane(cornerA, cornerB), GetAngle());
+                    return new SpawnData(RandomWithInVerticalPlane(cornerA, cornerB), GetAngle(), PatrolPoints);
                 } else {
-                    return new SpawnData(RandomWithinRect(cornerA, cornerB), GetAngle());
+                    return new SpawnData(RandomWithinRect(cornerA, cornerB), GetAngle(), PatrolPoints);
                 }
             }
         }

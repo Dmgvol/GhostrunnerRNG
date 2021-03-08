@@ -9,6 +9,7 @@ namespace GhostrunnerRNG.Maps {
         // Note: Enemies are not in the same order in this map, so we group them by their RoomRectangle
 
         // not needed for cp
+        #region Rooms
         private Room room_1 = new Room(new Vector3f(184259, -53861, 2461), new Vector3f(184944, -52937, 3032));//first pitol guy    used
         private Room room_2 = new Room(new Vector3f(169261, -78666, 2431), new Vector3f(171584, -77872, 3432));//pistol guy near the fan    used
         private Room room_3 = new Room(new Vector3f(137944, -69982, 3014), new Vector3f(142419, -61581, 5690));//3 guys in room with 2 vertical fans used
@@ -29,6 +30,7 @@ namespace GhostrunnerRNG.Maps {
         private Room room_17 = new Room(new Vector3f(76326, -56166, 3427), new Vector3f(84585, -50042, 6040));//fight before crane room
         private Room room_18 = new Room(new Vector3f(60506, -76635, 2338), new Vector3f(66520, -69131, 5550));//second to last fight before cv
         private Room room_19 = new Room(new Vector3f(66303, -102064, 2941), new Vector3f(72570, -94987, 5496));//last fight before cv
+        #endregion
 
         // cv flag
         private bool BeforeCV = true;
@@ -45,7 +47,6 @@ namespace GhostrunnerRNG.Maps {
 
         protected override void Gen_PerRoom() {
             List<Enemy> AllEnemies = GetAllEnemies(MainWindow.game);
-
             Rooms = new List<RoomLayout>();
             RoomLayout layout;
 

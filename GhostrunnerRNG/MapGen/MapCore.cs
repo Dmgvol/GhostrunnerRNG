@@ -1,11 +1,10 @@
-﻿using GhostrunnerRNG.Game;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using static GhostrunnerRNG.Game.GameUtils;
 
-namespace GhostrunnerRNG.Maps {
+namespace GhostrunnerRNG.MapGen {
     public abstract class MapCore {
 
         // List of all enemies(spawndata per enemy)
@@ -84,10 +83,25 @@ namespace GhostrunnerRNG.Maps {
                         spawnPlanesLeft.AddRange(roomsList[i].availableSpawnPlanes);
                     }
 
+                    if(spawnPlanesLeft.Count == 0) return;
+
+                    Console.WriteLine(EnemiesWithoutCP.Count);
+
+                    // pick random room, and plane with in
                     for(int i = 0; i < EnemiesWithoutCP.Count; i++) {
-                        // pick random room, and plane with in
-                        int planeIndex = SpawnPlane.r.Next(0, spawnPlanesLeft.Count);
-                        EnemiesWithoutCP[i].SetMemoryPos(game, spawnPlanesLeft[planeIndex].GetRandomSpawnData());
+                        // list of left planes which are suitable for current enemy
+                        var planes = spawnPlanesLeft.Where(x => x.IsEnemyAllowed(EnemiesWithoutCP[i].enemyType) && x.CurrEnemeies < x.MaxEnemies).ToList();
+                        if(planes.Count == 0) continue;
+                        int planeIndex = SpawnPlane.r.Next(0, planes.Count);
+                        var test = planes[planeIndex].GetRandomSpawnData();
+                        EnemiesWithoutCP[i].SetMemoryPos(game, test);
+
+                        // update corresponding item in spawnPlanesLeft
+                        int indexToRemove = RoomLayout.GetSameSpawnPlaneIndex(spawnPlanesLeft, planes[planeIndex]);
+                        if(indexToRemove > -1)
+                            spawnPlanesLeft.RemoveAt(indexToRemove);
+
+                        Console.WriteLine(test.pos);
                     }
                 }
             }

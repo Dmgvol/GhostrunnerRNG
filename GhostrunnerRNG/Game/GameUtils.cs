@@ -91,10 +91,10 @@ namespace GhostrunnerRNG.Game {
             MapType.BlinkCV,
             MapType.BreatheIn,
             MapType.RoadToAmida,
-            MapType.RunUp
+            MapType.RunUp,
+            MapType.DharmaCity,
 
             /*TODO:
-            DharmaCity
             Echoes
             Faster
             ForbiddenZone

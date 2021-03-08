@@ -1,8 +1,8 @@
-﻿using GhostrunnerRNG.MapGen;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
-namespace GhostrunnerRNG.Maps {
+namespace GhostrunnerRNG.MapGen {
     public class RoomLayout {
 
         private List<SpawnPlane> spawnPlanes = new List<SpawnPlane>();
@@ -17,6 +17,13 @@ namespace GhostrunnerRNG.Maps {
         public RoomLayout(List<Enemy> enemies) {
             for(int i = 0; i < enemies.Count; i++) {
                 roomEnemies.Add(enemies[i]);
+            }
+        }
+
+        // bans specific enemy type to spawn within all spawnplanes of this room
+        public void BanRoomEnemyType(Enemy.EnemyTypes type) {
+            for(int i = 0; i < spawnPlanes.Count; i++) {
+                spawnPlanes[i].BanEnemyType(type);
             }
         }
 
@@ -43,18 +50,33 @@ namespace GhostrunnerRNG.Maps {
             availableSpawnPlanes.ForEach(x => x.ResetCurrEnemies());
 
             for(int i = 0; i < roomEnemies.Count; i++) {
-                if(availableSpawnPlanes.Count == 0) break;
-                int selectedPlaneIndex = SpawnPlane.r.Next(0, availableSpawnPlanes.Count);
+                List<SpawnPlane> availableSpawnPlanesUpdated = availableSpawnPlanes.Where(x => x.IsEnemyAllowed(roomEnemies[i].enemyType)).ToList();
+
+                if(availableSpawnPlanesUpdated.Count == 0) break;
+                int selectedPlaneIndex = SpawnPlane.r.Next(0, availableSpawnPlanesUpdated.Count);
 
                 // can add enemies to that plane? 
-                if(availableSpawnPlanes[selectedPlaneIndex].CanAddEnemies()) {
-                    roomEnemies[i].SetMemoryPos(game, availableSpawnPlanes[selectedPlaneIndex].GetRandomSpawnData());
-                    availableSpawnPlanes[selectedPlaneIndex].EnemyAdded();
+                if(availableSpawnPlanesUpdated[selectedPlaneIndex].CanAddEnemies()) {
+                    roomEnemies[i].SetMemoryPos(game, availableSpawnPlanesUpdated[selectedPlaneIndex].GetRandomSpawnData());
+                    availableSpawnPlanesUpdated[selectedPlaneIndex].EnemyAdded();
                 }
                 // can't add anymore enemies? remove plane from available list
-                if(!availableSpawnPlanes[selectedPlaneIndex].CanAddEnemies())
-                    availableSpawnPlanes.RemoveAt(selectedPlaneIndex);
+                if(!availableSpawnPlanesUpdated[selectedPlaneIndex].CanAddEnemies()) {
+                    int indexToRemove = GetSameSpawnPlaneIndex(availableSpawnPlanes, availableSpawnPlanesUpdated[selectedPlaneIndex]);
+                    if(indexToRemove > -1)
+                        availableSpawnPlanes.RemoveAt(indexToRemove);
+                }
             }
+        }
+
+        // since we modify a copy of the list, we want to remove the actual spawnplane when we're done with the modified element,
+        // so we need to find the same spawnplane in the original list by corner coords
+        public static int GetSameSpawnPlaneIndex(List<SpawnPlane> planes, SpawnPlane target) {
+            for(int i = 0; i < planes.Count; i++) {
+                if(planes[i].cornerA.VecEquals(target.cornerA) && planes[i].cornerB.VecEquals(target.cornerB))
+                    return i;
+            }
+            return -1;
         }
 
         public void AddSpawnPlane(SpawnPlane spanwPlane) {

@@ -1,4 +1,5 @@
 ﻿using GhostrunnerRNG.Game;
+using GhostrunnerRNG.MapGen;
 using System.Collections.Generic;
 using static GhostrunnerRNG.Game.GameUtils;
 

@@ -18,20 +18,18 @@ namespace GhostrunnerRNG {
         private string _module;
 
         internal OffsetT GetBase() => _base;
-        internal List<OffsetT> GetGetOffsets() => _offsets;
+        internal List<OffsetT> GetOffsets() => _offsets;
 
         public DeepPointer(DeepPointer deepPointer, params OffsetT[] offsets) {
             _base = deepPointer.GetBase();
-            List<OffsetT> offsetLst = new List<OffsetT>(deepPointer.GetGetOffsets());
+            List<OffsetT> offsetLst = new List<OffsetT>(deepPointer.GetOffsets());
             offsetLst.AddRange(offsets);
             _offsets = offsetLst;
         }
 
-        public DeepPointer(IntPtr absoluteBase, params OffsetT[] offsets) {
-            _absoluteBase = absoluteBase;
-            _usingAbsoluteBase = true;
-
-            InitializeOffsets(offsets);
+        public DeepPointer(OffsetT base_, List<int> offsets) {
+            _base = base_;
+            _offsets = offsets;
         }
 
         public DeepPointer(string module, OffsetT base_, params OffsetT[] offsets)
@@ -155,6 +153,14 @@ namespace GhostrunnerRNG {
             _offsets = new List<OffsetT>();
             _offsets.Add(0); // deref base first
             _offsets.AddRange(offsets);
+        }
+
+        public override string ToString() {
+            string str = "0x" + GetBase();
+            for(int i = 0; i < _offsets.Count; i++) {
+                str += " 0x" + _offsets[i];
+            }
+            return str;
         }
     }
 

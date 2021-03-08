@@ -43,7 +43,6 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-27333, -21591, 2508), new Vector3f(-25958, -22476, 2519)));//guy on the right spawn plane
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-28177, -17552, 2254), new Vector3f(-27576, -18271, 2199)));//far guy spawn plane
 
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-22875, -18158, 2783), new Vector3f(-22930, -19805, 2783), new Angle(-0.02f, 1.00f)));//grapples line
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-28915, -20519, 2568), new Vector3f(-27719, -19575, 2568), new Angle(-0.02f, 1.00f)));//near button
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-26610, -20559, 3383), new Angle(0.16f, 0.99f)));//on crane near button
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-23195, -20494, 2638), new Vector3f(-24397, -20477, 2638), new Angle(0.25f, 0.97f)).SetMaxEnemies(2));//billboard on the right

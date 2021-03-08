@@ -20,6 +20,7 @@ namespace GhostrunnerRNG.MapGen {
 
         public ShieldOrb(Enemy enemy, DeepPointer dp) : base(enemy.GetObjectDP()) {
             shieldGlowDP = dp;
+            enemyType = EnemyTypes.ShieldOrb;
         }
 
         public ShieldOrb(Enemy enemy) : base(enemy.GetObjectDP()) {}

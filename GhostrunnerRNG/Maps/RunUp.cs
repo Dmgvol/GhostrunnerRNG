@@ -37,7 +37,6 @@ namespace GhostrunnerRNG.Maps {
             List<Enemy> enemies1 = room_1.ReturnEnemiesInRoom(AllEnemies);//random spots on the map for 1 pistol
             layout = new RoomLayout(enemies1[0]);
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(67967, -43516, 2458), new Angle(-0.71f, 0.70f)));//after sliding before crusher
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(67841, -39339, 3174), new Angle(-0.70f, 0.72f)));//first crusher
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(65752, -18076, 2298), new Angle(-0.68f, 0.73f)));//after sliding, under collectible
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(53694, -67174, 6018), new Angle(0.99f, 0.16f)));//near spawn room on the left wall
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(75144, -65817, 3869), new Angle(1.00f, 0.00f)));//billboard near 4 pistols room
