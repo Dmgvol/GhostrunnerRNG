@@ -20,8 +20,7 @@ namespace GhostrunnerRNG.Game {
             { "/Game/Levels/02_CYBERCITY/02_01/02_01_world",                MapType.DharmaCity},
             { "/Game/Levels/02_CYBERCITY/02_02/02_02_world",                MapType.Echoes},
             { "/Game/Maps/ragis_lvl_vr5",                                   MapType.EchoesCV},
-            { "/Game/Levels/02_CYBERCITY/02_03/02_03_World",                MapType.Faster},
-            { "Game/Levels/02_CYBERCITY/02_03/02_03_world",                 MapType.InHerOwnImage},
+            { "/Game/Levels/02_CYBERCITY/02_03/02_03_World",                MapType.FasterInHerOwnImage},
             { "/Game/Levels/Cyberspace/Nami_Tutorial",                      MapType.SurgeCV},
             { "/Game/Levels/03_HIGHTECH/03_01/03_01_World",                 MapType.ForbiddenZone},
             { "/Game/Levels/03_HIGHTECH/03_02/03_02_world",                 MapType.ReignInHell},
@@ -93,10 +92,10 @@ namespace GhostrunnerRNG.Game {
             MapType.RoadToAmida,
             MapType.RunUp,
             MapType.DharmaCity,
+            MapType.Echoes,
+             MapType.Faster
 
             /*TODO:
-            Echoes
-            Faster
             ForbiddenZone
             ReignInHell
             OverlordCV

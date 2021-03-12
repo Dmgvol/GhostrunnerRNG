@@ -1,4 +1,5 @@
-﻿using GhostrunnerRNG.Game;
+﻿using GhostrunnerRNG.Enemies;
+using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
 using System;
 using System.Collections.Generic;
@@ -106,7 +107,6 @@ namespace GhostrunnerRNG.Maps {
             platforms[0].WriteMemory(MainWindow.game);
 
             platforms[1].Pos = platformSpawns[spawnIndex].p2_start;
-            platforms[1].EndPoint = platformSpawns[spawnIndex].p2_end;
             platforms[1].WriteMemory(MainWindow.game);
 
             platforms[2].Pos = platformSpawns[spawnIndex].p3_start;
@@ -121,7 +121,7 @@ namespace GhostrunnerRNG.Maps {
 
         private struct PlatformSpawner{
             public Vector3f p1_start, p1_end;
-            public Vector3f p2_start, p2_end;
+            public Vector3f p2_start;
             public Vector3f p3_start, p3_end;
         }
     }

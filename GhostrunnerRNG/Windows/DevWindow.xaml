@@ -23,6 +23,7 @@
         <Grid Grid.Row="1" Margin="10">
             <!--Creation-->
             <Label Content="SpawnPlane Command Creation" FontSize="15"  Foreground="White"/>
+            <CheckBox x:Name="checkbox_onlyVector" Content="Only Pos1 Vector" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 5" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
             <TextBox IsReadOnly="True" x:Name="outputBox" HorizontalAlignment="Stretch" MinWidth="400" VerticalAlignment="Top" Margin="0,30,60,0"  Height="30" Background="#FF666666" Foreground="White"/>
             <Button x:Name="copyButton" Content="Copy" Height="30" Width="50" Margin="0,30,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="copyButton_Click"/>
             <Label Content="1 - Save Pos A&#x09;2 - Save Pos B&#x0a;3 - Create 2Pos plane(fixed angle)&#x09;4 - Create 1Pos, fixed angle      5 - create 1 pos(no angle)" FontSize="15"  Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 60, 0, 00"/>

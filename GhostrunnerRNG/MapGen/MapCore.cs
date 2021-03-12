@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GhostrunnerRNG.Enemies;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace GhostrunnerRNG.MapGen {
         public MapType mapType { get; private set; }
         public MapCore(MapType mapType) {
             this.mapType = mapType;
+            SpawnPlane.r = new Random();
         }
 
         public List<Enemy> GetAllEnemies(Process game, int startIndex = 0) {
@@ -85,26 +87,38 @@ namespace GhostrunnerRNG.MapGen {
 
                     if(spawnPlanesLeft.Count == 0) return;
 
-                    Console.WriteLine(EnemiesWithoutCP.Count);
-
                     // pick random room, and plane with in
                     for(int i = 0; i < EnemiesWithoutCP.Count; i++) {
                         // list of left planes which are suitable for current enemy
-                        var planes = spawnPlanesLeft.Where(x => x.IsEnemyAllowed(EnemiesWithoutCP[i].enemyType) && x.CurrEnemeies < x.MaxEnemies).ToList();
+                        var planes = spawnPlanesLeft.Where(x => x.IsEnemyAllowed(EnemiesWithoutCP[i].enemyType) && x.CanAddEnemies() && x.ReuseFlag).ToList();
                         if(planes.Count == 0) continue;
                         int planeIndex = SpawnPlane.r.Next(0, planes.Count);
                         var test = planes[planeIndex].GetRandomSpawnData();
-                        EnemiesWithoutCP[i].SetMemoryPos(game, test);
 
+                        EnemiesWithoutCP[i].SetMemoryPos(game, test);
                         // update corresponding item in spawnPlanesLeft
                         int indexToRemove = RoomLayout.GetSameSpawnPlaneIndex(spawnPlanesLeft, planes[planeIndex]);
                         if(indexToRemove > -1)
                             spawnPlanesLeft.RemoveAt(indexToRemove);
-
-                        Console.WriteLine(test.pos);
                     }
                 }
             }
+        }
+
+        protected void RandomPickEnemiesWithoutCP(ref List<Enemy> enemies, bool force = false, bool removeCP = true) {
+            if(enemies == null || enemies.Count == 0) return;
+
+            // 50-50 chance to even pick an enemy
+            if(!force && SpawnPlane.r.Next(2) == 0) return;
+
+            // pick random enemy, remove cp
+            int index = SpawnPlane.r.Next(enemies.Count);
+            if(removeCP) {
+                enemies[index].DisableAttachedCP(MainWindow.game);
+            }
+            // add select to list and remove it from enemies, so it won't be used in spawnplanes
+            EnemiesWithoutCP.Add(enemies[index]);
+            enemies.RemoveAt(index);
         }
 
         protected void ModifyCP(DeepPointer dp, Vector3f pos, Process game) {

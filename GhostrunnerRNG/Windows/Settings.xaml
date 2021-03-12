@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GhostrunnerRNG.Windows"
         mc:Ignorable="d"
         Background="#FF292929"
-        Title="Settings" Height="400" Width="480" MinWidth="400" MinHeight="280" MaxHeight="800" MaxWidth="600">
+        Title="Settings" Height="400" Width="500" MinWidth="400" MinHeight="280" MaxHeight="800" MaxWidth="600">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -18,17 +18,19 @@
 
         <!--Settings-->
         <StackPanel Grid.Row="1" Margin="10">
-            <CheckBox IsChecked="True" x:Name="checkbox_RngOnRestart"  Content="New RNG on level restart/load" HorizontalAlignment="Left" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
-            <CheckBox IsChecked="True" x:Name="checkbox_RngOrbs"  Content="Randomize Shield Orbs" HorizontalAlignment="Left" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
-            <CheckBox IsChecked="True" x:Name="checkbox_RngCybervoid"  Content="RNG Cybervoids" HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+            <CheckBox IsChecked="True" x:Name="checkbox_RngOnRestart" ToolTip="Will randomize on new level or level restart" Content="New RNG on level restart/load" HorizontalAlignment="Left" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+            <CheckBox IsChecked="True" x:Name="checkbox_RngOrbs" ToolTip="RNG shield orbs"  Content="Randomize Shield Orbs" HorizontalAlignment="Left" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+            <CheckBox IsChecked="True" x:Name="checkbox_RngCybervoid" ToolTip="RNG Cybervoids; platforms, enemies..."  Content="RNG Cybervoids" HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
 
             <!--TBA feature option-->
-            <CheckBox  Content="Focus on speedrunning routes"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
+            <CheckBox  Content="Focus on speedrunning routes" ToolTip="Places all enemies in speedrunning routes"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
             <!--TBA feature option-->
-            <CheckBox  Content="Challenge Mode (hard to reach spawns)"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
+            <CheckBox  Content="RNG Uplinks parameters" ToolTip="Uplink parameters are changed, you'll be surprised" HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
+            <!--TBA feature option-->
+            <CheckBox  Content="Challenge Mode (hard to reach spawns)" ToolTip="Enabling hard to reach spots and/or tricky spawns" HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
 
             <!--Fake option-->
-            <CheckBox  Content="Prevent game crashes (zero crashes + performance boost)"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
+            <CheckBox  Content="Prevent game crashes (zero crashes + performance boost)" ToolTip="No crashes! available only for Patreons"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
           
         </StackPanel>
         

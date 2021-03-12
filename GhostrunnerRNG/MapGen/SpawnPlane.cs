@@ -1,4 +1,5 @@
-﻿using GhostrunnerRNG.Game;
+﻿using GhostrunnerRNG.Enemies;
+using GhostrunnerRNG.Game;
 using System;
 using System.Collections.Generic;
 
@@ -23,11 +24,45 @@ namespace GhostrunnerRNG.MapGen {
         // Settings to FALSE - will treat it as a volume object (Rectangle of diagonal points)
         public bool IsVerticalPlane = false;
 
+
+        #region Plane Masks
         // enemy types
         public List<Enemy.EnemyTypes> BannedTypes = new List<Enemy.EnemyTypes>();
 
+        // Presets
+        /// <summary> Bans ShieldOrb, Drone</summary>
+        public static readonly List<Enemy.EnemyTypes> Mask_Flatground = new List<Enemy.EnemyTypes>() {
+            Enemy.EnemyTypes.ShieldOrb, Enemy.EnemyTypes.Drone, Enemy.EnemyTypes.Sniper
+        };
+
+        /// <summary> Bans ShieldOrb, Drone, Weeb</summary>
+        public static readonly List<Enemy.EnemyTypes> Mask_Highground = new List<Enemy.EnemyTypes>() {
+            Enemy.EnemyTypes.ShieldOrb, Enemy.EnemyTypes.Drone, Enemy.EnemyTypes.Weeb, Enemy.EnemyTypes.Sniper
+        };
+
+        /// <summary> Bans ShieldOrb, Drone, Weeb and Waver </summary>
+        public static readonly List<Enemy.EnemyTypes> Mask_HighgroundLimited = new List<Enemy.EnemyTypes>() {
+            Enemy.EnemyTypes.ShieldOrb, Enemy.EnemyTypes.Drone, Enemy.EnemyTypes.Weeb, Enemy.EnemyTypes.Waver, Enemy.EnemyTypes.Sniper
+        };
+        /// <summary> Bans ShieldOrb, Weeb, Default, Waver, Weeb </summary>
+        public static readonly List<Enemy.EnemyTypes> Mask_Airborne = new List<Enemy.EnemyTypes>() {
+            Enemy.EnemyTypes.ShieldOrb, Enemy.EnemyTypes.Weeb, Enemy.EnemyTypes.Default, Enemy.EnemyTypes.Waver, Enemy.EnemyTypes.Weeb, Enemy.EnemyTypes.Sniper
+        };
+        /// <summary> Bans every enemy, besides Sniper - use this only for sniper spawns </summary>
+        public static readonly List<Enemy.EnemyTypes> Mask_Sniper = new List<Enemy.EnemyTypes>() {
+            Enemy.EnemyTypes.Default, Enemy.EnemyTypes.Waver, Enemy.EnemyTypes.Drone, Enemy.EnemyTypes.ShieldOrb, Enemy.EnemyTypes.Weeb,
+        };
+
+        #endregion
+
         // patrol points - for drones
         public List<Tuple<DeepPointer, Vector3f>> PatrolPoints = new List<Tuple<DeepPointer, Vector3f>>();
+
+        // SniperSpawn data - for snipers
+        public SniperSpawnData sniperData;
+
+        //// By default use all unused planes for EnemiesWithoutCP
+        public bool ReuseFlag = true;
 
 
         public SpawnPlane(Vector3f a, Vector3f b, Angle? angle) {
@@ -53,8 +88,18 @@ namespace GhostrunnerRNG.MapGen {
             return this;
         }
 
+        public SpawnPlane SetSniperData(SniperSpawnData data) {
+            sniperData = data;
+            return this;
+        }
+
         public SpawnPlane SetMaxEnemies(int MaxEnemies) {
             this.MaxEnemies = MaxEnemies;
+            return this;
+        }
+
+        public SpawnPlane DoNotReuse() {
+            ReuseFlag = false;
             return this;
         }
 
@@ -65,6 +110,11 @@ namespace GhostrunnerRNG.MapGen {
             return this;
         }
 
+
+        public SpawnPlane Mask(List<Enemy.EnemyTypes> mask) {
+            BannedTypes = new List<Enemy.EnemyTypes>(mask);
+            return this;
+        }
         public bool IsEnemyAllowed(Enemy.EnemyTypes enemyType) {
             if(BannedTypes.Count == 0) return true;
             return !BannedTypes.Contains(enemyType);
@@ -83,12 +133,12 @@ namespace GhostrunnerRNG.MapGen {
         public SpawnData GetRandomSpawnData() {
             // only 1 point, send cornerA as single pos
             if(cornerB.IsEmpty()) {
-                return new SpawnData(cornerA, GetAngle(), PatrolPoints);
+                return new SpawnData(cornerA, GetAngle(), PatrolPoints, sniperData);
             } else {
                 if(IsVerticalPlane) {
-                    return new SpawnData(RandomWithInVerticalPlane(cornerA, cornerB), GetAngle(), PatrolPoints);
+                    return new SpawnData(RandomWithInVerticalPlane(cornerA, cornerB), GetAngle(), PatrolPoints, sniperData);
                 } else {
-                    return new SpawnData(RandomWithinRect(cornerA, cornerB), GetAngle(), PatrolPoints);
+                    return new SpawnData(RandomWithinRect(cornerA, cornerB), GetAngle(), PatrolPoints, sniperData);
                 }
             }
         }
@@ -136,3 +186,4 @@ namespace GhostrunnerRNG.MapGen {
         public bool CanAddEnemies() => CurrEnemeies < MaxEnemies;
     }
 }
+

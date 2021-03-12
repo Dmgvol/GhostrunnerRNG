@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GhostrunnerRNG.Enemies;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -27,10 +28,17 @@ namespace GhostrunnerRNG.MapGen {
             }
         }
 
+
+        public void Mask(List<Enemy.EnemyTypes> mask) {
+            for(int i = 0; i < spawnPlanes.Count; i++) {
+                spawnPlanes[i].Mask(mask);
+            }
+        }
+
         public void FixOrbBeams(Process game) {
             for(int i = 0; i < roomEnemies.Count; i++) {
-                if(roomEnemies[i] is ShieldOrb) {
-                    ((ShieldOrb)roomEnemies[i]).FixBeams(game);
+                if(roomEnemies[i] is EnemyShieldOrb) {
+                    ((EnemyShieldOrb)roomEnemies[i]).FixBeams(game);
                 }
             }
         }
@@ -40,7 +48,7 @@ namespace GhostrunnerRNG.MapGen {
         // returns false if enemies has ShieldOrbs
         public bool IsRoomDefaultType() {
             for(int i = 0; i < roomEnemies.Count; i++) {
-                if(roomEnemies[i] is ShieldOrb) return false;
+                if(roomEnemies[i] is EnemyShieldOrb) return false;
             }
             return true;
         }

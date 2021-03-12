@@ -3,16 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace GhostrunnerRNG.MapGen {
+namespace GhostrunnerRNG.Enemies {
     class EnemyDrone : Enemy{
 
         private DeepPointer dronePosDP;
         private IntPtr dronePosPtr;
-
-        //public EnemyDrone(DeepPointer enemyDP, DeepPointer dronePosDP) : base(enemyDP) {
-        //    this.dronePosDP = dronePosDP;
-        //    enemyType = EnemyTypes.Drone;
-        //}
 
         public EnemyDrone(Enemy enemy) : base(enemy.GetObjectDP()) {
             enemyType = EnemyTypes.Drone;

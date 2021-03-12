@@ -1,4 +1,5 @@
-﻿using GhostrunnerRNG.Game;
+﻿using GhostrunnerRNG.Enemies;
+using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +74,7 @@ namespace GhostrunnerRNG.Maps {
 
             //// Room 4 ////
             enemies = room_4.ReturnEnemiesInRoom(AllEnemies);
-            ShieldOrb shieldOrb = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x10, 0x128, 0xA8, 0x688, 0x130, 0x1D0));
+            EnemyShieldOrb shieldOrb = new EnemyShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x10, 0x128, 0xA8, 0x688, 0x130, 0x1D0));
 
             if(Config.GetInstance().Gen_RngOrbs) {
                 layout = new RoomLayout(shieldOrb);
@@ -102,7 +103,7 @@ namespace GhostrunnerRNG.Maps {
             enemies = room_5.ReturnEnemiesInRoom(AllEnemies); // orb, pistol, shield, no cp
             enemies.AddRange(room_6.ReturnEnemiesInRoom(AllEnemies));
             // 5 enemies, 0 index is orb
-            shieldOrb = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0xE08, 0x130, 0x1D0));
+            shieldOrb = new EnemyShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0xE08, 0x130, 0x1D0));
             if(Config.GetInstance().Gen_RngOrbs) {
                 layout = new RoomLayout(shieldOrb);
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-112894, 7020, -16380), new Vector3f(-112984, 7805, -14904)).AsVerticalPlane()); // vertical cage side
@@ -124,7 +125,7 @@ namespace GhostrunnerRNG.Maps {
 
             //// Room 7 //// 
             enemies = room_7.ReturnEnemiesInRoom(AllEnemies);
-            shieldOrb = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xFD0, 0x130, 0x1D0));
+            shieldOrb = new EnemyShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xFD0, 0x130, 0x1D0));
             shieldOrb.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x370, 0x200, 0x8, 0x1D0));
             shieldOrb.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x370, 0x220));
             if(Config.GetInstance().Gen_RngOrbs) {
@@ -167,7 +168,7 @@ namespace GhostrunnerRNG.Maps {
 
             //// Room 9 ////
             enemies = room_9.ReturnEnemiesInRoom(AllEnemies);
-            shieldOrb = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x38, 0x128, 0xA8, 0xDD0, 0x130, 0x1D0));
+            shieldOrb = new EnemyShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x38, 0x128, 0xA8, 0xDD0, 0x130, 0x1D0));
             if(Config.GetInstance().Gen_RngOrbs) {
                 layout = new RoomLayout(shieldOrb);
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-101963, 14350, -14361))); // under stairs

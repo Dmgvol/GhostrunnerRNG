@@ -1,4 +1,5 @@
-﻿using GhostrunnerRNG.Game;
+﻿using GhostrunnerRNG.Enemies;
+using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
 using System.Collections.Generic;
 using static GhostrunnerRNG.Game.GameUtils;
@@ -71,7 +72,7 @@ namespace GhostrunnerRNG.Maps {
 
             //// room 4 layout ////
             enemies = room_4.ReturnEnemiesInRoom(AllEnemies);
-            ShieldOrb shieldOrb1 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x910, 0x130, 0x1D0));
+            EnemyShieldOrb shieldOrb1 = new EnemyShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x910, 0x130, 0x1D0));
             shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x2F0, 0x200, 0x8, 0x1D0));
             shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x2F0, 0x200, 0x10, 0x1D0));
             shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x2F0, 0x220));

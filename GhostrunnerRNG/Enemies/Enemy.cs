@@ -1,9 +1,13 @@
 ﻿using GhostrunnerRNG.Game;
+using GhostrunnerRNG.MapGen;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace GhostrunnerRNG.MapGen {
+/// <summary>
+/// Base object for any enemy in the game
+/// </summary>
+namespace GhostrunnerRNG.Enemies {
     public class Enemy : WorldObject {
 
         // 3D virtual rectangle/volumes where enemy can spawn
@@ -11,12 +15,8 @@ namespace GhostrunnerRNG.MapGen {
 
         public Enemy(DeepPointer EnemyDP) : base(EnemyDP) { }
 
-        public enum EnemyTypes { Default, Waver, Drone, ShieldOrb }
+        public enum EnemyTypes { Default, Waver, Drone, ShieldOrb, Weeb, Sniper }
         public EnemyTypes enemyType { get; protected set; } = EnemyTypes.Default;
-
-        public void AddPosPlane(SpawnPlane spanwPlane) {
-            planes.Add(spanwPlane);
-        }
 
         public void SetEnemyType(EnemyTypes enemyType) {
             this.enemyType = enemyType;

@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace GhostrunnerRNG.MapGen {
-    class ShieldOrb : Enemy {
+namespace GhostrunnerRNG.Enemies {
+    class EnemyShieldOrb : Enemy {
 
         // linked objects
         private List<DeepPointer> LinkedObjectsDP = new List<DeepPointer>();
@@ -18,12 +18,12 @@ namespace GhostrunnerRNG.MapGen {
         private IntPtr shieldGlowPtr;
 
 
-        public ShieldOrb(Enemy enemy, DeepPointer dp) : base(enemy.GetObjectDP()) {
+        public EnemyShieldOrb(Enemy enemy, DeepPointer dp) : base(enemy.GetObjectDP()) {
             shieldGlowDP = dp;
             enemyType = EnemyTypes.ShieldOrb;
         }
 
-        public ShieldOrb(Enemy enemy) : base(enemy.GetObjectDP()) {}
+        public EnemyShieldOrb(Enemy enemy) : base(enemy.GetObjectDP()) {}
 
         public void LinkObject(DeepPointer dp) {
             LinkedObjectsDP.Add(dp);

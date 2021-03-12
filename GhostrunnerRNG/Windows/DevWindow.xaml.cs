@@ -85,6 +85,11 @@ namespace GhostrunnerRNG.Windows {
 				case Keys.NumPad1:
 					// 1 pos save
 					pos1 = new Vector3f(MainWindow.xPos, MainWindow.yPos, MainWindow.zPos);
+
+					if(checkbox_onlyVector.IsChecked == true) {
+						outputBox.Text = $"new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z})";
+					}
+
 					break;
 
 				case Keys.NumPad2:

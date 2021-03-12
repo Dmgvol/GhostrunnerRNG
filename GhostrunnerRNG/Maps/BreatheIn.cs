@@ -1,4 +1,5 @@
-﻿using GhostrunnerRNG.Game;
+﻿using GhostrunnerRNG.Enemies;
+using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
 using System.Collections.Generic;
 using static GhostrunnerRNG.Game.GameUtils;
@@ -102,7 +103,7 @@ namespace GhostrunnerRNG.Maps {
             enemies2 = room_5.ReturnEnemiesInRoom(AllEnemies);
             enemies = room_14.ReturnEnemiesInRoom(AllEnemies);
 
-            ShieldOrb shieldOrb1 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0xC18, 0x130, 0x1D0));
+            EnemyShieldOrb shieldOrb1 = new EnemyShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0xC18, 0x130, 0x1D0));
             shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0x228, 0x200, 0x8, 0x1D0));
             shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0x228, 0x200, 0x10, 0x1D0));
             shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0x228, 0x220));
@@ -213,7 +214,7 @@ namespace GhostrunnerRNG.Maps {
             enemies = room_19.ReturnEnemiesInRoom(AllEnemies);
             enemies1 = room_6.ReturnEnemiesInRoom(AllEnemies);
 
-            shieldOrb1 = new ShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x50, 0x128, 0xA8, 0x9A8, 0x130, 0x1D0));
+            shieldOrb1 = new EnemyShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x50, 0x128, 0xA8, 0x9A8, 0x130, 0x1D0));
 
             if(Config.GetInstance().Gen_RngOrbs) {
                 layout = new RoomLayout(shieldOrb1); //orb

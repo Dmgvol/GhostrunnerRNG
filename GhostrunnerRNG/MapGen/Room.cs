@@ -1,7 +1,7 @@
-﻿using GhostrunnerRNG.Maps;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GhostrunnerRNG.Enemies;
 
 namespace GhostrunnerRNG.MapGen {
     // Room is the same as a geometrical rectangle class, just different name.
