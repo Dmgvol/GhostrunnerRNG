@@ -1,10 +1,14 @@
-# GhostrunnerRNG Aka. Ghostrunner Randomizer
+[![](https://img.shields.io/badge/Dharma-Unlocked-green)](https://github.com/Dmgvol/GhostrunnerRNG/) [![](https://img.shields.io/badge/Discord-GRSR-blue)](https://discord.com/invite/eZRz3Q5) ![](https://img.shields.io/github/downloads/dmgvol/ghostrunnerrng/total) [![](https://img.shields.io/badge/Supported_Game_Version-0.32091.481-orange)](https://github.com/Dmgvol/GhostrunnerRNG/)
+
+# GhostrunnerRNG
 Randomizes enemies in a challenging and unexpected way, every time you load a level.
 It is challenging and it will test how fast you can adapt and figure out how to clear the kill rooms.
 Also... It is 100% harder then the classic difficulty.
 
 ## Open Beta Version
 After months of hard work, we're excited to announce the open beta for this project!
+
+Support: Winter Update
 
 Trailer: <Link>
 
