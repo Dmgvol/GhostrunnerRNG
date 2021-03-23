@@ -6,13 +6,15 @@ Also... It is 100% harder then the classic difficulty.
 ## Open Beta Version
 After months of hard work, we're excited to announce the open beta for this project!
 
+Trailer: <Link>
+
 ### Which elements it modifies/randomizes?
 - Enemies(all types)
 - Shield Orbs
 - Checkpoints
 
 ### Which Levels?
-All classic levels, including a few cybervoid levels:
+~All~ Most classic levels, including a few cybervoid levels:
 
 - Awakening
 - Look Inside
@@ -29,25 +31,30 @@ All classic levels, including a few cybervoid levels:
 - Things You Wouldn't Believe
 
 ### Planned/Upcoming features
-- SR Focus (enemies will spawn on popular speedrunning routes)
-- Hardcore Levels
-- Custom modes (TBA)
-- More RNG!
+- [x] Classic Levels.
+- [ ] SR Focus (enemies will spawn on popular speedrunning routes)
+- [ ] Hardcore Levels.
+- [ ] Custom modes (TBA)
+- [ ] More RNG!
 
-## Credits
+## About
+### Credits
 Designed and coded by DmgVol and LongerWarrior. 
 
 Huge thanks to the GR community for alpha testing and supporting the mod from early stages of development!
 
 Special Thanks: JanisSG.
 
-## Bugs?! Report it!
+### Bugs?! Report it!
 Since this is an early stage of the mod and does not reflect the final version, you may and will experience bugs.
 
 Please do not hesitate to report any bugs/issues/suggestions in GRSR Discord!
 
-## Who it is aimed at?
+### Who it is aimed at?
 Basically, anyone who's looking for a new GR challenge, could be someone who speedruns the game, thinks the game is too predictable/easy, or just wants a new challenge.
 
 ## Disclaimer
 The mod works similar to a game trainer, it reads and modifies game memory, so your antivirus _might_ alert you - that's normal and expected.
+
+
+
