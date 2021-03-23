@@ -1,4 +1,5 @@
-﻿using GhostrunnerRNG.Game;
+﻿using GhostrunnerRNG.Enemies;
+using GhostrunnerRNG.Game;
 using System;
 using System.Diagnostics;
 
@@ -14,7 +15,7 @@ namespace GhostrunnerRNG.MapGen {
 
         // last known pos and angle(if any)
         public Vector3f Pos = Vector3f.Empty;
-        public Angle? angle { get; private set; }
+        public Angle angle { get; private set; }
 
         public WorldObject(DeepPointer ObjectDP) {
             this.ObjectDP = ObjectDP;
@@ -35,8 +36,8 @@ namespace GhostrunnerRNG.MapGen {
 
         public virtual void SetMemoryPos(Process game, Vector3f pos) {
             if(pos.IsEmpty()) return;
-
             DerefPointer(game);
+
             // XYZ coords
             game.WriteBytes(ObjectPtr, BitConverter.GetBytes((float)pos.X));
             game.WriteBytes(ObjectPtr + 4, BitConverter.GetBytes((float)pos.Y));
@@ -47,6 +48,11 @@ namespace GhostrunnerRNG.MapGen {
         public virtual void SetMemoryPos(Process game, SpawnData spawnData) {
             if(spawnData.pos.IsEmpty()) return;
 
+            // waver special case: raise Z by 60 units
+            if(this is Enemy e && e.enemyType == Enemy.EnemyTypes.Waver) {
+                e.Pos.Z += 60;
+            }
+
             DerefPointer(game);
             // XYZ coords
             game.WriteBytes(ObjectPtr, BitConverter.GetBytes((float)spawnData.pos.X));
@@ -55,11 +61,22 @@ namespace GhostrunnerRNG.MapGen {
             Pos = spawnData.pos; // update last pos
 
             // angle orientation
-            if(spawnData.HasAngle()) {
-                game.WriteBytes(ObjectPtr - 8, BitConverter.GetBytes((float)spawnData.angle.Value.angleSin));
-                game.WriteBytes(ObjectPtr - 4, BitConverter.GetBytes((float)spawnData.angle.Value.angleCos));
+            if(spawnData.angle is QuaternionAngle) {
+                game.WriteBytes(ObjectPtr - 16, BitConverter.GetBytes((float)((QuaternionAngle)spawnData.angle).quaternion.x));
+                game.WriteBytes(ObjectPtr - 12, BitConverter.GetBytes((float)((QuaternionAngle)spawnData.angle).quaternion.y));
+                game.WriteBytes(ObjectPtr - 8, BitConverter.GetBytes((float)((QuaternionAngle)spawnData.angle).quaternion.z));
+                game.WriteBytes(ObjectPtr - 4, BitConverter.GetBytes((float)((QuaternionAngle)spawnData.angle).quaternion.w));
+            } else if(spawnData.HasAngle()) {
+                game.WriteBytes(ObjectPtr - 8, BitConverter.GetBytes((float)spawnData.angle.angleSin));
+                game.WriteBytes(ObjectPtr - 4, BitConverter.GetBytes((float)spawnData.angle.angleCos));
+
+                // default angle - make sure X,Y are  default
+                game.WriteBytes(ObjectPtr - 12, BitConverter.GetBytes(0));
+                game.WriteBytes(ObjectPtr - 16, BitConverter.GetBytes(0));
+
                 angle = spawnData.angle;
             }
+
         }
 
         // Write last pos to memory

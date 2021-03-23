@@ -1,4 +1,5 @@
 ﻿using GhostrunnerRNG.Enemies;
+using GhostrunnerRNG.Game;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -105,14 +106,14 @@ namespace GhostrunnerRNG.MapGen {
             }
         }
 
-        protected void RandomPickEnemiesWithoutCP(ref List<Enemy> enemies, bool force = false, bool removeCP = true) {
+        protected void RandomPickEnemiesWithoutCP(ref List<Enemy> enemies, bool force = false, bool removeCP = true, int enemyIndex = -1) {
             if(enemies == null || enemies.Count == 0) return;
 
             // 50-50 chance to even pick an enemy
             if(!force && SpawnPlane.r.Next(2) == 0) return;
 
             // pick random enemy, remove cp
-            int index = SpawnPlane.r.Next(enemies.Count);
+            int index = enemyIndex < 0 ? SpawnPlane.r.Next(enemies.Count) : enemyIndex;
             if(removeCP) {
                 enemies[index].DisableAttachedCP(MainWindow.game);
             }
@@ -127,6 +128,29 @@ namespace GhostrunnerRNG.MapGen {
             game.WriteBytes(cpPtr, BitConverter.GetBytes(pos.X));
             game.WriteBytes(cpPtr + 4, BitConverter.GetBytes(pos.Y));
             game.WriteBytes(cpPtr + 8, BitConverter.GetBytes(pos.Z));
+        }
+
+        protected void ModifyCP(Process game, SpawnData sp, DeepPointer dp, int[] posAppendOffsets, int[] angleAppendOffsets) {
+            DeepPointer posDP = AppendBaseOffset(dp, posAppendOffsets);
+            DeepPointer angleDP = AppendBaseOffset(dp, angleAppendOffsets);
+
+            // Deref
+            IntPtr posPtr, anglePtr;
+            posDP.DerefOffsets(game, out posPtr);
+            angleDP.DerefOffsets(game, out anglePtr);
+            // Update Pos
+            game.WriteBytes(posPtr, BitConverter.GetBytes(sp.pos.X));
+            game.WriteBytes(posPtr + 4, BitConverter.GetBytes(sp.pos.Y));
+            game.WriteBytes(posPtr + 8, BitConverter.GetBytes(sp.pos.Z));
+            // Update Angle
+            game.WriteBytes(anglePtr, BitConverter.GetBytes(sp.angle.angleSin));
+            game.WriteBytes(anglePtr + 4, BitConverter.GetBytes(sp.angle.angleCos));
+        }
+
+        private DeepPointer AppendBaseOffset(DeepPointer dp, int[] appendOffsets) {
+            List<int> offsets = new List<int>(dp.GetOffsets());
+            offsets.AddRange(appendOffsets); // add new offsets
+            return new DeepPointer(dp.GetBase(), new List<int>(offsets));
         }
 
         protected void PrintEnemyPos(List<Enemy> enemies) {

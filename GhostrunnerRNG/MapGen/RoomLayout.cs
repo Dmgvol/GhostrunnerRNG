@@ -1,4 +1,5 @@
 ﻿using GhostrunnerRNG.Enemies;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -35,6 +36,13 @@ namespace GhostrunnerRNG.MapGen {
             }
         }
 
+        /// <summary>Flags to avoid using these spawnplanes for EnemiesWithoutCP</summary>
+        public void DoNotReuse() {
+            for(int i = 0; i < spawnPlanes.Count; i++) {
+                spawnPlanes[i].DoNotReuse();
+            }
+        }
+
         public void FixOrbBeams(Process game) {
             for(int i = 0; i < roomEnemies.Count; i++) {
                 if(roomEnemies[i] is EnemyShieldOrb) {
@@ -58,7 +66,9 @@ namespace GhostrunnerRNG.MapGen {
             availableSpawnPlanes.ForEach(x => x.ResetCurrEnemies());
 
             for(int i = 0; i < roomEnemies.Count; i++) {
-                List<SpawnPlane> availableSpawnPlanesUpdated = availableSpawnPlanes.Where(x => x.IsEnemyAllowed(roomEnemies[i].enemyType)).ToList();
+                double rarity = (double)(SpawnPlane.r.Next(0, 100) / 100.0);
+
+                List<SpawnPlane> availableSpawnPlanesUpdated = availableSpawnPlanes.Where(x => x.IsEnemyAllowed(roomEnemies[i].enemyType, rarity)).ToList();
 
                 if(availableSpawnPlanesUpdated.Count == 0) break;
                 int selectedPlaneIndex = SpawnPlane.r.Next(0, availableSpawnPlanesUpdated.Count);

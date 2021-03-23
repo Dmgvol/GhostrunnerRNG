@@ -65,6 +65,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Enemies\EnemyTurret.cs" />
     <Compile Include="Game\Config.cs" />
     <Compile Include="Game\GameUtils.cs" />
     <Compile Include="Game\SpawnData.cs" />
@@ -73,10 +74,12 @@
     <Compile Include="Enemies\EnemyDrone.cs" />
     <Compile Include="Enemies\EnemySniper.cs" />
     <Compile Include="MapGen\MapCore.cs" />
+    <Compile Include="MapGen\NonPlaceableObject.cs" />
     <Compile Include="MapGen\RoomLayout.cs" />
     <Compile Include="MapGen\Room.cs" />
     <Compile Include="Enemies\EnemyShieldOrb.cs" />
     <Compile Include="MapGen\SpawnPlane.cs" />
+    <Compile Include="MapGen\UplinkJump.cs" />
     <Compile Include="MapGen\WorldObject.cs" />
     <Compile Include="Maps\Awakening.cs" />
     <Compile Include="Maps\BlinkCV.cs" />
@@ -84,6 +87,7 @@
     <Compile Include="Maps\DharmaCity.cs" />
     <Compile Include="Maps\Echoes.cs" />
     <Compile Include="Maps\Faster.cs" />
+    <Compile Include="Maps\ForbiddenZone.cs" />
     <Compile Include="Maps\JackedUp.cs" />
     <Compile Include="Maps\LookInside.cs" />
     <Compile Include="Maps\RoadToAmida.cs" />

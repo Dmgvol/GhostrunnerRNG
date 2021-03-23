@@ -19,11 +19,52 @@ namespace GhostrunnerRNG.Enemies {
 
 
         public EnemyShieldOrb(Enemy enemy, DeepPointer dp) : base(enemy.GetObjectDP()) {
-            shieldGlowDP = dp;
             enemyType = EnemyTypes.ShieldOrb;
+            Pos = enemy.Pos;
+            shieldGlowDP = dp;
         }
 
-        public EnemyShieldOrb(Enemy enemy) : base(enemy.GetObjectDP()) {}
+        public EnemyShieldOrb(Enemy enemy) : base(enemy.GetObjectDP()) {
+            Pos = enemy.Pos;
+            enemyType = EnemyTypes.ShieldOrb;
+
+            // glow pointer
+            List<int> offsets = new List<int>(ObjectDP.GetOffsets());
+            offsets.RemoveAt(offsets.Count - 1);
+            offsets.Add(0x6c0);
+            offsets.Add(0x130);
+            offsets.Add(0x1d0);
+            shieldGlowDP = new DeepPointer(ObjectDP.GetBase(), offsets);
+        }
+
+        public void HideBeam_Range(int enemyIndex, int beams) {
+            if(enemyIndex < 0 || beams < 0) return;
+
+            for(int j = 0;  j < beams; j++) {
+                List<int> offsets = new List<int>(ObjectDP.GetOffsets());
+                offsets.RemoveAt(offsets.Count - 1);
+                offsets.Add(0x6e8);
+                offsets.Add(0x8 * enemyIndex);
+                offsets.Add(0x200);
+                offsets.Add(0x8 * (j + 1));
+                offsets.Add(0x1D0);
+                BeamsToHide.Add(new DeepPointer(ObjectDP.GetBase(), offsets));
+            }
+            
+        }
+
+        public void LinkObject(int enemies) {
+            if(enemies < 0) return;
+
+            for(int i = 0; i < enemies; i++) {
+                List<int> offsets = new List<int>(ObjectDP.GetOffsets());
+                offsets.RemoveAt(offsets.Count - 1);
+                offsets.Add(0x6e8);
+                offsets.Add(0x8 * LinkedObjectsDP.Count);
+                offsets.Add(0x220);
+                LinkedObjectsDP.Add(new DeepPointer(ObjectDP.GetBase(), offsets));
+            }
+        }
 
         public void LinkObject(DeepPointer dp) {
             LinkedObjectsDP.Add(dp);
@@ -64,9 +105,11 @@ namespace GhostrunnerRNG.Enemies {
 
         public override void SetMemoryPos(Process game, SpawnData spawnData) {
             DerefPointer(game);
-            base.SetMemoryPos(game, spawnData);
+            if(Config.GetInstance().Gen_RngOrbs) {
+                base.SetMemoryPos(game, spawnData);
+            }
 
-            // update shield glow/cone location to orb pos
+            // update shield glow/cone location to orb pos - even RngOrbs disabled
             if(shieldGlowDP != null) {
                 game.WriteBytes(shieldGlowPtr, BitConverter.GetBytes((float)spawnData.pos.X));
                 game.WriteBytes(shieldGlowPtr + 4, BitConverter.GetBytes((float)spawnData.pos.Y));

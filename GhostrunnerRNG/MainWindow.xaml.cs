@@ -29,7 +29,7 @@ namespace GhostrunnerRNG {
 		public static bool IsHC;
 		public static float xPos, yPos, zPos, angleSin, angleCos;
 		public float oldPreciseTimer, preciseTimer;
-		public static Angle angle;
+		public static Angle angle = new Angle();
 
 		// MAP OBJECT
 		MapCore currentMap;
@@ -61,7 +61,6 @@ namespace GhostrunnerRNG {
         private void MapChanged(string from, string to) {
 			MapType mapTo = GetMapType(to);
 			MapType mapFrom = GetMapType(from);
-			
 
 			// rng started in middle of level, request to restart or menu
 			if(mapFrom == MapType.Unknown && mapTo != MapType.MainMenu) {
@@ -299,7 +298,12 @@ namespace GhostrunnerRNG {
 						// Hell
 						AccurateMapType = MapType.InHerOwnImage;
 					}
-					
+				} else if(AccurateMapType == MapType.ForbiddenZone) {
+					// Fzone
+					currentMap = new ForbiddenZone(IsHC);
+					NewRNG();
+					ToggleButton(ButtonNewRng, true);
+					return;
 				} else {
 					currentMap = null;
 					AccurateMapType = GetMapType(MapName);

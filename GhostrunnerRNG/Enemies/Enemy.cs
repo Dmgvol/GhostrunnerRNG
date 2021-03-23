@@ -15,7 +15,7 @@ namespace GhostrunnerRNG.Enemies {
 
         public Enemy(DeepPointer EnemyDP) : base(EnemyDP) { }
 
-        public enum EnemyTypes { Default, Waver, Drone, ShieldOrb, Weeb, Sniper }
+        public enum EnemyTypes { Default, Waver, Drone, ShieldOrb, Weeb, Sniper, Turret }
         public EnemyTypes enemyType { get; protected set; } = EnemyTypes.Default;
 
         public void SetEnemyType(EnemyTypes enemyType) {
@@ -23,6 +23,7 @@ namespace GhostrunnerRNG.Enemies {
         }
 
         // get random spawndata
+        [Obsolete("Get spawndata from spawnplane, we do not link enemies with direct planes anymore")]
         public SpawnData GetSpawnData() {
             if(planes == null || planes.Count == 0) throw new IndexOutOfRangeException();
 

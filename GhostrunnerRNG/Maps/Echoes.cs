@@ -328,19 +328,19 @@ namespace GhostrunnerRNG.Maps {
             layout = new RoomLayout(sniper);
 
             // Top of umbrella
-            SniperSpawnData sniperData = new SniperSpawnData();
+            SniperSpawnInfo sniperData = new SniperSpawnInfo();
             sniperData.AddPatrolPoint(new Vector3f(-14519, 17741, 8773));
             sniperData.AddPatrolPoint(new Vector3f(-11731, 19523, 8974));
             sniperData.AddFocusPoint(new Vector3f(-13395, 13365, 8870));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12323, 13465, 9253), new Angle(0.80f, 0.60f)).SetSniperData(sniperData));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12323, 13465, 9253), new Angle(0.80f, 0.60f)).SetSpawnInfo(sniperData));
 
             // small rooftop
-            sniperData = new SniperSpawnData();
+            sniperData = new SniperSpawnInfo();
             sniperData.AddPatrolPoint(new Vector3f(-14569, 17777, 8773));
             sniperData.AddPatrolPoint(new Vector3f(-11832, 17789, 8861));
             sniperData.AddFocusPoint(new Vector3f(-13831, 13365, 8857));
 
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-13434, 13865, 8831), new Angle(0.72f, 0.69f)).SetSniperData(sniperData));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-13434, 13865, 8831), new Angle(0.72f, 0.69f)).SetSpawnInfo(sniperData));
 
             layout.Mask(SpawnPlane.Mask_Sniper);
             Rooms.Add(layout);
@@ -353,7 +353,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-29693, 10888, 10096), new Angle(0.07f, 1.00f))); // umbrella - default patrols
 
 
-            sniperData = new SniperSpawnData();
+            sniperData = new SniperSpawnInfo();
             sniperData.AddPatrolPoint(new Vector3f(-25061, 11181, 9578));
             sniperData.AddPatrolPoint(new Vector3f(-26419, 11548, 9598));
             sniperData.AddPatrolPoint(new Vector3f(-29088, 10582, 9797));
@@ -364,9 +364,9 @@ namespace GhostrunnerRNG.Maps {
             sniperData.AddFocusPoint(new Vector3f(-24699, 14429, 9493));
             sniperData.AddFocusPoint(new Vector3f(-26361, 15220, 9493));
 
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-25717, 15099, 9911), new Angle(-0.78f, 0.62f)).SetSniperData(sniperData)); // left triple fuel tanks
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-25717, 15099, 9911), new Angle(-0.78f, 0.62f)).SetSpawnInfo(sniperData)); // left triple fuel tanks
 
-            sniperData = new SniperSpawnData();
+            sniperData = new SniperSpawnInfo();
             sniperData.AddPatrolPoint(new Vector3f(-32438, 11495, 9942));
             sniperData.AddPatrolPoint(new Vector3f(-30343, 11435, 9942));
             sniperData.AddPatrolPoint(new Vector3f(-29053, 11187, 9942));
@@ -377,7 +377,7 @@ namespace GhostrunnerRNG.Maps {
             sniperData.AddFocusPoint(new Vector3f(-29235, 15046, 9498));
             sniperData.AddFocusPoint(new Vector3f(-30660, 13235, 9498));
 
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-30273, 14357, 10656), new Angle(-0.53f, 0.85f)).SetSniperData(sniperData)); // red neon sign, left top
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-30273, 14357, 10656), new Angle(-0.53f, 0.85f)).SetSpawnInfo(sniperData)); // red neon sign, left top
 
             layout.Mask(SpawnPlane.Mask_Sniper);
             Rooms.Add(layout);

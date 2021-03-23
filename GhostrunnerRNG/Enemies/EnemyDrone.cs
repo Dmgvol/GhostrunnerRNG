@@ -11,6 +11,8 @@ namespace GhostrunnerRNG.Enemies {
 
         public EnemyDrone(Enemy enemy) : base(enemy.GetObjectDP()) {
             enemyType = EnemyTypes.Drone;
+            Pos = enemy.Pos;
+
 
             // extra pos pointer
             List<int> offsets = new List<int>(ObjectDP.GetOffsets());
@@ -32,8 +34,8 @@ namespace GhostrunnerRNG.Enemies {
         public override void SetMemoryPos(Process game, SpawnData spawnData) {
             base.SetMemoryPos(game, spawnData);
 
-            // update drone's second pos
             DerefPointer(game);
+            // update drone's second pos
             game.WriteBytes(dronePosPtr, BitConverter.GetBytes((float)spawnData.pos.X));
             game.WriteBytes(dronePosPtr + 4, BitConverter.GetBytes((float)spawnData.pos.Y));
             game.WriteBytes(dronePosPtr + 8, BitConverter.GetBytes((float)spawnData.pos.Z));

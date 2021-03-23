@@ -59,20 +59,21 @@ namespace GhostrunnerRNG.Maps {
 
             ////// 4 platforms //////
             layout = new RoomLayout(Enemies[4], Enemies[5], Enemies[6], Enemies[7]);
+
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(152687, -56046, 3598), new Vector3f(155578, -54924, 3598)).RandomAngle().SetMaxEnemies(2)); // collectible platform
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(153858, -52961, 3803), new Angle(-0.82f, 0.57f))); // start of slide to last room
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(153274, -56737, 4301), new Angle(-0.82f, 0.58f))); // on wall 1
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(155214, -56562, 4301), new Angle(-0.75f, 0.66f))); // on wall 2
 
             // main platforms
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(156600, -56551, 2833), new Vector3f(155800, -58005, 2833), new Angle(-0.74f, 0.67f)));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(157807, -58805, 2832), new Vector3f(158380, -60445, 2832), new Angle(-0.92f, 0.39f)));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(155776, -61614, 2832), new Vector3f(154050, -61968, 2832), new Angle(0.68f, 0.73f)));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(152743, -59166, 2832), new Vector3f(154546, -58908, 2832), new Angle(-0.96f, 0.29f)));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(154391, -58950, 2832), new Vector3f(152839, -59242, 2832), new Angle(-0.72f, 0.69f)));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(154325, -61307, 2832), new Vector3f(155492, -62261, 2832), new Angle(-0.05f, 1.00f)));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(158264, -60461, 2832), new Vector3f(157863, -58968, 2832), new Angle(-0.76f, 0.65f)));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(156606, -56533, 2833), new Vector3f(155834, -57974, 2833), new Angle(-0.78f, 0.62f)));
 
             // billboards
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(154456, -62203, 4234), new Angle(0.77f, 0.64f)));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(158635, -59604, 4248), new Angle(-1.00f, 0.08f)));
+            //layout.AddSpawnPlane(new SpawnPlane(new Vector3f(154456, -62203, 4234), new Angle(0.77f, 0.64f)));
+            //layout.AddSpawnPlane(new SpawnPlane(new Vector3f(158635, -59604, 4248), new Angle(-1.00f, 0.08f)));
 
             Rooms.Add(layout);
         }

@@ -6,28 +6,80 @@
         xmlns:local="clr-namespace:GhostrunnerRNG.Windows"
         mc:Ignorable="d"
         Background="#FF292929"
-        Title="Dev-Window" Height="324.743" Width="693.435" MinWidth="400" MinHeight="280">
+        Title="Dev-Window" Height="408.67" Width="693.435" MinWidth="400" MinHeight="280">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Margin="10">
             <!--Testing-->
-            <Label Content="SpawnPlane Command Testing" FontSize="15"  Foreground="White"/>
+            <Label Content="SpawnPlane Command Testing" FontSize="15" Foreground="White"/>
             <TextBox x:Name="textbox_commands" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0, 30"  Background="#FF666666" Foreground="White" TextChanged="textbox_commands_TextChanged"/>
             <Label Content="7 - Tp to pos1&#x09;8 - Tp to pos2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10, 0" FontSize="15"  Foreground="White"/>
         </Grid>
 
         <Border BorderBrush="#FF666666" BorderThickness="1" HorizontalAlignment="Stretch" Height="1" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" />
         <Grid Grid.Row="1" Margin="10">
-            <!--Creation-->
-            <Label Content="SpawnPlane Command Creation" FontSize="15"  Foreground="White"/>
-            <CheckBox x:Name="checkbox_onlyVector" Content="Only Pos1 Vector" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 5" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
-            <TextBox IsReadOnly="True" x:Name="outputBox" HorizontalAlignment="Stretch" MinWidth="400" VerticalAlignment="Top" Margin="0,30,60,0"  Height="30" Background="#FF666666" Foreground="White"/>
-            <Button x:Name="copyButton" Content="Copy" Height="30" Width="50" Margin="0,30,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="copyButton_Click"/>
-            <Label Content="1 - Save Pos A&#x09;2 - Save Pos B&#x0a;3 - Create 2Pos plane(fixed angle)&#x09;4 - Create 1Pos, fixed angle      5 - create 1 pos(no angle)" FontSize="15"  Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 60, 0, 00"/>
-        </Grid>
 
+            <TabControl Background="Transparent" BorderBrush="#FF666666" SelectionChanged="TabControl_SelectionChanged">
+                <TabItem x:Name="SpawnPlaneTab">
+                    <TabItem.Header>
+                        <Grid>
+                            <TextBlock Text="SpawnPlane" Margin="10, 0" Background="Transparent" />
+                        </Grid>
+                    </TabItem.Header>
+
+                    <!--Creation - SpawnPlane-->
+                    <Grid>
+                        <Label Content="SpawnPlane Command Creation" FontSize="15"  Foreground="White"/>
+                        <CheckBox x:Name="checkbox_onlyVector" Content="Only Pos1 Vector" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 5" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+                        <TextBox IsReadOnly="True" x:Name="outputBox" HorizontalAlignment="Stretch" MinWidth="400" VerticalAlignment="Top" Margin="0,30,60,0"  Height="30" Background="#FF666666" Foreground="White"/>
+                        <Button x:Name="copyButton" Content="Copy" Height="30" Width="50" Margin="0,30,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="copyButton_Click"/>
+                        <Label Content="1 - Save Pos A&#x09;2 - Save Pos B&#x0a;3 - Create 2Pos plane(fixed angle)&#x09;4 - Create 1Pos, fixed angle      5 - create 1 pos(no angle)" FontSize="15"  Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 60, 0, 00"/>
+                    </Grid>
+
+                </TabItem>
+
+                <TabItem x:Name="RotationTab">
+                    <TabItem.Header>
+                        <Grid>
+                            <TextBlock Text="RotationTab" Margin="10, 0" Background="Transparent"/>
+                        </Grid>
+                    </TabItem.Header>
+                    <!--Creation - SpawnPlane-->
+                    <Grid>
+                        <Label Content="Rotation XYZW Command Creation" FontSize="15"  Foreground="White"/>
+                        <Label Content="Origin angle: Look at 0.0 Sin and 1.0 Cos" HorizontalAlignment="Right"  Foreground="White"/>
+                        <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Top" Margin="0, 30">
+                            <Label Foreground="White" Content="Yaw"/>
+                            <TextBox Width="100" Height="30" x:Name="InputYaw" Background="#FF666666" Foreground="White"/>
+                            <Label Foreground="White" Content="Pitch" Margin="10, 00, 0, 0"/>
+                            <TextBox Width="100" Height="30" x:Name="InputPitch" Background="#FF666666" Foreground="White"/>
+                            <Label Foreground="White" Content="Roll" Margin="10, 00, 0, 0"/>
+                            <TextBox Width="100" Height="30" x:Name="InputRoll" Background="#FF666666" Foreground="White"/>
+                            <Button x:Name="ButtonYPR" Content="Create" Margin="20, 0, 0, 0" Width="50" Click="ButtonYPR_Click"/>
+                            <Button x:Name="ButtonApply" Content="Apply" Margin="20, 0, 0, 0" Width="50" Click="ButtonApply_Click"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Top" Margin="0, 70">
+                            <Label Foreground="White" Content="Sin" Margin="2, 0"/>
+                            <TextBox Width="100" Height="30" x:Name="AngleSin" Background="#FF666666" Foreground="White"/>
+                            <Label Foreground="White" Content="Cos" Margin="16, 00, 0, 0" />
+                            <TextBox Width="100" Height="30" x:Name="AngleCos" Background="#FF666666" Foreground="White"/>
+                            <Label Foreground="White" Content="Mode" Margin="5, 0"/>
+                            <ComboBox x:Name="TurretMode" IsEditable="False" Width="80" SelectedIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+                                <ComboBoxItem Content="Normal"/>
+                                <ComboBoxItem Content="Ceiling"/>
+                                <ComboBoxItem Content="LeftWall"/>
+                                <ComboBoxItem Content="RightWall"/>
+                            </ComboBox>
+                            <Button x:Name="ButtonAngle" Content="Create" Margin="30, 0, 0, 0" Width="50" Click="ButtonAngle_Click"/>
+                        </StackPanel>
+                        <TextBox IsReadOnly="True" x:Name="OutputboxRotation"  HorizontalAlignment="Stretch" MinWidth="400" VerticalAlignment="Top" Margin="0,122,60,0"  Height="30" Background="#FF666666" Foreground="White"/>
+                        <Button x:Name="CopyRotationCode"  Content="Copy" Height="30" Width="50" Margin="0,122,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="CopyRotationCode_Click"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
     </Grid>
 </Window>

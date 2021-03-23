@@ -12,7 +12,8 @@ namespace GhostrunnerRNG.Enemies {
         private List<SniperPatrol> focusPoints = new List<SniperPatrol>();
 
         public EnemySniper(Enemy enemy) : base(enemy.GetObjectDP()) {
-            enemyType = EnemyTypes.Sniper; 
+            enemyType = EnemyTypes.Sniper;
+            Pos = enemy.Pos;
         }
 
         protected override void DerefPointer(Process game) {
@@ -39,15 +40,15 @@ namespace GhostrunnerRNG.Enemies {
 
         public override void SetMemoryPos(Process game, SpawnData spawnData) {
             // SpawnData contain sniper spawn data?
-            if(spawnData.sniperSpawnData != null) {
+            if(spawnData.spawnInfo != null && spawnData.spawnInfo is SniperSpawnInfo) {
                 patrolPoints.Clear();
                 focusPoints.Clear();
-                for(int i = 0; i < spawnData.sniperSpawnData.patrolPoints.Count; i++) {
-                    AddPatrolPoint(spawnData.sniperSpawnData.patrolPoints[i].Item1, spawnData.sniperSpawnData.patrolPoints[i].Item2);
+                for(int i = 0; i < ((SniperSpawnInfo)spawnData.spawnInfo).patrolPoints.Count; i++) {
+                    AddPatrolPoint(((SniperSpawnInfo)spawnData.spawnInfo).patrolPoints[i].Item1, ((SniperSpawnInfo)spawnData.spawnInfo).patrolPoints[i].Item2);
                 }
 
-                for(int i = 0; i < spawnData.sniperSpawnData.focusPoints.Count; i++) {
-                    AddFocusPoint(spawnData.sniperSpawnData.focusPoints[i].Item1, spawnData.sniperSpawnData.focusPoints[i].Item2);
+                for(int i = 0; i < ((SniperSpawnInfo)spawnData.spawnInfo).focusPoints.Count; i++) {
+                    AddFocusPoint(((SniperSpawnInfo)spawnData.spawnInfo).focusPoints[i].Item1, ((SniperSpawnInfo)spawnData.spawnInfo).focusPoints[i].Item2);
                 }
             }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GhostrunnerRNG.Enemies;
+using System;
 using System.Collections.Generic;
 
 namespace GhostrunnerRNG.Game {
@@ -93,10 +94,10 @@ namespace GhostrunnerRNG.Game {
             MapType.RunUp,
             MapType.DharmaCity,
             MapType.Echoes,
-             MapType.Faster
+            MapType.Faster,
+            MapType.ForbiddenZone
 
             /*TODO:
-            ForbiddenZone
             ReignInHell
             OverlordCV
             TYWB
@@ -126,5 +127,95 @@ namespace GhostrunnerRNG.Game {
             return (player.X > A.X && player.Y > A.Y && player.Z > A.Z &&
                 player.X < B.X && player.Y < B.Y && player.Z < B.Z);
         }
+
+        /// <summary>
+        /// Turret 3D Quaternion rotation calculation, for 4 axis enemy/object rotation
+        /// </summary>
+        /// <param name="orientation">fixed type, for turret</param>
+        /// <param name="angleSin">angleSin</param>
+        /// <param name="angleCos">angleCos</param>
+        /// <returns>4-axis Quaternion rotations</returns>
+        public static Quaternion CreateTurretQuaternion(EnemyTurret.TurretOrientation orientation, float angleSin, float angleCos) {
+            Quaternion q = new Quaternion(0, 0, angleSin, angleCos);
+            if(orientation == EnemyTurret.TurretOrientation.Ceiling) {
+                q = new Quaternion(angleCos, angleSin, 0, 0); // angles are flipped between them
+            } else if(orientation == EnemyTurret.TurretOrientation.WallLeft) {
+                // get angle from Sin/Cos angles
+                double angleRadian = (angleSin > 0) ? Math.Acos(angleCos) : -Math.Acos(angleCos);
+                double angleDegrees = angleRadian * 180 / Math.PI;
+                q = CreateQuaternion((float)angleDegrees * 2, 0, -90f); // with -90 roll as left wall
+            } else if(orientation == EnemyTurret.TurretOrientation.WallRight) {
+                // get angle from Sin/Cos angles
+                double angleRadian = (angleSin > 0) ? Math.Acos(angleCos) : -Math.Acos(angleCos);
+                double angleDegrees = angleRadian * 180 / Math.PI;
+                q = CreateQuaternion((float)angleDegrees * 2, 0, 90f); // with 90 roll as right wall
+            }
+            return q;
+        }
+
+        /// <summary>
+        /// 3D Quaternion rotation calculation, for 4 axis enemy/object rotation using YawPitchRoll
+        /// </summary>
+        /// <returns>4-axis Quaternion rotations</returns>
+        public static Quaternion CreateQuaternion(float angleYaw, float anglePitch, float angleRoll) {
+            return CreateFromYawPitchRoll((float)(angleYaw * Math.PI / 180), (float)(anglePitch * Math.PI / 180), (float)(angleRoll * Math.PI / 180));
+        }
+
+        //// Raw quaternion formula, use others to fit GR numbers
+        private static Quaternion CreateFromYawPitchRoll(float yaw, float pitch, float roll) {
+            float rollOver2 = roll * 0.5f;
+            float sinRollOver2 = (float)Math.Sin(rollOver2);
+            float cosRollOver2 = (float)Math.Cos(rollOver2);
+            float pitchOver2 = pitch * 0.5f;
+            float sinPitchOver2 = (float)Math.Sin(pitchOver2);
+            float cosPitchOver2 = (float)Math.Cos(pitchOver2);
+            float yawOver2 = yaw * 0.5f;
+            float sinYawOver2 = (float)Math.Sin(yawOver2);
+            float cosYawOver2 = (float)Math.Cos(yawOver2);
+            float X, Y, Z, W;
+            W = cosYawOver2 * cosPitchOver2 * cosRollOver2 + sinYawOver2 * sinPitchOver2 * sinRollOver2;
+            X = cosYawOver2 * cosPitchOver2 * sinRollOver2 - sinYawOver2 * sinPitchOver2 * cosRollOver2;
+            Y = cosYawOver2 * sinPitchOver2 * cosRollOver2 + sinYawOver2 * cosPitchOver2 * sinRollOver2;
+            Z = sinYawOver2 * cosPitchOver2 * cosRollOver2 - cosYawOver2 * sinPitchOver2 * sinRollOver2;
+            return new Quaternion() { x = X, y = Y, z = Z, w = W };
+        }
+
+        // 4-Axis struct, for quaternion
+        public struct Quaternion {
+            public float x, y, z, w;
+            public Quaternion(float x, float y, float z, float w) {this.x = x; this.y = y; this.z = z; this.w = w; }
+            public string ToString(bool withF = false) => $"{x.ToString("0.00")}{(withF ? $"f" : "")}, {y.ToString("0.00")}{(withF ? $"f" : "")}, {z.ToString("0.00")}{(withF ? $"f" : "")}, {w.ToString("0.00")}{(withF ? $"f" : "")}";
+            public override string ToString() => $"{x.ToString("0.00")}, {y.ToString("0.00")}, {z.ToString("0.00")}, {w.ToString("0.00")}";
+        }
+
+        [Obsolete("This method does not fit with GR numbers, Use CreateQuaternion(yaw, pitch, roll) method")]
+        public static Vector3f QuaternionToEuler(Quaternion q) {
+            float x, y, z;
+            float unit = (q.x * q.x) + (q.y * q.y) + (q.z * q.z) + (q.w * q.w);
+            float test = q.x * q.w - q.y * q.z;
+            if(test > 0.4995f * unit) // singularity at north pole
+            {
+                x = (float)(Math.PI / 2f);
+                y = (float)(2f * Math.Atan2(q.y, q.x));
+                z = 0;
+            } else if(test < -0.4995f * unit) // singularity at south pole
+              {
+                x = (float)-Math.PI / 2;
+                y = (float)(-2f * Math.Atan2(q.y, q.x));
+                z = 0;
+            } else // no singularity - this is the majority of cases
+              {
+                x = (float)Math.Asin(2f * (q.w * q.x - q.y * q.z));
+                y = (float)Math.Atan2(2f * q.w * q.y + 2f * q.z * q.x, 1 - 2f * (q.x * q.x + q.y * q.y));
+                z = (float)Math.Atan2(2f * q.w * q.z + 2f * q.x * q.y, 1 - 2f * (q.z * q.z + q.x * q.x));
+            }
+            Vector3f euler = new Vector3f((float)(x * (180.0 / Math.PI)), (float)(y * (180.0 / Math.PI)), (float)(z * (180.0 / Math.PI)));
+            euler.X %= 360;
+            euler.Y %= 360;
+            euler.Z %= 360;
+            return euler;
+        }
+
+        public static bool IsNumeric(string value) => float.TryParse(value, out _);
     }
 }
