@@ -8,8 +8,6 @@ Also... It is 100% harder then the classic difficulty.
 ## Open Beta Version
 After months of hard work, we're excited to announce the open beta for this project!
 
-Support: Winter Update
-
 Trailer: <Link>
 
 ### Which elements it modifies/randomizes?
