@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
+using GhostrunnerRNG.NonPlaceableObjects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,6 +18,9 @@ namespace GhostrunnerRNG.MapGen {
 
         // enemies without cp
         protected List<Enemy> EnemiesWithoutCP = new List<Enemy>();
+
+        // list of NonPlaceableObjects
+        protected List<NonPlaceableObject> nonPlaceableObjects = new List<NonPlaceableObject>();
 
         public MapType mapType { get; private set; }
         public MapCore(MapType mapType) {
@@ -75,6 +79,11 @@ namespace GhostrunnerRNG.MapGen {
                 // fix orb beams
                 for(int i = 0; i < Rooms.Count; i++) {
                     Rooms[i].FixOrbBeams(game);
+                }
+
+                // uplinks and other nonPlaceableObjects
+                for(int i = 0; i < nonPlaceableObjects.Count; i++) {
+                    nonPlaceableObjects[i].Randomize(game);
                 }
 
                 // enemies without cp

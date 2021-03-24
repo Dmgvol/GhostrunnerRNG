@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.NonPlaceableObjects;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -555,7 +556,7 @@ namespace GhostrunnerRNG.Maps {
             layout.DoNotReuse();
             Rooms.Add(layout);
 
-            // ///// Extra spawns for enemies without cp for extra rng ////
+            /////// Extra spawns for enemies without cp for extra rng ////
             layout = new RoomLayout();
             // extra spots after last room
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(156599, -50852, 11515), new Angle(1.00f, 0.02f)).Mask(SpawnPlane.Mask_Flatground));
