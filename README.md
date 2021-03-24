@@ -14,6 +14,10 @@ Trailer: <Link>
 - Enemies(all types)
 - Shield Orbs
 - Checkpoints
+- Uplinks(Shurikens, Super-Jumps)
+- Rotating Billboards
+- Shuriken Targets (hits needed)
+- Train Signs (on Faster)
 
 ### Which Levels?
 ~All~ Most classic levels, including a few cybervoid levels:
@@ -37,6 +41,7 @@ Trailer: <Link>
 - [ ] SR Focus (enemies will spawn on popular speedrunning routes)
 - [ ] Hardcore Levels.
 - [ ] Custom modes (TBA)
+- [ ] Abilities
 - [ ] More RNG!
 
 ## About
