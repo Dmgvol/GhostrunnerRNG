@@ -279,7 +279,6 @@ namespace GhostrunnerRNG.Game {
 			}
 
 			if(currentMap != null && (Config.GetInstance().Gen_RngOnRestart || force)) {
-				SpawnPlane.r = new Random();
 				Config.GetInstance().NewSeed();
 				currentMap.RandomizeEnemies(game);
 				LogStatus("RNG Generated! \nDie or load cp to see changes.");

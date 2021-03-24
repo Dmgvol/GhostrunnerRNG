@@ -1,5 +1,4 @@
 ﻿using GhostrunnerRNG.Game;
-using GhostrunnerRNG.MapGen;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -39,7 +38,7 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
                 List<SignSpawnerSpawnInfo> spawnLst = spawnInfos.OfType<SignSpawnerSpawnInfo>().ToList();
                 if(spawnLst.Count == 0) spawnLst.Add(defaultData); // no object for some reason? add default
 
-                int i = SpawnPlane.r.Next(spawnLst.Count);
+                int i = Config.GetInstance().r.Next(spawnLst.Count);
                 // change modified values only
                 foreach(string key in Pointers.Keys) {
                     ModifyIfChanged(game, Pointers[key].Item2, spawnLst[i].Parameters[key], defaultData.Parameters[key].Value);

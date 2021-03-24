@@ -27,7 +27,7 @@ namespace GhostrunnerRNG.Enemies {
         public SpawnData GetSpawnData() {
             if(planes == null || planes.Count == 0) throw new IndexOutOfRangeException();
 
-            int plane = SpawnPlane.r.Next(0, planes.Count);
+            int plane = Config.GetInstance().r.Next(0, planes.Count);
             return planes[plane].GetRandomSpawnData();
         }
 

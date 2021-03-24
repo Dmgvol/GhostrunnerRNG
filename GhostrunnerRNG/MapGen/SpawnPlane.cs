@@ -15,8 +15,6 @@ namespace GhostrunnerRNG.MapGen {
         public bool FixedAngle = true;
         public Angle angle { get; private set; } = null;
 
-        public static Random r; // randomizer
-
         // max/curr enemies per plane(for RoomLayout)
         public int MaxEnemies { get; private set; } = 1;
         public int CurrEnemeies { get; private set; } = 0;
@@ -174,21 +172,21 @@ namespace GhostrunnerRNG.MapGen {
 
         private Vector3f RandomWithinRect(Vector3f a, Vector3f b) {
             float xDelta = Math.Max(a.X, b.X) - Math.Min(a.X, b.X);
-            float newX = Math.Min(a.X, b.X) + r.Next((int)xDelta);
+            float newX = Math.Min(a.X, b.X) + Config.GetInstance().r.Next((int)xDelta);
 
             float yDelta = Math.Max(a.Y, b.Y) - Math.Min(a.Y, b.Y);
-            float newY = Math.Min(a.Y, b.Y) + r.Next((int)yDelta);
+            float newY = Math.Min(a.Y, b.Y) + Config.GetInstance().r.Next((int)yDelta);
 
             float zDelta = Math.Max(a.Z, b.Z) - Math.Min(a.Z, b.Z);
-            float newZ = Math.Min(a.Z, b.Z) + r.Next((int)zDelta);
+            float newZ = Math.Min(a.Z, b.Z) + Config.GetInstance().r.Next((int)zDelta);
 
             return new Vector3f(newX, newY, newZ);
         }
 
         private Vector3f RandomWithInVerticalPlane(Vector3f a, Vector3f b) {
-            float x = r.Next(Math.Min((int)a.X, (int)b.X), Math.Max((int)a.X, (int)b.X));
+            float x = Config.GetInstance().r.Next(Math.Min((int)a.X, (int)b.X), Math.Max((int)a.X, (int)b.X));
             float y = a.Y + (b.Y - a.Y) / (b.X - a.X) * (x - a.X);
-            float z = r.Next(Math.Min((int)a.Z, (int)b.Z), Math.Max((int)a.Z, (int)b.Z));
+            float z = Config.GetInstance().r.Next(Math.Min((int)a.Z, (int)b.Z), Math.Max((int)a.Z, (int)b.Z));
             return new Vector3f(x, y, z);
         }
 

@@ -75,7 +75,7 @@ namespace GhostrunnerRNG.Maps {
             enemies[1].SetEnemyType(EnemyTypes.Weeb);
 
             // use 2'nd weeb for whole map rng?
-            if(SpawnPlane.r.Next(2) == 1) {
+            if(Config.GetInstance().r.Next(2) == 1) {
                 layout = new RoomLayout(enemies[0]);
                 enemies[1].DisableAttachedCP(GameHook.game);
                 EnemiesWithoutCP.Add(enemies[1]);
@@ -148,8 +148,8 @@ namespace GhostrunnerRNG.Maps {
             enemies.ForEach(x => x.DisableAttachedCP(GameHook.game)); // remove all CP
 
             // take random enemy to EnemiesWithoutCP?
-            if(SpawnPlane.r.Next(2) == 1) {
-                int index = SpawnPlane.r.Next(enemies.Count); // pick random
+            if(Config.GetInstance().r.Next(2) == 1) {
+                int index = Config.GetInstance().r.Next(enemies.Count); // pick random
                 enemies[index].DisableAttachedCP(GameHook.game);
                 EnemiesWithoutCP.Add(enemies[index]); // add to list
                 enemies.RemoveAt(index); // remove from enemy list

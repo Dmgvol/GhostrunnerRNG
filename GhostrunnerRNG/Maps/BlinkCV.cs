@@ -78,9 +78,9 @@ namespace GhostrunnerRNG.Maps {
             Vector3f pos2 = new Vector3f(-7800, 23040, 390);
             Vector3f pos3 = new Vector3f(-7650, 22555, 390);
 
-            pos1.X = -7950 + SpawnPlane.r.Next(0, 500);
-            pos3.X = -7950 + SpawnPlane.r.Next(0, 500);
-            pos2.X = (pos1.X + pos3.X) / 2 + SpawnPlane.r.Next(-100, 100);
+            pos1.X = -7950 + Config.GetInstance().r.Next(0, 500);
+            pos3.X = -7950 + Config.GetInstance().r.Next(0, 500);
+            pos2.X = (pos1.X + pos3.X) / 2 + Config.GetInstance().r.Next(-100, 100);
 
             Enemies_Room1[0].SetMemoryPos(game, new SpawnData(pos1));
             Enemies_Room1[1].SetMemoryPos(game, new SpawnData(pos2));
@@ -90,7 +90,7 @@ namespace GhostrunnerRNG.Maps {
             SpawnPlane middlePlane = new SpawnPlane(new Vector3f(-8176, 16164, 407), new Vector3f(-7138, 15286, 398));
             Vector3f pos5 = middlePlane.GetRandomSpawnData().pos;
 
-            float phi = (float)(SpawnPlane.r.Next(0, 180) / Math.PI * 180);
+            float phi = (float)(Config.GetInstance().r.Next(0, 180) / Math.PI * 180);
             Vector3f pos4 = new Vector3f(pos5.X - 560 * (float)Math.Cos(phi), pos5.Y + 560 * (float)Math.Sin(phi), 408);
             Vector3f pos6 = new Vector3f(pos5.X + 560 * (float)Math.Cos(phi), pos5.Y - 560 * (float)Math.Sin(phi), 408);
 
@@ -99,7 +99,7 @@ namespace GhostrunnerRNG.Maps {
             Enemies_Room2[2].SetMemoryPos(game, new SpawnData(pos6));
 
             //// room 3 - platforms ////
-            int spawnIndex = SpawnPlane.r.Next(platformSpawns.Count);
+            int spawnIndex = Config.GetInstance().r.Next(platformSpawns.Count);
 
             // asign platform values
             platforms[0].Pos = platformSpawns[spawnIndex].p1_start;

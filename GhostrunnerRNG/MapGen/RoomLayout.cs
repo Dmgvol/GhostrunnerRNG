@@ -1,4 +1,5 @@
 ﻿using GhostrunnerRNG.Enemies;
+using GhostrunnerRNG.Game;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -66,12 +67,12 @@ namespace GhostrunnerRNG.MapGen {
             availableSpawnPlanes.ForEach(x => x.ResetCurrEnemies());
 
             for(int i = 0; i < roomEnemies.Count; i++) {
-                double rarity = (double)(SpawnPlane.r.Next(0, 100) / 100.0);
+                double rarity = (double)(Config.GetInstance().r.Next(0, 100) / 100.0);
 
                 List<SpawnPlane> availableSpawnPlanesUpdated = availableSpawnPlanes.Where(x => x.IsEnemyAllowed(roomEnemies[i].enemyType, rarity)).ToList();
 
                 if(availableSpawnPlanesUpdated.Count == 0) break;
-                int selectedPlaneIndex = SpawnPlane.r.Next(0, availableSpawnPlanesUpdated.Count);
+                int selectedPlaneIndex = Config.GetInstance().r.Next(0, availableSpawnPlanesUpdated.Count);
 
                 // can add enemies to that plane? 
                 if(availableSpawnPlanesUpdated[selectedPlaneIndex].CanAddEnemies()) {

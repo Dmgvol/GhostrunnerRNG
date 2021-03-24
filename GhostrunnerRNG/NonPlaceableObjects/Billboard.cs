@@ -38,12 +38,12 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
             // got any spawnInfos?
             if(spawnInfos != null && spawnInfos.Count > 0 && DefaultData is BillboardSpawnInfo defaultData) {
                 // pick random and check if correct type
-                double rarity = (double)(SpawnPlane.r.Next(0, 100) / 100.0);
+                double rarity = (double)(Config.GetInstance().r.Next(0, 100) / 100.0);
                 // get list of same type and correct rarity
                 List<BillboardSpawnInfo> spawnLst = spawnInfos.OfType<BillboardSpawnInfo>().Where(x => x.rarity >= rarity).ToList();
                 if(spawnLst.Count == 0) spawnLst.Add(defaultData); // no object with minimum rarity? add default
 
-                int i = SpawnPlane.r.Next(spawnLst.Count);
+                int i = Config.GetInstance().r.Next(spawnLst.Count);
                 // change modified values only
                 foreach(string key in Pointers.Keys) {
                     ModifyIfChanged(game, Pointers[key].Item2, spawnLst[i].Parameters[key], defaultData.Parameters[key].Value);
@@ -61,10 +61,11 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
         };
 
         public double rarity { get; private set; } = 1;
-        public void SetRarity(double rarity) {
+        public BillboardSpawnInfo SetRarity(double rarity) {
             if(rarity > 1) rarity = 1;
             if(rarity < 0) rarity = 0;
             this.rarity = rarity;
+            return this;
         }
 
         public float? Time1 { get { return Parameters["Time1"]; } set { Parameters["Time1"] = value; } }

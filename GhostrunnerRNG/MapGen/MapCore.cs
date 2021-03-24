@@ -25,7 +25,7 @@ namespace GhostrunnerRNG.MapGen {
         public MapType mapType { get; private set; }
         public MapCore(MapType mapType) {
             this.mapType = mapType;
-            SpawnPlane.r = new Random();
+            Config.GetInstance().NewSeed();
         }
 
         public List<Enemy> GetAllEnemies(Process game, int startIndex = 0) {
@@ -102,7 +102,7 @@ namespace GhostrunnerRNG.MapGen {
                         // list of left planes which are suitable for current enemy
                         var planes = spawnPlanesLeft.Where(x => x.IsEnemyAllowed(EnemiesWithoutCP[i].enemyType) && x.CanAddEnemies() && x.ReuseFlag).ToList();
                         if(planes.Count == 0) continue;
-                        int planeIndex = SpawnPlane.r.Next(0, planes.Count);
+                        int planeIndex = Config.GetInstance().r.Next(0, planes.Count);
                         var test = planes[planeIndex].GetRandomSpawnData();
 
                         EnemiesWithoutCP[i].SetMemoryPos(game, test);
@@ -119,10 +119,10 @@ namespace GhostrunnerRNG.MapGen {
             if(enemies == null || enemies.Count == 0) return;
 
             // 50-50 chance to even pick an enemy
-            if(!force && SpawnPlane.r.Next(2) == 0) return;
+            if(!force && Config.GetInstance().r.Next(2) == 0) return;
 
             // pick random enemy, remove cp
-            int index = enemyIndex < 0 ? SpawnPlane.r.Next(enemies.Count) : enemyIndex;
+            int index = enemyIndex < 0 ? Config.GetInstance().r.Next(enemies.Count) : enemyIndex;
             if(removeCP) {
                 enemies[index].DisableAttachedCP(GameHook.game);
             }

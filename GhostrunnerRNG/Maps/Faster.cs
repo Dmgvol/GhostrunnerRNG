@@ -138,14 +138,6 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11928, 151164, 340), new Angle(-0.66f, 0.75f)).Mask(SpawnPlane.Mask_Flatground));//collectible room
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11749, 179582, 1307), new Angle(0.72f, 0.70f)).Mask(SpawnPlane.Mask_Airborne));//after second train fight
             Rooms.Add(layout);
-
-
-            NonPlaceableObject target = new ShurikenTarget(0xc98);
-            var info = new ShurikenTargetSpawnInfo();
-            info.HitsNeeded = 3;
-            target.AddSpawnInfo(info);
-            nonPlaceableObjects.Add(target);
-
         }
     }
 }

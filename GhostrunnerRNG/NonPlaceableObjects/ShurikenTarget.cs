@@ -7,12 +7,13 @@ using System.Linq;
 namespace GhostrunnerRNG.NonPlaceableObjects {
     class ShurikenTarget : NonPlaceableObject {
 
-        //0x045A3C20, 0x98, 0x10, 0x128, 0xA8, <offset>,
-        public ShurikenTarget(int offset) {
-            ObjectDP = new DeepPointer(0x045A3C20, 0x98, 0x10, 0x128, 0xA8, offset);
+        //0x045A3C20, 0x98, firstOffset, 0x128, 0xA8, secondOffset,
+        public ShurikenTarget(int firstOffset, int secondOffset) {
+            ObjectDP = new DeepPointer(0x045A3C20, 0x98, firstOffset, 0x128, 0xA8, secondOffset);
             // Add pointers
             Pointers.Add("HitsNeeded", new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(0x224), IntPtr.Zero));
         }
+
         public override void Randomize(Process game) {
             DerefPointers(game);
             // read default value

@@ -11,12 +11,16 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
         protected IntPtr ObjectPtr;
         protected List<SpawnInfo> spawnInfos = new List<SpawnInfo>();
 
-        protected Dictionary<string, Tuple<DeepPointer, IntPtr>> Pointers = new Dictionary<string, Tuple<DeepPointer, IntPtr>>();
+        public Dictionary<string, Tuple<DeepPointer, IntPtr>> Pointers { get; private set; } = new Dictionary<string, Tuple<DeepPointer, IntPtr>>();
         protected SpawnInfo DefaultData;
 
-        public NonPlaceableObject() {}
+        public NonPlaceableObject() { }
 
-        public void AddSpawnInfo(SpawnInfo info) => spawnInfos.Add(info);
+        public NonPlaceableObject AddSpawnInfo(SpawnInfo info) { spawnInfos.Add(info); return this; }
+
+        public void AddNewSpawnInfo(SpawnInfo info) => spawnInfos.Add(info);
+
+        public void ClearSpawnInfo() => spawnInfos.Clear();
 
         protected DeepPointer AppendBaseOffset(params int[] appendOffsets) {
             List<int> offsets = new List<int>(ObjectDP.GetOffsets());
@@ -49,7 +53,8 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
         public abstract void Randomize(Process game);
 
         protected virtual void DerefPointers(Process game) {
-            ObjectDP.Deref(game, out ObjectPtr);
+            if(ObjectDP != null)
+                ObjectDP.Deref(game, out ObjectPtr);
 
             // deref all pointer dictionary
             foreach(KeyValuePair<string, Tuple<DeepPointer, IntPtr>> item in new Dictionary<string, Tuple<DeepPointer, IntPtr>>(Pointers)) {
