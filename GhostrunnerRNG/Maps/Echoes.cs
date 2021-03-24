@@ -45,8 +45,8 @@ namespace GhostrunnerRNG.Maps {
         protected override void Gen_PerRoom() {
             //indexes from 0 to 61 without 30 - 31
 
-            List<Enemy> AllEnemies = GetAllEnemies(MainWindow.game, 0, 30);
-            AllEnemies.AddRange(GetAllEnemies(MainWindow.game, 32, 30));
+            List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 30);
+            AllEnemies.AddRange(GetAllEnemies(GameHook.game, 32, 30));
 
             Rooms = new List<RoomLayout>();
             RoomLayout layout;
@@ -77,7 +77,7 @@ namespace GhostrunnerRNG.Maps {
             // use 2'nd weeb for whole map rng?
             if(SpawnPlane.r.Next(2) == 1) {
                 layout = new RoomLayout(enemies[0]);
-                enemies[1].DisableAttachedCP(MainWindow.game);
+                enemies[1].DisableAttachedCP(GameHook.game);
                 EnemiesWithoutCP.Add(enemies[1]);
             } else {
                 layout = new RoomLayout(enemies);
@@ -145,12 +145,12 @@ namespace GhostrunnerRNG.Maps {
 
             //// Room 7 ////
             enemies = room_7.ReturnEnemiesInRoom(AllEnemies);
-            enemies.ForEach(x => x.DisableAttachedCP(MainWindow.game)); // remove all CP
+            enemies.ForEach(x => x.DisableAttachedCP(GameHook.game)); // remove all CP
 
             // take random enemy to EnemiesWithoutCP?
             if(SpawnPlane.r.Next(2) == 1) {
                 int index = SpawnPlane.r.Next(enemies.Count); // pick random
-                enemies[index].DisableAttachedCP(MainWindow.game);
+                enemies[index].DisableAttachedCP(GameHook.game);
                 EnemiesWithoutCP.Add(enemies[index]); // add to list
                 enemies.RemoveAt(index); // remove from enemy list
             }

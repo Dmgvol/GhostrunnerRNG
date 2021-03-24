@@ -25,7 +25,7 @@ namespace GhostrunnerRNG.Maps {
 
         protected override void Gen_PerRoom() {
             // get all enemies and create layout & rooms
-            List<Enemy> AllEnemies = GetAllEnemies(MainWindow.game);
+            List<Enemy> AllEnemies = GetAllEnemies(GameHook.game);
            
             //// Sort enemies per room ////
             Enemies_Room1 = room1.ReturnEnemiesInRoom(AllEnemies);
@@ -104,14 +104,14 @@ namespace GhostrunnerRNG.Maps {
             // asign platform values
             platforms[0].Pos = platformSpawns[spawnIndex].p1_start;
             platforms[0].EndPoint = platformSpawns[spawnIndex].p1_end;
-            platforms[0].WriteMemory(MainWindow.game);
+            platforms[0].WriteMemory(GameHook.game);
 
             platforms[1].Pos = platformSpawns[spawnIndex].p2_start;
-            platforms[1].WriteMemory(MainWindow.game);
+            platforms[1].WriteMemory(GameHook.game);
 
             platforms[2].Pos = platformSpawns[spawnIndex].p3_start;
             platforms[2].EndPoint = platformSpawns[spawnIndex].p3_end;
-            platforms[2].WriteMemory(MainWindow.game);
+            platforms[2].WriteMemory(GameHook.game);
 
             // asign enemies based on platform rng
             Enemies_Room3[0].SetMemoryPos(game, new SpawnData(platformSpawns[spawnIndex].p1_start + new Vector3f(0, -25, 110)));

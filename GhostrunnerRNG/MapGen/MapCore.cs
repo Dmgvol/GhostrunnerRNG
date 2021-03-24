@@ -124,7 +124,7 @@ namespace GhostrunnerRNG.MapGen {
             // pick random enemy, remove cp
             int index = enemyIndex < 0 ? SpawnPlane.r.Next(enemies.Count) : enemyIndex;
             if(removeCP) {
-                enemies[index].DisableAttachedCP(MainWindow.game);
+                enemies[index].DisableAttachedCP(GameHook.game);
             }
             // add select to list and remove it from enemies, so it won't be used in spawnplanes
             EnemiesWithoutCP.Add(enemies[index]);

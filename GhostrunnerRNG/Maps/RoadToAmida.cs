@@ -31,8 +31,8 @@ namespace GhostrunnerRNG.Maps {
             }
         }
         protected override void Gen_PerRoom() {
-            List<Enemy> AllEnemies = GetAllEnemies(MainWindow.game, 0, 16);
-            AllEnemies.AddRange(GetAllEnemies(MainWindow.game, 20, 22));
+            List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 16);
+            AllEnemies.AddRange(GetAllEnemies(GameHook.game, 20, 22));
 
             Rooms = new List<RoomLayout>();
             RoomLayout layout;

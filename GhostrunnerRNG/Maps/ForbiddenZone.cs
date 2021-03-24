@@ -33,8 +33,8 @@ namespace GhostrunnerRNG.Maps {
         }
 
         protected override void Gen_PerRoom() {
-            List<Enemy> AllEnemies = GetAllEnemies(MainWindow.game, 0, 26);
-            AllEnemies.AddRange(GetAllEnemies(MainWindow.game, 27, 14));
+            List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 26);
+            AllEnemies.AddRange(GetAllEnemies(GameHook.game, 27, 14));
             Rooms = new List<RoomLayout>();
             RoomLayout layout;
             List<Enemy> enemies;
@@ -83,7 +83,7 @@ namespace GhostrunnerRNG.Maps {
 
             // change cp to avoid spawn kill, to previous platform
             ModifyCP(
-                MainWindow.game,
+                GameHook.game,
                 new SpawnData(new Vector3f(66641, -9836, 1602), new Angle(-0.71f, 0.71f)),
                 new DeepPointer(0x045A3C20, 0x98, 0x18, 0x128, 0xA8, 0x210, 0x248), new int[] { 0x1D0}, new int[] { 0x1C8});
                 

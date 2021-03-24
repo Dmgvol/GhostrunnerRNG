@@ -31,8 +31,8 @@ namespace GhostrunnerRNG.Maps {
         }
         
         protected override void Gen_PerRoom() {
-            List<Enemy> AllEnemies = GetAllEnemies(MainWindow.game, 0, 27);
-            AllEnemies.AddRange(GetAllEnemies(MainWindow.game, 32, 7));
+            List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 27);
+            AllEnemies.AddRange(GetAllEnemies(GameHook.game, 32, 7));
 
             Rooms = new List<RoomLayout>();
             RoomLayout layout;
@@ -42,7 +42,7 @@ namespace GhostrunnerRNG.Maps {
 
             ///// First room - enemies /////
             enemies = room_1.ReturnEnemiesInRoom(AllEnemies);
-            enemies.ForEach(x => x.DisableAttachedCP(MainWindow.game)); // disable cp for all enemies in room1
+            enemies.ForEach(x => x.DisableAttachedCP(GameHook.game)); // disable cp for all enemies in room1
             EnemiesWithoutCP.AddRange(enemies.Skip(1)); // skip first 2 
 
             layout = new RoomLayout(enemies.Take(1).ToList()); // take 2, leave them in that area
@@ -74,7 +74,7 @@ namespace GhostrunnerRNG.Maps {
 
             // Double pistols after drones (with cp)
             enemies = room_5.ReturnEnemiesInRoom(AllEnemies);
-            enemies.ForEach(x => x.DisableAttachedCP(MainWindow.game)); // disable enemy checkpoint
+            enemies.ForEach(x => x.DisableAttachedCP(GameHook.game)); // disable enemy checkpoint
             EnemiesWithoutCP.Add(enemies[1]);
             layout = new RoomLayout(enemies[0]); // leave one
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(92463, -36036, -1), new Angle(0.41f, 0.91f)));
@@ -176,7 +176,7 @@ namespace GhostrunnerRNG.Maps {
 
             ///// Double pistols /////
             enemies = room_9.ReturnEnemiesInRoom(AllEnemies);
-            enemies.ForEach(e => e.DisableAttachedCP(MainWindow.game));
+            enemies.ForEach(e => e.DisableAttachedCP(GameHook.game));
             EnemiesWithoutCP.AddRange(enemies); // add both pistols to enemies without cp
 
             ///// Last fight before elevator /////

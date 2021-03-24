@@ -67,6 +67,7 @@
     </ApplicationDefinition>
     <Compile Include="Enemies\EnemyTurret.cs" />
     <Compile Include="Game\Config.cs" />
+    <Compile Include="Game\GameHook.cs" />
     <Compile Include="Game\GameUtils.cs" />
     <Compile Include="Game\SpawnData.cs" />
     <Compile Include="MapGen\CVPlatform.cs" />
@@ -74,12 +75,14 @@
     <Compile Include="Enemies\EnemyDrone.cs" />
     <Compile Include="Enemies\EnemySniper.cs" />
     <Compile Include="MapGen\MapCore.cs" />
+    <Compile Include="Maps\ReignInHell.cs" />
     <Compile Include="NonPlaceableObjects\Billboard.cs" />
     <Compile Include="NonPlaceableObjects\NonPlaceableObject.cs" />
     <Compile Include="MapGen\RoomLayout.cs" />
     <Compile Include="MapGen\Room.cs" />
     <Compile Include="Enemies\EnemyShieldOrb.cs" />
     <Compile Include="MapGen\SpawnPlane.cs" />
+    <Compile Include="NonPlaceableObjects\ShurikenTarget.cs" />
     <Compile Include="NonPlaceableObjects\SignSpawner.cs" />
     <Compile Include="NonPlaceableObjects\UplinkJump.cs" />
     <Compile Include="MapGen\WorldObject.cs" />

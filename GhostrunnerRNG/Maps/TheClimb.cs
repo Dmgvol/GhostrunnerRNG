@@ -27,7 +27,7 @@ namespace GhostrunnerRNG.Maps {
 
         public TheClimb(bool isHC) : base(MapType.TheClimb) {
 
-            BeforeCV = MainWindow.xPos > 70000;
+            BeforeCV = GameHook.xPos > 70000;
 
             if(!isHC) {
                 if(BeforeCV)
@@ -41,7 +41,7 @@ namespace GhostrunnerRNG.Maps {
         }
 
         protected override void Gen_PerRoom() {
-            List<Enemy> AllEnemies = GetAllEnemies(MainWindow.game);
+            List<Enemy> AllEnemies = GetAllEnemies(GameHook.game);
 
             Rooms = new List<RoomLayout>();
             RoomLayout layout;
@@ -217,7 +217,7 @@ namespace GhostrunnerRNG.Maps {
         }
 
         public void Gen_PerRoom_AfterCV() {
-            List<Enemy> AllEnemies = GetAllEnemies(MainWindow.game);
+            List<Enemy> AllEnemies = GetAllEnemies(GameHook.game);
 
             Rooms = new List<RoomLayout>();
             RoomLayout layout;

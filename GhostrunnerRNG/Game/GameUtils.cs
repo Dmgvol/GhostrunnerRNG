@@ -95,10 +95,10 @@ namespace GhostrunnerRNG.Game {
             MapType.DharmaCity,
             MapType.Echoes,
             MapType.Faster,
-            MapType.ForbiddenZone
+            MapType.ForbiddenZone,
+            MapType.ReignInHell
 
             /*TODO:
-            ReignInHell
             OverlordCV
             TYWB
             TheMonster

@@ -92,22 +92,22 @@ namespace GhostrunnerRNG.Windows {
             switch(e.KeyCode) {
 				case Keys.NumPad1:
 					// 1 pos save
-					pos1 = new Vector3f(MainWindow.xPos, MainWindow.yPos, MainWindow.zPos);
+					pos1 = new Vector3f(GameHook.xPos, GameHook.yPos, GameHook.zPos);
 					if(checkbox_onlyVector.IsChecked == true) {
 						outputBox.Text = $"new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z})";
 					}
 					break;
 				case Keys.NumPad2:
 					// 2'nd pos save
-					pos2 = new Vector3f(MainWindow.xPos, MainWindow.yPos, MainWindow.zPos);
+					pos2 = new Vector3f(GameHook.xPos, GameHook.yPos, GameHook.zPos);
 					break;
 				case Keys.NumPad3:
 					// generate code: 2 pos, fixed current angle
-					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z}), new Angle({MainWindow.angle.angleSin:0.00}f, {MainWindow.angle.angleCos:0.00}f)));";
+					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z}), new Angle({GameHook.angle.angleSin:0.00}f, {GameHook.angle.angleCos:0.00}f)));";
 					break;
 				case Keys.NumPad4:
 					// generate code: 1 pos, fixed current angle
-					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Angle({MainWindow.angle.angleSin:0.00}f, {MainWindow.angle.angleCos:0.00}f)));";
+					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Angle({GameHook.angle.angleSin:0.00}f, {GameHook.angle.angleCos:0.00}f)));";
 					break;
 				case Keys.NumPad5:
 					// generate code: 1 pos
@@ -116,12 +116,12 @@ namespace GhostrunnerRNG.Windows {
 				case Keys.NumPad7:
 					// tp to testpos1
 					if(!test_pos1.IsEmpty())
-						Teleport(MainWindow.game, test_pos1);
+						Teleport(GameHook.game, test_pos1);
 					break;
 				case Keys.NumPad8:
 					// tp to testpos2
 					if(!test_pos2.IsEmpty())
-						Teleport(MainWindow.game, test_pos2);
+						Teleport(GameHook.game, test_pos2);
 					break;
 				default:
 					break;
@@ -166,14 +166,14 @@ namespace GhostrunnerRNG.Windows {
 
         private void ButtonApply_Click(object sender, RoutedEventArgs e) {
             if(worldObject != null && GameUtils.IsNumeric(InputYaw.Text) && GameUtils.IsNumeric(InputPitch.Text) && GameUtils.IsNumeric(InputRoll.Text)) {
-				worldObject.SetMemoryPos(MainWindow.game, new SpawnData(worldObject.Pos, new QuaternionAngle(float.Parse(InputYaw.Text), float.Parse(InputPitch.Text), float.Parse(InputRoll.Text))));
+				worldObject.SetMemoryPos(GameHook.game, new SpawnData(worldObject.Pos, new QuaternionAngle(float.Parse(InputYaw.Text), float.Parse(InputPitch.Text), float.Parse(InputRoll.Text))));
             }
         }
 
         private void Teleport(Process game, Vector3f pos) {
-			game.WriteBytes(MainWindow.xPosPtr, BitConverter.GetBytes(pos.X));
-			game.WriteBytes(MainWindow.yPosPtr, BitConverter.GetBytes(pos.Y));
-			game.WriteBytes(MainWindow.zPosPtr, BitConverter.GetBytes(pos.Z));
+			game.WriteBytes(GameHook.xPosPtr, BitConverter.GetBytes(pos.X));
+			game.WriteBytes(GameHook.yPosPtr, BitConverter.GetBytes(pos.Y));
+			game.WriteBytes(GameHook.zPosPtr, BitConverter.GetBytes(pos.Z));
 		}
 
 		protected override void OnClosing(CancelEventArgs e) {

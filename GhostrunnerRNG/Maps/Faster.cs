@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.NonPlaceableObjects;
 using System.Collections.Generic;
 using static GhostrunnerRNG.Enemies.Enemy;
 
@@ -29,8 +30,8 @@ namespace GhostrunnerRNG.Maps {
 
         protected override void Gen_PerRoom() {
             //indexes ?
-            List<Enemy> AllEnemies = GetAllEnemies(MainWindow.game, 0, 6);
-            AllEnemies.AddRange(GetAllEnemies(MainWindow.game, 8, 11));
+            List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 6);
+            AllEnemies.AddRange(GetAllEnemies(GameHook.game, 8, 11));
             Rooms = new List<RoomLayout>();
             RoomLayout layout;
             List<Enemy> enemies;
@@ -76,7 +77,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             //delete additional cp in that section???
-            ModifyCP(new DeepPointer(0x045A3C20, 0x98, 0x18, 0x128, 0xA8, 0x1760, 0x240, 0x398, 0x150), new Vector3f(0, 0, 0), MainWindow.game);
+            ModifyCP(new DeepPointer(0x045A3C20, 0x98, 0x18, 0x128, 0xA8, 0x1760, 0x240, 0x398, 0x150), new Vector3f(0, 0, 0), GameHook.game);
             enemies = room_4.ReturnEnemiesInRoom(AllEnemies);
             enemies[1].SetEnemyType(EnemyTypes.Weeb);
             enemies[2].SetEnemyType(EnemyTypes.Weeb);
@@ -110,7 +111,7 @@ namespace GhostrunnerRNG.Maps {
             Rooms.Add(layout);
 
             //Delete cp before EoL
-            ModifyCP(new DeepPointer(0x045A3C20, 0x98, 0x18, 0x128, 0xA8, 0x1720, 0x240, 0x398, 0x150), new Vector3f(0, 0, 0), MainWindow.game);
+            ModifyCP(new DeepPointer(0x045A3C20, 0x98, 0x18, 0x128, 0xA8, 0x1720, 0x240, 0x398, 0x150), new Vector3f(0, 0, 0), GameHook.game);
             enemies = room_6.ReturnEnemiesInRoom(AllEnemies);
             enemies[1].SetEnemyType(EnemyTypes.Weeb);
             enemies[2].SetEnemyType(EnemyTypes.Weeb);
@@ -137,6 +138,14 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11928, 151164, 340), new Angle(-0.66f, 0.75f)).Mask(SpawnPlane.Mask_Flatground));//collectible room
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11749, 179582, 1307), new Angle(0.72f, 0.70f)).Mask(SpawnPlane.Mask_Airborne));//after second train fight
             Rooms.Add(layout);
+
+
+            NonPlaceableObject target = new ShurikenTarget(0xc98);
+            var info = new ShurikenTargetSpawnInfo();
+            info.HitsNeeded = 3;
+            target.AddSpawnInfo(info);
+            nonPlaceableObjects.Add(target);
+
         }
     }
 }
