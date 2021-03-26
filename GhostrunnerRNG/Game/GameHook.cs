@@ -240,7 +240,7 @@ namespace GhostrunnerRNG.Game {
 					NewRNG();
 					return;
 				} else if(AccurateMapType == MapType.ReignInHell) {
-					// Fzone
+					// RiH
 					currentMap = new ReignInHell(IsHC);
 					NewRNG();
 					return;

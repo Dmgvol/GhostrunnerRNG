@@ -27,13 +27,6 @@ namespace GhostrunnerRNG.Enemies {
             Pointers.Add("HorizontalAngleSmooth", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6E4), IntPtr.Zero));
         }
 
-        private DeepPointer AppendBaseLastOffset(params int[] appendOffsets) {
-            List<int> offsets = new List<int>(ObjectDP.GetOffsets());
-            offsets.RemoveAt(offsets.Count - 1); // removes last offset
-            offsets.AddRange(appendOffsets); // add new offsets
-            return new DeepPointer(ObjectDP.GetBase(), new List<int>(offsets));
-        }
-
         protected override void DerefPointer(Process game) {
             base.DerefPointer(game);
 

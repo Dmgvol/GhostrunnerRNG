@@ -3,6 +3,7 @@ using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System.Collections.Generic;
+using System.Linq;
 using static GhostrunnerRNG.Enemies.Enemy;
 
 namespace GhostrunnerRNG.Maps {
@@ -138,6 +139,138 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11928, 151164, 340), new Angle(-0.66f, 0.75f)).Mask(SpawnPlane.Mask_Flatground));//collectible room
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11749, 179582, 1307), new Angle(0.72f, 0.70f)).Mask(SpawnPlane.Mask_Airborne));//after second train fight
             Rooms.Add(layout);
+
+            #region Billboards
+            Billboard board1 = new Billboard(0x0, 0x320);
+            board1.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 3, Angle1 = 270, Time2 = 1, Angle2 = 90 });
+            board1.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 3, Angle1 = -45, Time2 = 1, Angle2 = 45 });
+            board1.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 2, Angle1 = 970, Time2 = 1, Angle2 = 110 });
+            board1.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 2.25f, Angle1 = -1140, Time2 = 1, Angle2 = 60 });
+            board1.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 1, Angle1 = 0, Time2 = 1, Angle2 = 0 }.SetRarity(0.05));
+            board1.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 500, Angle1 = 200000, Time2 = 1, Angle2 = 90 }.SetRarity(0.05));
+            board1.AddSpawnInfo(new BillboardSpawnInfo());
+            nonPlaceableObjects.Add(board1);
+
+            Billboard board2 = new Billboard(0x0, 0x138);
+            board2.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 4, Angle1 = -40, Time2 = 0.5f, Angle2 = 40 });
+            board2.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 4, Angle1 = 320, Time2 = 0.5f, Angle2 = 40 });
+            board2.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 1, Angle1 = 700, Time2 = 0.5f, Angle2 = 20 });
+            board2.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 1.25f, Angle1 = -1160, Time2 = 0.5f, Angle2 = 80 });
+            board2.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 0.25f, Angle1 = 60, Time2 = 500, Angle2 = 0 });
+            board2.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 500, Angle1 = 200000, Time2 = 1, Angle2 = 90 }.SetRarity(0.05));
+            board2.AddSpawnInfo(new BillboardSpawnInfo());
+            nonPlaceableObjects.Add(board2);
+            #endregion
+
+            #region Jump
+            NonPlaceableObject uplink = new UplinkJump(0x0, 0xFE0);
+
+            var jumpSpawn = new UplinkJumpSpawnInfo { TimeToActivate = 3, JumpMultiplier = 7 };
+            uplink.AddSpawnInfo(jumpSpawn);
+
+            jumpSpawn = new UplinkJumpSpawnInfo { TimeToActivate = Config.GetInstance().r.Next(3, 51) / 10, JumpMultiplier = 6, JumpForwardMultiplier = 1, JumpGravity = 15 };
+            uplink.AddSpawnInfo(jumpSpawn);
+
+            jumpSpawn = new UplinkJumpSpawnInfo { TimeToActivate = Config.GetInstance().r.Next(3, 6) / 10, JumpMultiplier = 2, JumpForwardMultiplier = 8 };
+            uplink.AddSpawnInfo(jumpSpawn);
+
+            jumpSpawn = new UplinkJumpSpawnInfo();
+            jumpSpawn.TimeToActivate = Config.GetInstance().r.Next(3, 51) / 10;
+            jumpSpawn.JumpMultiplier = Config.GetInstance().r.Next(1, 11);
+            jumpSpawn.JumpForwardMultiplier = Config.GetInstance().r.Next(0, 16) - 8;
+            jumpSpawn.JumpGravity = Config.GetInstance().r.Next(2, 13);
+            jumpSpawn.SetRarity(0.1);
+            uplink.AddSpawnInfo(jumpSpawn);
+
+            //default
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo());
+
+            nonPlaceableObjects.Add(uplink);
+            #endregion
+
+            #region shuriken1
+            uplink = new UplinkShurikens(0x8, 0x498);
+
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 50, MaxAttacks = 3 });
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 2, MaxAttacks = 10 });
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(1, 11), MaxAttacks = Config.GetInstance().r.Next(1, 21) });
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 3600, MaxAttacks = 3600 }.SetRarity(0.05));
+            //default
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo());
+            nonPlaceableObjects.Add(uplink);
+            #endregion
+
+            #region Targets
+            nonPlaceableObjects.Add(new ShurikenTarget(0x10, 0xc98).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
+            nonPlaceableObjects.Add(new ShurikenTarget(0x10, 0xd00).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
+            nonPlaceableObjects.Add(new ShurikenTarget(0x10, 0xcf8).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
+            nonPlaceableObjects.Add(new ShurikenTarget(0x10, 0xcf0).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
+            nonPlaceableObjects.Add(new ShurikenTarget(0x10, 0xce8).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
+            nonPlaceableObjects.Add(new ShurikenTarget(0x10, 0xce0).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
+            #endregion
+
+            #region Signs1
+            ChainedSignSpawners chained = new ChainedSignSpawners(0x3c0, 0x3c8, 0x3b8);
+            //mixed
+            chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
+                new SignSpawnerSpawnInfo { DelayOnStart = 1, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 3},
+            });
+
+            chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
+                new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 1, SpawnDelay = 3},
+            });
+
+            //some double sign))
+            chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 2},
+                new SignSpawnerSpawnInfo { DelayOnStart = 1, SpawnDelay = 3},
+            });
+
+            chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 2},
+                new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 3},
+            });
+
+            //should be rare
+            chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 2},
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 1},
+                new SignSpawnerSpawnInfo { DelayOnStart = 3, SpawnDelay = 4},
+            });
+
+            //default
+            chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 1, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 3},
+            });
+
+            nonPlaceableObjects.Add(chained);
+            #endregion
+
+            #region Signs2
+            chained = new ChainedSignSpawners(0x3b0, 0x3a8, 0x3a0, 0x398, 0x390, 0x388, 0x3D0);
+            //default
+            var delays = new List<float>() { 0.0f, 1.1f, 2.2f, 3.3f, 4.0f, 4.8f, 5.8f };
+            var result = delays.Select(x => new { value = x, order = Config.GetInstance().r.Next() }).OrderBy(x => x.order).Select(x => x.value).ToList();
+            chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
+                new SignSpawnerSpawnInfo { DelayOnStart = result[0], SpawnDelay = 6.8f},
+                new SignSpawnerSpawnInfo { DelayOnStart = result[1], SpawnDelay = 6.8f},
+                new SignSpawnerSpawnInfo { DelayOnStart = result[2], SpawnDelay = 6.8f},
+                new SignSpawnerSpawnInfo { DelayOnStart = result[3], SpawnDelay = 6.8f},
+                new SignSpawnerSpawnInfo { DelayOnStart = result[4], SpawnDelay = 6.8f},
+                new SignSpawnerSpawnInfo { DelayOnStart = result[5], SpawnDelay = 6.8f},
+                new SignSpawnerSpawnInfo { DelayOnStart = result[6], SpawnDelay = 6.8f},
+            });
+            nonPlaceableObjects.Add(chained);
+            #endregion
+
         }
     }
 }

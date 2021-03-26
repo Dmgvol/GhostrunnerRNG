@@ -25,8 +25,8 @@ namespace GhostrunnerRNG.Game {
             { "/Game/Levels/Cyberspace/Nami_Tutorial",                      MapType.SurgeCV},
             { "/Game/Levels/03_HIGHTECH/03_01/03_01_World",                 MapType.ForbiddenZone},
             { "/Game/Levels/03_HIGHTECH/03_02/03_02_world",                 MapType.ReignInHell},
-            { "/Game/Levels/Test_levels/Ld_test/Cyberspace_Bramki",         MapType.ReignInHellCV},
-            { "/Game/Levels/Test_levels/Ld_test/Mindhacking_Tutorial",      MapType.OverlordCV},
+            { "/Game/Levels/Test_Levels/Ld_test/Cyberspace_Bramki",         MapType.ReignInHellCV},
+            { "/Game/Levels/Test_Levels/Ld_test/Mindhacking_Tutorial",      MapType.OverlordCV},
             { "/Game/Levels/03_HIGHTECH/03_03/03_03_World",                 MapType.TYWB},
             { "/Game/Levels/03_HIGHTECH/03_04/03_04_world",                 MapType.TheSummit},
             { "/Game/Levels/03_HIGHTECH/03_04/Cyberspace_Architect",        MapType.TheMonster}
@@ -78,6 +78,7 @@ namespace GhostrunnerRNG.Game {
             MapType.InHerOwnImage,
             MapType.SurgeCV,
             MapType.ReignInHellCV,
+            MapType.OverlordCV,
             MapType.TheSummit,
         };
 
@@ -99,9 +100,8 @@ namespace GhostrunnerRNG.Game {
             MapType.ReignInHell
 
             /*TODO:
-            OverlordCV
             TYWB
-            TheMonster
+            TheMonster?
             */
         };
 

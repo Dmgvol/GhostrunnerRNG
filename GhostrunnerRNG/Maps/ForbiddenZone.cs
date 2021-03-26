@@ -192,7 +192,6 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(74895, -42102, 1527), new Vector3f(75182, -42600, 1497), new Angle(-0.49f, 0.87f)).Mask(SpawnPlane.Mask_Flatground));
 
             // special
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(74092, -37849, 2302), new Angle(0.79f, 0.61f)).setRarity(0.2).Mask(SpawnPlane.Mask_Highground)); // before ramp
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(74165, -44151, 850), new Vector3f(73965, -41994, 850), new Angle(0.70f, 0.71f)).Mask(SpawnPlane.Mask_Flatground)); // after ramp
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(71750, -44749, 1406), new Angle(-0.22f, 0.98f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // red neon ad
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(72680, -45908, 1615), new Angle(0.99f, 0.13f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // on pipes
@@ -334,7 +333,7 @@ namespace GhostrunnerRNG.Maps {
 
             // weeb layouts
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(92270, -56332, 5063), new Vector3f(93074, -55571, 5068), new Angle(-1.00f, 0.04f)).Mask(SpawnPlane.Mask_Flatground)); // default
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(105617, -55787, 4693), new Angle(-1.00f, 0.01f)).Mask(SpawnPlane.Mask_Flatground)); // after door
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(105248, -55787, 4693), new Angle(-1.00f, 0.01f)).Mask(SpawnPlane.Mask_Flatground)); // after door
 
             Rooms.Add(layout);
 

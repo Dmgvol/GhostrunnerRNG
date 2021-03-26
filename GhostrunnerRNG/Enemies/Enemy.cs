@@ -36,6 +36,12 @@ namespace GhostrunnerRNG.Enemies {
             planes.Clear();
         }
 
+        protected DeepPointer AppendBaseLastOffset(params int[] appendOffsets) {
+            List<int> offsets = new List<int>(ObjectDP.GetOffsets());
+            offsets.RemoveAt(offsets.Count - 1); // removes last offset
+            offsets.AddRange(appendOffsets); // add new offsets
+            return new DeepPointer(ObjectDP.GetBase(), new List<int>(offsets));
+        }
         public void DisableAttachedCP(Process game) {
             List<int> offsets = new List<int>(ObjectDP.GetOffsets());
             offsets[offsets.Count - 1] = 0x5D0;
