@@ -77,6 +77,7 @@
     <Compile Include="Enemies\EnemySniper.cs" />
     <Compile Include="MapGen\MapCore.cs" />
     <Compile Include="Maps\ReignInHell.cs" />
+    <Compile Include="Maps\TYWB.cs" />
     <Compile Include="NonPlaceableObjects\Billboard.cs" />
     <Compile Include="NonPlaceableObjects\ChainedSignSpawners.cs" />
     <Compile Include="NonPlaceableObjects\NonPlaceableObject.cs" />

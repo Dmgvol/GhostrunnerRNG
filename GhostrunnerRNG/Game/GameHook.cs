@@ -67,6 +67,8 @@ namespace GhostrunnerRNG.Game {
 
 				main.errorGrid.Visibility = Visibility.Visible;
 				main.errorMsg.Content = "Ghostrunner not found";
+				currentMap = null;
+				AccurateMapType = MapType.Unknown;
 			} else {
 				main.errorGrid.Visibility = Visibility.Hidden;
 				main.errorMsg.Content = "";
@@ -242,6 +244,11 @@ namespace GhostrunnerRNG.Game {
 				} else if(AccurateMapType == MapType.ReignInHell) {
 					// RiH
 					currentMap = new ReignInHell(IsHC);
+					NewRNG();
+					return;
+				} else if(AccurateMapType == MapType.TYWB) {
+					// TYWB
+					currentMap = new TYWB(IsHC);
 					NewRNG();
 					return;
 				} else {

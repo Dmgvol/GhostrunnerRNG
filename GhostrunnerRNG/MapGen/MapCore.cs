@@ -120,16 +120,83 @@ namespace GhostrunnerRNG.MapGen {
 
             // 50-50 chance to even pick an enemy
             if(!force && Config.GetInstance().r.Next(2) == 0) return;
+            int index = enemyIndex < 0 ? Config.GetInstance().r.Next(enemies.Count) : enemyIndex;
 
             // pick random enemy, remove cp
-            int index = enemyIndex < 0 ? Config.GetInstance().r.Next(enemies.Count) : enemyIndex;
             if(removeCP) {
                 enemies[index].DisableAttachedCP(GameHook.game);
             }
+
             // add select to list and remove it from enemies, so it won't be used in spawnplanes
             EnemiesWithoutCP.Add(enemies[index]);
             enemies.RemoveAt(index);
         }
+
+        protected void TakeLastEnemyFromCP(ref List<Enemy> enemies, bool force = false, bool removeCP = true, bool attachedDoor = false, int enemyIndex = 0) {
+            if(enemies == null || enemies.Count == 0) return;
+
+            // 50-50 chance to even pick an enemy
+            if(!force && Config.GetInstance().r.Next(2) == 0) return;
+            //int index = enemyIndex < 0 ? Config.GetInstance().r.Next(enemies.Count) : enemyIndex;
+            int index = 0;
+            // attached to a door? find last enemy in the list and reduce door needed enemies count
+            if(attachedDoor) {
+                // create DP to door ptr
+                List<int> offsets = new List<int>(enemies[enemyIndex].GetObjectDP().GetOffsets());
+                offsets.RemoveAt(offsets.Count - 1); // removes last offset
+                offsets.Add(0x5D0);
+                offsets.Add(0x228);
+                offsets.Add(0x8 * (enemies.Count - 1));
+                offsets.Add(0x0);
+                DeepPointer lastenemyDP = new DeepPointer(enemies[enemyIndex].GetObjectDP().GetBase(), new List<int>(offsets));
+                // get enemy pointer
+                IntPtr lastenemyPtr;
+                lastenemyDP.DerefOffsets(GameHook.game, out lastenemyPtr);
+                System.Diagnostics.Debug.WriteLine(lastenemyPtr.ToString("X"));
+                DeepPointer enemyDP;
+                IntPtr enemyPtr;
+                for(var i = 0; i < enemies.Count; i++) {
+                    offsets = new List<int>(enemies[i].GetObjectDP().GetOffsets());
+                    offsets[offsets.Count - 1] = 0x0; // removes last offset
+                    System.Diagnostics.Debug.WriteLine(offsets[offsets.Count - 2].ToString("X"));
+                    enemyDP = new DeepPointer(enemies[i].GetObjectDP().GetBase(), new List<int>(offsets));
+                    enemyDP.DerefOffsets(GameHook.game, out enemyPtr);
+                    //System.Diagnostics.Debug.WriteLine(offsets);
+                    System.Diagnostics.Debug.WriteLine(enemyPtr.ToString("X"));
+                    if(enemyPtr == lastenemyPtr) {
+                        index = i;
+                        break;
+                    } else {
+                        index = 10;
+                    }
+                }
+
+                offsets = new List<int>(enemies[index].GetObjectDP().GetOffsets());
+                offsets.RemoveAt(offsets.Count - 1); // removes last offset
+                offsets.Add(0x5D0);
+                offsets.Add(0x230);
+                DeepPointer doorDP = new DeepPointer(enemies[index].GetObjectDP().GetBase(), new List<int>(offsets));
+                // get value, reduce by one and write back
+                IntPtr doorPtr;
+                int doorCount;
+                doorDP.DerefOffsets(GameHook.game, out doorPtr);
+                // read default value
+                GameHook.game.ReadValue<int>(doorPtr, out doorCount);
+                doorCount -= 1;
+                // update decreased value
+                GameHook.game.WriteBytes(doorPtr, BitConverter.GetBytes(doorCount));
+            }
+
+            // remove cp for last enemy in the list
+            if(removeCP) {
+                enemies[index].DisableAttachedCP(GameHook.game);
+            }
+
+            // add last enmy to list and remove it from enemies, so it won't be used in spawnplanes
+            EnemiesWithoutCP.Add(enemies[index]);
+            enemies.RemoveAt(index);
+        }
+
 
         protected void ModifyCP(DeepPointer dp, Vector3f pos, Process game) {
             IntPtr cpPtr;

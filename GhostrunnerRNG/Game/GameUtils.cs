@@ -97,10 +97,10 @@ namespace GhostrunnerRNG.Game {
             MapType.Echoes,
             MapType.Faster,
             MapType.ForbiddenZone,
-            MapType.ReignInHell
+            MapType.ReignInHell,
+            MapType.TYWB
 
             /*TODO:
-            TYWB
             TheMonster?
             */
         };
