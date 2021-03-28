@@ -25,6 +25,8 @@ namespace GhostrunnerRNG.MapGen {
 
         public double rarity { get; private set; } = 1;
 
+        public bool SplitterAllowedToSpawn = false;
+
 
         #region Plane Masks
         // enemy types
@@ -140,12 +142,25 @@ namespace GhostrunnerRNG.MapGen {
             BannedTypes = new List<Enemy.EnemyTypes>(mask);
             return this;
         }
+
         public bool IsEnemyAllowed(Enemy.EnemyTypes enemyType, double rarity = 1) {
             if(this.rarity < rarity) return false;
+
+            // splitter? check if allowed
+            if(enemyType == Enemy.EnemyTypes.Splitter) {
+                if(SplitterAllowedToSpawn) return true;
+                return ValidForSplitter();
+            } 
 
             if(BannedTypes.Count == 0) return true;
             return !BannedTypes.Contains(enemyType);
         }
+
+        public SpawnPlane AllowSplitter() {
+            SplitterAllowedToSpawn = true;
+            return this;
+        }
+
 
         // single pos
         public SpawnPlane(Vector3f a) {
@@ -181,6 +196,28 @@ namespace GhostrunnerRNG.MapGen {
             float newZ = Math.Min(a.Z, b.Z) + Config.GetInstance().r.Next((int)zDelta);
 
             return new Vector3f(newX, newY, newZ);
+        }
+
+        private Vector3f RandomWithinRect_Splitter(Vector3f a, Vector3f b) {
+            float xDelta = Math.Max(a.X, b.X) - Math.Min(a.X, b.X) - 1000 ;
+            float newX = Math.Min(a.X, b.X) + Config.GetInstance().r.Next((int)xDelta);
+
+            float yDelta = Math.Max(a.Y, b.Y) - Math.Min(a.Y, b.Y) - 1000;
+            float newY = Math.Min(a.Y, b.Y) + Config.GetInstance().r.Next((int)yDelta);
+
+            float zDelta = Math.Max(a.Z, b.Z) - Math.Min(a.Z, b.Z) - 1000;
+            float newZ = Math.Min(a.Z, b.Z) + Config.GetInstance().r.Next((int)zDelta);
+
+            return new Vector3f(newX, newY, newZ);
+        }
+
+        public bool ValidForSplitter() {
+            if(cornerB.IsEmpty()) return false;
+
+            // check if enough space (default clone radius, 500 * 2 from both sides)
+            float xDelta = Math.Max(cornerA.X, cornerB.X) - Math.Min(cornerA.X, cornerB.X);
+            float yDelta = Math.Max(cornerA.Y, cornerB.Y) - Math.Min(cornerA.Y, cornerB.Y);
+            return (Math.Abs(xDelta)-1000 > 0 && Math.Abs(yDelta)-1000 > 0);
         }
 
         private Vector3f RandomWithInVerticalPlane(Vector3f a, Vector3f b) {

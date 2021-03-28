@@ -35,21 +35,21 @@ namespace GhostrunnerRNG.Enemies {
             // Update shift positions with spawndata/spawninfo, if any
             if(spawnInfos != null && spawnInfos.Count > 0) {
                 int i = Config.GetInstance().r.Next(spawnInfos.Count);
-
-                for(int j = 0; j < spawnInfos[i].shiftPoints.Count; j++) {
-                    game.WriteBytes(ShiftPointers[j].Item2, BitConverter.GetBytes((float)spawnInfos[i].shiftPoints[i].Item1.X));
-                    game.WriteBytes(ShiftPointers[j].Item2 + 4, BitConverter.GetBytes((float)spawnInfos[i].shiftPoints[i].Item1.Y));
-                    game.WriteBytes(ShiftPointers[j].Item2 + 8, BitConverter.GetBytes((float)spawnInfos[i].shiftPoints[i].Item1.Z));
-                    game.WriteBytes(ObjectPtr - 8, BitConverter.GetBytes((float)spawnInfos[i].shiftPoints[i].Item2.angleSin));
-                    game.WriteBytes(ObjectPtr - 4, BitConverter.GetBytes((float)spawnInfos[i].shiftPoints[i].Item2.angleCos));
+                for(int j = 0; j < ShiftPointers.Count; j++) {
+                    game.WriteBytes(ShiftPointers[j].Item2, BitConverter.GetBytes((float)spawnInfos[i].shiftPoints[j].Item1.X));
+                    game.WriteBytes(ShiftPointers[j].Item2 + 4, BitConverter.GetBytes((float)spawnInfos[i].shiftPoints[j].Item1.Y));
+                    game.WriteBytes(ShiftPointers[j].Item2 + 8, BitConverter.GetBytes((float)spawnInfos[i].shiftPoints[j].Item1.Z));
+                    game.WriteBytes(ShiftPointers[j].Item2 - 8, BitConverter.GetBytes((float)spawnInfos[i].shiftPoints[j].Item2.angleSin));
+                    game.WriteBytes(ShiftPointers[j].Item2 - 4, BitConverter.GetBytes((float)spawnInfos[i].shiftPoints[j].Item2.angleCos));
                 }
+
             } else if(spawnData.spawnInfo != null && spawnData.spawnInfo is ShifterSpawnInfo info && info.shiftPoints != null && ShiftPointers.Count == info.shiftPoints.Count) {
                 for(int i = 0; i < info.shiftPoints.Count; i++) {
                     game.WriteBytes(ShiftPointers[i].Item2, BitConverter.GetBytes((float)info.shiftPoints[i].Item1.X));
                     game.WriteBytes(ShiftPointers[i].Item2 + 4, BitConverter.GetBytes((float)info.shiftPoints[i].Item1.Y));
                     game.WriteBytes(ShiftPointers[i].Item2 + 8, BitConverter.GetBytes((float)info.shiftPoints[i].Item1.Z));
-                    game.WriteBytes(ObjectPtr - 8, BitConverter.GetBytes((float)info.shiftPoints[i].Item2.angleSin));
-                    game.WriteBytes(ObjectPtr - 4, BitConverter.GetBytes((float)info.shiftPoints[i].Item2.angleCos));
+                    game.WriteBytes(ShiftPointers[i].Item2 - 8, BitConverter.GetBytes((float)info.shiftPoints[i].Item2.angleSin));
+                    game.WriteBytes(ShiftPointers[i].Item2 - 4, BitConverter.GetBytes((float)info.shiftPoints[i].Item2.angleCos));
                 }
             }
         }

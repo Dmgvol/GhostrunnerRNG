@@ -132,45 +132,73 @@ namespace GhostrunnerRNG.MapGen {
             enemies.RemoveAt(index);
         }
 
+        protected List<Enemy> GetAllEnemies_Bulk(int index, int target, Process game, List<Vector3f> positions) {
+            List<Enemy> enemiesBulk = new List<Enemy>();
+            List<Enemy> enemies = new List<Enemy>();
+            Enemy enemy;
+            bool ValidEnemy = true;
+            index--;
+            // get bulk enemies
+            while(ValidEnemy || index < target) {
+                index++;
+                enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, (0x20 * (index + 1)), 0x4F0));
+                ValidEnemy = !enemy.GetMemoryPos(game).IsEmpty();
+                if(ValidEnemy) {
+                    enemiesBulk.Add(enemy);
+                }
+            }
+
+            // get needed only
+            for(int i = 0; i < enemiesBulk.Count; i++) {
+                for(int j = 0; j < positions.Count; j++) {
+                    if((int)enemiesBulk[i].Pos.X == (int)positions[j].X && (int)enemiesBulk[i].Pos.Y == (int)positions[j].Y && (int)enemiesBulk[i].Pos.Z == (int)positions[j].Z) {
+                        enemies.Add(enemiesBulk[i]);
+                    }
+                }
+            }
+
+            return enemies;
+        }
+
         protected void TakeLastEnemyFromCP(ref List<Enemy> enemies, bool force = false, bool removeCP = true, bool attachedDoor = false, int enemyIndex = 0) {
             if(enemies == null || enemies.Count == 0) return;
 
             // 50-50 chance to even pick an enemy
             if(!force && Config.GetInstance().r.Next(2) == 0) return;
-            //int index = enemyIndex < 0 ? Config.GetInstance().r.Next(enemies.Count) : enemyIndex;
-            int index = 0;
+
+            int index = -1;
+
+            // create DP to the last enemy in the list
+            List<int> offsets = new List<int>(enemies[enemyIndex].GetObjectDP().GetOffsets());
+            offsets.RemoveAt(offsets.Count - 1); // removes last offset
+            offsets.Add(0x5D0);
+            offsets.Add(0x228);
+            offsets.Add(0x8 * (enemies.Count - 1));
+            offsets.Add(0x0);
+            DeepPointer lastenemyDP = new DeepPointer(enemies[enemyIndex].GetObjectDP().GetBase(), new List<int>(offsets));
+            // get enemy pointer
+            IntPtr lastenemyPtr;
+            lastenemyDP.DerefOffsets(GameHook.game, out lastenemyPtr);
+            //find last enemy index
+            DeepPointer enemyDP;
+            IntPtr enemyPtr;
+            for(var i = 0; i < enemies.Count; i++) {
+                offsets = new List<int>(enemies[i].GetObjectDP().GetOffsets());
+                offsets[offsets.Count - 1] = 0x0; // set last offset to 0
+                enemyDP = new DeepPointer(enemies[i].GetObjectDP().GetBase(), new List<int>(offsets));
+                enemyDP.DerefOffsets(GameHook.game, out enemyPtr);
+                if(enemyPtr == lastenemyPtr) {
+                    index = i;
+                    break;
+                }
+            }
+            //return if didn't find last enemy index
+            if(index == -1) {
+                return;
+            }
+
             // attached to a door? find last enemy in the list and reduce door needed enemies count
             if(attachedDoor) {
-                // create DP to door ptr
-                List<int> offsets = new List<int>(enemies[enemyIndex].GetObjectDP().GetOffsets());
-                offsets.RemoveAt(offsets.Count - 1); // removes last offset
-                offsets.Add(0x5D0);
-                offsets.Add(0x228);
-                offsets.Add(0x8 * (enemies.Count - 1));
-                offsets.Add(0x0);
-                DeepPointer lastenemyDP = new DeepPointer(enemies[enemyIndex].GetObjectDP().GetBase(), new List<int>(offsets));
-                // get enemy pointer
-                IntPtr lastenemyPtr;
-                lastenemyDP.DerefOffsets(GameHook.game, out lastenemyPtr);
-                System.Diagnostics.Debug.WriteLine(lastenemyPtr.ToString("X"));
-                DeepPointer enemyDP;
-                IntPtr enemyPtr;
-                for(var i = 0; i < enemies.Count; i++) {
-                    offsets = new List<int>(enemies[i].GetObjectDP().GetOffsets());
-                    offsets[offsets.Count - 1] = 0x0; // removes last offset
-                    System.Diagnostics.Debug.WriteLine(offsets[offsets.Count - 2].ToString("X"));
-                    enemyDP = new DeepPointer(enemies[i].GetObjectDP().GetBase(), new List<int>(offsets));
-                    enemyDP.DerefOffsets(GameHook.game, out enemyPtr);
-                    //System.Diagnostics.Debug.WriteLine(offsets);
-                    System.Diagnostics.Debug.WriteLine(enemyPtr.ToString("X"));
-                    if(enemyPtr == lastenemyPtr) {
-                        index = i;
-                        break;
-                    } else {
-                        index = 10;
-                    }
-                }
-
                 offsets = new List<int>(enemies[index].GetObjectDP().GetOffsets());
                 offsets.RemoveAt(offsets.Count - 1); // removes last offset
                 offsets.Add(0x5D0);
@@ -196,7 +224,6 @@ namespace GhostrunnerRNG.MapGen {
             EnemiesWithoutCP.Add(enemies[index]);
             enemies.RemoveAt(index);
         }
-
 
         protected void ModifyCP(DeepPointer dp, Vector3f pos, Process game) {
             IntPtr cpPtr;

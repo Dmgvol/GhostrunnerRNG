@@ -99,10 +99,6 @@ namespace GhostrunnerRNG.Game {
             MapType.ForbiddenZone,
             MapType.ReignInHell,
             MapType.TYWB
-
-            /*TODO:
-            TheMonster?
-            */
         };
 
         public static bool MapHasRng(MapType type) => !MapsWithoutRNG.Contains(type);

@@ -15,7 +15,7 @@ namespace GhostrunnerRNG.Enemies {
 
         public Enemy(DeepPointer EnemyDP) : base(EnemyDP) { }
 
-        public enum EnemyTypes { Default, Waver, Drone, ShieldOrb, Weeb, Sniper, Turret }
+        public enum EnemyTypes { Default, Waver, Drone, ShieldOrb, Weeb, Sniper, Turret, Splitter }
         public EnemyTypes enemyType { get; protected set; } = EnemyTypes.Default;
 
         public void SetEnemyType(EnemyTypes enemyType) {
