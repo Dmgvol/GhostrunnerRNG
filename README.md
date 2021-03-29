@@ -36,6 +36,11 @@ Trailer: <Link>
 - Reign In Hell
 - Things You Wouldn't Believe
 
+### How to use?
+Simple! start the GhostrunnerRNG.exe with Ghostrunner, and start any level.<br>**YOU MUST RESTART CHECKPOINT** to make rng work!
+
+The exe window will show relevant info regarding the rng.
+
 ### Planned/Upcoming features
 - [x] Classic Levels.
 - [ ] SR Focus (enemies will spawn on popular speedrunning routes)
@@ -62,6 +67,8 @@ Basically, anyone who's looking for a new GR challenge, could be someone who spe
 
 ## Disclaimer
 The mod works similar to a game trainer, it reads and modifies game memory, so your antivirus _might_ alert you - that's normal and expected.
+
+The main memory reading/writing happens when the level is fully loaded(in the first few seconds), so if the game crashes mid-run.. that's not the mod!
 
 
 
