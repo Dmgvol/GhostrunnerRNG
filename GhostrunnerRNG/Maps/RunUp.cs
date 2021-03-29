@@ -23,12 +23,8 @@ namespace GhostrunnerRNG.Maps {
         public RunUp(bool isHC) : base(MapType.RunUp) {
             if(!isHC) {
                 Gen_PerRoom();
-            } else {
-                // hardcore
-                //TODO: remove temporary block/msg and add hc enemies and gen
             }
         }
-
         protected override void Gen_PerRoom() {
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game);
             AllEnemies.AddRange(GetAllEnemies(GameHook.game, 10));

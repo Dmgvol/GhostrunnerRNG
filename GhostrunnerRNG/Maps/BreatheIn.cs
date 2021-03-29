@@ -103,13 +103,10 @@ namespace GhostrunnerRNG.Maps {
             enemies2 = room_5.ReturnEnemiesInRoom(AllEnemies);
             enemies = room_14.ReturnEnemiesInRoom(AllEnemies);
 
-            EnemyShieldOrb shieldOrb1 = new EnemyShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0xC18, 0x130, 0x1D0));
-            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0x228, 0x200, 0x8, 0x1D0));
-            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0x228, 0x200, 0x10, 0x1D0));
-            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0x228, 0x220));
-            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0x230, 0x200, 0x8, 0x1D0));
-            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8, 0x230, 0x200, 0x10, 0x1D0));
-            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x68, 0x128, 0xA8 + 228, 0x220));
+            EnemyShieldOrb shieldOrb1 = new EnemyShieldOrb(enemies[0]);
+            shieldOrb1.HideBeam_Range(0, 2);
+            shieldOrb1.LinkObject(2);
+            shieldOrb1.HideBeam_Range(1, 2);
 
             if(Config.GetInstance().Gen_RngOrbs) {
                 layout = new RoomLayout(shieldOrb1); //orb
@@ -214,13 +211,13 @@ namespace GhostrunnerRNG.Maps {
             enemies = room_19.ReturnEnemiesInRoom(AllEnemies);
             enemies1 = room_6.ReturnEnemiesInRoom(AllEnemies);
 
-            shieldOrb1 = new EnemyShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x50, 0x128, 0xA8, 0x9A8, 0x130, 0x1D0));
+            shieldOrb1 = new EnemyShieldOrb(enemies[0]);
 
             if(Config.GetInstance().Gen_RngOrbs) {
                 layout = new RoomLayout(shieldOrb1); //orb
-                layout.AddSpawnPlane(new SpawnPlane(new Vector3f(72728, -100985, 4608)));//colectible spot
+                layout.AddSpawnPlane(new SpawnPlane(new Vector3f(72728, -100985, 4608)));   // colectible spot
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(69685, -98975, 5239), new Vector3f(68705, -98975, 5239)));//
-                layout.AddSpawnPlane(new SpawnPlane(new Vector3f(67944, -101616, 4558)));//cv spot
+                layout.AddSpawnPlane(new SpawnPlane(new Vector3f(67944, -101616, 4558)));   // cv spot
                 layout.AddSpawnPlane(new SpawnPlane(new Vector3f(64775, -93641, 5027), new Vector3f(64775, -95084, 5427)));//billboard on the left
                 Rooms.Add(layout);
             }

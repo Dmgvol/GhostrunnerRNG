@@ -81,8 +81,7 @@ namespace GhostrunnerRNG.Maps {
             layout = new RoomLayout(turret);
 
             // change cp to avoid spawn kill, to previous platform
-            ModifyCP(
-                GameHook.game,
+            ModifyCP( GameHook.game,
                 new SpawnData(new Vector3f(66641, -9836, 1602), new Angle(-0.71f, 0.71f)),
                 new DeepPointer(0x045A3C20, 0x98, 0x18, 0x128, 0xA8, 0x210, 0x248), new int[] { 0x1D0}, new int[] { 0x1C8});
                 

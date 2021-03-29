@@ -18,6 +18,7 @@ namespace GhostrunnerRNG.Enemies {
         private IntPtr shieldGlowPtr;
 
 
+        [Obsolete("Use constructor without dp")]
         public EnemyShieldOrb(Enemy enemy, DeepPointer dp) : base(enemy.GetObjectDP()) {
             enemyType = EnemyTypes.ShieldOrb;
             Pos = enemy.Pos;

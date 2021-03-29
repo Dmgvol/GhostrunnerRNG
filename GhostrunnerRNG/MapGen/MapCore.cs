@@ -88,6 +88,7 @@ namespace GhostrunnerRNG.MapGen {
 
                 // enemies without cp
                 if(EnemiesWithoutCP.Count > 0) {
+                    Console.WriteLine(EnemiesWithoutCP.Count);
                     List<SpawnPlane> spawnPlanesLeft = new List<SpawnPlane>();
                     var roomsList = Rooms.Where(x => x.IsRoomDefaultType()).ToList(); // to avoid orb planes
                     // add all remaining spawn planes from all rooms into one list
@@ -103,9 +104,9 @@ namespace GhostrunnerRNG.MapGen {
                         var planes = spawnPlanesLeft.Where(x => x.IsEnemyAllowed(EnemiesWithoutCP[i].enemyType) && x.CanAddEnemies() && x.ReuseFlag).ToList();
                         if(planes.Count == 0) continue;
                         int planeIndex = Config.GetInstance().r.Next(0, planes.Count);
-                        var test = planes[planeIndex].GetRandomSpawnData();
+                        var spawnData = planes[planeIndex].GetRandomSpawnData();
 
-                        EnemiesWithoutCP[i].SetMemoryPos(game, test);
+                        EnemiesWithoutCP[i].SetMemoryPos(game, spawnData);
                         // update corresponding item in spawnPlanesLeft
                         int indexToRemove = RoomLayout.GetSameSpawnPlaneIndex(spawnPlanesLeft, planes[planeIndex]);
                         if(indexToRemove > -1)

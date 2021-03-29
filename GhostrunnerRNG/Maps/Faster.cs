@@ -24,8 +24,6 @@ namespace GhostrunnerRNG.Maps {
         public Faster(bool isHC) : base(GameUtils.MapType.Faster) {
             if(!isHC) {
                 Gen_PerRoom();
-            } else {
-                // hc
             }
         }
 

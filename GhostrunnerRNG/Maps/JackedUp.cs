@@ -14,14 +14,9 @@ namespace GhostrunnerRNG.Maps {
         private Room room_4 = new Room(new Vector3f(-68632, -26742, 8423), new Vector3f(-63143, -19223, 11190));
         private Room room_5 = new Room(new Vector3f(-61959, -27794, 9791), new Vector3f(-60096, -25898, 10758));
 
-
         public JackedUp(bool isHC) : base(MapType.JackedUp) {
             if(!isHC) {
                 Gen_PerRoom();
-               
-            } else {
-                // hardcore
-                //TODO: remove temporary block/msg and add hc enemies and gen
             }
         }
 
@@ -72,13 +67,10 @@ namespace GhostrunnerRNG.Maps {
 
             //// room 4 layout ////
             enemies = room_4.ReturnEnemiesInRoom(AllEnemies);
-            EnemyShieldOrb shieldOrb1 = new EnemyShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x910, 0x130, 0x1D0));
-            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x2F0, 0x200, 0x8, 0x1D0));
-            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x2F0, 0x200, 0x10, 0x1D0));
-            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x2F0, 0x220));
-            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x2F8, 0x200, 0x8, 0x1D0));
-            shieldOrb1.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x2F8, 0x200, 0x10, 0x1D0));
-            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x40, 0x128, 0xA8, 0x2F8, 0x220));
+            EnemyShieldOrb shieldOrb1 = new EnemyShieldOrb(enemies[0]);
+            shieldOrb1.HideBeam_Range(0, 2);
+            shieldOrb1.HideBeam_Range(1, 2);
+            shieldOrb1.LinkObject(2);
 
             layout = new RoomLayout(shieldOrb1); //orb
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-65251, -20095, 10823), new Vector3f(-66206, -19589, 11027)));//near most left enemy

@@ -378,8 +378,6 @@ namespace GhostrunnerRNG.Game {
 		}
 
 
-
-
 		private void MapChanged(string from, string to) {
 			MapType mapTo = GetMapType(to);
 			MapType mapFrom = GetMapType(from);

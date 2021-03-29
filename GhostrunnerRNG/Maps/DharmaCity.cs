@@ -86,11 +86,11 @@ namespace GhostrunnerRNG.Maps {
             ///// Fighting room with shield orb /////
             // Shield Orb
             enemies = room_6_orb.ReturnEnemiesInRoom(AllEnemies);
-            EnemyShieldOrb shieldOrb1 = new EnemyShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x18, 0x128, 0xA8, 0x860, 0x130, 0x1D0));
-            shieldOrb1.HideBeam_Range(0x18, 0x200, 0x8, 0x20);
-            shieldOrb1.HideBeam_Range(0x18, 0x208, 0x8, 0x20);
-            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x18, 0x128, 0xA8, 0x200, 0x220));
-            shieldOrb1.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x18, 0x128, 0xA8, 0x208, 0x220));
+
+            EnemyShieldOrb shieldOrb1 = new EnemyShieldOrb(enemies[0]);
+            shieldOrb1.HideBeam_Range(0, 4);
+            shieldOrb1.HideBeam_Range(1, 4);
+            shieldOrb1.LinkObject(2);
 
             // RNG orb?
             if(Config.GetInstance().Gen_RngOrbs) {
