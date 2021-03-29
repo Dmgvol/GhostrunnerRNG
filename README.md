@@ -37,7 +37,8 @@ Trailer: <Link>
 - Things You Wouldn't Believe
 
 ### How to use?
-Simple! start the GhostrunnerRNG.exe with Ghostrunner, and start any level.<br>**YOU MUST RESTART CHECKPOINT** to make rng work!
+Simple! start the GhostrunnerRNG.exe with Ghostrunner, and start any level.<br>**YOU MUST RESTART CHECKPOINT after entering a level** to make rng work!<br>
+So.. once you got the first checkpoint ► restart checkpoint.
 
 The exe window will show relevant info regarding the rng.
 
