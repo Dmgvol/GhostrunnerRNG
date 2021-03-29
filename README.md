@@ -1,8 +1,8 @@
 [![](https://img.shields.io/badge/Dharma-Unlocked-green)](https://github.com/Dmgvol/GhostrunnerRNG/) [![](https://img.shields.io/badge/Discord-GRSR-blue)](https://discord.com/invite/eZRz3Q5) ![](https://img.shields.io/github/downloads/dmgvol/ghostrunnerrng/total) [![](https://img.shields.io/badge/Supported_Game_Version-0.32091.481-orange)](https://github.com/Dmgvol/GhostrunnerRNG/)
 
 # GhostrunnerRNG
-Randomizes enemies in a challenging and unexpected way, every time you load a level.
-It is challenging and it will test how fast you can adapt and figure out how to clear the kill rooms.
+Randomizes enemies in a challenging and unexpected way, every time you load a level.<br>
+It is challenging and it will test how fast you can adapt and figure out how to clear the kill rooms.<br>
 Also... It is 100% harder then the classic difficulty.
 
 ## Open Beta Version
@@ -47,14 +47,14 @@ The exe window will show relevant info regarding the rng.
 - [ ] Hardcore Levels.
 - [ ] Custom modes (TBA)
 - [ ] Abilities
+- [ ] Enemy stats
 - [ ] More RNG!
 
 ## About
 ### Credits
 Designed and coded by DmgVol and LongerWarrior. 
 
-Huge thanks to the GR community for alpha testing and supporting the mod from early stages of development!
-
+Huge thanks to the GR community for alpha testing and supporting the mod from early stages of development!<br>
 Special Thanks: JanisSG.
 
 ### Bugs?! Report it!
@@ -66,8 +66,7 @@ Please do not hesitate to report any bugs/issues/suggestions in GRSR Discord!
 Basically, anyone who's looking for a new GR challenge, could be someone who speedruns the game, thinks the game is too predictable/easy, or just wants a new challenge.
 
 ## Disclaimer
-The mod works similar to a game trainer, it reads and modifies game memory, so your antivirus _might_ alert you - that's normal and expected.
-
+The mod works similar to a game trainer, it reads and modifies game memory, so your antivirus _might_ alert you - that's normal and expected.<br>
 The main memory reading/writing happens when the level is fully loaded(in the first few seconds), so if the game crashes mid-run.. that's not the mod!
 
 
