@@ -59,6 +59,13 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(153988, -48037, 3640), new Angle(-0.96f, 0.27f))); // wide generator 2
 
             Rooms.Add(layout);
+
+
+            CustomCheckPoints.Add(new CustomCP(mapType,
+                new Vector3f(132316, -74586, 2921), new Vector3f(134511, -74785, 4190), // volume corners
+                new Vector3f(131715, -72861, 2948), // spawn point
+                new Angle(-0.18f, 0.98f)).AsWarpVolume()); // spawn angle
+
         }
     }
 }

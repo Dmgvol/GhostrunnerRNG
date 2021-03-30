@@ -71,6 +71,7 @@
     <Compile Include="Game\GameHook.cs" />
     <Compile Include="Game\GameUtils.cs" />
     <Compile Include="Game\SpawnData.cs" />
+    <Compile Include="MapGen\CustomCP.cs" />
     <Compile Include="MapGen\CVPlatform.cs" />
     <Compile Include="Enemies\Enemy.cs" />
     <Compile Include="Enemies\EnemyDrone.cs" />

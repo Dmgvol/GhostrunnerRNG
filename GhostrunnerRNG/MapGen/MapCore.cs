@@ -22,6 +22,9 @@ namespace GhostrunnerRNG.MapGen {
         // list of NonPlaceableObjects
         protected List<NonPlaceableObject> nonPlaceableObjects = new List<NonPlaceableObject>();
 
+        // custom checkpoints
+        protected List<CustomCP> CustomCheckPoints = new List<CustomCP>();
+
         public MapType mapType { get; private set; }
         public MapCore(MapType mapType) {
             this.mapType = mapType;
@@ -113,6 +116,16 @@ namespace GhostrunnerRNG.MapGen {
                             spawnPlanesLeft.RemoveAt(indexToRemove);
                     }
                 }
+            }
+        }
+
+        public virtual void UpdateMap(Vector3f Player) {
+            // check custom checkpoints
+            if(CustomCheckPoints != null && CustomCheckPoints.Count > 0) {
+                for(int i = 0; i < CustomCheckPoints.Count; i++) {
+                    CustomCheckPoints[i].Update(Player);
+                }
+                CustomCheckPoints.RemoveAll(x => x.CPTriggered);
             }
         }
 

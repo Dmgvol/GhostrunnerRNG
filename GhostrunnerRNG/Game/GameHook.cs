@@ -17,14 +17,21 @@ namespace GhostrunnerRNG.Game {
 		Timer updateTimer;
 
 		//////// Pointers ////////
-		DeepPointer mapNameDP, hcDP, capsuleDP, LoadingDP, preciseTimeDP;
-		public static IntPtr mapNamePtr, hcPtr, xPosPtr, yPosPtr, zPosPtr, angleSinPtr, angleCosPtr, LoadingPtr, preciseTimePtr;
+		DeepPointer mapNameDP, hcDP, capsuleDP, LoadingDP, preciseTimeDP, reloadCounterDP;
+		public static IntPtr mapNamePtr, hcPtr, xPosPtr, yPosPtr, zPosPtr, angleSinPtr, angleCosPtr, LoadingPtr, preciseTimePtr, reloadCounterPtr;
 
 		// player pos&aim, timer, hcFlag
 		public static bool IsHC;
 		public static float xPos, yPos, zPos, angleSin, angleCos;
 		public float oldPreciseTimer, preciseTimer;
 		public static Angle angle = new Angle();
+
+		private int _cpCounter;
+		public int cpCounter {
+            get { return _cpCounter; }
+            set { if(value != _cpCounter) {_cpCounter = value; cpCounterChanged(value); } }
+        }
+
 
 		// MAP OBJECT
 		MapCore currentMap;
@@ -105,6 +112,16 @@ namespace GhostrunnerRNG.Game {
 			game.ReadValue<float>(xPosPtr, out xPos);
 			game.ReadValue<float>(yPosPtr, out yPos);
 			game.ReadValue<float>(zPosPtr, out zPos);
+
+			// Update Map
+			if(currentMap != null) {
+				currentMap.UpdateMap(new Vector3f(xPos, yPos, zPos));
+			}
+
+			//// Death/CP counter
+			int cp = 0;
+			game.ReadValue<int>(reloadCounterPtr, out cp);
+			cpCounter = cp;
 
 			/// DebugMode ///
 			if(main.DEBUG_MODE) {
@@ -300,6 +317,24 @@ namespace GhostrunnerRNG.Game {
 			game.ReadValue<bool>(hcPtr, out IsHC);
 		}
 
+
+		private void cpCounterChanged(int value) {
+			if(value == 1) {
+				// restart restart/death
+				main.LogStatus("Rng Loaded! good luck!");
+				return;
+            }
+
+			// silly death messges
+			if(value == 100) {
+				main.LogStatus("Try harder!");
+			}else if(value == 300) {
+				main.LogStatus("You like losing, eh?");
+			} else if(value == 1000) {
+				main.LogStatus("Worst Player Achievement Unlocked!");
+			}
+		}
+
 		// Hook Game
 		private bool Hook() {
 			List<Process> processList = Process.GetProcesses().ToList().FindAll(x => x.ProcessName.Contains("Ghostrunner-Win64-Shipping"));
@@ -331,6 +366,7 @@ namespace GhostrunnerRNG.Game {
 					preciseTimeDP = new DeepPointer(0x045A3C20, 0x138, 0xB0, 0x128);
 					hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
 					LoadingDP = new DeepPointer(0x0445ED38, 0x1E8);
+					reloadCounterDP = new DeepPointer(0x045A3C20, 0x128, 0x388);
 					break;
 
 				case 78168064:
@@ -340,6 +376,7 @@ namespace GhostrunnerRNG.Game {
 					preciseTimeDP = new DeepPointer(0x045A3C20, 0x138, 0xB0, 0x128);
 					hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
 					LoadingDP = new DeepPointer(0x0445ED38, 0x1E8);
+					reloadCounterDP = new DeepPointer(0x045A3C20, 0x128, 0x388);
 					break;
 
 				case 77910016:
@@ -349,6 +386,7 @@ namespace GhostrunnerRNG.Game {
 					preciseTimeDP = new DeepPointer(0x045A3C20, 0x138, 0xB0, 0x128);
 					hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
 					LoadingDP = new DeepPointer(0x0445ED38, 0x1E8);
+					reloadCounterDP = new DeepPointer(0x045A3C20, 0x128, 0x388);
 					break;
 				default:
 					updateTimer.Stop();
@@ -367,6 +405,7 @@ namespace GhostrunnerRNG.Game {
 			hcDP.DerefOffsets(game, out hcPtr);
 			LoadingDP.DerefOffsets(game, out LoadingPtr);
 			preciseTimeDP.DerefOffsets(game, out preciseTimePtr);
+			reloadCounterDP.DerefOffsets(game, out reloadCounterPtr);
 
 			IntPtr capsulePtr;
 			capsuleDP.DerefOffsets(game, out capsulePtr);

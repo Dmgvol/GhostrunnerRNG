@@ -2,7 +2,7 @@
 
 namespace GhostrunnerRNG.Game {
     class Config {
-        public const string VERSION = "0.2";
+        public const string VERSION = "0.3";
 
         private static Config instance;
 

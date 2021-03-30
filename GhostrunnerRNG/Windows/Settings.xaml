@@ -24,10 +24,6 @@
 
             <!--TBA feature option-->
             <CheckBox  Content="Focus on speedrunning routes" ToolTip="Places all enemies in speedrunning routes"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
-            <!--TBA feature option-->
-            <CheckBox  Content="RNG Uplinks parameters" ToolTip="Uplink parameters are changed, you'll be surprised" HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
-            <!--TBA feature option-->
-            <CheckBox  Content="Challenge Mode (hard to reach spawns)" ToolTip="Enabling hard to reach spots and/or tricky spawns" HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
 
             <!--Fake option-->
             <CheckBox  Content="Prevent game crashes (zero crashes + performance boost)" ToolTip="No crashes! available only for Patreons"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
