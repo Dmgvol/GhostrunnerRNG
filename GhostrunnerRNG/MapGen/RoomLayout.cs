@@ -1,6 +1,5 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;

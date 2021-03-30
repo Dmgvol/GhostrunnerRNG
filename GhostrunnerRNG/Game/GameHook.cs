@@ -140,7 +140,10 @@ namespace GhostrunnerRNG.Game {
 
 		private void TimerTrackerUpdate() {
 			// we don't need main menu
-			if(AccurateMapType == MapType.MainMenu) return;
+			if(AccurateMapType == MapType.MainMenu) {
+				rngLoaded = false;
+				return;
+			}
 			// level loaded but that's no menu? 
 			if(AccurateMapType == MapType.Unknown) {
 				AccurateMapType = GetMapType(MapName);
@@ -154,7 +157,6 @@ namespace GhostrunnerRNG.Game {
 				rngLoaded = false;
 
 			}
-
 
 			// done loading?
 			//if(oldPreciseTimer == 0 && preciseTimer > 0) {
@@ -263,6 +265,11 @@ namespace GhostrunnerRNG.Game {
 					currentMap = new ReignInHell(IsHC);
 					NewRNG();
 					return;
+				} else if(AccurateMapType == MapType.ReignInHellCV) {
+					// RiH CV
+					currentMap = new ReignInHellCV();
+					NewRNG();
+					return;
 				} else if(AccurateMapType == MapType.TYWB) {
 					// TYWB
 					currentMap = new TYWB(IsHC);
@@ -319,6 +326,8 @@ namespace GhostrunnerRNG.Game {
 
 
 		private void cpCounterChanged(int value) {
+			if(currentMap == null) return;
+
 			if(value == 1) {
 				// restart restart/death
 				main.LogStatus("Rng Loaded! good luck!");

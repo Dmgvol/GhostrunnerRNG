@@ -77,7 +77,6 @@ namespace GhostrunnerRNG.Game {
             MapType.Gatekeeper,
             MapType.InHerOwnImage,
             MapType.SurgeCV,
-            MapType.ReignInHellCV,
             MapType.OverlordCV,
             MapType.TheSummit,
         };
@@ -98,6 +97,7 @@ namespace GhostrunnerRNG.Game {
             MapType.Faster,
             MapType.ForbiddenZone,
             MapType.ReignInHell,
+            MapType.ReignInHellCV,
             MapType.TYWB
         };
 

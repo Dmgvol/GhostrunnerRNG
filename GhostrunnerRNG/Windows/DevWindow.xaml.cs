@@ -41,6 +41,7 @@ namespace GhostrunnerRNG.Windows {
 				kbHook.HookedKeys.Add(Keys.NumPad3);
 				kbHook.HookedKeys.Add(Keys.NumPad4);
 				kbHook.HookedKeys.Add(Keys.NumPad5);
+				kbHook.HookedKeys.Add(Keys.NumPad6);
 				kbHook.HookedKeys.Add(Keys.NumPad7);
 				kbHook.HookedKeys.Add(Keys.NumPad8);
             } else if(!flag) {
@@ -113,6 +114,9 @@ namespace GhostrunnerRNG.Windows {
 					// generate code: 1 pos
 					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z})));";
 					break;
+				case Keys.NumPad6:
+					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z})));";
+					break;
 				case Keys.NumPad7:
 					// tp to testpos1
 					if(!test_pos1.IsEmpty())
@@ -183,7 +187,7 @@ namespace GhostrunnerRNG.Windows {
 			kbHook.HookedKeys.Remove(Keys.NumPad3);
 			kbHook.HookedKeys.Remove(Keys.NumPad4);
 			kbHook.HookedKeys.Remove(Keys.NumPad5);
-
+			kbHook.HookedKeys.Remove(Keys.NumPad6);
 			kbHook.HookedKeys.Remove(Keys.NumPad7);
 			kbHook.HookedKeys.Remove(Keys.NumPad8);
 			kbHook.KeyDown -= InputKeyDown;

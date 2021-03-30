@@ -34,7 +34,7 @@
         <Label x:Name="LabelSeed" Content="" FontSize="15"  Foreground="White" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
 
         <!--bottom row-->
-        <Label Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="by Dmgvol, LongerWarrior" Foreground="White"/>
+        <Label Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="by DmgVol, LongerWarrior" Foreground="White"/>
         <Button Grid.Row="2" x:Name="ButtonAbout" Content="About" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="25" Width="100" FontSize="16" Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonAbout_Click" IsTabStop="False"/>
         <Grid Background="#FF292929" Visibility="Hidden" x:Name="errorGrid" Grid.RowSpan="2">
             <Label x:Name="errorMsg" Content="" HorizontalAlignment="Center" Height="35" VerticalAlignment="Center" Width="auto" FontSize="20" Foreground="White"/>
