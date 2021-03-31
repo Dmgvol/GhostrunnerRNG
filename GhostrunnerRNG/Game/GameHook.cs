@@ -223,6 +223,11 @@ namespace GhostrunnerRNG.Game {
 					currentMap = new RoadToAmida(IsHC);
 					NewRNG();
 					return;
+				} else if(AccurateMapType == MapType.RoadToAmidaCV) {
+					// RiH CV
+					currentMap = new RoadToAmidaCV();
+					NewRNG();
+					return;
 				} else if(MapLevels.FirstOrDefault(x => x.Value == MapType.RunUpGatekeeper).Key == MapName) { // RunUp or Tom?
 					if(yPos < 14000) {
 						// RunUp

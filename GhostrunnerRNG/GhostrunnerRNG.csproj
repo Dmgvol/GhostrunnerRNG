@@ -71,6 +71,7 @@
     <Compile Include="Game\GameHook.cs" />
     <Compile Include="Game\GameUtils.cs" />
     <Compile Include="Game\SpawnData.cs" />
+    <Compile Include="MapGen\AmidaCVPlatform.cs" />
     <Compile Include="MapGen\CustomCP.cs" />
     <Compile Include="Enemies\CVOrb.cs" />
     <Compile Include="MapGen\CVPlatform.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="MapGen\MapCore.cs" />
     <Compile Include="Maps\ReignInHell.cs" />
     <Compile Include="Maps\ReignInHellCV.cs" />
+    <Compile Include="Maps\RoadToAmidaCV.cs" />
     <Compile Include="Maps\TYWB.cs" />
     <Compile Include="NonPlaceableObjects\Billboard.cs" />
     <Compile Include="NonPlaceableObjects\ChainedSignSpawners.cs" />

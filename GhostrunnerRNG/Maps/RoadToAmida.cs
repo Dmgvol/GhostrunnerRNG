@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.NonPlaceableObjects;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -247,6 +248,36 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-70276, 1, -3851), new Angle(-0.96f, 0.29f))); // wall generator
 
             Rooms.Add(layout);
+
+
+            /////////////// NonPlaceableObjects ///////////////
+            #region Shurikens
+            // 1 - 2 targets, last walls
+            NonPlaceableObject uplink = new UplinkShurikens(0x30, 0xF28);
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(40, 80) / 10.0f, MaxAttacks = 12 }); // normal rng
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 3, MaxAttacks = 2}); // no mistakes
+            nonPlaceableObjects.Add(uplink);
+
+            // 2 - 3 targets after fan
+            uplink = new UplinkShurikens(0x48, 0x1B68);
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(50, 120) / 10.0f, MaxAttacks = 12 }); // normal rng
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 5, MaxAttacks = 3 }); // no mistakes
+            nonPlaceableObjects.Add(uplink);
+
+            // 3 - 5 smgs
+            uplink = new UplinkShurikens(0x40, 0xF20);
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(60, 120) / 10.0f, MaxAttacks = 20 }); // normal rng
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 6, MaxAttacks = 5 }); // no mistakes
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 3, MaxAttacks = 1 }); // just one, good luck
+            nonPlaceableObjects.Add(uplink);
+
+            // 4 - last room
+            uplink = new UplinkShurikens(0x8, 0x19A0);
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(50, 120) / 10.0f, MaxAttacks = 20 }); // normal rng
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 4, MaxAttacks = 3 }); // no mistakes
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 5, MaxAttacks = 2 }); // challenge: 3rd target with sword
+            nonPlaceableObjects.Add(uplink);
+            #endregion
         }
     }
 }

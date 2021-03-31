@@ -1,11 +1,12 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.NonPlaceableObjects;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace GhostrunnerRNG.Maps {
-    class DharmaCity : MapCore{
+    class DharmaCity : MapCore {
 
         #region Rooms
         private Room room_1 = new Room(new Vector3f(108857, -14366, 1374), new Vector3f(113721, -6211, 4384)); // first fight (lonely pistol + 3 enemies on rooftop)
@@ -29,7 +30,7 @@ namespace GhostrunnerRNG.Maps {
                 // hardcore
             }
         }
-        
+
         protected override void Gen_PerRoom() {
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 27);
             AllEnemies.AddRange(GetAllEnemies(GameHook.game, 32, 7));
@@ -181,7 +182,7 @@ namespace GhostrunnerRNG.Maps {
 
             ///// Last fight before elevator /////
             enemies = room_10.ReturnEnemiesInRoom(AllEnemies);
-            
+
             // Drones //
             layout = new RoomLayout(new EnemyDrone(enemies[0]), new EnemyDrone(enemies[1]));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(55463, -77624, 4302), new Angle(-0.22f, 0.98f)));
@@ -244,6 +245,90 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(80767, -72953, 5578), new Angle(0.32f, 0.95f)));
             layout.BanRoomEnemyType(Enemy.EnemyTypes.Default);
             Rooms.Add(layout);
+
+            #region Jump
+            //first jump
+            NonPlaceableObject uplink = new UplinkJump(0x10, 0x8F8);//5,3,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5));//default
+            var jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = 1.1f };
+            uplink.AddSpawnInfo(jumpSpawn);//really short jump need to use dash
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -3.5f };
+            uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = 0.0f, JumpGravity = 7.5f };
+            uplink.AddSpawnInfo(jumpSpawn);//ultra short jump, can make it with dsj or from left platform
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpGravity = 3.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//high jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = 8.0f, JumpGravity = 2.0f }.SetRarity(0.15);
+            uplink.AddSpawnInfo(jumpSpawn);//ultra long jump, to the door
+            nonPlaceableObjects.Add(uplink);
+
+            //second jump
+            uplink = new UplinkJump(0x10, 0x8F0);// 4.7,3,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5));//default
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = 1.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//really short jump need to use dash
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -3.5f };
+            uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpGravity = Config.GetInstance().r.Next(30, 71) / 10 };
+            uplink.AddSpawnInfo(jumpSpawn);//high jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = Config.GetInstance().r.Next(30, 61) / 10, JumpForwardMultiplier = 3.5f, JumpGravity = Config.GetInstance().r.Next(40, 61) / 10 }.SetRarity(0.25);
+            uplink.AddSpawnInfo(jumpSpawn);//random jump
+            nonPlaceableObjects.Add(uplink);
+
+            //third jump
+            uplink = new UplinkJump(0x18, 0x7D8);// 4.3,3.6,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5));//default
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 1.0f, JumpForwardMultiplier = 1.0f, JumpGravity = -5.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//weird negative gravity jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -4.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = -4.0f }.SetRarity(0.1);
+            uplink.AddSpawnInfo(jumpSpawn);//cant jump
+
+            jumpSpawn = new UplinkJumpSpawnInfo {
+                TimeToActivate = Config.GetInstance().r.Next(3, 26) / 10,
+                JumpMultiplier = Config.GetInstance().r.Next(10, 81) / 10,
+                JumpForwardMultiplier = Config.GetInstance().r.Next(0, 45) / 10 * (Config.GetInstance().r.Next(2) == 0 ? 1 : (-1)),
+                JumpGravity = Config.GetInstance().r.Next(10, 101) / 10
+            };
+            uplink.AddSpawnInfo(jumpSpawn);//random jump
+            nonPlaceableObjects.Add(uplink);
+
+            //fourth jump, patrol drone room
+            uplink = new UplinkJump(0x28, 0x240);// 4.0,2.5,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo());//default
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 5.0f, JumpForwardMultiplier = 0.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//vertical jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -3.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
+
+            jumpSpawn = new UplinkJumpSpawnInfo {
+                TimeToActivate = Config.GetInstance().r.Next(3, 46) / 10,
+                JumpMultiplier = Config.GetInstance().r.Next(10, 81) / 10,
+                JumpForwardMultiplier = Config.GetInstance().r.Next(0, 45) / 10 * (Config.GetInstance().r.Next(2) == 0 ? 1 : (-1)),
+                JumpGravity = Config.GetInstance().r.Next(10, 101) / 10
+            };
+            uplink.AddSpawnInfo(jumpSpawn);//random jump
+            nonPlaceableObjects.Add(uplink);
+
+            //fifth jump, 3 drone hallway
+            uplink = new UplinkJump(0x30, 0x5d0);// 3.8,3.3,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5));//default
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 1.0f, JumpForwardMultiplier = 8.0f, JumpGravity = 3.5f };
+            uplink.AddSpawnInfo(jumpSpawn);//long jump to the pistols
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -4.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 1.0f, JumpForwardMultiplier = 3.0f, JumpGravity = -2.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//weird negative gravity jump
+            jumpSpawn = new UplinkJumpSpawnInfo {
+                TimeToActivate = Config.GetInstance().r.Next(3, 46) / 10,
+                JumpMultiplier = Config.GetInstance().r.Next(10, 81) / 10,
+                JumpForwardMultiplier = Config.GetInstance().r.Next(0, 45) / 10 * (Config.GetInstance().r.Next(2) == 0 ? 1 : (-1)),
+                JumpGravity = Config.GetInstance().r.Next(10, 101) / 10
+            };
+            uplink.AddSpawnInfo(jumpSpawn);//random jump
+            nonPlaceableObjects.Add(uplink);
+            #endregion
         }
     }
 }

@@ -7,8 +7,8 @@ using System.Linq;
 namespace GhostrunnerRNG.NonPlaceableObjects {
     class UplinkSlowmo : NonPlaceableObject {
 
-        public UplinkSlowmo(int firstOffset, int secondOffset) {
-            ObjectDP = new DeepPointer(0x045A3C20, 0x98, firstOffset, 0x128, 0xA8, 0x9E8, 0x270, secondOffset);
+        public UplinkSlowmo(int firstOffset, int secondOffset, int thirdOffet) {
+            ObjectDP = new DeepPointer(0x045A3C20, 0x98, firstOffset, 0x128, 0xA8, secondOffset, 0x270, thirdOffet);
 
             // add pointers
             Pointers.Add("TimeMultiplier", new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(0x8), IntPtr.Zero));

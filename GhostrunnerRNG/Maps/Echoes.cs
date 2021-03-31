@@ -1,7 +1,10 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.NonPlaceableObjects;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using static GhostrunnerRNG.Enemies.Enemy;
 
 namespace GhostrunnerRNG.Maps {
@@ -243,7 +246,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-13519, -2605, 6648), new Vector3f(-14403, -4879, 6648), new Angle(-0.01f, 1.00f)).Mask(SpawnPlane.Mask_Flatground));
             // high places
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11039, -4770, 7119), new Angle(1.00f, 0.03f)).Mask(SpawnPlane.Mask_Highground));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12506, -4512, 7688), new Vector3f(-13114, -3970, 7689), new Angle(-0.15f, 0.99f)).AsVerticalPlane().Mask(SpawnPlane.Mask_HighgroundLimited)); 
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12506, -4512, 7688), new Vector3f(-13114, -3970, 7689), new Angle(-0.15f, 0.99f)).AsVerticalPlane().Mask(SpawnPlane.Mask_HighgroundLimited));
             Rooms.Add(layout);
 
             //// Room 14 ////
@@ -435,6 +438,37 @@ namespace GhostrunnerRNG.Maps {
 
             layout.Mask(SpawnPlane.Mask_Airborne);
             Rooms.Add(layout);
+
+            #region Jump
+            //near last collectible
+            NonPlaceableObject uplink = new UplinkJump(0x30, 0xBA8);
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5));//default
+
+            var jumpSpawn = new UplinkJumpSpawnInfo { TimeToActivate = 10, JumpMultiplier = 15, JumpForwardMultiplier = 15, JumpGravity = 3 };
+            uplink.AddSpawnInfo(jumpSpawn);//high jump
+
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -3 };
+            uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
+
+            jumpSpawn = new UplinkJumpSpawnInfo();//full rng
+            jumpSpawn.TimeToActivate = Config.GetInstance().r.Next(10, 71) / 10;
+            jumpSpawn.JumpMultiplier = Config.GetInstance().r.Next(1, 11);
+            jumpSpawn.JumpForwardMultiplier = Config.GetInstance().r.Next(0, 16) - 8;
+            jumpSpawn.JumpGravity = Config.GetInstance().r.Next(3, 9);
+            uplink.AddSpawnInfo(jumpSpawn);
+
+            nonPlaceableObjects.Add(uplink);
+            #endregion
+
+            #region Shurikens //20,99 default
+            //// room 16-18
+            uplink = new UplinkShurikens(0x20, 0xb90);
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 5, MaxAttacks = 30 }); // short time
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 10, MaxAttacks = 5 }); // few attacks
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 10, MaxAttacks = 1 }); // single attack
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 500, MaxAttacks = 25 }.SetRarity(0.2)); //to the EoL
+            nonPlaceableObjects.Add(uplink);
+            #endregion
         }
     }
 }

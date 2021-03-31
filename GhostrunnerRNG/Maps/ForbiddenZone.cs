@@ -1,11 +1,12 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.NonPlaceableObjects;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace GhostrunnerRNG.Maps {
-    class ForbiddenZone : MapCore{
+    class ForbiddenZone : MapCore {
 
         #region Rooms
         // Note: turrets are not attached to any cp
@@ -23,7 +24,7 @@ namespace GhostrunnerRNG.Maps {
         private Room room_12 = new Room(new Vector3f(144024, -60005, 10144), new Vector3f(148927, -54903, 5862)); // 4 turrets
         #endregion
 
-        public ForbiddenZone(bool isHC) :base(GameUtils.MapType.ForbiddenZone) {
+        public ForbiddenZone(bool isHC) : base(GameUtils.MapType.ForbiddenZone) {
             if(!isHC) {
                 Gen_PerRoom();
             } else {
@@ -57,18 +58,18 @@ namespace GhostrunnerRNG.Maps {
             turretSpawn.HorizontalSpeed = 50;
             turretSpawn.RotationOffset = 30;
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(65144, -9365, 2400), GameUtils.CreateQuaternion(90, 45, -90)).SetSpawnInfo(turretSpawn));
-            
+
             // Above elevator door
             turretSpawn = new TurretSpawnInfo();
             turretSpawn.VerticalAngle = 50;
             turretSpawn.HorizontalSpeed = 75;
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(71816, -3283, 2599), GameUtils.CreateQuaternion(-180, 90, 0)).SetSpawnInfo(turretSpawn)); 
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(71816, -3283, 2599), GameUtils.CreateQuaternion(-180, 90, 0)).SetSpawnInfo(turretSpawn));
 
             // on the wall, above default
             turretSpawn = new TurretSpawnInfo();
             turretSpawn.VerticalAngle = 35;
             turretSpawn.HorizontalSpeed = 80;
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(64008, -9764, 2782), new QuaternionAngle(90, 90, 0)).SetSpawnInfo(turretSpawn)); 
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(64008, -9764, 2782), new QuaternionAngle(90, 90, 0)).SetSpawnInfo(turretSpawn));
 
             layout.Mask(SpawnPlane.Mask_Turret);
             layout.DoNotReuse(); // avoid enemies to spawn in sentry spawns(on walls and sh*t)
@@ -81,10 +82,10 @@ namespace GhostrunnerRNG.Maps {
             layout = new RoomLayout(turret);
 
             // change cp to avoid spawn kill, to previous platform
-            ModifyCP( GameHook.game,
+            ModifyCP(GameHook.game,
                 new SpawnData(new Vector3f(66641, -9836, 1602), new Angle(-0.71f, 0.71f)),
-                new DeepPointer(0x045A3C20, 0x98, 0x18, 0x128, 0xA8, 0x210, 0x248), new int[] { 0x1D0}, new int[] { 0x1C8});
-                
+                new DeepPointer(0x045A3C20, 0x98, 0x18, 0x128, 0xA8, 0x210, 0x248), new int[] { 0x1D0 }, new int[] { 0x1C8 });
+
             // default
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(66640, -13529, 2708), new Angle(-0.72f, 0.70f)).SetSpawnInfo(new TurretSpawnInfo()));
 
@@ -230,7 +231,7 @@ namespace GhostrunnerRNG.Maps {
             turretSpawn.HorizontalAngle = 30;
             turretSpawn.HorizontalSpeed = 30;
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(86301, -47015, 3138), new Angle(-0.71f, 0.71f)).SetSpawnInfo(turretSpawn));
-                
+
             // middle platform, 180 range
             turretSpawn = new TurretSpawnInfo();
             turretSpawn.VerticalAngle = 0;
@@ -262,7 +263,7 @@ namespace GhostrunnerRNG.Maps {
             // middle platform, near default, on wall, 360 range
             turretSpawn = new TurretSpawnInfo();
             turretSpawn.VerticalAngle = 0;
-            turretSpawn.HorizontalAngle = 180; 
+            turretSpawn.HorizontalAngle = 180;
             turretSpawn.HorizontalSpeed = 40;
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(89230, -48766, 2373), GameUtils.CreateQuaternion(0, 0, -90)).SetSpawnInfo(turretSpawn));
 
@@ -281,7 +282,7 @@ namespace GhostrunnerRNG.Maps {
             //// Room 7 - 2 froggers ////
             enemies = room_7.ReturnEnemiesInRoom(AllEnemies);
             RandomPickEnemiesWithoutCP(ref enemies, force: true, removeCP: false); // always take one 
-            RandomPickEnemiesWithoutCP(ref enemies, force:false, removeCP:false); // random chance to take/leave it
+            RandomPickEnemiesWithoutCP(ref enemies, force: false, removeCP: false); // random chance to take/leave it
             layout = new RoomLayout(enemies);
 
             // default
@@ -566,6 +567,95 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(160772, -61127, 11594), new Vector3f(161891, -61521, 11594), new Angle(0.00f, 1.00f)).Mask(SpawnPlane.Mask_Flatground));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(156827, -85213, 13948), new Angle(0.72f, 0.70f)).Mask(SpawnPlane.Mask_Flatground).setRarity(0.1)); // inside end elevator
             Rooms.Add(layout);
+
+
+            #region Jump
+            //first jump, before hardest room
+            NonPlaceableObject uplink = new UplinkJump(0x0, 0xCD8);//6,3,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5));//default
+            var jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 7.0f, JumpForwardMultiplier = 6.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//long jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 3.0f, JumpForwardMultiplier = -1.0f, JumpGravity = -3.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//weird negative gravity jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -3.5f };
+            uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 3.25f, JumpForwardMultiplier = 6.0f, JumpGravity = 3.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//short jump
+            nonPlaceableObjects.Add(uplink);
+
+            //second jump, hardest room bottom
+            uplink = new UplinkJump(0x0, 0xCE8);// 6,3,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5));//default
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -3.5f };
+            uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = 7.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//bounce jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 7.0f, JumpForwardMultiplier = 0.5f };
+            uplink.AddSpawnInfo(jumpSpawn);//high jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 2.0f, JumpForwardMultiplier = 5.0f, JumpGravity = -1.0f * Config.GetInstance().r.Next(30, 61) / 10 };
+            uplink.AddSpawnInfo(jumpSpawn);//negative gravity jump
+            nonPlaceableObjects.Add(uplink);
+
+            //third jump,hardest room uptop
+            uplink = new UplinkJump(0x0, 0xCE0);// 4.5,3,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo());//default
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -3.5f };
+            uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = 8.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//bounce
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = -4.0f }.SetRarity(0.1);
+            uplink.AddSpawnInfo(jumpSpawn);//cant jump
+
+            jumpSpawn = new UplinkJumpSpawnInfo {
+                TimeToActivate = Config.GetInstance().r.Next(3, 26) / 10,
+                JumpMultiplier = Config.GetInstance().r.Next(10, 81) / 10,
+                JumpForwardMultiplier = Config.GetInstance().r.Next(0, 45) / 10 * (Config.GetInstance().r.Next(2) == 0 ? 1 : (-1)),
+                JumpGravity = Config.GetInstance().r.Next(30, 61) / 10
+            };
+            uplink.AddSpawnInfo(jumpSpawn);//random jump
+            nonPlaceableObjects.Add(uplink);
+
+            //fourth jump, after 4 turrets
+            uplink = new UplinkJump(0x10, 0x1008);// 6,3,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5));//default
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 3.0f, JumpForwardMultiplier = 10.0f, JumpGravity = -5.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//weird negative gravity jump, under second platform
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 0.05f, JumpForwardMultiplier = -2.5f, JumpGravity = -3.5f };
+            uplink.AddSpawnInfo(jumpSpawn);//weird negative gravity jump,
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 5.0f, JumpForwardMultiplier = 0.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//vertical jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 10.0f, JumpForwardMultiplier = 10.0f, JumpGravity = 3.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//long jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -3.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
+            nonPlaceableObjects.Add(uplink);
+
+            //fifth jump, second jump after 4 turrets
+            uplink = new UplinkJump(0x10, 0xFF8);// 3.8,3.3,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5));//default
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 100.0f, JumpForwardMultiplier = 100.0f, JumpGravity = 4.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//teleport
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 2.0f, JumpForwardMultiplier = -2.0f, JumpGravity = 0.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//slow backward jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 1.0f, JumpForwardMultiplier = 3.0f, JumpGravity = -2.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//weird negative gravity jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 1000.0f, JumpForwardMultiplier = -3.0f, JumpGravity = -1000.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//ceiling slide
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = -4.0f }.SetRarity(0.1);
+            uplink.AddSpawnInfo(jumpSpawn);//cant jump
+            nonPlaceableObjects.Add(uplink);
+            #endregion
+
+            #region Shurikens
+            //// Hardest room
+            uplink = new UplinkShurikens(0x0, 0xCB0);//5,35
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 3.0f, MaxAttacks = 30 }); // short time
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(3, 12), MaxAttacks = Config.GetInstance().r.Next(4, 20) }); // basic rng
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 5, MaxAttacks = Config.GetInstance().r.Next(3, 6) }); // unlucky rng
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 500, MaxAttacks = 500 }.SetRarity(0.2)); // lucky rng
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo()); // default
+            nonPlaceableObjects.Add(uplink);
+            #endregion
         }
     }
 }

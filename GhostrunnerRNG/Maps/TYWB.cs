@@ -433,9 +433,6 @@ namespace GhostrunnerRNG.Maps {
                 JumpGravity = Config.GetInstance().r.Next(30, 60) / 10 // slow to normal
             };
             uplink.AddSpawnInfo(jumpSpawn);
-
-            jumpSpawn = new UplinkJumpSpawnInfo { TimeToActivate = 60 }; // one per minute, good luck
-            uplink.AddSpawnInfo(jumpSpawn);
             nonPlaceableObjects.Add(uplink);
 
 
@@ -488,7 +485,7 @@ namespace GhostrunnerRNG.Maps {
             #endregion
 
             #region Slomo
-            uplink = new UplinkSlowmo(0x10, 0xA0);
+            uplink = new UplinkSlowmo(0x10, 0x9E8,0xA0);
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(5, 15)});
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = 5, TimeMultiplier = 0.05f });
             #endregion
