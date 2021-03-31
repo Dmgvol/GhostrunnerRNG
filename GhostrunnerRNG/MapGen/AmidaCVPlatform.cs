@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace GhostrunnerRNG.MapGen {
     class AmidaCVPlatform : WorldObject{
         // Box/hitbox offset
-        private Vector3f PlatformBoxOffset = new Vector3f(303, 303, 5.05f);
+        public static Vector3f PlatformBoxOffset { get; private set; } = new Vector3f(303, 303, 5.05f);
         // pointers
         private DeepPointer PlatformDP, PlatformBoxCenterDP, BoxDP;
         private IntPtr PlatformPtr, PlatformBoxCenterPtr, BoxPtr;
@@ -18,25 +18,24 @@ namespace GhostrunnerRNG.MapGen {
 
         public override void SetMemoryPos(Process game, SpawnData spawnData) {
             DerefPointer(game);
-            Vector3f vec = new Vector3f(-19156, -14750, 21800); // testing
 
             // visual center
-            game.WriteBytes(PlatformPtr, BitConverter.GetBytes(vec.X));
-            game.WriteBytes(PlatformPtr + 4, BitConverter.GetBytes(vec.Y));
-            game.WriteBytes(PlatformPtr + 8, BitConverter.GetBytes(vec.Z));
+            game.WriteBytes(PlatformPtr, BitConverter.GetBytes(spawnData.pos.X));
+            game.WriteBytes(PlatformPtr + 4, BitConverter.GetBytes(spawnData.pos.Y));
+            game.WriteBytes(PlatformPtr + 8, BitConverter.GetBytes(spawnData.pos.Z));
 
             // box center
-            game.WriteBytes(PlatformBoxCenterPtr, BitConverter.GetBytes(vec.X));
-            game.WriteBytes(PlatformBoxCenterPtr + 4, BitConverter.GetBytes(vec.Y));
-            game.WriteBytes(PlatformBoxCenterPtr + 8, BitConverter.GetBytes(vec.Z));
+            game.WriteBytes(PlatformBoxCenterPtr, BitConverter.GetBytes(spawnData.pos.X));
+            game.WriteBytes(PlatformBoxCenterPtr + 4, BitConverter.GetBytes(spawnData.pos.Y));
+            game.WriteBytes(PlatformBoxCenterPtr + 8, BitConverter.GetBytes(spawnData.pos.Z));
 
             // Corners of hitbox
-            game.WriteBytes(BoxPtr, BitConverter.GetBytes(vec.X - PlatformBoxOffset.X));
-            game.WriteBytes(BoxPtr + 4, BitConverter.GetBytes(vec.Y - PlatformBoxOffset.Y));
-            game.WriteBytes(BoxPtr + 8, BitConverter.GetBytes(vec.Z - PlatformBoxOffset.Z));
-            game.WriteBytes(BoxPtr + 12, BitConverter.GetBytes(vec.X + PlatformBoxOffset.X));
-            game.WriteBytes(BoxPtr + 16, BitConverter.GetBytes(vec.Y + PlatformBoxOffset.Y));
-            game.WriteBytes(BoxPtr + 20, BitConverter.GetBytes(vec.Z + PlatformBoxOffset.Z));
+            game.WriteBytes(BoxPtr, BitConverter.GetBytes(spawnData.pos.X - PlatformBoxOffset.X));
+            game.WriteBytes(BoxPtr + 4, BitConverter.GetBytes(spawnData.pos.Y - PlatformBoxOffset.Y));
+            game.WriteBytes(BoxPtr + 8, BitConverter.GetBytes(spawnData.pos.Z - PlatformBoxOffset.Z));
+            game.WriteBytes(BoxPtr + 12, BitConverter.GetBytes(spawnData.pos.X + PlatformBoxOffset.X));
+            game.WriteBytes(BoxPtr + 16, BitConverter.GetBytes(spawnData.pos.Y + PlatformBoxOffset.Y));
+            game.WriteBytes(BoxPtr + 20, BitConverter.GetBytes(spawnData.pos.Z + PlatformBoxOffset.Z));
         }
 
         protected override void DerefPointer(Process game) {

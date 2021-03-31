@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.NonPlaceableObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -166,6 +167,41 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(23812, 30312, 7839), new Angle(1.00f, 0.01f))); // lab tube
             Rooms.Add(layout);
 
+            #region Jump
+            //first jump
+            NonPlaceableObject uplink = new UplinkJump(0x28, 0x608);//4.5,3.5,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5));//default
+            var jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 3.5f, JumpForwardMultiplier = 2.75f };
+            uplink.AddSpawnInfo(jumpSpawn);//really short jump need to use dash
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -4.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpGravity = 3.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//high jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 9.0f, JumpForwardMultiplier = 15.0f, JumpGravity = 3.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//bounce
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = -1.0f, JumpForwardMultiplier = -3.0f, JumpGravity = -3.0f }.SetRarity(0.15);
+            uplink.AddSpawnInfo(jumpSpawn);//bounce
+            nonPlaceableObjects.Add(uplink);
+            #endregion
+
+            #region Shurikens
+            //// First room with spiders
+            uplink = new UplinkShurikens(0x0, 0xd68);//5,20
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 60, MaxAttacks = 100 }.SetRarity(0.05)); // for the spiders
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(6, 11), MaxAttacks = 6 }); // for 3 argets max 2 hits
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 6, MaxAttacks = Config.GetInstance().r.Next(6, 11) }); // basic
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 6, MaxAttacks = 20 }); // default
+            nonPlaceableObjects.Add(uplink);
+            #endregion
+
+            #region Targets
+            //collectible need to change value at 220 not at 224 as it didn't update after cp reload
+            //nonPlaceableObjects.Add(new ShurikenTarget(0x0, 0x230).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
+            //for the fan
+            nonPlaceableObjects.Add(new ShurikenTarget(0x0, 0xD70).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 3) }));
+            nonPlaceableObjects.Add(new ShurikenTarget(0x0, 0xD60).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 3) }));
+            nonPlaceableObjects.Add(new ShurikenTarget(0x0, 0xD58).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 3) }));
+            #endregion
         }
 
         private void Gen_PerRoom_AfterCV() {
@@ -337,7 +373,7 @@ namespace GhostrunnerRNG.Maps {
 
             //// room 10 - 2 shifters+pistol+weeb+shield ////
             enemies = room_10.ReturnEnemiesInRoom(AllEnemies);
-            
+
             enemies[4].SetEnemyType(Enemy.EnemyTypes.Weeb);
 
             info = new ShifterSpawnInfo();
@@ -346,7 +382,7 @@ namespace GhostrunnerRNG.Maps {
                 new Tuple<Vector3f, Angle>(new Vector3f(18621, -20019, 8497), new Angle(0.73f, 0.68f)),
                 new Tuple<Vector3f, Angle>(new Vector3f(21824, -20567, 8497), new Angle(0.86f, 0.51f))
             };
-             info2 = new ShifterSpawnInfo();
+            info2 = new ShifterSpawnInfo();
             info2.shiftPoints = new List<Tuple<Vector3f, Angle>>() {
                 new Tuple<Vector3f, Angle>(new Vector3f(20231, -16873, 8008), new Angle(0.95f, 0.31f)),
                 new Tuple<Vector3f, Angle>(new Vector3f(18011, -20615, 9722), new Angle(0.56f, 0.83f)),
@@ -387,7 +423,7 @@ namespace GhostrunnerRNG.Maps {
 
             //// room 11 - 2 shifter+weeb+frogger ////
             enemies = room_11.ReturnEnemiesInRoom(AllEnemies);
-   
+
             info = new ShifterSpawnInfo();
             info.shiftPoints = new List<Tuple<Vector3f, Angle>>() {
                 new Tuple<Vector3f, Angle>(new Vector3f(35203, -31487, 8510), new Angle(1.00f, 0.03f)),
@@ -401,7 +437,7 @@ namespace GhostrunnerRNG.Maps {
                 new Tuple<Vector3f, Angle>(new Vector3f(32641, -34578, 8518), new Angle(0.60f, 0.80f))
             };
 
-            shifterR = Config.GetInstance().r.Next(2); 
+            shifterR = Config.GetInstance().r.Next(2);
             enemies[0] = new EnemyShifter(enemies[0], 3).AddFixedSpawnInfo(shifterR == 0 ? info : info2);
             enemies[1] = new EnemyShifter(enemies[1], 3).AddFixedSpawnInfo(shifterR == 0 ? info2 : info);
 
@@ -423,6 +459,45 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(34892, -41518, 9238), new Angle(0.71f, 0.70f)).Mask(SpawnPlane.Mask_Highground)); // above exit door
 
             Rooms.Add(layout);
+
+
+            #region Jump
+            //4 room
+            NonPlaceableObject uplink = new UplinkJump(0x8, 0x7a8);//3.6,2.8,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5));//default
+            var jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 2.5f, JumpForwardMultiplier = 10.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//long jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -3.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 1.0f, JumpForwardMultiplier = 2.0f, JumpGravity = 0.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//zero gravity jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 25.0f, JumpForwardMultiplier = -1.0f, JumpGravity = -4.0f }.SetRarity(0.15);
+            uplink.AddSpawnInfo(jumpSpawn);//ceiling slide
+            nonPlaceableObjects.Add(uplink);
+            #endregion
+
+            #region Shurikens
+            // 2 room
+            uplink = new UplinkShurikens(0x58, 0x1F8);//5,100
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 45, MaxAttacks = 50 }.SetRarity(0.05)); //for the next room
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(4, 11), MaxAttacks = Config.GetInstance().r.Next(7, 15) });
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 15, MaxAttacks = Config.GetInstance().r.Next(3, 7) });//unlucky rng
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo().SetRarity(0.5)); // default
+            nonPlaceableObjects.Add(uplink);
+            #endregion
+
+            #region Slomo
+            //1 room
+            uplink = new UplinkSlowmo(0x50, 0xB0, 0xA0);
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = 30 });
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(5, 15) });
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = 8, TimeMultiplier = 0.01f });
+            //2 room
+            uplink = new UplinkSlowmo(0x58, 0xA58, 0xA0);
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = 20 });
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(5, 15) });
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = 5, TimeMultiplier = 0.01f });
+            #endregion
         }
     }
 }

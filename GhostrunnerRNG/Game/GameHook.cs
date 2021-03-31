@@ -225,6 +225,11 @@ namespace GhostrunnerRNG.Game {
 					return;
 				} else if(AccurateMapType == MapType.RoadToAmidaCV) {
 					// RiH CV
+					if(!Config.GetInstance().Gen_RngCV) {
+						currentMap = null;
+						LogStatus("CV-RNG is disabled by user.");
+						return;
+					}
 					currentMap = new RoadToAmidaCV();
 					NewRNG();
 					return;
@@ -272,6 +277,11 @@ namespace GhostrunnerRNG.Game {
 					return;
 				} else if(AccurateMapType == MapType.ReignInHellCV) {
 					// RiH CV
+					if(!Config.GetInstance().Gen_RngCV) {
+						currentMap = null;
+						LogStatus("CV-RNG is disabled by user.");
+						return;
+					}
 					currentMap = new ReignInHellCV();
 					NewRNG();
 					return;
