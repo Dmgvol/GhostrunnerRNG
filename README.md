@@ -33,7 +33,7 @@ Trailer: <Link>
 - Echoes
 - Faster
 - Forbidden Zone
-- Reign In Hell
+- Reign In Hell + CV
 - Things You Wouldn't Believe
 
 ### How to use?
