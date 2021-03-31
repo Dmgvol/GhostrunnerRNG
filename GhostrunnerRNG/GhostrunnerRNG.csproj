@@ -111,6 +111,7 @@
     <Compile Include="MemoryUtils\SignatureScanner.cs" />
     <Compile Include="MemoryUtils\WinAPI.cs" />
     <Compile Include="NonPlaceableObjects\UplinkShurikens.cs" />
+    <Compile Include="NonPlaceableObjects\UplinkSlowmo.cs" />
     <Compile Include="Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>

@@ -329,7 +329,7 @@ namespace GhostrunnerRNG.Game {
 			if(currentMap == null) return;
 
 			if(value == 1) {
-				// restart restart/death
+				// first restart/death
 				main.LogStatus("Rng Loaded! good luck!");
 				return;
             }

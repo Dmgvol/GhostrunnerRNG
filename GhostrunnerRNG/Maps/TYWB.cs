@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.NonPlaceableObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -407,6 +408,91 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(65548, 175416, 2836), new Angle(-0.69f, 0.72f)).Mask(SpawnPlane.Mask_Highground).setRarity(0.2)); // elevator
 
             Rooms.Add(layout);
+
+
+            /////////////// NonPlaceableObjects ///////////////
+            #region Jumps
+            //// room 8.5 - minimal rng (weird uplink spot...)
+            NonPlaceableObject uplink = new UplinkJump(0x50, 0x778); 
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo ()); // default
+
+            UplinkJumpSpawnInfo jumpSpawn = new UplinkJumpSpawnInfo { 
+                TimeToActivate = Config.GetInstance().r.Next(3, 50) / 10, 
+                JumpMultiplier = 5,
+                JumpForwardMultiplier = Config.GetInstance().r.Next(10, 30) / 10, 
+                JumpGravity = Config.GetInstance().r.Next(40, 70) / 10};
+            uplink.AddSpawnInfo(jumpSpawn);
+            nonPlaceableObjects.Add(uplink);
+
+            //// room 9, 4 drones cross
+            uplink = new UplinkJump(0x58, 0x6D0); 
+            jumpSpawn = new UplinkJumpSpawnInfo {
+                TimeToActivate = Config.GetInstance().r.Next(10, 50) / 10, //1 - 5 sec activation
+                JumpMultiplier = Config.GetInstance().r.Next(25, 45) / 10, // 2.5 - 4.5 jump height
+                JumpForwardMultiplier = Config.GetInstance().r.Next(0, 45) / 10 * (Config.GetInstance().r.Next(2) == 0 ? 1 : (-1)), // from -4.5 to 4.5 (surprise backwards)
+                JumpGravity = Config.GetInstance().r.Next(30, 60) / 10 // slow to normal
+            };
+            uplink.AddSpawnInfo(jumpSpawn);
+
+            jumpSpawn = new UplinkJumpSpawnInfo { TimeToActivate = 60 }; // one per minute, good luck
+            uplink.AddSpawnInfo(jumpSpawn);
+            nonPlaceableObjects.Add(uplink);
+
+
+            //// room 9.5 - first jump
+            uplink = new UplinkJump(0x8, 0xA78);
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo()); // default
+
+            jumpSpawn = new UplinkJumpSpawnInfo { // low gravity (slow jump)
+                JumpGravity = 3, JumpMultiplier = 4};
+            uplink.AddSpawnInfo(jumpSpawn);
+
+            jumpSpawn = new UplinkJumpSpawnInfo { // high jump, skipping platform
+                JumpForwardMultiplier = 4, JumpMultiplier = 6};
+            uplink.AddSpawnInfo(jumpSpawn);
+            nonPlaceableObjects.Add(uplink);
+
+            #endregion
+
+
+            #region Shurikens
+            //// First room with spiders
+            uplink = new UplinkShurikens(0x0, 0x18C8);
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration =  4, MaxAttacks = 30}); // short time
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration =  20, MaxAttacks = 3 }); // few attacks
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 10, MaxAttacks = 1 }); // single attack
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo()); // default
+            nonPlaceableObjects.Add(uplink);
+
+            //// Room 3, closer
+            uplink = new UplinkShurikens(0x20, 0xCD8);
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo {Duration = 10 , MaxAttacks = 20}); // default
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo {Duration = Config.GetInstance().r.Next(3, 12), MaxAttacks = Config.GetInstance().r.Next(2, 10)}); // basic rng
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 5, MaxAttacks = Config.GetInstance().r.Next(1, 3) }); // unlucky rng
+            nonPlaceableObjects.Add(uplink);
+
+            //// Room 3, far
+            uplink = new UplinkShurikens(0x20, 0xD60);
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 10, MaxAttacks = 20 }); // default
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(3, 12), MaxAttacks = Config.GetInstance().r.Next(2, 10) }); // basic rng
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 5, MaxAttacks = Config.GetInstance().r.Next(1, 3) }); // unlucky rng
+            nonPlaceableObjects.Add(uplink);
+
+
+            //// Room 9.5
+            uplink = new UplinkShurikens(0x8, 0xA80);
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo()); // default
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 5, MaxAttacks = 3}); // no mistakes
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(5, 10), MaxAttacks = Config.GetInstance().r.Next(5, 12)}); // general rng
+            nonPlaceableObjects.Add(uplink);
+            #endregion
+
+            #region Slomo
+            uplink = new UplinkSlowmo(0x10, 0xA0);
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(5, 15)});
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = 5, TimeMultiplier = 0.05f });
+            #endregion
+
         }
     }
 }

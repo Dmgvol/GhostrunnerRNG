@@ -30,14 +30,16 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
 
         protected abstract void ReadDefaultValues(Process game);
 
-        protected void ModifyIfChanged(Process game, IntPtr ptr, float? n, float? defaultValue) {
+        protected bool ModifyIfChanged(Process game, IntPtr ptr, float? n, float? defaultValue) {
             // values are different? update the change
             if(n != null && defaultValue != null && (float)n != (float)defaultValue) {
                 game.WriteBytes(ptr, BitConverter.GetBytes((float)n));
+                return true;
                 // new value is null or not set/changed? and we have default value? update to default
             } else if(defaultValue != null) {
                 game.WriteBytes(ptr, BitConverter.GetBytes((float)defaultValue));
             }
+            return false;
         }
 
         protected void ModifyIfChangedInt(Process game, IntPtr ptr, int? n, int? defaultValue) {

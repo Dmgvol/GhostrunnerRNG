@@ -14,7 +14,7 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Image Grid.Row="0" Source="/GhostrunnerRNG;component/Resources/header.png" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"/>
+        <Image Grid.Row="0" Source="/GhostrunnerRNG;component/Resources/header.png" HorizontalAlignment="Stretch" Margin="0, -3, 0, 0" VerticalAlignment="Stretch"/>
         <!--Title-->
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
             <Label  Foreground="White" FontSize="19" Content="Ghostrunner RNG" HorizontalAlignment="Center"/>
