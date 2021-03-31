@@ -14,7 +14,7 @@ Trailer: <Link>
 - Enemies(all types)
 - Shield Orbs
 - Checkpoints
-- Uplinks(Shurikens, Super-Jumps)
+- Uplinks(Shurikens, Super-Jumps, Slowmos)
 - Rotating Billboards
 - Shuriken Targets (hits needed)
 - Train Signs (on Faster)
