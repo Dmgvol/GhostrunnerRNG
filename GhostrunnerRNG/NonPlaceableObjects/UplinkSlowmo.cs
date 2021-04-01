@@ -41,7 +41,8 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
             float value;
             game.ReadValue(Pointers["TotalTime"].Item2, out value);
             info.Parameters["TotalTime"] = value;
-
+            game.ReadValue(Pointers["MidCurveTime"].Item2, out value);
+            info.Parameters["MidCurveTime"] = value;
             DefaultData = info;
         }
     }
@@ -53,12 +54,12 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
             { "TotalTime", null}
         };
 
-        public float? TimeMultiplier { get { return Parameters["TimeMultiplier"]; }  
-            set { 
-                Parameters["TimeMultiplier"] = value; 
-                Parameters["MidCurveTime"] = value - 0.5f; // mid curve is -0.5 from TotalTime
-            } }
+        public float? TimeMultiplier { get { return Parameters["TimeMultiplier"]; } set { Parameters["TimeMultiplier"] = value;  } }
 
-        public float? TotalTime { get { return Parameters["TotalTime"]; } set { Parameters["TotalTime"] = value; } }
+        public float? TotalTime { get { return Parameters["TotalTime"]; } set { 
+                Parameters["TotalTime"] = value;
+                Parameters["MidCurveTime"] = (value - 0.4f);
+            } 
+        }
     }
 }

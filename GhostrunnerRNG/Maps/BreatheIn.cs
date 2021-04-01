@@ -244,12 +244,12 @@ namespace GhostrunnerRNG.Maps {
             //// Sub 1
             // 1
             NonPlaceableObject uplink = new UplinkSlowmo(0x8, 0x188, 0xA0); 
-            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(2 , 6)});
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(3 , 7)});
             nonPlaceableObjects.Add(uplink);
 
             // 2
             uplink = new UplinkSlowmo(0x8, 0x180, 0xA0);
-            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(2, 6) });
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(3, 7) });
             nonPlaceableObjects.Add(uplink);
             // 3
             uplink = new UplinkSlowmo(0x8, 0x178, 0xA0);  // same as sub 2, first slowmo

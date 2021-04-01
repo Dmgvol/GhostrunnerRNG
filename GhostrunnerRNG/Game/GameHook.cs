@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using GhostrunnerRNG.Maps;
 using static GhostrunnerRNG.Game.GameUtils;
 using GhostrunnerRNG.MapGen;
+using System.Text;
 
 namespace GhostrunnerRNG.Game {
     class GameHook {
@@ -445,6 +446,9 @@ namespace GhostrunnerRNG.Game {
 			MapType mapTo = GetMapType(to);
 			MapType mapFrom = GetMapType(from);
 
+			if(mapTo == MapType.MainMenu)
+				MenuLoaded();
+
 			// rng started in middle of level, request to restart or menu
 			if(mapFrom == MapType.Unknown && mapTo != MapType.MainMenu) {
 				AccurateMapType = MapType.Unknown;
@@ -471,5 +475,42 @@ namespace GhostrunnerRNG.Game {
 		}
 
 
+		private bool firstMenuFlag = false;
+		private void MenuLoaded() {
+			if(firstMenuFlag) return;
+			firstMenuFlag = true;
+
+			string Title = "Randomizer Mode";
+			string Description = "Randomizes enemies and objects in a challenging and unexpected way.";
+			// title
+			DeepPointer titleDP = new DeepPointer(0x043FD270, 0x3C8, 0x80, 0x1CE8, 0x20, 0x0);
+			DeepPointer titleLengthDP = new DeepPointer(0x043FD270, 0x3C8, 0x80, 0x1CE8, 0x28);
+			//description
+			DeepPointer descDP = new DeepPointer(0x043FD270, 0x3C8, 0x80, 0x1CE8, 0x0, 0x0);
+			DeepPointer descLengthDP = new DeepPointer(0x043FD270, 0x3C8, 0x80, 0x1CE8, 0x8);
+			// pointers
+			IntPtr titlePtr, titleLengthPtr, descPtr, descLengthPtr;
+			// deref
+			titleDP.DerefOffsets(game, out titlePtr);
+			descDP.DerefOffsets(game, out descPtr);
+			titleLengthDP.DerefOffsets(game, out titleLengthPtr);
+			descLengthDP.DerefOffsets(game, out descLengthPtr);
+
+			// set title and length + 1
+			game.WriteBytes(titlePtr, StringToMemoryBytes(Title));
+			game.WriteBytes(descPtr, StringToMemoryBytes(Description));
+			game.WriteBytes(titleLengthPtr, BitConverter.GetBytes((int)(Title.Length + 1)));
+			game.WriteBytes(descLengthPtr, BitConverter.GetBytes((int)(Description.Length + 1)));
+		}
+
+		private byte[] StringToMemoryBytes(string str) {
+			var titleBytes = Encoding.ASCII.GetBytes(str).ToList();
+			List<byte> memoryBytes = new List<byte>();
+			for(int i = 0; i < titleBytes.Count; i++) {
+				memoryBytes.Add(titleBytes[i]);
+				if(i < titleBytes.Count - 1) memoryBytes.Add(00);
+			}
+			return memoryBytes.ToArray();
+		}
 	}
 }

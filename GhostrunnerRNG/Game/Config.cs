@@ -14,6 +14,7 @@ namespace GhostrunnerRNG.Game {
         // RNG - singleton
         public Random r;
         public int Seed { get; private set; }
+        public int? ForceSeed;
 
         // Subscriber/publisher pattern
         public delegate void NotifySeedChanged(int newSeed);
@@ -40,6 +41,12 @@ namespace GhostrunnerRNG.Game {
             } else {
                 Seed = Guid.NewGuid().GetHashCode();
             }
+
+            // has forced seed number?
+            if(ForceSeed != null && ForceSeed is int newSeed)
+                Seed = newSeed;
+
+            // generate new rng with seed
             r = new Random(Seed);
 
             // notify if any subscribers

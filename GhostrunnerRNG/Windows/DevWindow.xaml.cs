@@ -25,6 +25,7 @@ namespace GhostrunnerRNG.Windows {
 
 		public DevWindow() {
             InitializeComponent();
+			// reset stats
 			SpawnPlaneTab.IsSelected = true;
 			test_pos1 = Vector3f.Empty;
 			test_pos2 = Vector3f.Empty;
@@ -32,6 +33,10 @@ namespace GhostrunnerRNG.Windows {
 			// HotKeys
 			kbHook.KeyDown += InputKeyDown;
 			HookKeys(true);
+
+			// seed already forced? display it in textbox
+			if(Config.GetInstance().ForceSeed is int seed)
+				textbox_seed.Text = seed.ToString();
 		}
 
 		private void HookKeys(bool flag) {
@@ -172,6 +177,15 @@ namespace GhostrunnerRNG.Windows {
             if(worldObject != null && GameUtils.IsNumeric(InputYaw.Text) && GameUtils.IsNumeric(InputPitch.Text) && GameUtils.IsNumeric(InputRoll.Text)) {
 				worldObject.SetMemoryPos(GameHook.game, new SpawnData(worldObject.Pos, new QuaternionAngle(float.Parse(InputYaw.Text), float.Parse(InputPitch.Text), float.Parse(InputRoll.Text))));
             }
+        }
+
+        private void buttonSeed_Click(object sender, RoutedEventArgs e) {
+            if(IsNumeric(textbox_seed.Text)) {
+				int forceSeed = int.Parse(textbox_seed.Text);
+				Config.GetInstance().ForceSeed = forceSeed;
+            }else if(string.IsNullOrEmpty(textbox_seed.Text)) {
+				Config.GetInstance().ForceSeed = null;
+			}
         }
 
         private void Teleport(Process game, Vector3f pos) {

@@ -63,6 +63,8 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(18050, 31902, 7908), new Angle(0.74f, 0.68f))); // last room, small platform with ziplines
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(15088, 40512, 7398), new Angle(-1.00f, 0.01f))); // after door room 5
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(27825, 26910, 7308), new Angle(1.00f, 0.00f))); // before cv, right after door
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(2317, -6549, 416), new Angle(0.97f, 0.23f)));  // stuck door, button area
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(1493, -9727, 409), new Angle(0.52f, 0.85f))); // stuck door, near button 
             Rooms.Add(layout);
 
             layout = new RoomLayout(enemies.Take(2).ToList()); // spider rng
@@ -166,6 +168,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(23629, 31559, 7877), new Angle(-1.00f, 0.03f))); // wall near skull decal
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(23812, 30312, 7839), new Angle(1.00f, 0.01f))); // lab tube
             Rooms.Add(layout);
+
 
             #region Jump
             //first jump
@@ -457,9 +460,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(34784, -34379, 9242), new Angle(-0.25f, 0.97f)).Mask(SpawnPlane.Mask_Highground)); // billboard edge 3
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(33339, -34365, 9243), new Angle(0.91f, 0.41f)).Mask(SpawnPlane.Mask_Highground)); // billboard edge 4
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(34892, -41518, 9238), new Angle(0.71f, 0.70f)).Mask(SpawnPlane.Mask_Highground)); // above exit door
-
             Rooms.Add(layout);
-
 
             #region Jump
             //4 room

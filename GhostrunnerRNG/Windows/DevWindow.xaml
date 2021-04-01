@@ -11,6 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Margin="10">
             <!--Testing-->
@@ -80,6 +81,15 @@
                     </Grid>
                 </TabItem>
             </TabControl>
+        </Grid>
+
+        <Border BorderBrush="#FF666666" BorderThickness="1" HorizontalAlignment="Stretch" Height="1" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top" />
+        <Grid Grid.Row="2">
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="textbox_seed" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"  HorizontalAlignment="Left" VerticalAlignment="Stretch" Height="30" Width="250" Margin="10, 0" Background="#FF666666" Foreground="White"/>
+                <Button x:Name="buttonSeed" Content="Force Seed" Height="30" Width="100"  HorizontalAlignment="Right" VerticalAlignment="Stretch" Click="buttonSeed_Click"/>
+                <Label VerticalAlignment="Center" Margin="50, 0" Content="Force empty seed to reset." FontSize="15"  Foreground="White"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

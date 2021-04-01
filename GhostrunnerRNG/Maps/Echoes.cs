@@ -56,10 +56,7 @@ namespace GhostrunnerRNG.Maps {
             List<Enemy> enemies;
 
             //// Room 1 - single Weeb ////
-            enemies = room_1.ReturnEnemiesInRoom(AllEnemies);
-            layout = new RoomLayout(enemies);
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(67382, 2918, 5600), new Vector3f(66919, 4177, 5600), new Angle(-0.70f, 0.72f)).DoNotReuse());
-            Rooms.Add(layout);
+            // Tutorial Weeb - skipped, to avoid broken encounters
 
             //// Room 2 - Pistol + Weeb ////
             enemies = room_2.ReturnEnemiesInRoom(AllEnemies);
