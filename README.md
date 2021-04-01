@@ -18,6 +18,7 @@ Trailer: <Link>
 - Rotating Billboards
 - Shuriken Targets (hits needed)
 - Train Signs (on Faster)
+- Menu GameMode selection (Mod description)
 
 ### Which Levels?
 ~All~ Most classic levels, including a few cybervoid levels:
