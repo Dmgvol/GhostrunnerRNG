@@ -474,12 +474,7 @@ namespace GhostrunnerRNG.Game {
 			}
 		}
 
-
-		private bool firstMenuFlag = false;
 		private void MenuLoaded() {
-			if(firstMenuFlag) return;
-			firstMenuFlag = true;
-
 			string Title = "Randomizer Mode";
 			string Description = "Randomizes enemies and objects in a challenging and unexpected way.";
 			// title

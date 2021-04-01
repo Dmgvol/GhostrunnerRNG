@@ -16,7 +16,7 @@
 
         <!--Top row-->
         <Label Grid.Row="0" x:Name="label_Title" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Ghostrunner RNG Mod" FontSize="20" Foreground="White" FontWeight="Bold"/>
-        <!--<Label Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Closed Alpha"  FontSize="14" Foreground="White" Margin="0,6,10,0" />-->
+        <Label Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Open Beta"  FontSize="14" Foreground="White" Margin="0,6,10,0" />
 
         <!--2nd row (main)-->
         <StackPanel Grid.Row="1" Margin="10, 0">

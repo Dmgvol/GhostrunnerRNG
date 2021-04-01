@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
        Background="#FF292929"
-        Title="About" Height="420" Width="425">
+        Title="About" Height="441" Width="425">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
@@ -48,6 +48,7 @@
             <Label Grid.Row="2" Padding="0" Foreground="White" FontSize="13" Content="reflect the final version, you may and will experience bugs." HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         </StackPanel>
         <!--Credits-->
-        <Label Grid.Row="2" Foreground="White" FontSize="13" Content="Designed and created by DmgVol and LongerWarrior" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <Label Grid.Row="2" Foreground="White" FontSize="13" Content="Designed and created by DmgVol and LongerWarrior" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 20"/>
+        <Label Grid.Row="2" Foreground="White" FontSize="13" Content="Special Thanks: JanisSG" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>
