@@ -438,16 +438,78 @@ namespace GhostrunnerRNG.Maps {
 
             //// room 9.5 - first jump
             uplink = new UplinkJump(0x8, 0xA78);
-            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo()); // default
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5)); // default
 
             jumpSpawn = new UplinkJumpSpawnInfo { // low gravity (slow jump)
                 JumpGravity = 3, JumpMultiplier = 4};
             uplink.AddSpawnInfo(jumpSpawn);
 
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = -5.0f, JumpForwardMultiplier = -2.0f, JumpGravity = -5.0f }.SetRarity(0.2);
+            uplink.AddSpawnInfo(jumpSpawn);//very weird negative gravity jump
+
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 4.25f, JumpForwardMultiplier = 0.0f, JumpGravity = 0.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//vertical jump
+
             jumpSpawn = new UplinkJumpSpawnInfo { // high jump, skipping platform
                 JumpForwardMultiplier = 4, JumpMultiplier = 6};
             uplink.AddSpawnInfo(jumpSpawn);
             nonPlaceableObjects.Add(uplink);
+
+            //// room 9.5 - second jump
+            uplink = new UplinkJump(0x8, 0xA70);//4.5,3,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5)); // default
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -3.5f };
+            uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 10.0f, JumpForwardMultiplier = 10.0f, JumpGravity = 3.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//almost oob
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 1.0f, JumpForwardMultiplier = 6.0f, JumpGravity = -5.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//right into the hole
+
+            //// room 9.5 - fourth jump
+            uplink = new UplinkJump(0x8, 0xA70);//7,3,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5)); // default
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -3.5f };
+            uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 9.0f, JumpForwardMultiplier = 3.0f, JumpGravity = 13.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//short jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 0.5f, JumpForwardMultiplier = 4.0f, JumpGravity = -6.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//negative gravity
+
+            //// room 10.5 - first jump
+            uplink = new UplinkJump(0x18, 0x1318);//5,3,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5)); // default
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = 2.5f, JumpGravity = 8.0f};
+            uplink.AddSpawnInfo(jumpSpawn);//really short jump need to use dash
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 8.0f, JumpForwardMultiplier = 8.0f, JumpGravity = 4.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//negative gravity
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 0.5f, JumpForwardMultiplier = -3.0f, JumpGravity = -3.5f };
+            uplink.AddSpawnInfo(jumpSpawn);//negative gravity backward
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 20.0f, JumpForwardMultiplier = -20.0f, JumpGravity = 6.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//backward bounce
+            nonPlaceableObjects.Add(uplink);
+
+            //// room 10.5 - second jump
+            uplink = new UplinkJump(0x18, 0x1318);//6,3,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5)); // default
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpGravity = 8.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//really short jump need to use dash
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 6.0f, JumpForwardMultiplier = 0.0f, JumpGravity = -2.5f };
+            uplink.AddSpawnInfo(jumpSpawn);//vertical jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -3.0f, JumpGravity = -3.5f };
+            uplink.AddSpawnInfo(jumpSpawn);//negative gravity backward
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 3.0f, JumpForwardMultiplier = -2.0f, JumpGravity = -5.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//backwards
+            nonPlaceableObjects.Add(uplink);
+
+            //// room 10.5 - recovery jump
+            uplink = new UplinkJump(0x18, 0x548);//7,3,6
+            uplink.AddSpawnInfo(new UplinkJumpSpawnInfo()); // default
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 3.0f, JumpForwardMultiplier = 16.0f, JumpGravity = 10.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//to the first platform
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -4.0f};
+            uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
+            jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 6.0f, JumpForwardMultiplier = 6.1f, JumpGravity = 8.0f };
+            uplink.AddSpawnInfo(jumpSpawn);//to the second platform
 
             #endregion
 
