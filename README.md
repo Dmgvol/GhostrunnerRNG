@@ -8,7 +8,7 @@ Also... It is 100% harder then the classic difficulty.
 ## Open Beta Version
 After months of hard work, we're excited to announce the open beta for this project!
 
-Trailer: <Link>
+Trailer: https://www.youtube.com/watch?v=YXnTPiwxBw8
 
 ### Which elements it modifies/randomizes?
 - Enemies(all types)
