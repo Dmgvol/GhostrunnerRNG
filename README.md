@@ -16,6 +16,7 @@ Trailer: https://www.youtube.com/watch?v=YXnTPiwxBw8
 - Checkpoints
 - Uplinks(Shurikens, Super-Jumps, Slowmos)
 - Rotating Billboards
+- ToggleableFans (Amida fans)
 - Shuriken Targets (hits needed)
 - Train Signs (on Faster)
 - Menu UI: GameMode selection (Mod description)
@@ -51,6 +52,20 @@ The exe window will show relevant info regarding the rng.
 - [ ] Abilities
 - [ ] Enemy stats
 - [ ] More RNG!
+
+### Last Changelog
+Changelog [0.3.01]
+- Added: Amida ToggleableFans rng
+- Added: Tempest CV rng
+- Added: Missing billboards rng (Dharma, Echoes)
+- Added: Custom cp in Fzone, before 4 pistol room
+- Changed: TYWB Room 5 nerfed
+- Changed: Reduced spider rng in RiH, before CV (for now)
+- Changed: Disabled RNG for sensory boost pistol on NG
+- Fixed: Broken spawns and uplinks
+- Fixed: Wrong menu ui text length
+- Fixed: General bugs/issues
+- Removed: Faster, forced-slide trigger (optional)
 
 ## About
 ### Credits
