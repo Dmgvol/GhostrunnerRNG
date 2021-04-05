@@ -2,7 +2,7 @@
 
 namespace GhostrunnerRNG.Game {
     class Config {
-        public const string VERSION = "0.3";
+        public const string VERSION = "0.3.01";
 
         private static Config instance;
 
@@ -10,6 +10,8 @@ namespace GhostrunnerRNG.Game {
         public bool Gen_RngOnRestart = true;
         public bool Gen_RngOrbs = true;
         public bool Gen_RngCV = true;
+
+        public bool Setting_RemoveForceSlideTrigger = true;
 
         // RNG - singleton
         public Random r;

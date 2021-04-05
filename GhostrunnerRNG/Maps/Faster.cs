@@ -2,6 +2,7 @@
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
 using GhostrunnerRNG.NonPlaceableObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static GhostrunnerRNG.Enemies.Enemy;
@@ -89,6 +90,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11686, 141284, 893), new Angle(-0.72f, 0.69f)).Mask(SpawnPlane.Mask_HighgroundLimited));//first boxes
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11804, 142467, 299), new Angle(-0.71f, 0.70f)).Mask(SpawnPlane.Mask_Flatground));//between the boxes
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11797, 150242, 1243), new Angle(-0.70f, 0.71f)).Mask(SpawnPlane.Mask_HighgroundLimited));//above door
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11792, 178094, 1243), new Angle(-0.70f, 0.71f)).Mask(SpawnPlane.Mask_HighgroundLimited));//above door 2
             //default planes
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12363, 145626, 318), new Vector3f(-11238, 148925, 318), new Angle(-0.70f, 0.71f)).SetMaxEnemies(2).Mask(SpawnPlane.Mask_Flatground));
 
@@ -124,7 +126,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12289, 201724, 317), new Angle(-0.69f, 0.72f)).Mask(SpawnPlane.Mask_Flatground));//right side of boxes
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11436, 203800, 359), new Vector3f(-12135, 203572, 359), new Angle(-0.71f, 0.70f)).Mask(SpawnPlane.Mask_Flatground));//before EoL
             //deafult planes
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11265, 198217, 317), new Vector3f(-12322, 196118, 317), new Angle(-0.72f, 0.70f)).SetMaxEnemies(2).Mask(SpawnPlane.Mask_Flatground));//2weebs
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11265, 198217, 318), new Vector3f(-12308, 197556, 318), new Angle(-0.70f, 0.72f)).Mask(SpawnPlane.Mask_Flatground));//1 weeb
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11236, 201290, 318), new Vector3f(-12436, 199282, 317), new Angle(-0.72f, 0.70f)).SetMaxEnemies(2).Mask(SpawnPlane.Mask_Flatground));//weeb+frogger
             Rooms.Add(layout);
 
@@ -269,6 +271,23 @@ namespace GhostrunnerRNG.Maps {
             nonPlaceableObjects.Add(chained);
             #endregion
 
+            #region ForceSlideTrigger
+            if(Config.GetInstance().Setting_RemoveForceSlideTrigger) {
+                IntPtr triggerPtr;
+                DeepPointer triggerDP = new DeepPointer(0x045A3C20, 0x98, 0x10, 0x128, 0xA8, 0x3C0, 0x230, 0x398, 0x150);
+                triggerDP.DerefOffsets(GameHook.game, out triggerPtr);
+                GameHook.game.WriteBytes(triggerPtr, BitConverter.GetBytes((float)0));
+            }
+            #endregion
+
+
+            #region Signs Triggers
+            // force signs
+            // Default: -11830, 160550, 2040 | 650, 1025, 540
+            nonPlaceableObjects.Add(new Trigger(0x18, 0x380, new Vector3f(-11815, 139661, 350), new Vector3f(650, 1025, 540), // first wagon doorframe
+                new DeepPointer(0x045A3C20, 0x1F8, 0x60, 0xD0, 0x298, 0x830, 0xB0, 0x5A0, 0x1A8, 0x0), 0x19000,
+                "9A F1 42 C6 B0 C6 1B 48 33 D3 BA 44 66 BE 2E C6 50 CC 1D 48 66 96 21 45"));
+            #endregion
         }
     }
 }

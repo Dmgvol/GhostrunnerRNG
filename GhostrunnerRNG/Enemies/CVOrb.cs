@@ -11,9 +11,21 @@ namespace GhostrunnerRNG.Enemies {
         private DeepPointer boxOriginDP, boxDP;
         private IntPtr boxOriginPtr, boxPtr;
 
-        public CVOrb(int orbOffset, int boxOffset) : base(new DeepPointer(0x045A3C20, 0x30, 0xA8, orbOffset, 0x248, 0x1D0)) {
+        /// <summary>
+        /// RiH CV orb constructor
+        /// </summary>
+        public CVOrb(int orbOffset, int boxSecondOffset) : base(new DeepPointer(0x045A3C20, 0x30, 0xA8, orbOffset, 0x248, 0x1D0)) {
             boxOriginDP = new DeepPointer(0x045A3C20, 0x30, 0xA8, orbOffset, 0x238, 0x398, 0x150);
-            boxDP = new DeepPointer(0x045A3C20, 0x1F8, 0x60, 0xD0, 0x8C0, 0xB0, 0x5A0, 0x1A8, boxOffset);
+            boxDP = new DeepPointer(0x045A3C20, 0x1F8, 0x60, 0xD0, 0x8C0, 0xB0, 0x5A0, 0x1A8, boxSecondOffset);
+        }
+
+        /// <summary>
+        /// Tempest CV orb constructor
+        /// </summary>
+        public CVOrb(int orbOffset, int boxFirstOffset, int boxSecondOffset) : base(new DeepPointer(0x045A3C20, 0x30, 0xA8, orbOffset, 0x248, 0x1D0)) {
+            
+            boxOriginDP = new DeepPointer(0x045A3C20, 0x30, 0xA8, orbOffset, 0x238, 0x398, 0x150);
+            boxDP = new DeepPointer(0x045A3C20, 0x1F8, 0x60, 0xD0, 0x298, boxFirstOffset, 0xB0, 0x5A0, 0x1A8, boxSecondOffset);
         }
 
         public override void SetMemoryPos(Process game, SpawnData spawnData) {

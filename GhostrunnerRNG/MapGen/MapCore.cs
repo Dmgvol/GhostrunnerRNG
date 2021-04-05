@@ -91,7 +91,6 @@ namespace GhostrunnerRNG.MapGen {
 
                 // enemies without cp
                 if(EnemiesWithoutCP.Count > 0) {
-                    Console.WriteLine(EnemiesWithoutCP.Count);
                     List<SpawnPlane> spawnPlanesLeft = new List<SpawnPlane>();
                     var roomsList = Rooms.Where(x => x.IsRoomDefaultType()).ToList(); // to avoid orb planes
                     // add all remaining spawn planes from all rooms into one list

@@ -28,6 +28,12 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
             return new DeepPointer(ObjectDP.GetBase(), new List<int>(offsets));
         }
 
+        public void OverwritePointerOffset(string key, params int[] appendOffsets) {
+            if(Pointers.ContainsKey(key)) {
+                Pointers[key] = new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(appendOffsets), IntPtr.Zero);
+            }
+        }
+
         protected abstract void ReadDefaultValues(Process game);
 
         protected bool ModifyIfChanged(Process game, IntPtr ptr, float? n, float? defaultValue) {

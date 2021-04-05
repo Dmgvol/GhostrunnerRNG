@@ -33,7 +33,6 @@ namespace GhostrunnerRNG.Game {
             set { if(value != _cpCounter) {_cpCounter = value; cpCounterChanged(value); } }
         }
 
-
 		// MAP OBJECT
 		MapCore currentMap;
 		private string _mapName;
@@ -54,7 +53,6 @@ namespace GhostrunnerRNG.Game {
         public GameHook(MainWindow main) {
 			this.main = main;
 
-
 			// Update Timer
 			updateTimer = new Timer {
 				Interval = (200) // 0.2sec
@@ -63,7 +61,6 @@ namespace GhostrunnerRNG.Game {
 			updateTimer.Start();
 
 			oldPreciseTimer = preciseTimer = -1;
-
 		}
 
 		// Timer Tick
@@ -253,6 +250,17 @@ namespace GhostrunnerRNG.Game {
 				} else if(AccurateMapType == MapType.Echoes) {
 					// Echoes
 					currentMap = new Echoes(IsHC);
+					NewRNG();
+					return;
+				} else if(AccurateMapType == MapType.TempestCV) {
+					// TempestCV (AmidaCV-2)
+					if(!Config.GetInstance().Gen_RngCV) {
+						currentMap = null;
+						LogStatus("CV-RNG is disabled by user.");
+						return;
+					}
+
+					currentMap = new TempestCV();
 					NewRNG();
 					return;
 				} else if(MapLevels.FirstOrDefault(x => x.Value == MapType.FasterInHerOwnImage).Key == MapName) {  // Faster or Hell?
@@ -492,10 +500,26 @@ namespace GhostrunnerRNG.Game {
 			descLengthDP.DerefOffsets(game, out descLengthPtr);
 
 			// set title and length + 1
-			game.WriteBytes(titlePtr, StringToMemoryBytes(Title));
-			game.WriteBytes(descPtr, StringToMemoryBytes(Description));
 			game.WriteBytes(titleLengthPtr, BitConverter.GetBytes((int)(Title.Length + 1)));
 			game.WriteBytes(descLengthPtr, BitConverter.GetBytes((int)(Description.Length + 1)));
+			game.WriteBytes(titlePtr, StringToMemoryBytes(Title));
+			game.WriteBytes(descPtr, StringToMemoryBytes(Description));
+		}
+
+		/// <summary>
+		/// For future updates (localization needed)
+		/// </summary>
+		private void EditProTips() {
+            for(int i = 1; i < 12; i++) {
+				DeepPointer tipDP = new DeepPointer(0x043FD270, 0x368, 0x80, 0x28 * (i - 1), 0x0, 0x0);
+				DeepPointer tipLengthDP = new DeepPointer(0x043FD270, 0x368, 0x80, 0x28 * (i - 1), 0x8);
+				IntPtr tipPtr, tipLengthPtr;
+				tipDP.DerefOffsets(game, out tipPtr);
+				tipLengthDP.DerefOffsets(game, out tipLengthPtr);
+				string tip = "You're too slow, go faster! ";
+				game.WriteBytes(tipPtr, StringToMemoryBytes(tip));
+				game.WriteBytes(tipLengthPtr, BitConverter.GetBytes((int)(tip.Length + 1)));
+			}
 		}
 
 		private byte[] StringToMemoryBytes(string str) {
@@ -503,8 +527,11 @@ namespace GhostrunnerRNG.Game {
 			List<byte> memoryBytes = new List<byte>();
 			for(int i = 0; i < titleBytes.Count; i++) {
 				memoryBytes.Add(titleBytes[i]);
-				if(i < titleBytes.Count - 1) memoryBytes.Add(00);
+				memoryBytes.Add(00);
 			}
+			memoryBytes.Add(00);
+			memoryBytes.Add(00);
+
 			return memoryBytes.ToArray();
 		}
 	}

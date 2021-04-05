@@ -2,7 +2,9 @@
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
 using GhostrunnerRNG.NonPlaceableObjects;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using static GhostrunnerRNG.Game.GameUtils;
 
 namespace GhostrunnerRNG.Maps {
@@ -38,12 +40,13 @@ namespace GhostrunnerRNG.Maps {
         private bool BeforeCV = true;
 
         public BreatheIn(bool isHC) : base(MapType.BreatheIn) {
-
             BeforeCV = GameHook.xPos > 150000.0f;
 
             if(!isHC) {
                 if(BeforeCV)
                     Gen_PerRoom();
+                else
+                    Gen_PerRoom_AfterCV();
             }
         }
 
@@ -123,7 +126,8 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(154986, -82205, 3398), new Angle(-0.91f, 0.40f)));//boxes on the left
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(153961, -84904, 3417), new Angle(0.66f, 0.75f)));//billboard on the right
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(153893, -88219, 3683), new Angle(0.75f, 0.66f)));//boxes behind right guy
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(150018, -88641, 3613), new Vector3f(149291, -87780, 3613), new Angle(0.36f, 0.93f)).AsVerticalPlane());//on top of the billboard near middle platform
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(149375, -87871, 3613), new Angle(0.38f, 0.92f))); //on top of the billboard near middle platform, left corner
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(150037, -88679, 3613), new Angle(0.62f, 0.78f))); //on top of the billboard near middle platform, right corner
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(150831, -85799, 4188), new Angle(1.00f, 0.04f)));//crane
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(149435, -81215, 3923), new Angle(-0.70f, 0.71f)));//lamp on top of the door
 
@@ -207,7 +211,6 @@ namespace GhostrunnerRNG.Maps {
 
             Rooms.Add(layout);
 
-
             //// Room 19+6 layout ////
             enemies = room_19.ReturnEnemiesInRoom(AllEnemies);
             enemies1 = room_6.ReturnEnemiesInRoom(AllEnemies);
@@ -235,9 +238,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(68260, -97342, 3808), new Vector3f(66431, -96136, 3798), new Angle(0.44f, 0.90f)).SetMaxEnemies(2));//closer left platform
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(67295, -101437, 3798), new Vector3f(68310, -99170, 3798), new Angle(0.37f, 0.93f)).SetMaxEnemies(2));//far left platform
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(71589, -100298, 3798), new Vector3f(70074, -99196, 3808), new Angle(0.69f, 0.72f)).SetMaxEnemies(2));//far left platform
-
             Rooms.Add(layout);
-
 
             /////////////// NonPlaceableObjects ///////////////
             #region Slowmo
@@ -302,6 +303,11 @@ namespace GhostrunnerRNG.Maps {
             // 13 - skipped, same as (11)
             #endregion
 
+        }
+
+        private void Gen_PerRoom_AfterCV() {
+            // 2 enemies post-cv will not get rng because they spawn 1 room prior to their default one.
+            // Moving trigger didn't help, enemies are force-teleports to their default pos. [NO RNG FOR NOW]
         }
     }
 }

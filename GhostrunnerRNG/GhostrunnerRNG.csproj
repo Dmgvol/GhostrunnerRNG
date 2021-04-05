@@ -82,6 +82,7 @@
     <Compile Include="Maps\ReignInHell.cs" />
     <Compile Include="Maps\ReignInHellCV.cs" />
     <Compile Include="Maps\RoadToAmidaCV.cs" />
+    <Compile Include="Maps\TempestCV.cs" />
     <Compile Include="Maps\TYWB.cs" />
     <Compile Include="NonPlaceableObjects\Billboard.cs" />
     <Compile Include="NonPlaceableObjects\ChainedSignSpawners.cs" />
@@ -92,6 +93,8 @@
     <Compile Include="MapGen\SpawnPlane.cs" />
     <Compile Include="NonPlaceableObjects\ShurikenTarget.cs" />
     <Compile Include="NonPlaceableObjects\SignSpawner.cs" />
+    <Compile Include="NonPlaceableObjects\ToggleableFan.cs" />
+    <Compile Include="NonPlaceableObjects\Trigger.cs" />
     <Compile Include="NonPlaceableObjects\UplinkJump.cs" />
     <Compile Include="MapGen\WorldObject.cs" />
     <Compile Include="Maps\Awakening.cs" />

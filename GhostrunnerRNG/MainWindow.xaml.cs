@@ -22,7 +22,7 @@ namespace GhostrunnerRNG {
 
 		public MainWindow() {
 			InitializeComponent();
-			label_Title.Content += $" v{Config.VERSION}";
+			label_Version.Content = $" v{Config.VERSION}";
 
 			// Config - singleton
 			Config.GetInstance().SeedChanged += SeedChanged;
@@ -68,12 +68,10 @@ namespace GhostrunnerRNG {
             }
         }
 
-		////// UI ///
-
+		////// UI //////
 		public void ToggleRngControls(bool flag) {
 			ToggleButton(ButtonNewRng, flag);
 		}
-
 
 		private void ButtonNewRng_Click(object sender, RoutedEventArgs e) {
 			if(ButtonNewRng.Visibility == Visibility.Visible)

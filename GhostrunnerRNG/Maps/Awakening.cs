@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using System;
 using System.Collections.Generic;
 using static GhostrunnerRNG.Game.GameUtils;
 
@@ -15,11 +16,23 @@ namespace GhostrunnerRNG.Maps {
         private Room room5 = new Room(new Vector3f(4871, -76740, 2678), new Vector3f(-3510, -67504, -1166));  // 5 pistols, dome
         #endregion
 
+        private bool IsNewGame = false;
+
         public Awakening(bool isHC) : base(MapType.Awakening) {
+            CheckNewGame();
             // classic level
             if(!isHC) {
                 Gen_PerRoom();
             }
+        }
+
+        private void CheckNewGame() {
+            DeepPointer bestTimeDP = new DeepPointer(0x04328548, 0xE0, 0xB0, 0x30, 0xF0, 0x8);
+            IntPtr bestTimePtr;
+            bestTimeDP.DerefOffsets(GameHook.game, out bestTimePtr);
+            float time;
+            GameHook.game.ReadValue<float>(bestTimePtr, out time);
+            IsNewGame = time < 1;
         }
 
         protected override void Gen_PerRoom() {
@@ -34,12 +47,16 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// room 2 - pistol, sensory boost
-            enemies = room2.ReturnEnemiesInRoom(AllEnemies);
-            layout = new RoomLayout(enemies); // minimal rng since no ng/ng+ indication (yet)
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-14496, -59107, 2803), new Vector3f(-15633, -60168, 2799), new Angle(-1.00f, 0.09f)));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-15826, -58998, 2889), new Angle(-0.99f, 0.17f)));
-            Rooms.Add(layout);
-
+            if(!IsNewGame) { // skip rng if new game
+                enemies = room2.ReturnEnemiesInRoom(AllEnemies);
+                RandomPickEnemiesWithoutCP(ref enemies); // chance to move enemy to EnemiesWithoutCP
+                if(enemies != null && enemies.Count > 0) {
+                    layout = new RoomLayout(enemies); // minimal rng
+                    layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-14496, -59107, 2803), new Vector3f(-15633, -60168, 2799), new Angle(-1.00f, 0.09f)));
+                    layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-15826, -58998, 2889), new Angle(-0.99f, 0.17f)));
+                    Rooms.Add(layout);
+                }
+            }
 
             //// room 3 - 3 pistol, before bridge
             enemies = room3.ReturnEnemiesInRoom(AllEnemies);
@@ -110,6 +127,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-21681, -63576, 2998), new Angle(-1.00f, 0.05f))); // after first vent, left corner
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-20723, -59412, 4298), new Vector3f(-21563, -60163, 4302), new Angle(-0.99f, 0.15f))); // before sensory boost vent
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-3991, -70323, -80), new Angle(0.01f, 1.00f))); // before elevator (surprise)
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-16471, -56114, 4098), new Angle(-0.78f, 0.62f))); // after sensory boost
             Rooms.Add(layout);
         }
     }

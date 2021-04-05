@@ -70,8 +70,6 @@ namespace GhostrunnerRNG.Game {
         private static List<MapType> MapsWithoutRNG = new List<MapType>() {
             MapType.LookInsideCV,
             MapType.TheClimbCV,
-            MapType.TempestCV,
-            MapType.TempestCV,
             MapType.EchoesCV,
             MapType.Gatekeeper,
             MapType.InHerOwnImage,
@@ -94,6 +92,7 @@ namespace GhostrunnerRNG.Game {
             MapType.RunUp,
             MapType.DharmaCity,
             MapType.Echoes,
+            MapType.TempestCV,
             MapType.Faster,
             MapType.ForbiddenZone,
             MapType.ReignInHell,

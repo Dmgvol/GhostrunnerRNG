@@ -140,7 +140,6 @@ namespace GhostrunnerRNG.Windows {
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if(SpawnPlaneTab.IsSelected) {
-				//Console.WriteLine("plane tab");
 				HookKeys(true);
 			} else if(RotationTab.IsSelected) {
 				HookKeys(false);

@@ -205,7 +205,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-91390, 11132, -13168), new Vector3f(-90763, 12708, -13169), new Angle(0.36f, 0.93f)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-85818, 11297, -13169), new Vector3f(-87700, 10952, -13169), new Angle(-1.00f, 0.00f)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-85205, 9900, -12863), new Vector3f(-84574, 8194, -12871), new Angle(0.98f, 0.19f)));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-84030, 11493, -12481), new Vector3f(-85112, 10590, -12481), new Angle(-1.00f, 0.00f)));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-84426, 11696, -12482), new Vector3f(-85005, 10602, -12482), new Angle(-0.96f, 0.28f)));
 
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-85976, 9689, -12141), new Angle(0.96f, 0.28f)));  // billboard 1
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-88304, 10633, -12508), new Angle(0.97f, 0.22f))); // billboard 2
@@ -277,6 +277,26 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 4, MaxAttacks = 3 }); // no mistakes
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 5, MaxAttacks = 2 }); // challenge: 3rd target with sword
             nonPlaceableObjects.Add(uplink);
+            #endregion
+
+            #region ToggleableFans
+            nonPlaceableObjects.Add(new ToggleableFan(0x18, 0x68).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x20, 0x128).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x20, 0x140).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x20, 0x138).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x20, 0x130).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x28, 0x1A0).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x28, 0x1A8).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x28, 0x1B0).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x28, 0x198).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x28, 0x1B8).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x48, 0x298).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x48, 0x2B0).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x48, 0x2A8).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x48, 0x2A0).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x40, 0x238).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x8, 0x240).LoadDefaultPreset());
+            nonPlaceableObjects.Add(new ToggleableFan(0x8, 0x248).LoadDefaultPreset());
             #endregion
         }
     }

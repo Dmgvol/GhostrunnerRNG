@@ -115,7 +115,7 @@ namespace GhostrunnerRNG.Maps {
             // default platforms
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(90420, -58150, 4103), new Vector3f(88460, -57080, 4093), new Angle(0.71f, 0.71f)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(96110, -53358, 5288), new Vector3f(94905, -52082, 5310), new Angle(0.89f, 0.45f)));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(96155, -50082, 5288), new Vector3f(94760, -48905, 5289), new Angle(-0.88f, 0.48f)));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(94760, -48905, 5289), new Vector3f(95817, -50134, 5300), new Angle(-0.93f, 0.37f)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(90852, -51435, 4090), new Vector3f(89324, -52013, 4090), new Angle(0.71f, 0.71f)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(86243, -53613, 4120), new Vector3f(85263, -54622, 4090), new Angle(0.06f, 1.00f)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(88126, -44594, 3412), new Vector3f(87629, -46636, 3398), new Angle(0.22f, 0.97f)));
@@ -212,7 +212,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(48271, -79192, 4605), new Angle(0.16f, 0.99f))); // fuel tank, far back
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(53581, -79020, 4442), new Angle(0.01f, 1.00f))); // slide
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(53704, -78044, 4441), new Angle(0.26f, 0.97f))); // edge of neon sign near slide
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(53422, -78650, 3702), new Angle(0.76f, 0.65f))); // pipes under slide
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(51829, -80100, 3317), new Angle(0.72f, 0.69f))); // zipline pole
             Rooms.Add(layout);
 
             ///// Extra rooms for enemies without cp for extra rng ////
@@ -327,6 +327,42 @@ namespace GhostrunnerRNG.Maps {
                 JumpGravity = Config.GetInstance().r.Next(10, 101) / 10
             };
             uplink.AddSpawnInfo(jumpSpawn);//random jump
+            nonPlaceableObjects.Add(uplink);
+            #endregion
+
+            #region Billboards
+            // first billboard
+            uplink = new Billboard(0x20, 0x100);
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Angle1 = -450}); // extra spins
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1  = Config.GetInstance().r.Next(3, 6), Time2 = Config.GetInstance().r.Next(3, 6) }); // very slow
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 1, Angle1 = 270, Time2 = 3, Angle2 = -45});
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 3, Angle1 = -30, Time2 = 3, Angle2 = -50 }); 
+            uplink.AddSpawnInfo(new BillboardSpawnInfo()); // default
+            nonPlaceableObjects.Add(uplink);
+
+            uplink = new Billboard(0x20, 0x108);
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Angle1 = -350 }); // extra spins
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = Config.GetInstance().r.Next(1, 6), Time2 = Config.GetInstance().r.Next(1, 6) }); // speed rng
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 1, Angle1 = -270, Time2 = 2, Angle2 = 45 });
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 3, Angle1 = -60, Time2 = 2, Angle2 = 20 });
+            uplink.AddSpawnInfo(new BillboardSpawnInfo()); // default
+            nonPlaceableObjects.Add(uplink);
+
+            uplink = new Billboard(0x28, 0x1A8);
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Angle1 = -810 }); // extra spins
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = Config.GetInstance().r.Next(1, 6), Time2 = Config.GetInstance().r.Next(1, 6) }); // speed rng
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 1, Angle1 = -220, Time2 = 2, Angle2 = 35 });
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 3, Angle1 = -90, Time2 = 2, Angle2 = 30 });
+            uplink.AddSpawnInfo(new BillboardSpawnInfo()); // default
+            nonPlaceableObjects.Add(uplink);
+
+            uplink = new Billboard(0x30, 0x258);
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Angle1 = 450 }); // extra spins
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = Config.GetInstance().r.Next(1, 6), Time2 = Config.GetInstance().r.Next(1, 6) }); // speed rng
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 1, Angle1 = -220, Time2 = 2, Angle2 = 35 });
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 3, Angle1 = -90, Time2 = 2, Angle2 = -180 });
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 0, Time2 = 0 }.SetRarity(0.05)); // no time
+            uplink.AddSpawnInfo(new BillboardSpawnInfo()); // default
             nonPlaceableObjects.Add(uplink);
             #endregion
         }

@@ -466,6 +466,15 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 500, MaxAttacks = 25 }.SetRarity(0.2)); //to the EoL
             nonPlaceableObjects.Add(uplink);
             #endregion
+
+            #region Billboard
+            uplink = new Billboard(0x10, 0x398);
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = Config.GetInstance().r.Next(1, 10), Time2 = Config.GetInstance().r.Next(1, 10) }); // basic time rng
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Angle1 = -110 - (360 * Config.GetInstance().r.Next(3)), Angle2 = 110 + (360 * Config.GetInstance().r.Next(3)) }); // random additional spins
+            uplink.AddSpawnInfo(new BillboardSpawnInfo { Angle1 = -220, Angle2 = 200}); // proper angles
+            uplink.AddSpawnInfo(new BillboardSpawnInfo()); // default
+            nonPlaceableObjects.Add(uplink);
+            #endregion
         }
     }
 }

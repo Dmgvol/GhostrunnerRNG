@@ -93,11 +93,11 @@ namespace GhostrunnerRNG.Maps {
             ///// SECTION 3 /////
 
             orbs = new List<Enemy>();
-            orbs.Add(new CVOrb(0x118, 0x18D8));
-            orbs.Add(new CVOrb(0x120, 0x18C0));
-            orbs.Add(new CVOrb(0x128, 0x18A8));
-            orbs.Add(new CVOrb(0x130, 0x1890));
-            orbs.Add(new CVOrb(0x138, 0x1878));
+            orbs.Add(new CVOrb(0x118, 0x8C0, 0x18D8));
+            orbs.Add(new CVOrb(0x120, 0x8C0, 0x18C0));
+            orbs.Add(new CVOrb(0x128, 0x8C0, 0x18A8));
+            orbs.Add(new CVOrb(0x130, 0x8C0, 0x1890));
+            orbs.Add(new CVOrb(0x138, 0x8C0, 0x1878));
 
             layout = new RoomLayout(orbs);
             // default

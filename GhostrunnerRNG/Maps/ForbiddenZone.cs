@@ -182,6 +182,10 @@ namespace GhostrunnerRNG.Maps {
             Rooms.Add(layout);
 
             //// Room 5 - 4 pistols ////
+            // addition cp before this room
+            CustomCheckPoints.Add(new CustomCP(mapType, new Vector3f(74528, -37289, 3282), new Vector3f(73654, -38304, 1862),
+                new Vector3f(74049, -37700, 2319), new Angle(-0.70f, 0.71f)));
+
             enemies = room_5.ReturnEnemiesInRoom(AllEnemies);
             layout = new RoomLayout(enemies);
             // default platforms
@@ -301,7 +305,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(93417, -62897, 3273), new Vector3f(95955, -62244, 3273), new Angle(0.70f, 0.71f)).Mask(SpawnPlane.Mask_Flatground));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(94131, -60199, 3283), new Vector3f(94884, -59406, 3283), new Angle(0.76f, 0.65f)).Mask(SpawnPlane.Mask_Flatground));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(91839, -62226, 2823), new Vector3f(90810, -61054, 2823), new Angle(0.70f, 0.71f)).Mask(SpawnPlane.Mask_Flatground));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(90694, -59543, 2823), new Vector3f(91689, -58102, 2821), new Angle(0.38f, 0.92f)).Mask(SpawnPlane.Mask_Flatground));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(91739, -58284, 2821), new Vector3f(90648, -59502, 2823), new Angle(0.41f, 0.91f)).Mask(SpawnPlane.Mask_Flatground).AsVerticalPlane());
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(91834, -60829, 2823), new Vector3f(90283, -59683, 2823), new Angle(0.59f, 0.81f)).Mask(SpawnPlane.Mask_Flatground));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(92348, -56910, 2823), new Vector3f(91958, -57718, 2823), new Angle(0.92f, 0.39f)).Mask(SpawnPlane.Mask_Flatground));
 
@@ -324,7 +328,6 @@ namespace GhostrunnerRNG.Maps {
             enemies[2].SetEnemyType(Enemy.EnemyTypes.Weeb);
             enemies[3].SetEnemyType(Enemy.EnemyTypes.Weeb);
             RandomPickEnemiesWithoutCP(ref enemies, force: false, removeCP: false, enemyIndex: 3); // random chance to pick last weeb
-
             layout = new RoomLayout(enemies);
 
             // drone layouts - minimal rng
@@ -484,10 +487,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(127260, -56400, 8697), new Angle(0.16f, 0.99f)).Mask(mask)); // billboard near double pistols
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(136389, -56441, 9440), new Angle(0.98f, 0.18f)).Mask(mask)); // antenna, above exit door
 
-
-            var customMask = SpawnPlane.Mask_Flatground;
-            customMask.Add(Enemy.EnemyTypes.Waver);
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(136389, -56441, 9440), new Angle(0.98f, 0.18f)).Mask(customMask)); // antenna, above exit door
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(136389, -56441, 9440), new Angle(0.98f, 0.18f)).Mask(SpawnPlane.Mask_HighgroundLimited)); ; // antenna, above exit door
 
             Rooms.Add(layout);
 
@@ -548,7 +548,7 @@ namespace GhostrunnerRNG.Maps {
             turretSpawn.VerticalAngle = 0;
             turretSpawn.HorizontalAngle = 30;
             turretSpawn.HorizontalSpeed = 30;
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(146810, -58436, 6978), GameUtils.CreateQuaternion(180, 45, 90)).setRarity(0.2).SetSpawnInfo(turretSpawn));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(148894, -59367, 7741), GameUtils.CreateQuaternion(180, 45, 90)).setRarity(0.2).SetSpawnInfo(turretSpawn));
 
             layout.Mask(SpawnPlane.Mask_Turret);
             layout.DoNotReuse();
@@ -557,15 +557,15 @@ namespace GhostrunnerRNG.Maps {
             /////// Extra spawns for enemies without cp for extra rng ////
             layout = new RoomLayout();
             // extra spots after last room
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(156599, -50852, 11515), new Angle(1.00f, 0.02f)).Mask(SpawnPlane.Mask_Flatground));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(163353, -50842, 11594), new Angle(1.00f, 0.01f)).Mask(SpawnPlane.Mask_Flatground));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(169168, -50866, 11594), new Angle(1.00f, 0.01f)).Mask(SpawnPlane.Mask_Flatground));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(156599, -50852, 11515), new Angle(1.00f, 0.02f)).Mask(SpawnPlane.Mask_Highground));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(163353, -50842, 11594), new Angle(1.00f, 0.01f)).Mask(SpawnPlane.Mask_Highground));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(169168, -50866, 11594), new Angle(1.00f, 0.01f)).Mask(SpawnPlane.Mask_Highground));
 
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(170139, -51612, 12293), new Angle(0.98f, 0.22f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // billboard
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(169533, -56390, 12425), new Angle(0.65f, 0.76f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // ramp
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(167286, -61311, 11594), new Vector3f(168690, -61306, 11594), new Angle(0.31f, 0.95f)).Mask(SpawnPlane.Mask_Flatground));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(160772, -61127, 11594), new Vector3f(161891, -61521, 11594), new Angle(0.00f, 1.00f)).Mask(SpawnPlane.Mask_Flatground));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(156827, -85213, 13948), new Angle(0.72f, 0.70f)).Mask(SpawnPlane.Mask_Flatground).setRarity(0.1)); // inside end elevator
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(167286, -61311, 11594), new Vector3f(168690, -61306, 11594), new Angle(0.31f, 0.95f)).Mask(SpawnPlane.Mask_Highground));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(160772, -61127, 11594), new Vector3f(161891, -61521, 11594), new Angle(0.00f, 1.00f)).Mask(SpawnPlane.Mask_Highground));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(156827, -85213, 13948), new Angle(0.72f, 0.70f)).Mask(SpawnPlane.Mask_Highground).setRarity(0.1)); // inside end elevator
             Rooms.Add(layout);
 
 

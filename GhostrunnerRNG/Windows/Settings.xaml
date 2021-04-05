@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GhostrunnerRNG.Windows"
         mc:Ignorable="d"
         Background="#FF292929"
-        Title="Settings" Height="400" Width="500" MinWidth="400" MinHeight="280" MaxHeight="800" MaxWidth="600">
+        Title="Settings" Height="449.349" Width="500" MinWidth="400" MinHeight="280" MaxHeight="800" MaxWidth="600">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -14,21 +14,35 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <!--Title-->
-        <Label Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Settings" FontSize="20" Foreground="White"  />
+        <Label Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Settings" FontSize="21" Foreground="White"/>
 
         <!--Settings-->
-        <StackPanel Grid.Row="1" Margin="10">
-            <CheckBox IsChecked="True" x:Name="checkbox_RngOnRestart" ToolTip="Will randomize on new level or level restart" Content="New RNG on level restart/load" HorizontalAlignment="Left" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
-            <CheckBox IsChecked="True" x:Name="checkbox_RngOrbs" ToolTip="RNG shield orbs"  Content="Randomize Shield Orbs" HorizontalAlignment="Left" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
-            <CheckBox IsChecked="True" x:Name="checkbox_RngCybervoid" ToolTip="RNG Cybervoids; platforms, enemies..."  Content="RNG Cybervoids" HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            
+            <StackPanel Grid.Row="0" Margin="0, 10">
+                <Label HorizontalAlignment="Left" Margin="0, 5" VerticalAlignment="Top" Content="General" FontSize="21" Foreground="White"/>
+                <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_RngOnRestart" ToolTip="Will randomize on new level or level restart" Content="New RNG on level restart/load" HorizontalAlignment="Left" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+                <!--<CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_RngOrbs" ToolTip="RNG shield orbs"  Content="Randomize Shield Orbs" HorizontalAlignment="Left" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>-->
+                <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_RngCybervoid" ToolTip="RNG Cybervoids; platforms, enemies..."  Content="RNG Cybervoids" HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
 
-            <!--TBA feature option-->
-            <CheckBox  Content="Focus on speedrunning routes" ToolTip="Places all enemies in speedrunning routes"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
+                <!--Fake option-->
+                <CheckBox Margin="10, 0" Content="Prevent game crashes (zero crashes + performance boost)" ToolTip="No crashes! available only for Patreons"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
+            </StackPanel>
 
-            <!--Fake option-->
-            <CheckBox  Content="Prevent game crashes (zero crashes + performance boost)" ToolTip="No crashes! available only for Patreons"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
-          
-        </StackPanel>
+            <StackPanel Grid.Row="1">
+                <Label HorizontalAlignment="Left" Margin="0, 5" VerticalAlignment="Top" Content="Advanced" FontSize="21" Foreground="White"/>
+                <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_SlideForceTrigger" ToolTip="Disable trigger that forces player to slide in Faster map" Content="Disable forced-slide trigger in Faster" HorizontalAlignment="Left" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+                <!--TBA feature option-->
+                <CheckBox Margin="10, 0" Content="Focus on speedrunning routes (coming soon)" ToolTip="Places all enemies in speedrunning routes"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
+                <!--Fake option-->
+                <CheckBox Margin="10, 0" Content="No checkpoints" ToolTip="You really like to suffer, eh?"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
+            </StackPanel>
+            
+        </Grid>
         
         <!--Controls-->
         <Label Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="*Restart level to see changes" FontSize="14" Foreground="White"  />

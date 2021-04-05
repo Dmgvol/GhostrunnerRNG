@@ -70,8 +70,6 @@ namespace GhostrunnerRNG.Enemies {
                 game.ReadValue<float>(focusPoints[i].PosPtr, out x);
                 game.ReadValue<float>(focusPoints[i].PosPtr + 4, out y);
                 game.ReadValue<float>(focusPoints[i].PosPtr + 8, out z);
-                Console.WriteLine(new Vector3f(x,y,z));
-
 
                 // patrol pos
                 game.WriteBytes(focusPoints[i].PosPtr, BitConverter.GetBytes((float)focusPoints[i].Pos.X));

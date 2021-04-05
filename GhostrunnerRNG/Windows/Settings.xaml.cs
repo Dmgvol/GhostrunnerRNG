@@ -10,19 +10,16 @@ namespace GhostrunnerRNG.Windows {
             InitializeComponent();
             // load cfg to controls
             checkbox_RngOnRestart.IsChecked = Config.GetInstance().Gen_RngOnRestart;
-            checkbox_RngOrbs.IsChecked = Config.GetInstance().Gen_RngOrbs;
             checkbox_RngCybervoid.IsChecked = Config.GetInstance().Gen_RngCV;
+            checkbox_SlideForceTrigger.IsChecked = Config.GetInstance().Setting_RemoveForceSlideTrigger;
         }
 
         // OK Button
         private void ApplyButton_Click(object sender, RoutedEventArgs e) {
             // save changes
-            Config cfg = new Config();
-            cfg.Gen_RngOnRestart = checkbox_RngOnRestart.IsChecked == true;
-            cfg.Gen_RngOrbs = checkbox_RngOrbs.IsChecked == true;
-            cfg.Gen_RngCV = checkbox_RngCybervoid.IsChecked == true;
-            Config.GetInstance().SetInstance(cfg);
-
+            Config.GetInstance().Gen_RngCV = checkbox_RngCybervoid.IsChecked == true;
+            Config.GetInstance().Gen_RngOnRestart = checkbox_RngOnRestart.IsChecked == true;
+            Config.GetInstance().Setting_RemoveForceSlideTrigger = checkbox_SlideForceTrigger.IsChecked == true;
             // and close
             Close();
         }
