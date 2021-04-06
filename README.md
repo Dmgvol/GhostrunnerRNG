@@ -8,7 +8,7 @@ Also... It is 100% harder then the classic difficulty.
 ## Open Beta Version
 After months of hard work, we're excited to announce the open beta for this project!<br>
 Trailer: https://www.youtube.com/watch?v=YXnTPiwxBw8<br>
-Download: [Download latest version(the EXE file)](https://github.com/Dmgvol/test/releases/latest)<br>
+Download: [Download latest version(the EXE file)](https://github.com/Dmgvol/GhostrunnerRNG/releases/latest)<br>
 Please read [How to use](#How-to-use) section below.
 
 ### Which elements it modifies/randomizes?
