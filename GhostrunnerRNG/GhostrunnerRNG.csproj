@@ -79,6 +79,7 @@
     <Compile Include="Enemies\EnemyDrone.cs" />
     <Compile Include="Enemies\EnemySniper.cs" />
     <Compile Include="MapGen\MapCore.cs" />
+    <Compile Include="Maps\GateKeeper.cs" />
     <Compile Include="Maps\ReignInHell.cs" />
     <Compile Include="Maps\ReignInHellCV.cs" />
     <Compile Include="Maps\RoadToAmidaCV.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="NonPlaceableObjects\ShurikenTarget.cs" />
     <Compile Include="NonPlaceableObjects\SignSpawner.cs" />
     <Compile Include="NonPlaceableObjects\ToggleableFan.cs" />
+    <Compile Include="NonPlaceableObjects\TomLaser.cs" />
     <Compile Include="NonPlaceableObjects\Trigger.cs" />
     <Compile Include="NonPlaceableObjects\UplinkJump.cs" />
     <Compile Include="MapGen\WorldObject.cs" />

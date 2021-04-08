@@ -241,6 +241,9 @@ namespace GhostrunnerRNG.Game {
 					} else {
 						// Tom
 						AccurateMapType = MapType.Gatekeeper;
+						currentMap = new GateKeeper(IsHC);
+						NewRNG();
+						return;
 					}
 				} else if(AccurateMapType == MapType.DharmaCity) {
 					// DharmaCity

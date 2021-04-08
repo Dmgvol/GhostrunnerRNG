@@ -71,7 +71,6 @@ namespace GhostrunnerRNG.Game {
             MapType.LookInsideCV,
             MapType.TheClimbCV,
             MapType.EchoesCV,
-            MapType.Gatekeeper,
             MapType.InHerOwnImage,
             MapType.SurgeCV,
             MapType.OverlordCV,
@@ -90,6 +89,7 @@ namespace GhostrunnerRNG.Game {
             MapType.RoadToAmida,
             MapType.RoadToAmidaCV,
             MapType.RunUp,
+            MapType.Gatekeeper,
             MapType.DharmaCity,
             MapType.Echoes,
             MapType.TempestCV,
@@ -183,7 +183,7 @@ namespace GhostrunnerRNG.Game {
             public override string ToString() => $"{x.ToString("0.00")}, {y.ToString("0.00")}, {z.ToString("0.00")}, {w.ToString("0.00")}";
         }
 
-        [Obsolete("This method does not fit with GR numbers, Use CreateQuaternion(yaw, pitch, roll) method")]
+        //[Obsolete("This method does not fit with GR numbers, Use CreateQuaternion(yaw, pitch, roll) method")]
         public static Vector3f QuaternionToEuler(Quaternion q) {
             float x, y, z;
             float unit = (q.x * q.x) + (q.y * q.y) + (q.z * q.z) + (q.w * q.w);

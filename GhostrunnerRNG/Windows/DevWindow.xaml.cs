@@ -39,6 +39,7 @@ namespace GhostrunnerRNG.Windows {
 				textbox_seed.Text = seed.ToString();
 		}
 
+
 		private void HookKeys(bool flag) {
             if(flag && kbHook.HookedKeys.Count == 0) {
 				kbHook.HookedKeys.Add(Keys.NumPad1);

@@ -259,7 +259,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(22181, 15829, 8548), new Angle(0.58f, 0.81f)).Mask(SpawnPlane.Mask_Highground)); // on zipline pole
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(18076, 12914, 8857), new Angle(0.28f, 0.96f)).Mask(SpawnPlane.Mask_Highground)); // small ad near slowmo
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(18503, 12185, 9278), new Angle(0.67f, 0.74f)).Mask(SpawnPlane.Mask_Highground)); // small rooftop near slomo
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(21292, 10666, 9268), new Angle(0.69f, 0.72f)).Mask(SpawnPlane.Mask_Highground)); // above spider spawner
+            //layout.AddSpawnPlane(new SpawnPlane(new Vector3f(21292, 10666, 9268), new Angle(0.69f, 0.72f)).Mask(SpawnPlane.Mask_Highground)); // above spider spawner
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(21573, 14999, 8710), new Angle(0.45f, 0.89f)).Mask(SpawnPlane.Mask_Highground).setRarity(0.2)); // building rooftop
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(21466, 16125, 9054), new Angle(0.22f, 0.98f)).Mask(SpawnPlane.Mask_Highground)); // building rooftop
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(24744, 20905, 8001), new Angle(0.70f, 0.71f)).setRarity(0.1).Mask(SpawnPlane.Mask_Highground)); // infront of cp spawn 

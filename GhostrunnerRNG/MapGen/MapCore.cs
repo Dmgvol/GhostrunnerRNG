@@ -83,12 +83,6 @@ namespace GhostrunnerRNG.MapGen {
                 for(int i = 0; i < Rooms.Count; i++) {
                     Rooms[i].FixOrbBeams(game);
                 }
-
-                // uplinks and other nonPlaceableObjects
-                for(int i = 0; i < nonPlaceableObjects.Count; i++) {
-                    nonPlaceableObjects[i].Randomize(game);
-                }
-
                 // enemies without cp
                 if(EnemiesWithoutCP.Count > 0) {
                     List<SpawnPlane> spawnPlanesLeft = new List<SpawnPlane>();
@@ -116,6 +110,13 @@ namespace GhostrunnerRNG.MapGen {
                     }
                 }
             }
+
+
+            // uplinks and other nonPlaceableObjects
+            for(int i = 0; i < nonPlaceableObjects.Count; i++) {
+                nonPlaceableObjects[i].Randomize(game);
+            }
+
         }
 
         public virtual void UpdateMap(Vector3f Player) {

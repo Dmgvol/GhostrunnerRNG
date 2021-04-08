@@ -43,17 +43,26 @@ namespace GhostrunnerRNG.Game {
     }
 
     public class QuaternionAngle : Angle {
-        public GameUtils.Quaternion quaternion { get; private set; }
+        public Quaternion quaternion { get; private set; }
+        public float angleYaw { get; private set; }
+        public float anglePitch { get; private set; }
+        public float angleRoll { get; private set; }
 
         public QuaternionAngle(float angleYaw, float anglePitch, float angleRoll) {
-            quaternion = GameUtils.CreateQuaternion(angleYaw, anglePitch, angleRoll);
+            this.angleYaw = angleYaw;
+            this.anglePitch = anglePitch;
+            this.angleRoll = angleRoll;
+            quaternion = CreateQuaternion(angleYaw, anglePitch, angleRoll);
         }
 
         public QuaternionAngle(float x, float y, float z, float w) {
-            quaternion = new GameUtils.Quaternion(x, y, z, w);
+            quaternion = new Quaternion(x, y, z, w);
         }
 
         public QuaternionAngle(Quaternion q) => quaternion = q;
+
+        public override string ToString() => quaternion.ToString();
+
     }
 
     public class SpawnInfo{ }
