@@ -39,7 +39,6 @@ namespace GhostrunnerRNG.Windows {
 				textbox_seed.Text = seed.ToString();
 		}
 
-
 		private void HookKeys(bool flag) {
             if(flag && kbHook.HookedKeys.Count == 0) {
 				kbHook.HookedKeys.Add(Keys.NumPad1);
@@ -54,8 +53,6 @@ namespace GhostrunnerRNG.Windows {
 				kbHook.HookedKeys.Clear();
             }
 		}
-
-
 
         private void textbox_commands_TextChanged(object sender, TextChangedEventArgs e) {
 			string[] commands = textbox_commands.Text.Split('\n');
@@ -145,7 +142,7 @@ namespace GhostrunnerRNG.Windows {
 			} else if(RotationTab.IsSelected) {
 				HookKeys(false);
 				ButtonApply.Visibility = worldObject != null ? Visibility.Visible : Visibility.Collapsed;
-			}
+            }
 		}
 
         private void ButtonYPR_Click(object sender, RoutedEventArgs e) {

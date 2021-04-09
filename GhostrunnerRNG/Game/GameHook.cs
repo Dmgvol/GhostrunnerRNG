@@ -231,6 +231,17 @@ namespace GhostrunnerRNG.Game {
 					currentMap = new RoadToAmidaCV();
 					NewRNG();
 					return;
+				} else if(AccurateMapType == MapType.TempestCV) {
+					// TempestCV (AmidaCV-2)
+					if(!Config.GetInstance().Gen_RngCV) {
+						currentMap = null;
+						LogStatus("CV-RNG is disabled by user.");
+						return;
+					}
+
+					currentMap = new TempestCV();
+					NewRNG();
+					return;
 				} else if(MapLevels.FirstOrDefault(x => x.Value == MapType.RunUpGatekeeper).Key == MapName) { // RunUp or Tom?
 					if(yPos < 14000) {
 						// RunUp
@@ -245,6 +256,7 @@ namespace GhostrunnerRNG.Game {
 						NewRNG();
 						return;
 					}
+
 				} else if(AccurateMapType == MapType.DharmaCity) {
 					// DharmaCity
 					currentMap = new DharmaCity(IsHC);
@@ -255,15 +267,14 @@ namespace GhostrunnerRNG.Game {
 					currentMap = new Echoes(IsHC);
 					NewRNG();
 					return;
-				} else if(AccurateMapType == MapType.TempestCV) {
-					// TempestCV (AmidaCV-2)
+				} else if(AccurateMapType == MapType.EchoesCV) {
+					// Echoes CV
 					if(!Config.GetInstance().Gen_RngCV) {
 						currentMap = null;
 						LogStatus("CV-RNG is disabled by user.");
 						return;
 					}
-
-					currentMap = new TempestCV();
+					currentMap = new EchoesCV();
 					NewRNG();
 					return;
 				} else if(MapLevels.FirstOrDefault(x => x.Value == MapType.FasterInHerOwnImage).Key == MapName) {  // Faster or Hell?
@@ -462,7 +473,7 @@ namespace GhostrunnerRNG.Game {
 
 			// rng started in middle of level, request to restart or menu
 			if(mapFrom == MapType.Unknown && mapTo != MapType.MainMenu) {
-				AccurateMapType = MapType.Unknown;
+                AccurateMapType = MapType.Unknown;
 				LogStatus("[!] Level is already running,\nreturn to MainMenu or restart level!");
 				return;
 			}

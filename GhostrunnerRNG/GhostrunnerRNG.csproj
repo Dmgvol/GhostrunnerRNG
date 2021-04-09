@@ -79,6 +79,7 @@
     <Compile Include="Enemies\EnemyDrone.cs" />
     <Compile Include="Enemies\EnemySniper.cs" />
     <Compile Include="MapGen\MapCore.cs" />
+    <Compile Include="Maps\EchoesCV.cs" />
     <Compile Include="Maps\GateKeeper.cs" />
     <Compile Include="Maps\ReignInHell.cs" />
     <Compile Include="Maps\ReignInHellCV.cs" />

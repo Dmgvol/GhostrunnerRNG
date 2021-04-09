@@ -26,6 +26,9 @@ namespace GhostrunnerRNG.Maps {
 
             nonPlaceableObjects.Add(new TomLaser(0xb80 + (0x8 * 3)).AddLaserRange(-4, 0, new QuaternionAngle(0, 180, 0), true));
 
+
+            // NOTE: Lasers with broken hitboxes (disabled until we find a way to move those hitboxes)
+            /*
             nonPlaceableObjects.Add(new TomLaser(0xb80 + (0x8 * 4)).AddLaserRange(-1, 1, new QuaternionAngle(0, 0, 0), false));
 
             nonPlaceableObjects.Add(new TomLaser(0xb80 + (0x8 * 5)).AddLaserRange(-1, 1, new QuaternionAngle(0, 180, 0), true));
@@ -70,14 +73,12 @@ namespace GhostrunnerRNG.Maps {
 
             nonPlaceableObjects.Add(new TomLaser(0xb80 + (0x8 * 32)).AddLaserRange(-2, 2, new QuaternionAngle(0, 0, 0), false));
             nonPlaceableObjects.Add(new TomLaser(0xb80 + (0x8 * 33)).AddLaserRange(-2, 2, new QuaternionAngle(0, 180, 0), true));
+            */
 
-
-            //// hide white ring
-            WhiteRing1DP.DerefOffsets(GameHook.game, out WhiteRing1Ptr);
-            GameHook.game.WriteBytes(WhiteRing1Ptr, BitConverter.GetBytes(0));
-            GameHook.game.WriteBytes(WhiteRing1Ptr + 4, BitConverter.GetBytes(0));
-
-
+            //// hide white ring (Disabled for now)
+            //WhiteRing1DP.DerefOffsets(GameHook.game, out WhiteRing1Ptr);
+            //GameHook.game.WriteBytes(WhiteRing1Ptr, BitConverter.GetBytes(0));
+            //GameHook.game.WriteBytes(WhiteRing1Ptr + 4, BitConverter.GetBytes(0));
 
             ////// SECTION 3 ////
             nonPlaceableObjects.Add(new TomLaser(0xD70).SectionThree().AddLaserRange(-18, -6, new QuaternionAngle(90, 0, 0, 0), false)
