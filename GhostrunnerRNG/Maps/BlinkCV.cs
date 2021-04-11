@@ -19,7 +19,9 @@ namespace GhostrunnerRNG.Maps {
         List<PlatformSpawner> platformSpawns = new List<PlatformSpawner>();
         List<CVPlatform> platforms = new List<CVPlatform>();
 
-        public BlinkCV() : base(GameUtils.MapType.BlinkCV) {
+        public BlinkCV() : base(GameUtils.MapType.BlinkCV, manualGen:true) {
+            if(GameHook.IsHC) return;
+
             Gen_PerRoom();
         }
 

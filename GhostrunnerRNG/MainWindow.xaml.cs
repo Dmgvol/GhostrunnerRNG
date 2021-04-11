@@ -73,6 +73,13 @@ namespace GhostrunnerRNG {
 			ToggleButton(ButtonNewRng, flag);
 		}
 
+		public void ClearTexts() {
+			LabelSeed.Content = "";
+			label_GlobalLog.Text = "";
+			label_levelName.Text = "Current Level: ";
+			label_RNGStatus.Text = "RNG Status: waiting...";
+		}
+
 		private void ButtonNewRng_Click(object sender, RoutedEventArgs e) {
 			if(ButtonNewRng.Visibility == Visibility.Visible)
 				game.NewRNG(true);

@@ -1,14 +1,26 @@
 ﻿using GhostrunnerRNG.Enemies;
+using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GhostrunnerRNG.Maps {
     class EchoesCV : MapCore {
 
         private readonly Vector3f Core = new Vector3f(-14500f, -4900f, -700f);
 
-        public EchoesCV() : base(Game.GameUtils.MapType.EchoesCV) {
+        // Rotation
+        private DeepPointer RotationDP = new DeepPointer(0x045A3C20, 0x30, 0xE8, 0x10, 0x298, 0x60, 0x2C0);
+        private IntPtr RotationPtr;
+        private int rotationTimeOffset = 0x5A;
+        private int rotationAngleOffset = 0x5F;
+
+           
+        public EchoesCV() : base(Game.GameUtils.MapType.EchoesCV, manualGen:true) {
             Gen_PerRoom();
+            RotationDP.DerefOffsets(GameHook.game, out RotationPtr);
+            CPRequired = false;
         }
         protected override void Gen_PerRoom() {
             Rooms = new List<RoomLayout>();
@@ -58,7 +70,6 @@ namespace GhostrunnerRNG.Maps {
             // up facing
             layout.AddSpawnPlane(new SpawnPlane(ToRelative(new Vector3f(-11319, -4916, -301))));
             layout.AddSpawnPlane(new SpawnPlane(ToRelative(new Vector3f(-10838, -4647, -414))));
-            layout.AddSpawnPlane(new SpawnPlane(ToRelative(new Vector3f(-11315, -4870, -801))));
             // bot facing
             layout.AddSpawnPlane(new SpawnPlane(ToRelative(new Vector3f(-10878, -4667, -1119))));
             layout.AddSpawnPlane(new SpawnPlane(ToRelative(new Vector3f(-11365, -4986, -1472))));
@@ -123,6 +134,17 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(ToRelative(new Vector3f(-16949, -4916, -401)))); // behind spawn
             layout.AddSpawnPlane(new SpawnPlane(ToRelative(new Vector3f(-6261, -4865, -355)))); // end tower/platform
             Rooms.Add(layout);
+        }
+
+        public override void RandomizeEnemies(Process game) {
+            base.RandomizeEnemies(game);
+
+            // Core rotation rng
+            if(RotationPtr != IntPtr.Zero) {
+                game.WriteBytes(RotationPtr, BitConverter.GetBytes((float)Config.GetInstance().r.Next(2, 5)));
+                game.WriteBytes(RotationPtr + rotationTimeOffset, BitConverter.GetBytes((float)Config.GetInstance().r.Next(1, 5)));
+                game.WriteBytes(RotationPtr + rotationAngleOffset, BitConverter.GetBytes((float)Config.GetInstance().r.Next(2) == 0 ? 90f : -90f));
+            }
         }
 
         private Vector3f ToRelative(Vector3f pos) {

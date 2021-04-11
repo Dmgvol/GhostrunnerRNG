@@ -16,7 +16,7 @@
 
         <!--Top row-->
         <StackPanel Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
-            <Label Grid.Row="0" x:Name="label_Title" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Ghostrunner RNG Mod" FontSize="20" Foreground="White" FontWeight="Bold"/>
+            <Label Grid.Row="0" x:Name="label_Title" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Ghostrunner RNG Mod" Style="{StaticResource WhiteTitle}"/>
             <Label Grid.Row="0" x:Name="label_Version" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="14" Foreground="White" Padding="0, 5"/>
         </StackPanel>
             <Label Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Open Beta"  FontSize="14" Foreground="White" Margin="0,6,10,0" />
@@ -27,20 +27,24 @@
             <TextBlock x:Name="label_RNGStatus" HorizontalAlignment="Left" VerticalAlignment="Top" Text="RNG Status: waiting..." FontSize="15" Foreground="White" />
             <TextBlock x:Name="label_GlobalLog" HorizontalAlignment="Left" Margin="0, 50" Text="" FontSize="15" Foreground="White" />
         </StackPanel>
-        <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="0, 30">
-            <Button x:Name="ButtonNewRng" Content="[F7] New RNG" HorizontalAlignment="Right" VerticalAlignment="Top" Height="28" Width="170" FontSize="16" Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonNewRng_Click" IsTabStop="False"/>
-            <Button x:Name="ButtonSettings" Content="Settings" HorizontalAlignment="Right" VerticalAlignment="Top" Height="28" Width="170" FontSize="16" Margin="0, 5"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonSettings_Click" IsTabStop="False"/>
-            <Button x:Name="ButtonDev" Content="Dev" HorizontalAlignment="Right" VerticalAlignment="Top" Height="28" Width="170" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonDev_Click" IsTabStop="False"/>
+
+        <!--Error screen overlay-->
+        <Grid Background="#FF292929" Visibility="Hidden" x:Name="errorGrid" Grid.RowSpan="2">
+            <Label x:Name="errorMsg" Content="" HorizontalAlignment="Center" Height="35" VerticalAlignment="Center" Width="auto" FontSize="20" Foreground="White"/>
+        </Grid>
+
+        <!--Controls-->
+        <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="10, 30">
+            <Button x:Name="ButtonNewRng" Content="[F7] New RNG" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Style="{StaticResource DarkButtonMain}" Click="ButtonNewRng_Click" IsTabStop="False"/>
+            <Button x:Name="ButtonSettings" Content="Settings" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0, 5" Style="{StaticResource DarkButtonMain}" Click="ButtonSettings_Click" IsTabStop="False"/>
+            <Button x:Name="ButtonDev" Content="Dev" HorizontalAlignment="Right" VerticalAlignment="Top"  Width="150" FontSize="16" Style="{StaticResource DarkButtonMain}" Click="ButtonDev_Click" IsTabStop="False"/>
         </StackPanel>
 
         <!--seed-->
         <Label x:Name="LabelSeed" Content="" FontSize="15"  Foreground="White" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-
+        
         <!--bottom row-->
         <Label Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="by DmgVol, LongerWarrior" Foreground="White"/>
-        <Button Grid.Row="2" x:Name="ButtonAbout" Content="About" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="25" Width="100" FontSize="16" Foreground="white" BorderBrush="#FF040404" Background="#FF666666" Click="ButtonAbout_Click" IsTabStop="False"/>
-        <Grid Background="#FF292929" Visibility="Hidden" x:Name="errorGrid" Grid.RowSpan="2">
-            <Label x:Name="errorMsg" Content="" HorizontalAlignment="Center" Height="35" VerticalAlignment="Center" Width="auto" FontSize="20" Foreground="White"/>
-        </Grid>
+        <Button Grid.Row="2" Margin="10, 0" x:Name="ButtonAbout" Content="About" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="100" Style="{StaticResource DarkButtonMain}" Click="ButtonAbout_Click" IsTabStop="False"/>
     </Grid>
 </Window>

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using static GhostrunnerRNG.Game.GameUtils;
 
 namespace GhostrunnerRNG.Maps {
-    public class Awakening : MapCore {
+    public class Awakening : MapCore, IModes{
 
         #region Rooms
         private Room room1 = new Room(new Vector3f(-11808, -61173, 4482), new Vector3f(-17950, -64478, 2243)); // 1 pistol
@@ -18,12 +18,8 @@ namespace GhostrunnerRNG.Maps {
 
         private bool IsNewGame = false;
 
-        public Awakening(bool isHC) : base(MapType.Awakening) {
+        public Awakening() : base(MapType.Awakening) {
             CheckNewGame();
-            // classic level
-            if(!isHC) {
-                Gen_PerRoom();
-            }
         }
 
         private void CheckNewGame() {
@@ -35,7 +31,7 @@ namespace GhostrunnerRNG.Maps {
             IsNewGame = time < 1;
         }
 
-        protected override void Gen_PerRoom() {
+        public void Gen_Normal() {
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 13); // static range, no gap
             Rooms = new List<RoomLayout>();
             RoomLayout layout;
@@ -130,5 +126,23 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-16471, -56114, 4098), new Angle(-0.78f, 0.62f))); // after sensory boost
             Rooms.Add(layout);
         }
+
+        public void Gen_Easy() {
+            // GEN - Easy mode
+        }
+
+        public void Gen_SR() {
+            // GEN - SR routes
+        }
+
+        public void Gen_Nightmare() {
+            // GEN - Nightmare (classic levels)
+        }
+
+        public void Gen_Hardcore() {
+            // Gen - Hardcore(for in-game Hardcore mode, requires special attention)
+        }
+
+        protected override void Gen_PerRoom() {} // don't use if IModes or IModesMidCV interfaces is used.
     }
 }

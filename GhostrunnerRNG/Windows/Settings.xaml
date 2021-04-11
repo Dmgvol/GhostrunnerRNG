@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GhostrunnerRNG.Windows"
         mc:Ignorable="d"
-        Background="#FF292929"
-        Title="Settings" Height="449.349" Width="500" MinWidth="400" MinHeight="280" MaxHeight="800" MaxWidth="600">
+        Background="{StaticResource BackgroundSolid}"
+        Title="Settings" Height="517.099" Width="775" MinWidth="750" MinHeight="450" MaxHeight="600" MaxWidth="900">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -14,42 +14,64 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <!--Title-->
-        <Label Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Settings" FontSize="21" Foreground="White"/>
+        <Label Grid.Row="0" FontSize="21" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Settings" Style="{StaticResource WhiteTitle}"/>
 
         <!--Settings-->
         <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="380"/>
+                <ColumnDefinition Width="100*"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="180"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            
-            <StackPanel Grid.Row="0" Margin="0, 10">
-                <Label HorizontalAlignment="Left" Margin="0, 5" VerticalAlignment="Top" Content="General" FontSize="21" Foreground="White"/>
-                <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_RngOnRestart" ToolTip="Will randomize on new level or level restart" Content="New RNG on level restart/load" HorizontalAlignment="Left" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
-                <!--<CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_RngOrbs" ToolTip="RNG shield orbs"  Content="Randomize Shield Orbs" HorizontalAlignment="Left" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>-->
-                <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_RngCybervoid" ToolTip="RNG Cybervoids; platforms, enemies..."  Content="RNG Cybervoids" HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
 
-                <!--Fake option-->
-                <CheckBox Margin="10, 0" Content="Prevent game crashes (zero crashes + performance boost)" ToolTip="No crashes! available only for Patreons"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
+            <!--==== DIFFICULTY ====-->
+            <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"  Margin="0, 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <Label HorizontalAlignment="Left" Margin="0, 5" VerticalAlignment="Top" Content="Difficulty (classic levels)" Style="{StaticResource WhiteLabelHeader}"/>
+                    <CheckBox Margin="10, 0" x:Name="Dif_easy" Content="Easy" HorizontalAlignment="Left" IsChecked="False" Style="{StaticResource DisabledDarkCheckBox}" Checked="Dif_Checked" Unchecked="Dif_Checked"/>
+                    <CheckBox Margin="10, 0" x:Name="Dif_Normal" Content="Normal" HorizontalAlignment="Left" IsChecked="false" Style="{StaticResource DarkCheckBox}" Foreground="White" Checked="Dif_Checked" Unchecked="Dif_Checked"/>
+                    <CheckBox Margin="10, 0" x:Name="Dif_SR" Content="SR Focus (hard)" HorizontalAlignment="Left" IsChecked="False" Style="{StaticResource DisabledDarkCheckBox}" Checked="Dif_Checked" Unchecked="Dif_Checked"/>
+                    <CheckBox Margin="10, 0" x:Name="Dif_NM" Content="Nightmare" HorizontalAlignment="Left" IsChecked="False" Style="{StaticResource DisabledDarkCheckBox}" Checked="Dif_Checked" Unchecked="Dif_Checked"/>
+                </StackPanel>
+            </Grid>
+            <Label Grid.Row="1" Content="More difficulty options are coming soon!" Style="{StaticResource WhiteLabelSmall}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+            <TextBlock Grid.Row="1" Grid.RowSpan="2" x:Name="DifDesc" Grid.Column="1" Margin="10, 0" HorizontalAlignment="Stretch" FontSize="16" Foreground="White" TextWrapping="Wrap"/>
+
+            <Border BorderBrush="{StaticResource BackgroundLight}" BorderThickness="1" Grid.RowSpan="2" VerticalAlignment="Stretch" Width="1" Margin="0,0,10,0" HorizontalAlignment="Right"/>
+
+            <!--==== GENERAL SETTINGS ====-->
+            <StackPanel Grid.Row="0" Margin="0, 10" >
+                <Label HorizontalAlignment="Left" Margin="0, 5" VerticalAlignment="Top" Content="General" Style="{StaticResource WhiteLabelHeader}"/>
+                <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_RngOnRestart" ToolTip="Will randomize on new level or level restart" Content="New RNG on level restart/load" HorizontalAlignment="Left" Style="{StaticResource DarkCheckBox}"/>
+                <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_RngCybervoid" ToolTip="RNG Cybervoids; platforms, enemies..."  Content="RNG Cybervoids" HorizontalAlignment="Left"  Height="28" Width="auto" Style="{StaticResource DarkCheckBox}"/>
+                <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_RngTargets" ToolTip="Shuriken targets can range from 1 to 3 needed hits to activate"  Content="Randomize needed hits for shuriken targets" HorizontalAlignment="Left" Style="{StaticResource DarkCheckBox}"/>
+
+                <!--Fake/Troll/Meme option-->
+                <CheckBox Margin="10, 0" Content="Random game crashes" IsChecked="True"  HorizontalAlignment="Left"  Style="{StaticResource DisabledDarkCheckBox}"/>
             </StackPanel>
 
-            <StackPanel Grid.Row="1">
-                <Label HorizontalAlignment="Left" Margin="0, 5" VerticalAlignment="Top" Content="Advanced" FontSize="21" Foreground="White"/>
-                <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_SlideForceTrigger" ToolTip="Disable trigger that forces player to slide in Faster map" Content="Disable forced-slide trigger in Faster" HorizontalAlignment="Left" Height="28" Width="auto" FontSize="16"  Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+
+            <!--==== ADVANCED  SETTINGS ====-->
+            <StackPanel Grid.Row="1"  >
+                <Label HorizontalAlignment="Left" Margin="0, 5" VerticalAlignment="Top" Content="Advanced" Style="{StaticResource WhiteLabelHeader}"/>
+                <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_SlideForceTrigger" ToolTip="Disable trigger that forces player to slide in Faster map" Content="Disable forced-slide trigger in Faster" HorizontalAlignment="Left" Style="{StaticResource DarkCheckBox}"/>
+
                 <!--TBA feature option-->
-                <CheckBox Margin="10, 0" Content="Focus on speedrunning routes (coming soon)" ToolTip="Places all enemies in speedrunning routes"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
-                <!--Fake option-->
-                <CheckBox Margin="10, 0" Content="No checkpoints" ToolTip="You really like to suffer, eh?"  HorizontalAlignment="Left"  Height="28" Width="auto" FontSize="16" Foreground="LightGray" BorderBrush="#FF040404" Background="#FF666666" Focusable="False" IsHitTestVisible="False"/>
+                <CheckBox Margin="10, 0" Content="No Sword, gloves only" ToolTip="You really like to suffer, eh?"  HorizontalAlignment="Left"  Style="{StaticResource DisabledDarkCheckBox}"/>
             </StackPanel>
-            
         </Grid>
-        
-        <!--Controls-->
-        <Label Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="*Restart level to see changes" FontSize="14" Foreground="White"  />
 
+        <!--==== Controls ====-->
+        <Label Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="*Restart level to see changes" Style="{StaticResource WhiteLabelSmall}" />
         <StackPanel Grid.Row="2" Orientation="Horizontal" FlowDirection="RightToLeft" VerticalAlignment="Center">
-            <Button Content="Ok" Height="30" Width="100" x:Name="ApplyButton" Click="ApplyButton_Click" Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
-            <Button Content="Cancel"  Height="30" Width="100" x:Name="CancelButton" Click="CancelButton_Click" Margin="15, 0" Foreground="white" BorderBrush="#FF040404" Background="#FF666666"/>
+            <Button Content="Ok" Height="30" Width="100" x:Name="ApplyButton" Click="ApplyButton_Click" Style="{StaticResource DarkButton}"/>
+            <Button Content="Cancel"  Height="30" Width="100" x:Name="CancelButton" Click="CancelButton_Click" Margin="15, 0" Style="{StaticResource DarkButton}"/>
         </StackPanel>
     </Grid>
 </Window>

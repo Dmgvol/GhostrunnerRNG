@@ -36,8 +36,6 @@ namespace GhostrunnerRNG.Enemies {
 
         }
 
-
-
         public override void SetMemoryPos(Process game, SpawnData spawnData) {
             DerefPointer(game);
             base.SetMemoryPos(game, spawnData);

@@ -14,12 +14,11 @@ namespace GhostrunnerRNG.Maps {
         private Room room_4 = new Room(new Vector3f(-68632, -26742, 8423), new Vector3f(-63143, -19223, 11190));
         private Room room_5 = new Room(new Vector3f(-61959, -27794, 9791), new Vector3f(-60096, -25898, 10758));
 
-        public JackedUp(bool isHC) : base(MapType.JackedUp) {
-            if(!isHC) {
-                Gen_PerRoom();
-            }
+           
+        public JackedUp() : base(MapType.JackedUp, manualGen:true) {
+            if(GameHook.IsHC) return;
+            Gen_PerRoom();
         }
-
         protected override void Gen_PerRoom() {
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game);
             Rooms = new List<RoomLayout>();

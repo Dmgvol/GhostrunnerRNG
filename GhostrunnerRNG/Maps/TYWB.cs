@@ -21,11 +21,12 @@ namespace GhostrunnerRNG.Maps {
         private Room room_10 = new Room(new Vector3f(60555, 134146, 6617), new Vector3f(75583, 141394, 1517));  // 4 uzi, 2 drones
         #endregion
 
-        public TYWB(bool isHc) : base(GameUtils.MapType.TYWB) {
-            if(!isHc) {
-                Gen_PerRoom();
-            }
+        public TYWB() : base(GameUtils.MapType.TYWB, manualGen: true) {
+            if(GameHook.IsHC) return;
+
+            Gen_PerRoom();
         }
+
         protected override void Gen_PerRoom() {
             // static enemy gap
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 29);

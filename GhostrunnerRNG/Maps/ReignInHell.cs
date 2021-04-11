@@ -32,14 +32,14 @@ namespace GhostrunnerRNG.Maps {
         // cv flag
         private bool BeforeCV = true;
 
-        public ReignInHell(bool isHC) : base(MapType.ReignInHell) {
+        public ReignInHell() : base(MapType.ReignInHell, manualGen: true) {
+            if(GameHook.IsHC) return;
             BeforeCV = GameHook.yPos < 20000;
-            if(!isHC) {
-                if(BeforeCV)
-                    Gen_PerRoom();
-                else
-                    Gen_PerRoom_AfterCV();
-            }
+
+            if(BeforeCV)
+                Gen_PerRoom();
+            else
+                Gen_PerRoom_AfterCV();
         }
 
         protected override void Gen_PerRoom() {

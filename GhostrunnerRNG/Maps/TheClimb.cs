@@ -6,7 +6,7 @@ using System.Linq;
 using static GhostrunnerRNG.Game.GameUtils;
 
 namespace GhostrunnerRNG.Maps {
-    class TheClimb : MapCore {
+    class TheClimb : MapCore, IModesMidCV {
 
         // Before CV
         #region rooms
@@ -23,20 +23,13 @@ namespace GhostrunnerRNG.Maps {
         private Room room_9 = new Room(new Vector3f(31865, -90089, 38183), new Vector3f(40204, -77399, 43482));
         #endregion
 
-        // cv flag
-        private bool BeforeCV = true;
+       
 
-        public TheClimb(bool isHC) : base(MapType.TheClimb) {
-            BeforeCV = GameHook.xPos > 70000;;
-            if(!isHC) {
-                if(BeforeCV)
-                    Gen_PerRoom();
-                else
-                    Gen_PerRoom_AfterCV();
-            }
+        public TheClimb() : base(MapType.TheClimb, BeforeCV: GameHook.xPos > 70000) {
+
         }
 
-        protected override void Gen_PerRoom() {
+        public void Gen_Normal_BeforeCV() {
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game);
 
             Rooms = new List<RoomLayout>();
@@ -203,7 +196,7 @@ namespace GhostrunnerRNG.Maps {
             Rooms.Add(layout);
         }
 
-        public void Gen_PerRoom_AfterCV() {
+        public void Gen_Normal_AfterCV() {
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 22);
 
             Rooms = new List<RoomLayout>();
@@ -337,5 +330,39 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(33705, -86431, 42087), new Angle(0.07f, 1.00f)));
             Rooms.Add(layout);
         }
+
+        public void Gen_Easy_BeforeCV() {
+            // Easy mode - before CV
+        }
+
+        public void Gen_Easy_AfterCV() {
+            // Easy Mode - after CV
+        }
+
+        public void Gen_SR_BeforeCV() {
+            // SR Mode - before CV
+        }
+
+        public void Gen_SR_AfterCV() {
+            // SR Mode - after CV
+        }
+
+        public void Gen_Hardcore_BeforeCV() {
+            // HC - before CV
+        }
+
+        public void Gen_Hardcore_AfterCV() {
+            // HC - after CV
+        }
+
+        public void Gen_Nightmare_BeforeCV() {
+            // NM - before cv
+        }
+
+        public void Gen_Nightmare_AfterCV() {
+            // NM - after CV
+        }
+
+        protected override void Gen_PerRoom() {}
     }
 }

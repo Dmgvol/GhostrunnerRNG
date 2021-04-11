@@ -40,10 +40,10 @@ namespace GhostrunnerRNG.Maps {
         private Room room_24 = new Room(new Vector3f(-26688, -29409, 6924), new Vector3f(-31551, -19573, 10826)); //3 drones
         #endregion
 
-        public Echoes(bool isHc) : base(GameUtils.MapType.Echoes) {
-            if(!isHc) {
-                Gen_PerRoom();
-            }
+        public Echoes() : base(GameUtils.MapType.Echoes, manualGen:true) {
+            if(GameHook.IsHC) return;
+
+            Gen_PerRoom();
         }
         protected override void Gen_PerRoom() {
             //indexes from 0 to 61 without 30 - 31

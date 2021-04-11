@@ -23,13 +23,10 @@ namespace GhostrunnerRNG.Maps {
         private Room room_12 = new Room(new Vector3f(-70360, -1874, -3384), new Vector3f(-64374, 480, -5589)); // room before 2'nd fan
         #endregion
 
-        public RoadToAmida(bool isHC) : base(GameUtils.MapType.RoadToAmida) {
-            if(!isHC) {
-                Gen_PerRoom();
-            } else {
-                // hardcore
-                //TODO: remove temporary block/msg and add hc enemies and gen
-            }
+        public RoadToAmida() : base(GameUtils.MapType.RoadToAmida, manualGen: true) {
+            if(GameHook.IsHC) return;
+
+            Gen_PerRoom();
         }
         protected override void Gen_PerRoom() {
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 16);
@@ -104,7 +101,6 @@ namespace GhostrunnerRNG.Maps {
             enemies = room_5.ReturnEnemiesInRoom(AllEnemies); // orb, pistol, shield, no cp
             enemies.AddRange(room_6.ReturnEnemiesInRoom(AllEnemies));
             // 5 enemies, 0 index is orb
-            //shieldOrb = new EnemyShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0xE08, 0x130, 0x1D0));
             shieldOrb = new EnemyShieldOrb(enemies[0]);
 
             layout = new RoomLayout(shieldOrb);
@@ -127,9 +123,6 @@ namespace GhostrunnerRNG.Maps {
 
             //// Room 7 //// 
             enemies = room_7.ReturnEnemiesInRoom(AllEnemies);
-            //shieldOrb = new EnemyShieldOrb(enemies[0], new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0xFD0, 0x130, 0x1D0));
-            //shieldOrb.HideBeam(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x370, 0x200, 0x8, 0x1D0));
-            //shieldOrb.LinkObject(new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x370, 0x220));
             shieldOrb = new EnemyShieldOrb(enemies[0]);
             shieldOrb.HideBeam_Range(0, 1);
             shieldOrb.LinkObject(1);

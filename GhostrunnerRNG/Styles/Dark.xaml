@@ -1,0 +1,57 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--COLOR-->
+    <SolidColorBrush x:Key="BackgroundSolid" Color="#FF292929"/>
+    <SolidColorBrush x:Key="BlackBorder" Color="#FF040404"/>
+    <SolidColorBrush x:Key="BackgroundLight" Color="#FF666666"/>
+
+    <!--LABEL-->
+    <Style TargetType="Label" x:Key="WhiteLabel">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="16"/>
+    </Style>
+
+    <Style TargetType="Label" x:Key="WhiteLabelSmall" BasedOn="{StaticResource WhiteLabel}">
+        <Setter Property="FontSize" Value="14"/>
+    </Style>
+
+    <Style TargetType="Label" x:Key="WhiteLabelHeader" BasedOn="{StaticResource WhiteLabel}">
+        <Setter Property="FontSize" Value="21"/>
+    </Style>
+
+    <Style TargetType="Label" x:Key="WhiteTitle">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    
+    <!--CHECKBOX-->
+    <Style TargetType="CheckBox" x:Key="DarkCheckBox">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BlackBorder}"/>
+        <Setter Property="Background" Value="{StaticResource BackgroundLight}"/>
+        <Setter Property="Height" Value="28"/>
+        <Setter Property="Width" Value="Auto"/>
+    </Style>
+
+    <Style TargetType="CheckBox" x:Key="DisabledDarkCheckBox" BasedOn="{StaticResource DarkCheckBox}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="Foreground" Value="DarkGray"/>
+    </Style>
+
+    <!--BUTTON-->
+    <Style TargetType="Button" x:Key="DarkButton">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BlackBorder}"/>
+        <Setter Property="Background" Value="{StaticResource BackgroundLight}"/>
+    </Style>
+
+    <Style TargetType="Button" x:Key="DarkButtonMain" BasedOn="{StaticResource DarkButton}">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Height" Value="28"/>
+    </Style>
+    
+</ResourceDictionary>

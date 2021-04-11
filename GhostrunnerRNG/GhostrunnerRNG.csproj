@@ -43,6 +43,7 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -81,10 +82,12 @@
     <Compile Include="MapGen\MapCore.cs" />
     <Compile Include="Maps\EchoesCV.cs" />
     <Compile Include="Maps\GateKeeper.cs" />
+    <Compile Include="Maps\IModes.cs" />
     <Compile Include="Maps\ReignInHell.cs" />
     <Compile Include="Maps\ReignInHellCV.cs" />
     <Compile Include="Maps\RoadToAmidaCV.cs" />
     <Compile Include="Maps\TempestCV.cs" />
+    <Compile Include="Maps\TheClimbCV.cs" />
     <Compile Include="Maps\TYWB.cs" />
     <Compile Include="NonPlaceableObjects\Billboard.cs" />
     <Compile Include="NonPlaceableObjects\ChainedSignSpawners.cs" />
@@ -95,6 +98,7 @@
     <Compile Include="MapGen\SpawnPlane.cs" />
     <Compile Include="NonPlaceableObjects\ShurikenTarget.cs" />
     <Compile Include="NonPlaceableObjects\SignSpawner.cs" />
+    <Compile Include="NonPlaceableObjects\TetrisTrigger.cs" />
     <Compile Include="NonPlaceableObjects\ToggleableFan.cs" />
     <Compile Include="NonPlaceableObjects\TomLaser.cs" />
     <Compile Include="NonPlaceableObjects\Trigger.cs" />
@@ -141,6 +145,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles\Dark.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

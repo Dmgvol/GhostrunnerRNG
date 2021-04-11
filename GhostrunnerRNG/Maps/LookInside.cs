@@ -12,10 +12,9 @@ namespace GhostrunnerRNG.Maps {
         private Room room2 = new Room(new Vector3f(165231, -42333, 8077), new Vector3f(148296, -48473, 2321)); // 5 pistols ,last room
         #endregion
 
-        public LookInside(bool isHC) : base(MapType.LookInside) {
-            if(!isHC) {
-                Gen_PerRoom();
-            }
+        public LookInside() : base(MapType.LookInside) {
+            if(GameHook.IsHC) return;
+            Gen_PerRoom();
         }
 
         protected override void Gen_PerRoom() {

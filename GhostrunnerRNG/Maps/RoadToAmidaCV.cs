@@ -11,8 +11,9 @@ namespace GhostrunnerRNG.Maps {
         private List<int[,]> layouts = new List<int[,]>();
         private readonly Vector3f Anchor = new Vector3f(-19156, -14750, 21800);
 
-        public RoadToAmidaCV() : base(GameUtils.MapType.RoadToAmidaCV) {
+        public RoadToAmidaCV() : base(GameUtils.MapType.RoadToAmidaCV, manualGen: true) {
             Gen_PerRoom();
+            CPRequired = false;
         }
 
         protected override void Gen_PerRoom() {

@@ -69,8 +69,6 @@ namespace GhostrunnerRNG.Game {
 
         private static List<MapType> MapsWithoutRNG = new List<MapType>() {
             MapType.LookInsideCV,
-            MapType.TheClimbCV,
-            MapType.EchoesCV,
             MapType.InHerOwnImage,
             MapType.SurgeCV,
             MapType.OverlordCV,
@@ -82,7 +80,8 @@ namespace GhostrunnerRNG.Game {
             MapType.AwakeningLookInside, 
             MapType.Awakening, 
             MapType.LookInside,
-            MapType.TheClimb, 
+            MapType.TheClimb,
+            MapType.TheClimbCV,
             MapType.JackedUp,
             MapType.BlinkCV,
             MapType.BreatheIn,
@@ -101,6 +100,21 @@ namespace GhostrunnerRNG.Game {
             MapType.TYWB
         };
 
+        private static List<MapType> CVMaps = new List<MapType>() {
+            MapType.LookInsideCV,
+            MapType.TheClimbCV,
+            MapType.BreatheInCV,
+            MapType.BlinkCV,
+            MapType.RoadToAmidaCV,
+            MapType.TempestCV,
+            MapType.EchoesCV,
+            MapType.SurgeCV,
+            MapType.ReignInHellCV,
+            MapType.OverlordCV,
+            MapType.TheSummit
+        };
+
+        public static bool IsCVMap(MapType type) => CVMaps.Contains(type);
         public static bool MapHasRng(MapType type) => !MapsWithoutRNG.Contains(type);
         public static bool MapSupported(MapType type) => SupportedMaps.Contains(type);
 

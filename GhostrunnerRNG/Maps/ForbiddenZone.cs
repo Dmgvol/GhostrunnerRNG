@@ -24,12 +24,11 @@ namespace GhostrunnerRNG.Maps {
         private Room room_12 = new Room(new Vector3f(144024, -60005, 10144), new Vector3f(148927, -54903, 5862)); // 4 turrets
         #endregion
 
-        public ForbiddenZone(bool isHC) : base(GameUtils.MapType.ForbiddenZone) {
-            if(!isHC) {
-                Gen_PerRoom();
-            } else {
-                // HC
-            }
+        public ForbiddenZone() : base(GameUtils.MapType.ForbiddenZone, manualGen: true) {
+            if(GameHook.IsHC) return;
+
+            Gen_PerRoom();
+          
         }
 
         protected override void Gen_PerRoom() {

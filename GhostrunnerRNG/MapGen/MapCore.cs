@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
+using GhostrunnerRNG.Maps;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,82 @@ namespace GhostrunnerRNG.MapGen {
         protected List<CustomCP> CustomCheckPoints = new List<CustomCP>();
 
         public MapType mapType { get; private set; }
-        public MapCore(MapType mapType) {
+
+        // general
+        public bool HasRng = true;
+        public bool CPRequired = true;
+
+        public MapCore(MapType mapType, bool BeforeCV = true, bool manualGen = false) {
             this.mapType = mapType;
             Config.GetInstance().NewSeed();
+
+            if(manualGen) return;
+
+            // Level has IModes Interface
+            if(this is IModes mode) {
+                switch(Config.GetInstance().Setting_Difficulty) {
+                    case Config.Difficulty.Easy:
+                        mode.Gen_Easy();
+                        break;
+                    case Config.Difficulty.Normal:
+                        mode.Gen_Normal();
+                        break;
+                    case Config.Difficulty.SR:
+                        mode.Gen_SR();
+                        break;
+                    case Config.Difficulty.Nightmare:
+                        mode.Gen_Nightmare();
+                        break;
+                }
+
+                if(GameHook.IsHC) mode.Gen_Hardcore();
+                return;
+            }
+
+            //  Modes Interface
+            if(this is IModesMidCV modeCV) {
+                if(BeforeCV) {
+                    switch(Config.GetInstance().Setting_Difficulty) {
+                        case Config.Difficulty.Easy:
+                            modeCV.Gen_Easy_BeforeCV();
+                            break;
+                        case Config.Difficulty.Normal:
+                            modeCV.Gen_Normal_BeforeCV();
+                            break;
+                        case Config.Difficulty.SR:
+                            modeCV.Gen_SR_BeforeCV();
+                            break;
+                        case Config.Difficulty.Nightmare:
+                            modeCV.Gen_Nightmare_BeforeCV();
+                            break;
+                    }
+
+                    if(GameHook.IsHC) modeCV.Gen_Hardcore_BeforeCV();
+                    return;
+                } else {
+                    switch(Config.GetInstance().Setting_Difficulty) {
+                        case Config.Difficulty.Easy:
+                            modeCV.Gen_Easy_AfterCV();
+                            break;
+                        case Config.Difficulty.Normal:
+                            modeCV.Gen_Normal_AfterCV();
+                            break;
+                        case Config.Difficulty.SR:
+                            modeCV.Gen_SR_AfterCV();
+                            break;
+                        case Config.Difficulty.Nightmare:
+                            modeCV.Gen_Nightmare_AfterCV();
+                            break;
+                    }
+
+                    if(GameHook.IsHC) modeCV.Gen_Hardcore_AfterCV();
+                    return;
+                }
+            }
+
+            // Not manual? no interface? load default
+            Gen_PerRoom();
+
         }
 
         public List<Enemy> GetAllEnemies(Process game, int startIndex = 0) {

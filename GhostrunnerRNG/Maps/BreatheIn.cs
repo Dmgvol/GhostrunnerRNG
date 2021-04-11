@@ -2,9 +2,7 @@
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
 using GhostrunnerRNG.NonPlaceableObjects;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using static GhostrunnerRNG.Game.GameUtils;
 
 namespace GhostrunnerRNG.Maps {
@@ -39,10 +37,11 @@ namespace GhostrunnerRNG.Maps {
         // cv flag
         private bool BeforeCV = true;
 
-        public BreatheIn(bool isHC) : base(MapType.BreatheIn) {
-            BeforeCV = GameHook.xPos > 150000.0f;
+        public BreatheIn() : base(MapType.BreatheIn, manualGen:true) {
+            if(GameHook.IsHC) return;
 
-            if(!isHC) {
+            BeforeCV = GameHook.xPos > 150000.0f;
+            if(Config.GetInstance().Setting_Difficulty == Config.Difficulty.Normal) {
                 if(BeforeCV)
                     Gen_PerRoom();
                 else
@@ -306,6 +305,7 @@ namespace GhostrunnerRNG.Maps {
         }
 
         private void Gen_PerRoom_AfterCV() {
+            HasRng = false;
             // 2 enemies post-cv will not get rng because they spawn 1 room prior to their default one.
             // Moving trigger didn't help, enemies are force-teleports to their default pos. [NO RNG FOR NOW]
         }

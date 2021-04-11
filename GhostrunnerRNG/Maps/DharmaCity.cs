@@ -23,12 +23,10 @@ namespace GhostrunnerRNG.Maps {
         private Room room_10 = new Room(new Vector3f(56072, -79532, 5195), new Vector3f(47186, -73947, 2215)); // last fight before elevator
         #endregion
 
-        public DharmaCity(bool isHC) : base(GameUtils.MapType.DharmaCity) {
-            if(!isHC) {
-                Gen_PerRoom();
-            } else {
-                // hardcore
-            }
+        public DharmaCity() : base(GameUtils.MapType.DharmaCity, manualGen: true) {
+            if(GameHook.IsHC) return;
+
+            Gen_PerRoom();
         }
 
         protected override void Gen_PerRoom() {
@@ -84,10 +82,13 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(87360, -46419, 4297), new Angle(0.35f, 0.94f)));
             Rooms.Add(layout);
 
+            // Custom CP before fighting room, (before 2nd uplink)
+            CustomCheckPoints.Add(new CustomCP(mapType, new Vector3f(92117, -40419, 2783), new Vector3f(94247, -41923, 1413),
+                new Vector3f(94133, -41282, 1798), new Angle(-1f, 0.03f)));
+
             ///// Fighting room with shield orb /////
             // Shield Orb
             enemies = room_6_orb.ReturnEnemiesInRoom(AllEnemies);
-
             EnemyShieldOrb shieldOrb1 = new EnemyShieldOrb(enemies[0]);
             shieldOrb1.HideBeam_Range(0, 4);
             shieldOrb1.HideBeam_Range(1, 4);
@@ -250,12 +251,12 @@ namespace GhostrunnerRNG.Maps {
             //first jump
             NonPlaceableObject uplink = new UplinkJump(0x10, 0x8F8);//5,3,6
             uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5));//default
-            var jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = 1.1f };
+            var jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = 1.5f };
             uplink.AddSpawnInfo(jumpSpawn);//really short jump need to use dash
             jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -3.5f };
             uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
-            jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = 0.0f, JumpGravity = 7.5f };
-            uplink.AddSpawnInfo(jumpSpawn);//ultra short jump, can make it with dsj or from left platform
+            //jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = 0.0f, JumpGravity = 7.5f };
+            //uplink.AddSpawnInfo(jumpSpawn);//ultra short jump, can make it with dsj or from left platform   // NOTE: leave it for SR options
             jumpSpawn = new UplinkJumpSpawnInfo { JumpGravity = 3.0f };
             uplink.AddSpawnInfo(jumpSpawn);//high jump
             jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = 8.0f, JumpGravity = 2.0f }.SetRarity(0.15);

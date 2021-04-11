@@ -74,6 +74,8 @@ namespace GhostrunnerRNG.Game {
 				main.errorMsg.Content = "Ghostrunner not found";
 				currentMap = null;
 				AccurateMapType = MapType.Unknown;
+				main.ToggleRngControls(false);
+				main.ClearTexts();
 			} else {
 				main.errorGrid.Visibility = Visibility.Hidden;
 				main.errorMsg.Content = "";
@@ -157,7 +159,6 @@ namespace GhostrunnerRNG.Game {
 			}
 
 			// done loading?
-			//if(oldPreciseTimer == 0 && preciseTimer > 0) {
 			if(!rngLoaded && levelStarted && (xPos != 0 && yPos != 0)) {
 				rngLoaded = true;
 
@@ -170,156 +171,20 @@ namespace GhostrunnerRNG.Game {
 					LogStatus("[!] Hardcore mode is not supported for any map.");
 					return;
 				}
-
-				// awakening/look inside?
-				main.ToggleRngControls(true);
-				if(MapLevels.FirstOrDefault(x => x.Value == MapType.AwakeningLookInside).Key == MapName) { // Lookinside or Awakening?
-					if(xPos < 50000) {
-						// awakening
-						AccurateMapType = MapType.Awakening;
-						currentMap = new Awakening(IsHC);
-						NewRNG();
-						return;
-					} else {
-						// Look Inside
-						AccurateMapType = MapType.LookInside;
-						currentMap = new LookInside(IsHC);
-						NewRNG();
-						return;
-					}
-
-				} else if(AccurateMapType == MapType.TheClimb) {
-					// TheClimb
-					currentMap = new TheClimb(IsHC);
-					NewRNG();
-					return;
-
-				} else if(AccurateMapType == MapType.JackedUp) {
-					// JackedUp
-					currentMap = new JackedUp(IsHC);
-					NewRNG();
-					return;
-
-				} else if(AccurateMapType == MapType.BlinkCV) {
-					// BlinkCV
-					if(!Config.GetInstance().Gen_RngCV) {
-						currentMap = null;
-						LogStatus("CV-RNG is disabled by user.");
-						return;
-					}
-					currentMap = new BlinkCV();
-					NewRNG();
-					return;
-
-				} else if(AccurateMapType == MapType.BreatheIn) {
-					// BreatheIn
-					currentMap = new BreatheIn(IsHC);
-					NewRNG();
-					return;
-				} else if(AccurateMapType == MapType.RoadToAmida) {
-					// RoadToAmida
-					currentMap = new RoadToAmida(IsHC);
-					NewRNG();
-					return;
-				} else if(AccurateMapType == MapType.RoadToAmidaCV) {
-					// RiH CV
-					if(!Config.GetInstance().Gen_RngCV) {
-						currentMap = null;
-						LogStatus("CV-RNG is disabled by user.");
-						return;
-					}
-					currentMap = new RoadToAmidaCV();
-					NewRNG();
-					return;
-				} else if(AccurateMapType == MapType.TempestCV) {
-					// TempestCV (AmidaCV-2)
-					if(!Config.GetInstance().Gen_RngCV) {
-						currentMap = null;
-						LogStatus("CV-RNG is disabled by user.");
-						return;
-					}
-
-					currentMap = new TempestCV();
-					NewRNG();
-					return;
-				} else if(MapLevels.FirstOrDefault(x => x.Value == MapType.RunUpGatekeeper).Key == MapName) { // RunUp or Tom?
-					if(yPos < 14000) {
-						// RunUp
-						AccurateMapType = MapType.RunUp;
-						currentMap = new RunUp(IsHC);
-						NewRNG();
-						return;
-					} else {
-						// Tom
-						AccurateMapType = MapType.Gatekeeper;
-						currentMap = new GateKeeper(IsHC);
-						NewRNG();
-						return;
-					}
-
-				} else if(AccurateMapType == MapType.DharmaCity) {
-					// DharmaCity
-					currentMap = new DharmaCity(IsHC);
-					NewRNG();
-					return;
-				} else if(AccurateMapType == MapType.Echoes) {
-					// Echoes
-					currentMap = new Echoes(IsHC);
-					NewRNG();
-					return;
-				} else if(AccurateMapType == MapType.EchoesCV) {
-					// Echoes CV
-					if(!Config.GetInstance().Gen_RngCV) {
-						currentMap = null;
-						LogStatus("CV-RNG is disabled by user.");
-						return;
-					}
-					currentMap = new EchoesCV();
-					NewRNG();
-					return;
-				} else if(MapLevels.FirstOrDefault(x => x.Value == MapType.FasterInHerOwnImage).Key == MapName) {  // Faster or Hell?
-																												   // Faster?
-					if(yPos < -1) {
-						AccurateMapType = MapType.Faster;
-						currentMap = new Faster(IsHC);
-						NewRNG();
-						return;
-					} else {
-						// Hell
-						AccurateMapType = MapType.InHerOwnImage;
-					}
-				} else if(AccurateMapType == MapType.ForbiddenZone) {
-					// Fzone
-					currentMap = new ForbiddenZone(IsHC);
-					NewRNG();
-					return;
-				} else if(AccurateMapType == MapType.ReignInHell) {
-					// RiH
-					currentMap = new ReignInHell(IsHC);
-					NewRNG();
-					return;
-				} else if(AccurateMapType == MapType.ReignInHellCV) {
-					// RiH CV
-					if(!Config.GetInstance().Gen_RngCV) {
-						currentMap = null;
-						LogStatus("CV-RNG is disabled by user.");
-						return;
-					}
-					currentMap = new ReignInHellCV();
-					NewRNG();
-					return;
-				} else if(AccurateMapType == MapType.TYWB) {
-					// TYWB
-					currentMap = new TYWB(IsHC);
-					NewRNG();
-					return;
-				} else {
+				// cv map and cv rng is disabled by user?
+				if(!Config.GetInstance().Gen_RngCV && IsCVMap(AccurateMapType)) {
 					currentMap = null;
-					AccurateMapType = GetMapType(MapName);
-
+					LogStatus("CV RNG is disabled by user.");
+					return;
 				}
 
-				main.ToggleRngControls(false);
+				// Create Map Object
+				bool mapCreated = CreateMapObject(AccurateMapType);
+				main.ToggleRngControls(mapCreated && currentMap.HasRng);
+                if(mapCreated) {
+					NewRNG();
+					return;
+                }
 
 				// Maps without RNG
 				if(!MapHasRng(AccurateMapType)) {
@@ -339,18 +204,133 @@ namespace GhostrunnerRNG.Game {
 			}
 		}
 
+		private bool CreateMapObject(MapType type) {
+            switch(type) {
+				case MapType.AwakeningLookInside:
+					if(xPos < 50000) {
+						// Awakening
+						AccurateMapType = MapType.Awakening;
+						currentMap = new Awakening();
+						return true;
+                    } else {
+						// Look Inside
+						AccurateMapType = MapType.LookInside;
+						currentMap = new LookInside();
+						return true;
+                    }
+				case MapType.TheClimb:
+					currentMap = new TheClimb();
+					return true;
+
+				case MapType.TheClimbCV:
+					currentMap = new TheClimbCV();
+					return true;
+
+				case MapType.JackedUp:
+					currentMap = new JackedUp();
+					return true;
+
+				case MapType.BlinkCV:
+					currentMap = new BlinkCV();
+					return true;
+
+				case MapType.BreatheIn:
+					currentMap = new BreatheIn();
+					return true;
+
+				case MapType.RoadToAmida:
+					currentMap = new RoadToAmida();
+					return true;
+
+				case MapType.RoadToAmidaCV:
+					currentMap = new RoadToAmidaCV();
+					return true;
+
+				case MapType.TempestCV:
+					currentMap = new TempestCV();
+					return true;
+
+				case MapType.RunUpGatekeeper:
+					if(yPos < 14000) {
+						// RunUp
+						AccurateMapType = MapType.RunUp;
+						currentMap = new RunUp();
+						return true;
+                    } else {
+						// TOM
+						AccurateMapType = MapType.Gatekeeper;
+						currentMap = new GateKeeper();
+						return true;
+                    }
+
+				case MapType.DharmaCity:
+					currentMap = new DharmaCity();
+					return true;
+
+				case MapType.Echoes:
+					currentMap = new Echoes();
+					return true;
+
+				case MapType.EchoesCV:
+					currentMap = new EchoesCV();
+					return true;
+
+				case MapType.FasterInHerOwnImage:
+					if(yPos < -1) {
+						// Faster
+						AccurateMapType = MapType.Faster;
+						currentMap = new Faster();
+						return true;
+                    } else {
+						// Hell
+						AccurateMapType = MapType.InHerOwnImage;
+						return false;
+                    }
+
+				case MapType.ForbiddenZone:
+					currentMap = new ForbiddenZone();
+					return true;
+
+				case MapType.ReignInHell:
+					currentMap = new ReignInHell();
+					return true;
+
+				case MapType.ReignInHellCV:
+					currentMap = new ReignInHellCV();
+					return true;
+
+				case MapType.TYWB:
+					currentMap = new TYWB();
+					return true;
+			}
+
+			AccurateMapType = GetMapType(MapName);
+			return false;
+        }
+
+
 		public void NewRNG(bool force = false) {
 			// Can RNG?
 			if(!Config.GetInstance().Gen_RngOnRestart) {
 				currentMap = null;
-				LogStatus("RNG is disabled by user.");
+				LogStatus("RNG disabled by user.");
 				return;
 			}
+
+			// valid map but no rng?
+            if(!currentMap.HasRng) {
+				LogStatus("No RNG for this section, relax...");
+				return;
+			}
+
 
 			if(currentMap != null && (Config.GetInstance().Gen_RngOnRestart || force)) {
 				Config.GetInstance().NewSeed();
 				currentMap.RandomizeEnemies(game);
-				LogStatus("RNG Generated! \nDie or load cp to see changes.");
+				if(currentMap.CPRequired)
+					LogStatus("RNG Generated! \nDie or load cp to see changes.");
+				else
+					main.LogStatus("Rng Loaded! good luck!");
 			}
 		}
 
@@ -358,21 +338,25 @@ namespace GhostrunnerRNG.Game {
 			main.LogStatus(log);
         }
 
+		// Is it Hardcore mode?
 		private void checkHCMode() {
 			game.ReadValue<bool>(hcPtr, out IsHC);
 		}
 
-
 		private void cpCounterChanged(int value) {
 			if(currentMap == null) return;
 
-			if(value == 1) {
+			// no rng, return...
+			if(!currentMap.HasRng) return;
+
+			// first cp/death? or cv map?
+			if(currentMap.CPRequired && value == 1) {
 				// first restart/death
 				main.LogStatus("Rng Loaded! good luck!");
 				return;
             }
 
-			// silly death messges
+			// silly death/cp load messges
 			if(value == 100) {
 				main.LogStatus("Try harder!");
 			}else if(value == 300) {

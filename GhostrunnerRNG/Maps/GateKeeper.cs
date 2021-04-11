@@ -7,13 +7,12 @@ using System.Diagnostics;
 namespace GhostrunnerRNG.Maps {
     class GateKeeper : MapCore {
         // pointers
-        private DeepPointer WhiteRing1DP = new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x708, 0x9E8, 0x134);
-        private IntPtr WhiteRing1Ptr;
+        //private DeepPointer WhiteRing1DP = new DeepPointer(0x045A3C20, 0x98, 0x30, 0x128, 0xA8, 0x708, 0x9E8, 0x134);
+        //private IntPtr WhiteRing1Ptr;
 
-        public GateKeeper(bool isHC) : base(GameUtils.MapType.Gatekeeper){
-            if(!isHC) {
-                Gen_PerRoom();
-            }
+        public GateKeeper() : base(GameUtils.MapType.Gatekeeper, manualGen: true) {
+            if(GameHook.IsHC) return;
+            Gen_PerRoom();
         }
 
         protected override void Gen_PerRoom() {
@@ -28,6 +27,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             // NOTE: Lasers with broken hitboxes (disabled until we find a way to move those hitboxes)
+            #region DisabledLasers
             /*
             nonPlaceableObjects.Add(new TomLaser(0xb80 + (0x8 * 4)).AddLaserRange(-1, 1, new QuaternionAngle(0, 0, 0), false));
 
@@ -79,6 +79,8 @@ namespace GhostrunnerRNG.Maps {
             //WhiteRing1DP.DerefOffsets(GameHook.game, out WhiteRing1Ptr);
             //GameHook.game.WriteBytes(WhiteRing1Ptr, BitConverter.GetBytes(0));
             //GameHook.game.WriteBytes(WhiteRing1Ptr + 4, BitConverter.GetBytes(0));
+
+            #endregion
 
             ////// SECTION 3 ////
             nonPlaceableObjects.Add(new TomLaser(0xD70).SectionThree().AddLaserRange(-18, -6, new QuaternionAngle(90, 0, 0, 0), false)

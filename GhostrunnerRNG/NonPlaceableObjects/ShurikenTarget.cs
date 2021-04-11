@@ -15,6 +15,8 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
         }
 
         public override void Randomize(Process game) {
+            if(!Config.GetInstance().Gen_RngTargets) return;
+
             DerefPointers(game);
             // read default value
             if(DefaultData == null) ReadDefaultValues(game);

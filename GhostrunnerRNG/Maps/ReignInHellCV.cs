@@ -1,11 +1,15 @@
 ﻿using GhostrunnerRNG.Enemies;
+using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
 using System.Collections.Generic;
 
 namespace GhostrunnerRNG.Maps {
     class ReignInHellCV : MapCore {
-        public ReignInHellCV() : base(Game.GameUtils.MapType.ReignInHellCV) {
+        public ReignInHellCV() : base(Game.GameUtils.MapType.ReignInHellCV, manualGen: true) {
+            if(GameHook.IsHC) return;
+
             Gen_PerRoom();
+            CPRequired = false;
         }
         protected override void Gen_PerRoom() {
             Rooms = new List<RoomLayout>();

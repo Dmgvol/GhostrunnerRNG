@@ -65,7 +65,9 @@ namespace GhostrunnerRNG.Game {
 
     }
 
-    public class SpawnInfo{ }
+    public class SpawnInfo{
+        public Vector3f Pos;
+    }
 
 
     public class SniperSpawnInfo : SpawnInfo {

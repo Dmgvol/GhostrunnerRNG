@@ -22,10 +22,11 @@ namespace GhostrunnerRNG.Maps {
         private Room room_6 = new Room(new Vector3f(-10888, 193792, 2282), new Vector3f(-12856, 204304, -232)); // 3 weebs, 1 frogger
         #endregion
 
-        public Faster(bool isHC) : base(GameUtils.MapType.Faster) {
-            if(!isHC) {
-                Gen_PerRoom();
-            }
+        public Faster() : base(GameUtils.MapType.Faster, manualGen: true) {
+            if(GameHook.IsHC) return;
+
+            Gen_PerRoom();
+           
         }
 
         protected override void Gen_PerRoom() {

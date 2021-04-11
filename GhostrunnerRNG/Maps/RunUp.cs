@@ -20,10 +20,10 @@ namespace GhostrunnerRNG.Maps {
         private Room room_14 = new Room(new Vector3f(49128, -2705, 5097), new Vector3f(55849, 4367, 8069));//3 geckos room
         private Room room_15 = new Room(new Vector3f(48342, 4783, 4664), new Vector3f(56801, 14851, 7506));//final fight room
 
-        public RunUp(bool isHC) : base(MapType.RunUp) {
-            if(!isHC) {
-                Gen_PerRoom();
-            }
+        public RunUp() : base(MapType.RunUp, manualGen: true) {
+            if(GameHook.IsHC) return;
+
+            Gen_PerRoom();
         }
         protected override void Gen_PerRoom() {
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game);
