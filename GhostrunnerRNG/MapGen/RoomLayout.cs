@@ -8,17 +8,31 @@ namespace GhostrunnerRNG.MapGen {
     public class RoomLayout {
 
         private List<SpawnPlane> spawnPlanes = new List<SpawnPlane>();
-        private List<Enemy> roomEnemies = new List<Enemy>();
+        private List<WorldObject> roomObjects = new List<WorldObject>();
+
+        public RoomLayout() {}
 
         public RoomLayout(params Enemy[] enemies) {
             for(int i = 0; i < enemies.Length; i++) {
-                roomEnemies.Add(enemies[i]);
+                roomObjects.Add(enemies[i]);
+            }
+        }
+
+        public RoomLayout(params WorldObject[] objects) {
+            for(int i = 0; i < objects.Length; i++) {
+                roomObjects.Add(objects[i]);
             }
         }
 
         public RoomLayout(List<Enemy> enemies) {
             for(int i = 0; i < enemies.Count; i++) {
-                roomEnemies.Add(enemies[i]);
+                roomObjects.Add(enemies[i]);
+            }
+        }
+
+        public RoomLayout(List<WorldObject> objects) {
+            for(int i = 0; i < objects.Count; i++) {
+                roomObjects.Add(objects[i]);
             }
         }
 
@@ -28,7 +42,6 @@ namespace GhostrunnerRNG.MapGen {
                 spawnPlanes[i].BanEnemyType(type);
             }
         }
-
 
         public void Mask(List<Enemy.EnemyTypes> mask) {
             for(int i = 0; i < spawnPlanes.Count; i++) {
@@ -44,9 +57,9 @@ namespace GhostrunnerRNG.MapGen {
         }
 
         public void FixOrbBeams(Process game) {
-            for(int i = 0; i < roomEnemies.Count; i++) {
-                if(roomEnemies[i] is EnemyShieldOrb) {
-                    ((EnemyShieldOrb)roomEnemies[i]).FixBeams(game);
+            for(int i = 0; i < roomObjects.Count; i++) {
+                if(roomObjects[i] is EnemyShieldOrb) {
+                    ((EnemyShieldOrb)roomObjects[i]).FixBeams(game);
                 }
             }
         }
@@ -55,8 +68,8 @@ namespace GhostrunnerRNG.MapGen {
 
         // returns false if enemies has ShieldOrbs
         public bool IsRoomDefaultType() {
-            for(int i = 0; i < roomEnemies.Count; i++) {
-                if(roomEnemies[i] is EnemyShieldOrb) return false;
+            for(int i = 0; i < roomObjects.Count; i++) {
+                if(roomObjects[i] is EnemyShieldOrb) return false;
             }
             return true;
         }
@@ -65,17 +78,21 @@ namespace GhostrunnerRNG.MapGen {
             availableSpawnPlanes = new List<SpawnPlane>(spawnPlanes);
             availableSpawnPlanes.ForEach(x => x.ResetCurrEnemies());
 
-            for(int i = 0; i < roomEnemies.Count; i++) {
+            for(int i = 0; i < roomObjects.Count; i++) {
+                
                 double rarity = (double)(Config.GetInstance().r.Next(0, 100) / 100.0);
-
-                List<SpawnPlane> availableSpawnPlanesUpdated = availableSpawnPlanes.Where(x => x.IsEnemyAllowed(roomEnemies[i].enemyType, rarity)).ToList();
-
+                List<SpawnPlane> availableSpawnPlanesUpdated;
+                if(roomObjects[i] is Enemy enemy) {
+                    availableSpawnPlanesUpdated = availableSpawnPlanes.Where(x => x.IsEnemyAllowed(enemy.enemyType, rarity)).ToList();
+                } else {
+                    availableSpawnPlanesUpdated = availableSpawnPlanes.Where(x => x.IsAllowed(rarity)).ToList();
+                }
                 if(availableSpawnPlanesUpdated.Count == 0) break;
                 int selectedPlaneIndex = Config.GetInstance().r.Next(0, availableSpawnPlanesUpdated.Count);
 
                 // can add enemies to that plane? 
                 if(availableSpawnPlanesUpdated[selectedPlaneIndex].CanAddEnemies()) {
-                    roomEnemies[i].SetMemoryPos(game, availableSpawnPlanesUpdated[selectedPlaneIndex].GetRandomSpawnData());
+                    roomObjects[i].SetMemoryPos(game, availableSpawnPlanesUpdated[selectedPlaneIndex].GetRandomSpawnData());
                     availableSpawnPlanesUpdated[selectedPlaneIndex].EnemyAdded();
                 }
                 // can't add anymore enemies? remove plane from available list

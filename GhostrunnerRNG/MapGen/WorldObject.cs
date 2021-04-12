@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
+using GhostrunnerRNG.GameObjects;
 using System;
 using System.Diagnostics;
 
@@ -17,6 +18,9 @@ namespace GhostrunnerRNG.MapGen {
         public Vector3f Pos = Vector3f.Empty;
         public Angle angle { get; private set; }
 
+        public WorldObject() {
+
+        }
         public WorldObject(DeepPointer ObjectDP) {
             this.ObjectDP = ObjectDP;
         }
@@ -50,7 +54,12 @@ namespace GhostrunnerRNG.MapGen {
 
             // waver special case: raise Z by 60 units
             if(this is Enemy e && e.enemyType == Enemy.EnemyTypes.Waver) {
-                e.Pos.Z += 60;
+                spawnData.pos.Z += 60;
+            }
+
+            // CV GreenPlatform case: reduce height by 500
+            if(this is GreenPlatform) {
+                spawnData.pos.Z -= 200;
             }
 
             DerefPointer(game);

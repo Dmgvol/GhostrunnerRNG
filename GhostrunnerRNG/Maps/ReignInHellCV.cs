@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
+using GhostrunnerRNG.GameObjects;
 using GhostrunnerRNG.MapGen;
 using System.Collections.Generic;
 
@@ -16,7 +17,7 @@ namespace GhostrunnerRNG.Maps {
             RoomLayout layout;
 
             ///// SECTION 1 /////
-            List<Enemy> orbs = new List<Enemy>();
+            List<WorldObject> orbs = new List<WorldObject>();
             orbs.Add(new CVOrb(0xF8, 0x1938));
             orbs.Add(new CVOrb(0x100, 0x1920));
             orbs.Add(new CVOrb(0x110, 0x18f0));
@@ -48,7 +49,7 @@ namespace GhostrunnerRNG.Maps {
             Rooms.Add(layout);
 
             ///// SECTION 2 /////
-            orbs = new List<Enemy>();
+            orbs = new List<WorldObject>();
             orbs.Add(new CVOrb(0x140, 0x1860));
             orbs.Add(new CVOrb(0x148, 0x1848));
             orbs.Add(new CVOrb(0x150, 0x1830));
@@ -96,7 +97,7 @@ namespace GhostrunnerRNG.Maps {
 
             ///// SECTION 3 /////
 
-            orbs = new List<Enemy>();
+            orbs = new List<WorldObject>();
             orbs.Add(new CVOrb(0x118, 0x18D8));
             orbs.Add(new CVOrb(0x120, 0x18C0));
             orbs.Add(new CVOrb(0x128, 0x18A8));

@@ -156,6 +156,11 @@ namespace GhostrunnerRNG.MapGen {
             return !BannedTypes.Contains(enemyType);
         }
 
+        public bool IsAllowed(double rarity = 1) {
+            if(this.rarity < rarity) return false;
+            return true;
+        }
+
         public SpawnPlane AllowSplitter() {
             SplitterAllowedToSpawn = true;
             return this;

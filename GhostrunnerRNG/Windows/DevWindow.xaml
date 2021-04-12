@@ -80,6 +80,27 @@
                         <Button x:Name="CopyRotationCode"  Content="Copy" Height="30" Width="50" Margin="0,122,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="CopyRotationCode_Click"/>
                     </Grid>
                 </TabItem>
+
+                <TabItem x:Name="GreenPlatformTab">
+                    <TabItem.Header>
+                        <Grid>
+                            <TextBlock Text="GreenPlatforms" Margin="10, 0" Background="Transparent" />
+                        </Grid>
+                    </TabItem.Header>
+                    <!--LookInside Platforms-->
+                    <Grid>
+                        <Label Content="GreenPlatform Command Creation (LookInsideCV)" FontSize="15"  Foreground="White"/>
+                        <TextBox IsReadOnly="True" x:Name="outputBoxPlatform" HorizontalAlignment="Stretch" MinWidth="400" VerticalAlignment="Top" Margin="0,30,60,0"  Height="30" Background="#FF666666" Foreground="White"/>
+                        <Button x:Name="copyButtonPlatform" Content="Copy" Height="30" Width="50" Margin="0,30,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="copyButtonPlatform_Click"/>
+                        <Label Content="1 - Move first Platform     2 - Move second platform" FontSize="15"  Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 60, 0, 00"/>
+
+                        <Label Content="" x:Name="PlatformErrorLabel" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 150, 0, 00"/>
+                    </Grid>
+
+                </TabItem>
+               
+
+
             </TabControl>
         </Grid>
 

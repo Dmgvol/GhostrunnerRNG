@@ -1,10 +1,10 @@
-﻿using GhostrunnerRNG.Enemies;
-using GhostrunnerRNG.Game;
+﻿using GhostrunnerRNG.Game;
+using GhostrunnerRNG.MapGen;
 using System;
 using System.Diagnostics;
 
-namespace GhostrunnerRNG.Enemies {
-    class CVOrb : Enemy{
+namespace GhostrunnerRNG.GameObjects {
+    class CVOrb : WorldObject{
         // Box/Hitbox offset
         private Vector3f BoxOffset = new Vector3f(151.5f, 151.5f, 101f);
         // pointers

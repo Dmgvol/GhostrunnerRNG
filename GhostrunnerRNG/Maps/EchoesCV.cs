@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
+using GhostrunnerRNG.GameObjects;
 using GhostrunnerRNG.MapGen;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace GhostrunnerRNG.Maps {
         protected override void Gen_PerRoom() {
             Rooms = new List<RoomLayout>();
             RoomLayout layout;
-            List<Enemy> orbs = new List<Enemy>();
+            List<WorldObject> orbs = new List<WorldObject>();
             for(int i = 1; i <= 13; i++) 
                 orbs.Add(new CVOrb(i));
             layout = new RoomLayout(orbs);

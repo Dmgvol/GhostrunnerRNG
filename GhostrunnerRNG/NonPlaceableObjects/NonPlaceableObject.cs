@@ -5,16 +5,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace GhostrunnerRNG.NonPlaceableObjects {
-    public abstract class NonPlaceableObject {
+    public abstract class NonPlaceableObject : WorldObject{
 
-        protected DeepPointer ObjectDP;
-        protected IntPtr ObjectPtr;
         protected List<SpawnInfo> spawnInfos = new List<SpawnInfo>();
 
         public Dictionary<string, Tuple<DeepPointer, IntPtr>> Pointers { get; private set; } = new Dictionary<string, Tuple<DeepPointer, IntPtr>>();
         protected SpawnInfo DefaultData;
 
-        public NonPlaceableObject() { }
+        public NonPlaceableObject() : base(null) { }
 
         public NonPlaceableObject AddSpawnInfo(SpawnInfo info) { spawnInfos.Add(info); return this; }
 

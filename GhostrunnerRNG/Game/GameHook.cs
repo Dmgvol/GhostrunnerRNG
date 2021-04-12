@@ -45,7 +45,7 @@ namespace GhostrunnerRNG.Game {
 				_mapName = value;
 			}
 		}
-		private MapType AccurateMapType;
+		public static MapType AccurateMapType { get; private set; }
 
 
 		private MainWindow main;
@@ -218,6 +218,11 @@ namespace GhostrunnerRNG.Game {
 						currentMap = new LookInside();
 						return true;
                     }
+
+				case MapType.LookInsideCV:
+					currentMap = new LookInsideCV();
+					return true;
+
 				case MapType.TheClimb:
 					currentMap = new TheClimb();
 					return true;
@@ -310,6 +315,8 @@ namespace GhostrunnerRNG.Game {
 
 
 		public void NewRNG(bool force = false) {
+			if(currentMap == null) return;
+
 			// Can RNG?
 			if(!Config.GetInstance().Gen_RngOnRestart) {
 				currentMap = null;
@@ -350,7 +357,7 @@ namespace GhostrunnerRNG.Game {
 			if(!currentMap.HasRng) return;
 
 			// first cp/death? or cv map?
-			if(currentMap.CPRequired && value == 1) {
+			if(currentMap.CPRequired && (value == 1 || value == 2)) {
 				// first restart/death
 				main.LogStatus("Rng Loaded! good luck!");
 				return;

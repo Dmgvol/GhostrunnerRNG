@@ -66,15 +66,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GameObjects\CVKey.cs" />
     <Compile Include="Enemies\EnemyShifter.cs" />
     <Compile Include="Enemies\EnemyTurret.cs" />
+    <Compile Include="GameObjects\GreenPlatform.cs" />
     <Compile Include="Game\Config.cs" />
+    <Compile Include="Game\EasyPointers.cs" />
     <Compile Include="Game\GameHook.cs" />
     <Compile Include="Game\GameUtils.cs" />
     <Compile Include="Game\SpawnData.cs" />
     <Compile Include="MapGen\AmidaCVPlatform.cs" />
     <Compile Include="MapGen\CustomCP.cs" />
-    <Compile Include="Enemies\CVOrb.cs" />
+    <Compile Include="GameObjects\CVOrb.cs" />
     <Compile Include="MapGen\CVPlatform.cs" />
     <Compile Include="Enemies\Enemy.cs" />
     <Compile Include="Enemies\EnemyDrone.cs" />
@@ -83,6 +86,7 @@
     <Compile Include="Maps\EchoesCV.cs" />
     <Compile Include="Maps\GateKeeper.cs" />
     <Compile Include="Maps\IModes.cs" />
+    <Compile Include="Maps\LookInsideCV.cs" />
     <Compile Include="Maps\ReignInHell.cs" />
     <Compile Include="Maps\ReignInHellCV.cs" />
     <Compile Include="Maps\RoadToAmidaCV.cs" />

@@ -6,8 +6,8 @@ namespace GhostrunnerRNG.Game {
 
     // SpwanData Struct, contains vector3 pos and Angle(sin&cos)
     public class SpawnData {
-        public Vector3f pos { get; private set; }
-        public Angle angle { get; private set; }
+        public Vector3f pos;
+        public Angle angle;
 
         // Patrol Points - for drones, list of pairs<pointer and vector>
         public List<Tuple<DeepPointer, Vector3f>> patrolPoints { get; private set; }

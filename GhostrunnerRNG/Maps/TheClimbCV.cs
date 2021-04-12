@@ -20,9 +20,9 @@ namespace GhostrunnerRNG.Maps {
 
         protected override void Gen_PerRoom() {
             // Tetris Hologram Triggers
-            nonPlaceableObjects.Add(new TetrisTrigger(0x158, 0x278, 0x330));
-            nonPlaceableObjects.Add(new TetrisTrigger(0x150, 0x288, 0x318));
-            nonPlaceableObjects.Add(new TetrisTrigger(0x18, 0x40, 0x5B8));
+            nonPlaceableObjects.Add(new TetrisTrigger(0x158, 0x278, 0x330, 0x98));
+            nonPlaceableObjects.Add(new TetrisTrigger(0x150, 0x288, 0x318, 0x90));
+            nonPlaceableObjects.Add(new TetrisTrigger(0x18, 0x40, 0x5B8, 0x10));
         }
 
         public override void RandomizeEnemies(Process game) {

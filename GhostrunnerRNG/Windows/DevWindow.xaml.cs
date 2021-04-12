@@ -7,6 +7,8 @@ using System.Windows.Controls;
 using GhostrunnerRNG.Game;
 using static GhostrunnerRNG.Game.GameUtils;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.GameObjects;
+using System.Collections.Generic;
 
 namespace GhostrunnerRNG.Windows {
 
@@ -22,6 +24,9 @@ namespace GhostrunnerRNG.Windows {
 
 		// testing
 		private Vector3f test_pos1, test_pos2;
+
+		// green platforms
+		private List<GreenPlatform> greenPlatforms;
 
 		public DevWindow() {
             InitializeComponent();
@@ -41,8 +46,11 @@ namespace GhostrunnerRNG.Windows {
 
 		private void HookKeys(bool flag) {
             if(flag && kbHook.HookedKeys.Count == 0) {
-				kbHook.HookedKeys.Add(Keys.NumPad1);
-				kbHook.HookedKeys.Add(Keys.NumPad2);
+				if(!kbHook.HookedKeys.Contains(Keys.NumPad1))
+					kbHook.HookedKeys.Add(Keys.NumPad1);
+				if(!kbHook.HookedKeys.Contains(Keys.NumPad2))
+					kbHook.HookedKeys.Add(Keys.NumPad2);
+
 				kbHook.HookedKeys.Add(Keys.NumPad3);
 				kbHook.HookedKeys.Add(Keys.NumPad4);
 				kbHook.HookedKeys.Add(Keys.NumPad5);
@@ -93,47 +101,59 @@ namespace GhostrunnerRNG.Windows {
 		}
 
         private void InputKeyDown(object sender, KeyEventArgs e) {
-            switch(e.KeyCode) {
-				case Keys.NumPad1:
-					// 1 pos save
-					pos1 = new Vector3f(GameHook.xPos, GameHook.yPos, GameHook.zPos);
-					if(checkbox_onlyVector.IsChecked == true) {
-						outputBox.Text = $"new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z})";
-					}
-					break;
-				case Keys.NumPad2:
-					// 2'nd pos save
-					pos2 = new Vector3f(GameHook.xPos, GameHook.yPos, GameHook.zPos);
-					break;
-				case Keys.NumPad3:
-					// generate code: 2 pos, fixed current angle
-					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z}), new Angle({GameHook.angle.angleSin:0.00}f, {GameHook.angle.angleCos:0.00}f)));";
-					break;
-				case Keys.NumPad4:
-					// generate code: 1 pos, fixed current angle
-					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Angle({GameHook.angle.angleSin:0.00}f, {GameHook.angle.angleCos:0.00}f)));";
-					break;
-				case Keys.NumPad5:
-					// generate code: 1 pos
-					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z})));";
-					break;
-				case Keys.NumPad6:
-					outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z})));";
-					break;
-				case Keys.NumPad7:
-					// tp to testpos1
-					if(!test_pos1.IsEmpty())
-						Teleport(GameHook.game, test_pos1);
-					break;
-				case Keys.NumPad8:
-					// tp to testpos2
-					if(!test_pos2.IsEmpty())
-						Teleport(GameHook.game, test_pos2);
-					break;
-				default:
-					break;
-			}
-			e.Handled = true;
+            if(SpawnPlaneTab.IsSelected) {
+				switch(e.KeyCode) {
+					case Keys.NumPad1:
+						// 1 pos save
+						pos1 = new Vector3f(GameHook.xPos, GameHook.yPos, GameHook.zPos);
+						if(checkbox_onlyVector.IsChecked == true) {
+							outputBox.Text = $"new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z})";
+						}
+						break;
+					case Keys.NumPad2:
+						// 2'nd pos save
+						pos2 = new Vector3f(GameHook.xPos, GameHook.yPos, GameHook.zPos);
+						break;
+					case Keys.NumPad3:
+						// generate code: 2 pos, fixed current angle
+						outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z}), new Angle({GameHook.angle.angleSin:0.00}f, {GameHook.angle.angleCos:0.00}f)));";
+						break;
+					case Keys.NumPad4:
+						// generate code: 1 pos, fixed current angle
+						outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Angle({GameHook.angle.angleSin:0.00}f, {GameHook.angle.angleCos:0.00}f)));";
+						break;
+					case Keys.NumPad5:
+						// generate code: 1 pos
+						outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z})));";
+						break;
+					case Keys.NumPad6:
+						outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z})));";
+						break;
+					case Keys.NumPad7:
+						// tp to testpos1
+						if(!test_pos1.IsEmpty())
+							Teleport(GameHook.game, test_pos1);
+						break;
+					case Keys.NumPad8:
+						// tp to testpos2
+						if(!test_pos2.IsEmpty())
+							Teleport(GameHook.game, test_pos2);
+						break;
+					default:
+						break;
+				}
+
+            }else if(GreenPlatformTab.IsSelected) {
+                switch(e.KeyCode) {
+					case Keys.NumPad1:
+						MoveGreenPlatform(true);
+						break;
+					case Keys.NumPad2:
+						MoveGreenPlatform(false);
+						break;
+				}
+            }
+			e.Handled = false;
 		}
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -142,8 +162,12 @@ namespace GhostrunnerRNG.Windows {
 			} else if(RotationTab.IsSelected) {
 				HookKeys(false);
 				ButtonApply.Visibility = worldObject != null ? Visibility.Visible : Visibility.Collapsed;
-            }
-		}
+            } else if(RotationTab.IsSelected) {
+				HookKeys(false);
+				kbHook.HookedKeys.Add(Keys.NumPad1);
+				kbHook.HookedKeys.Add(Keys.NumPad2);
+			}
+}
 
         private void ButtonYPR_Click(object sender, RoutedEventArgs e) {
 			if(GameUtils.IsNumeric(InputYaw.Text) && GameUtils.IsNumeric(InputPitch.Text) && GameUtils.IsNumeric(InputRoll.Text)) {
@@ -184,6 +208,29 @@ namespace GhostrunnerRNG.Windows {
 				Config.GetInstance().ForceSeed = null;
 			}
         }
+
+        private void copyButtonPlatform_Click(object sender, RoutedEventArgs e) {
+			System.Windows.Clipboard.SetText(outputBoxPlatform.Text);
+        }
+
+		private void MoveGreenPlatform(bool firstPlatform) {
+			// correct map?
+			if(GameHook.AccurateMapType != MapType.LookInsideCV) {
+				PlatformErrorLabel.Content = " [!] Must be in LookInsideCV";
+				return;
+            } else {
+				PlatformErrorLabel.Content = "";
+            }
+
+			// create platforms
+			if(greenPlatforms == null) {
+				greenPlatforms = new List<GreenPlatform>() { new GreenPlatform(0x9E0), new GreenPlatform(0x9F8) };
+			}
+
+			SpawnData spawn = new SpawnData(new Vector3f(GameHook.xPos, GameHook.yPos, GameHook.zPos), GameHook.angle);
+			outputBoxPlatform.Text = $"platformLayouts.Add(new SpawnData(new Vector3f({spawn.pos.X}f, {spawn.pos.Y}f, {spawn.pos.Z}f), new Angle({spawn.angle.angleSin:0.00}f, {spawn.angle.angleCos:0.00}f)));";
+			greenPlatforms[firstPlatform ? 0 : 1].SetMemoryPos(GameHook.game, spawn);
+		}
 
         private void Teleport(Process game, Vector3f pos) {
 			game.WriteBytes(GameHook.xPosPtr, BitConverter.GetBytes(pos.X));
