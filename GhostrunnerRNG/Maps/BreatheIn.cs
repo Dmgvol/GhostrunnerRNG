@@ -140,7 +140,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// Room 15+3 layout //// 
-            ModifyCP(new DeepPointer(0x045A3C20, 0x98, 0x80, 0x128, 0xA8, 0xD0, 0x248, 0x1D0), new Vector3f(140756, -63564, 3948), GameHook.game);
+            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x80, 0x128, 0xA8, 0xD0, 0x248, 0x1D0), new Vector3f(140756, -63564, 3948), GameHook.game);
             enemies = room_15.ReturnEnemiesInRoom(AllEnemies);
             enemies1 = room_3.ReturnEnemiesInRoom(AllEnemies);
             layout = new RoomLayout(enemies[0], enemies[1], enemies[2], enemies1[0], enemies1[1], enemies1[2]); // 2 pistols+ 4 uzi

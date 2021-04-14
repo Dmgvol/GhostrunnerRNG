@@ -23,7 +23,7 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
 
         //0x045A3C20 + 98 + first + 128 + A8+ second + 220 + 398 +150
         public Trigger(int firstOffset, int secondOffset, Vector3f pos, Vector3f size, DeepPointer startSearch, int searchLength, string signature) {
-            originDP = new DeepPointer(0x045A3C20, 0x98, firstOffset, 0x128, 0xA8, secondOffset, 0x220, 0x398, 0x150);
+            originDP = new DeepPointer(0x04609420, 0x98, firstOffset, 0x128, 0xA8, secondOffset, 0x220, 0x398, 0x150);
             this.pos = pos;
             this.size = size;
 

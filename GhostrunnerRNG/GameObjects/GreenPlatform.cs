@@ -8,8 +8,8 @@ namespace GhostrunnerRNG.GameObjects {
 
         EasyPointers EP = new EasyPointers();
 
-        public GreenPlatform(int offset) : base(new DeepPointer(0x045A3C20, 0x30, 0xA8, offset, 0x130, 0x1D0)) {
-            EP.Pointers.Add("SphereCenter", new Tuple<DeepPointer, IntPtr>(new DeepPointer(0x045A3C20, 0x30, 0xA8, offset, 0x230, 0x398, 0x150), IntPtr.Zero));
+        public GreenPlatform(int offset) : base(new DeepPointer(0x04609420, 0x30, 0xA8, offset, 0x130, 0x1D0)) {
+            EP.Pointers.Add("SphereCenter", new Tuple<DeepPointer, IntPtr>(new DeepPointer(0x04609420, 0x30, 0xA8, offset, 0x230, 0x398, 0x150), IntPtr.Zero));
         }
 
         public override void SetMemoryPos(Process game, SpawnData spawnData) {

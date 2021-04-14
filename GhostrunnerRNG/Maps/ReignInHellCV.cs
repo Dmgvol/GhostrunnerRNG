@@ -18,10 +18,10 @@ namespace GhostrunnerRNG.Maps {
 
             ///// SECTION 1 /////
             List<WorldObject> orbs = new List<WorldObject>();
-            orbs.Add(new CVOrb(0xF8, 0x1938));
-            orbs.Add(new CVOrb(0x100, 0x1920));
-            orbs.Add(new CVOrb(0x110, 0x18f0));
-            orbs.Add(new CVOrb(0x108, 0x1908));
+            orbs.Add(new CVOrb(0x120, 0x1938));
+            orbs.Add(new CVOrb(0x128, 0x1920));
+            orbs.Add(new CVOrb(0x138, 0x18f0));
+            orbs.Add(new CVOrb(0x130, 0x1908));
             layout = new RoomLayout(orbs);
 
             // railings
@@ -50,12 +50,12 @@ namespace GhostrunnerRNG.Maps {
 
             ///// SECTION 2 /////
             orbs = new List<WorldObject>();
-            orbs.Add(new CVOrb(0x140, 0x1860));
-            orbs.Add(new CVOrb(0x148, 0x1848));
-            orbs.Add(new CVOrb(0x150, 0x1830));
-            orbs.Add(new CVOrb(0x158, 0x1818));
-            orbs.Add(new CVOrb(0x160, 0x1800));
-            orbs.Add(new CVOrb(0x168, 0x17E8));
+            orbs.Add(new CVOrb(0x168, 0x1860));
+            orbs.Add(new CVOrb(0x170, 0x1848));
+            orbs.Add(new CVOrb(0x178, 0x1830));
+            orbs.Add(new CVOrb(0x180, 0x1818));
+            orbs.Add(new CVOrb(0x188, 0x1800));
+            orbs.Add(new CVOrb(0x190, 0x17E8));
 
             layout = new RoomLayout(orbs);
             // default platforms
@@ -98,11 +98,11 @@ namespace GhostrunnerRNG.Maps {
             ///// SECTION 3 /////
 
             orbs = new List<WorldObject>();
-            orbs.Add(new CVOrb(0x118, 0x18D8));
-            orbs.Add(new CVOrb(0x120, 0x18C0));
-            orbs.Add(new CVOrb(0x128, 0x18A8));
-            orbs.Add(new CVOrb(0x130, 0x1890));
-            orbs.Add(new CVOrb(0x138, 0x1878));
+            orbs.Add(new CVOrb(0x140, 0x18D8));
+            orbs.Add(new CVOrb(0x148, 0x18C0));
+            orbs.Add(new CVOrb(0x150, 0x18A8));
+            orbs.Add(new CVOrb(0x158, 0x1890));
+            orbs.Add(new CVOrb(0x160, 0x1878));
 
             layout = new RoomLayout(orbs);
             // default

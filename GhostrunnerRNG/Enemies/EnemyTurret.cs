@@ -16,15 +16,15 @@ namespace GhostrunnerRNG.Enemies {
             enemyType = EnemyTypes.Turret;
             Pos = enemy.Pos;
             // add pointers
-            Pointers.Add("AngleToDestoryFromFace", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x884), IntPtr.Zero));
-            Pointers.Add("VerticalAngle", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x69C), IntPtr.Zero));
-            Pointers.Add("HorizontalAngle", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x698), IntPtr.Zero));
-            Pointers.Add("HorizontalSpeed", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x694), IntPtr.Zero));
-            Pointers.Add("HorizontalDetectionAngle", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6A8), IntPtr.Zero));
-            Pointers.Add("VerticalDetectionAngle", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6AC), IntPtr.Zero));
-            Pointers.Add("VisibleLaserLength", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6B0), IntPtr.Zero));
-            Pointers.Add("RotationOffset", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6A0), IntPtr.Zero));
-            Pointers.Add("HorizontalAngleSmooth", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6E4), IntPtr.Zero));
+            Pointers.Add("AngleToDestoryFromFace", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x88C), IntPtr.Zero));
+            Pointers.Add("VerticalAngle", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6A4), IntPtr.Zero));
+            Pointers.Add("HorizontalAngle", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6A0), IntPtr.Zero));
+            Pointers.Add("HorizontalSpeed", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x69C), IntPtr.Zero));
+            Pointers.Add("HorizontalDetectionAngle", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6B0), IntPtr.Zero));
+            Pointers.Add("VerticalDetectionAngle", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6B4), IntPtr.Zero));
+            Pointers.Add("VisibleLaserLength", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6B8), IntPtr.Zero));
+            Pointers.Add("RotationOffset", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6A8), IntPtr.Zero));
+            Pointers.Add("HorizontalAngleSmooth", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6EC), IntPtr.Zero));
         }
 
         protected override void DerefPointer(Process game) {

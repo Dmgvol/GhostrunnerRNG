@@ -407,6 +407,16 @@ namespace GhostrunnerRNG.Game {
 					reloadCounterDP = new DeepPointer(0x045A3C20, 0x128, 0x388);
 					break;
 
+				case 78856192:
+					Debug.WriteLine("found steam6");
+					capsuleDP = new DeepPointer(0x0438BB50, 0x30, 0x130, 0x0);
+					mapNameDP = new DeepPointer(0x0438BB40, 0x30, 0xF8, 0x0);
+					preciseTimeDP = new DeepPointer(0x04609420, 0x138, 0xB0, 0x128);
+					hcDP = new DeepPointer(0x0438BB40, 0x330, 0x30);
+					LoadingDP = new DeepPointer(0x044C4478, 0x1E8);
+					reloadCounterDP = new DeepPointer(0x04609420, 0x128, 0x388);
+					break;
+
 				case 78168064:
 					Debug.WriteLine("found gog5");
 					capsuleDP = new DeepPointer(0x04328538, 0x30, 0x130, 0x0);
@@ -416,6 +426,7 @@ namespace GhostrunnerRNG.Game {
 					LoadingDP = new DeepPointer(0x0445ED38, 0x1E8);
 					reloadCounterDP = new DeepPointer(0x045A3C20, 0x128, 0x388);
 					break;
+
 
 				case 77910016:
 					Debug.WriteLine("found egs3");
@@ -491,11 +502,11 @@ namespace GhostrunnerRNG.Game {
 			string Title = "Randomizer Mode";
 			string Description = "Randomizes enemies and objects in a challenging and unexpected way.";
 			// title
-			DeepPointer titleDP = new DeepPointer(0x043FD270, 0x3C8, 0x80, 0x1CE8, 0x20, 0x0);
-			DeepPointer titleLengthDP = new DeepPointer(0x043FD270, 0x3C8, 0x80, 0x1CE8, 0x28);
+			DeepPointer titleDP = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x2F0, 0x20, 0x0);
+			DeepPointer titleLengthDP = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x2F0, 0x28);
 			//description
-			DeepPointer descDP = new DeepPointer(0x043FD270, 0x3C8, 0x80, 0x1CE8, 0x0, 0x0);
-			DeepPointer descLengthDP = new DeepPointer(0x043FD270, 0x3C8, 0x80, 0x1CE8, 0x8);
+			DeepPointer descDP = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x2F0, 0x0, 0x0);
+			DeepPointer descLengthDP = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x2F0, 0x8);
 			// pointers
 			IntPtr titlePtr, titleLengthPtr, descPtr, descLengthPtr;
 			// deref
@@ -516,8 +527,8 @@ namespace GhostrunnerRNG.Game {
 		/// </summary>
 		private void EditProTips() {
             for(int i = 1; i < 12; i++) {
-				DeepPointer tipDP = new DeepPointer(0x043FD270, 0x368, 0x80, 0x28 * (i - 1), 0x0, 0x0);
-				DeepPointer tipLengthDP = new DeepPointer(0x043FD270, 0x368, 0x80, 0x28 * (i - 1), 0x8);
+				DeepPointer tipDP = new DeepPointer(0x043FD270, 0x368, 0x80, 0x28 * (i - 1), 0x0, 0x0);//badpointer
+				DeepPointer tipLengthDP = new DeepPointer(0x043FD270, 0x368, 0x80, 0x28 * (i - 1), 0x8);//badpointer
 				IntPtr tipPtr, tipLengthPtr;
 				tipDP.DerefOffsets(game, out tipPtr);
 				tipLengthDP.DerefOffsets(game, out tipLengthPtr);

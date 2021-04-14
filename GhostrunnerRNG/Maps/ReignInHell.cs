@@ -43,7 +43,7 @@ namespace GhostrunnerRNG.Maps {
         }
 
         protected override void Gen_PerRoom() {
-            List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 37);
+            List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 36);
             Rooms = new List<RoomLayout>();
             RoomLayout layout;
             List<Enemy> enemies;
@@ -492,7 +492,7 @@ namespace GhostrunnerRNG.Maps {
 
             #region Slomo
             //1 room
-            uplink = new UplinkSlowmo(0x50, 0xB0, 0xA0);
+            uplink = new UplinkSlowmo(0x50, 0x1B0, 0xA0);
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = 30 });
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(5, 15) });
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = 8, TimeMultiplier = 0.01f });

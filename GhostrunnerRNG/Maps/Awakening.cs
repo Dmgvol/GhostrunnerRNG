@@ -23,7 +23,7 @@ namespace GhostrunnerRNG.Maps {
         }
 
         private void CheckNewGame() {
-            DeepPointer bestTimeDP = new DeepPointer(0x04328548, 0xE0, 0xB0, 0x30, 0xF0, 0x8);
+            DeepPointer bestTimeDP = new DeepPointer(0x0438BB40, 0xE0, 0xC8, 0x30, 0xF0, 0x8);
             IntPtr bestTimePtr;
             bestTimeDP.DerefOffsets(GameHook.game, out bestTimePtr);
             float time;

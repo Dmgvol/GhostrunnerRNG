@@ -7,41 +7,41 @@ namespace GhostrunnerRNG.MapGen {
     public class CustomCP {
 
         Dictionary<MapType, DeepPointer> MapCPPointers = new Dictionary<MapType, DeepPointer>() {
-            { MapType.Awakening, new DeepPointer(0x04326CF8, 0x28, 0x28, 0x48)},
-            { MapType.LookInside, new DeepPointer(0x04326CF8, 0x28, 0x28, 0x48)},
-            { MapType.LookInsideCV, new DeepPointer(0x04326CF8, 0x28, 0x28, 0x48)},
-            { MapType.Faster, new DeepPointer(0x04326CF8, 0x28, 0x28, 0x48)},
-            { MapType.InHerOwnImage, new DeepPointer(0x04326CF8, 0x28, 0x28, 0x48)},
-            { MapType.ReignInHell, new DeepPointer(0x04326CF8, 0x28, 0x28, 0x48)},
-            { MapType.ReignInHellCV, new DeepPointer(0x04326CF8, 0x28, 0x28, 0x48)},
+            { MapType.Awakening, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},
+            { MapType.LookInside, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},
+            { MapType.LookInsideCV, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},
+            { MapType.Faster, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},
+            { MapType.InHerOwnImage, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},
+            { MapType.ReignInHell, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},
+            { MapType.ReignInHellCV, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},
 
-            { MapType.TheClimb, new DeepPointer(0x04326CF8, 0x28, 0xA8, 0x48)},
-            { MapType.TheClimbCV, new DeepPointer(0x04326CF8, 0x28, 0x28, 0x48)},
+            { MapType.TheClimb, new DeepPointer(0x0438BB18, 0x28, 0xA8, 0x48)},
+            { MapType.TheClimbCV, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},
 
-            { MapType.BlinkCV, new DeepPointer(0x04326CF8, 0x28, 0x0, 0x48)},
-            { MapType.TempestCV, new DeepPointer(0x04326CF8, 0x28, 0x0, 0x48)},
-            { MapType.EchoesCV, new DeepPointer(0x04326CF8, 0x28, 0x0, 0x48)},
-            { MapType.OverlordCV, new DeepPointer(0x04326CF8, 0x28, 0x0, 0x48)},
-            { MapType.TheMonster, new DeepPointer(0x04326CF8, 0x28, 0x0, 0x48)},
+            { MapType.BlinkCV, new DeepPointer(0x0438BB18, 0x28, 0x0, 0x48)},
+            { MapType.TempestCV, new DeepPointer(0x0438BB18, 0x28, 0x0, 0x48)},
+            { MapType.EchoesCV, new DeepPointer(0x0438BB18, 0x28, 0x0, 0x48)},
+            { MapType.OverlordCV, new DeepPointer(0x0438BB18, 0x28, 0x0, 0x48)},
+            { MapType.TheMonster, new DeepPointer(0x0438BB18, 0x28, 0x0, 0x48)},
 
-            { MapType.JackedUp, new DeepPointer(0x04326CF8, 0x28, 0x48, 0x48)},
+            { MapType.JackedUp, new DeepPointer(0x0438BB18, 0x28, 0x48, 0x48)},
 
-            { MapType.BreatheIn, new DeepPointer(0x04326CF8, 0x28, 0x80, 0x48)},
-            { MapType.BreatheInCV, new DeepPointer(0x04326CF8, 0x28, 0x80, 0x48)},
+            { MapType.BreatheIn, new DeepPointer(0x0438BB18, 0x28, 0x80, 0x48)},
+            { MapType.BreatheInCV, new DeepPointer(0x0438BB18, 0x28, 0x80, 0x48)},
 
-            { MapType.RoadToAmida, new DeepPointer(0x04326CF8, 0x28, 0x50, 0x48)},
+            { MapType.RoadToAmida, new DeepPointer(0x0438BB18, 0x28, 0x50, 0x48)},
 
-            { MapType.RunUp, new DeepPointer(0x04326CF8, 0x28, 0x60, 0x48)},
-            { MapType.Gatekeeper, new DeepPointer(0x04326CF8, 0x28, 0x60, 0x48)},
+            { MapType.RunUp, new DeepPointer(0x0438BB18, 0x28, 0x60, 0x48)},
+            { MapType.Gatekeeper, new DeepPointer(0x0438BB18, 0x28, 0x60, 0x48)},
 
-            { MapType.DharmaCity, new DeepPointer(0x04326CF8, 0x28, 0x10, 0x48)},
-            { MapType.TYWB, new DeepPointer(0x04326CF8, 0x28, 0x10, 0x48)},
+            { MapType.DharmaCity, new DeepPointer(0x0438BB18, 0x28, 0x10, 0x48)},
+            { MapType.TYWB, new DeepPointer(0x0438BB18, 0x28, 0x10, 0x48)},
 
-            { MapType.Echoes, new DeepPointer(0x04326CF8, 0x28, 0x138, 0x48)},
+            { MapType.Echoes, new DeepPointer(0x0438BB18, 0x28, 0x138, 0x48)},
 
-            { MapType.ForbiddenZone, new DeepPointer(0x04326CF8, 0x28, 0x18, 0x48)},
+            { MapType.ForbiddenZone, new DeepPointer(0x0438BB18, 0x28, 0x18, 0x48)},
 
-            { MapType.TheSummit, new DeepPointer(0x04326CF8, 0x28, 0x8, 0x48)},
+            { MapType.TheSummit, new DeepPointer(0x0438BB18, 0x28, 0x8, 0x48)},
         };
 
         // stats

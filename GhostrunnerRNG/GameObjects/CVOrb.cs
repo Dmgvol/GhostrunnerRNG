@@ -14,25 +14,25 @@ namespace GhostrunnerRNG.GameObjects {
         /// <summary>
         /// RiH CV orb constructor
         /// </summary>
-        public CVOrb(int orbOffset, int boxSecondOffset) : base(new DeepPointer(0x045A3C20, 0x30, 0xA8, orbOffset, 0x248, 0x1D0)) {
-            boxOriginDP = new DeepPointer(0x045A3C20, 0x30, 0xA8, orbOffset, 0x238, 0x398, 0x150);
-            boxDP = new DeepPointer(0x045A3C20, 0x1F8, 0x60, 0xD0, 0x8C0, 0xB0, 0x5A0, 0x1A8, boxSecondOffset);
+        public CVOrb(int orbOffset, int boxSecondOffset) : base(new DeepPointer(0x04609420, 0x30, 0xA8, orbOffset, 0x248, 0x1D0)) {
+            boxOriginDP = new DeepPointer(0x04609420, 0x30, 0xA8, orbOffset, 0x238, 0x398, 0x150);
+            boxDP = new DeepPointer(0x04609420, 0x1F8, 0x60, 0xD0, 0x8C0, 0xB0, 0x5A0, 0x1A8, boxSecondOffset);
         }
 
         /// <summary>
         /// Tempest CV orb constructor
         /// </summary>
-        public CVOrb(int orbOffset, int boxFirstOffset, int boxSecondOffset) : base(new DeepPointer(0x045A3C20, 0x30, 0xA8, orbOffset, 0x248, 0x1D0)) {
+        public CVOrb(int orbOffset, int boxFirstOffset, int boxSecondOffset) : base(new DeepPointer(0x04609420, 0x30, 0xA8, orbOffset, 0x248, 0x1D0)) {
             
-            boxOriginDP = new DeepPointer(0x045A3C20, 0x30, 0xA8, orbOffset, 0x238, 0x398, 0x150);
-            boxDP = new DeepPointer(0x045A3C20, 0x1F8, 0x60, 0xD0, 0x298, boxFirstOffset, 0xB0, 0x5A0, 0x1A8, boxSecondOffset);
+            boxOriginDP = new DeepPointer(0x04609420, 0x30, 0xA8, orbOffset, 0x238, 0x398, 0x150);
+            boxDP = new DeepPointer(0x04609420, 0x1F8, 0x60, 0xD0, 0x298, boxFirstOffset, 0xB0, 0x5A0, 0x1A8, boxSecondOffset);
         }
 
         /// <summary>
         /// Echoes CV
         /// </summary>
         /// <param name="n">orb index</param>
-        public CVOrb(int n) : base(new DeepPointer(0x045A3C20, 0x30, 0xA8, 0x10 + 0x8 * (n - 1), 0x220, 0x11c)) {
+        public CVOrb(int n) : base(new DeepPointer(0x04609420, 0x30, 0xA8, 0x10 + 0x8 * (n - 1), 0x220, 0x11c)) {
 
         }
 

@@ -68,9 +68,9 @@ namespace GhostrunnerRNG.Maps {
             });
 
             // platforms 
-            platforms.Add(new CVPlatform(new DeepPointer(0x045A3C20, 0x30, 0xA8, 0x138)));
-            platforms.Add(new CVPlatform(new DeepPointer(0x045A3C20, 0x30, 0xA8, 0x128)));
-            platforms.Add(new CVPlatform(new DeepPointer(0x045A3C20, 0x30, 0xA8, 0x130)));
+            platforms.Add(new CVPlatform(new DeepPointer(0x04609420, 0x30, 0xA8, 0x138)));
+            platforms.Add(new CVPlatform(new DeepPointer(0x04609420, 0x30, 0xA8, 0x128)));
+            platforms.Add(new CVPlatform(new DeepPointer(0x04609420, 0x30, 0xA8, 0x130)));
         }
 
         // Custom Randomizer

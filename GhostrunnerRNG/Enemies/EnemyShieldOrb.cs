@@ -32,7 +32,7 @@ namespace GhostrunnerRNG.Enemies {
             // glow pointer
             List<int> offsets = new List<int>(ObjectDP.GetOffsets());
             offsets.RemoveAt(offsets.Count - 1);
-            offsets.Add(0x6c0);
+            offsets.Add(0x6c8);
             offsets.Add(0x130);
             offsets.Add(0x1d0);
             shieldGlowDP = new DeepPointer(ObjectDP.GetBase(), offsets);
@@ -44,7 +44,7 @@ namespace GhostrunnerRNG.Enemies {
             for(int j = 0;  j < beams; j++) {
                 List<int> offsets = new List<int>(ObjectDP.GetOffsets());
                 offsets.RemoveAt(offsets.Count - 1);
-                offsets.Add(0x6e8);
+                offsets.Add(0x6f0);
                 offsets.Add(0x8 * enemyIndex);
                 offsets.Add(0x200);
                 offsets.Add(0x8 * (j + 1));
@@ -60,7 +60,7 @@ namespace GhostrunnerRNG.Enemies {
             for(int i = 0; i < enemies; i++) {
                 List<int> offsets = new List<int>(ObjectDP.GetOffsets());
                 offsets.RemoveAt(offsets.Count - 1);
-                offsets.Add(0x6e8);
+                offsets.Add(0x6f0);
                 offsets.Add(0x8 * LinkedObjectsDP.Count);
                 offsets.Add(0x220);
                 LinkedObjectsDP.Add(new DeepPointer(ObjectDP.GetBase(), offsets));
@@ -95,7 +95,7 @@ namespace GhostrunnerRNG.Enemies {
 
         public void HideBeam_Range(int firstOffset, int secondOffset, int startIndex, int endIndex) {
             for(int i = startIndex; i <= endIndex; i += 0x8) {
-                HideBeam(new DeepPointer(0x045A3C20, 0x98, firstOffset, 0x128, 0xA8, secondOffset, 0x200, i, 0x1D0));
+                HideBeam(new DeepPointer(0x04609420, 0x98, firstOffset, 0x128, 0xA8, secondOffset, 0x200, i, 0x1D0));
             }
         }
 

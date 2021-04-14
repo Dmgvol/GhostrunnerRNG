@@ -9,7 +9,7 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
 
         //0x045A3C20 + 98 + <firstOffset> + 128 + A8 + <secondOffset> + XXX
         public ToggleableFan(int firstOffset, int secondOffset) {
-            ObjectDP = new DeepPointer(0x045A3C20, 0x98, firstOffset, 0x128, 0xA8, secondOffset);
+            ObjectDP = new DeepPointer(0x04609420, 0x98, firstOffset, 0x128, 0xA8, secondOffset);
 
             // Add pointers
             Pointers.Add("FanSpeed", new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(0x2E0), IntPtr.Zero));

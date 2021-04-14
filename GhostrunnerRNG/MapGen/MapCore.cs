@@ -108,11 +108,11 @@ namespace GhostrunnerRNG.MapGen {
         public List<Enemy> GetAllEnemies(Process game, int startIndex = 0) {
             int index = startIndex;
             List<Enemy> enemies = new List<Enemy>();
-            Enemy enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, 0x20, 0x4F0));
+            Enemy enemy = new Enemy(new DeepPointer(0x04609420, 0x138, 0xB0, 0xB0, 0x20, 0x4F0));
             while(!enemy.GetMemoryPos(game).IsEmpty()) {
                 index++;
                 enemies.Add(enemy);
-                enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, (0x20 * (index + 1)), 0x4F0));
+                enemy = new Enemy(new DeepPointer(0x04609420, 0x138, 0xB0, 0xB0, (0x20 * (index + 1)), 0x4F0));
             }
             return enemies;
         }
@@ -127,7 +127,7 @@ namespace GhostrunnerRNG.MapGen {
 
             while(ValidEnemy || threshold > 0) {
                 index++;
-                enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, (0x20 * (index + 1)), 0x4F0));
+                enemy = new Enemy(new DeepPointer(0x04609420, 0x138, 0xB0, 0xB0, (0x20 * (index + 1)), 0x4F0));
                 ValidEnemy = !enemy.GetMemoryPos(game).IsEmpty();
                 if(!ValidEnemy) {
                     threshold--;
@@ -229,7 +229,7 @@ namespace GhostrunnerRNG.MapGen {
             // get bulk enemies
             while(ValidEnemy || index < target) {
                 index++;
-                enemy = new Enemy(new DeepPointer(0x045A3C20, 0x138, 0xB0, 0xB0, (0x20 * (index + 1)), 0x4F0));
+                enemy = new Enemy(new DeepPointer(0x04609420, 0x138, 0xB0, 0xB0, (0x20 * (index + 1)), 0x4F0));
                 ValidEnemy = !enemy.GetMemoryPos(game).IsEmpty();
                 if(ValidEnemy) {
                     enemiesBulk.Add(enemy);

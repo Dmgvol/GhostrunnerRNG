@@ -438,7 +438,7 @@ namespace GhostrunnerRNG.Maps {
 
             #region Jump
             //near last collectible
-            NonPlaceableObject uplink = new UplinkJump(0x30, 0xBA8);
+            NonPlaceableObject uplink = new UplinkJump(0x30, 0xBB8);
             uplink.AddSpawnInfo(new UplinkJumpSpawnInfo().SetRarity(0.5));//default
 
             var jumpSpawn = new UplinkJumpSpawnInfo { TimeToActivate = 10, JumpMultiplier = 15, JumpForwardMultiplier = 15, JumpGravity = 3 };

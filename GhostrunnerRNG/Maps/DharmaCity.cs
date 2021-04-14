@@ -158,13 +158,13 @@ namespace GhostrunnerRNG.Maps {
             // Drone - with custom patrol points
             layout = new RoomLayout(new EnemyDrone(enemies[0]));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(79028, -85769, 5364))
-                .AddPatrolPoint(new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0x238, 0x130, 0x1D0), new Vector3f(78996, -81310, 5364)));
+                .AddPatrolPoint(new DeepPointer(0x04609420, 0x98, 0x28, 0x128, 0xA8, 0x238, 0x130, 0x1D0), new Vector3f(78996, -81310, 5364)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(74338, -85272, 5570))
-                .AddPatrolPoint(new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0x238, 0x130, 0x1D0), new Vector3f(74371, -80265, 5570)));
+                .AddPatrolPoint(new DeepPointer(0x04609420, 0x98, 0x28, 0x128, 0xA8, 0x238, 0x130, 0x1D0), new Vector3f(74371, -80265, 5570)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(74749, -81993, 5293))
-               .AddPatrolPoint(new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0x238, 0x130, 0x1D0), new Vector3f(79130, -81986, 5293)));
+               .AddPatrolPoint(new DeepPointer(0x04609420, 0x98, 0x28, 0x128, 0xA8, 0x238, 0x130, 0x1D0), new Vector3f(79130, -81986, 5293)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(77323, -85030, 5763))
-               .AddPatrolPoint(new DeepPointer(0x045A3C20, 0x98, 0x28, 0x128, 0xA8, 0x238, 0x130, 0x1D0), new Vector3f(77368, -81590, 5763)));
+               .AddPatrolPoint(new DeepPointer(0x04609420, 0x98, 0x28, 0x128, 0xA8, 0x238, 0x130, 0x1D0), new Vector3f(77368, -81590, 5763)));
             layout.BanRoomEnemyType(Enemy.EnemyTypes.Default); // to avoid grounded enemies spawning in mid-air
             Rooms.Add(layout);
 

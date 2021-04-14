@@ -9,7 +9,7 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
 
         //0x045A3C20, 0x98, firstOffset, 0x128, 0xA8, secondOffset,
         public ShurikenTarget(int firstOffset, int secondOffset) {
-            ObjectDP = new DeepPointer(0x045A3C20, 0x98, firstOffset, 0x128, 0xA8, secondOffset);
+            ObjectDP = new DeepPointer(0x04609420, 0x98, firstOffset, 0x128, 0xA8, secondOffset);
             // Add pointers
             Pointers.Add("HitsNeeded", new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(0x224), IntPtr.Zero));
         }

@@ -15,7 +15,7 @@ namespace GhostrunnerRNG.Enemies {
 
             // add pointers
             for(int i = 0; i < shiftPoints; i++) {
-                ShiftPointers.Add(new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x7d0, 0x8 * i, 0x130, 0x1D0) ,IntPtr.Zero));
+                ShiftPointers.Add(new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x7d8, 0x8 * i, 0x130, 0x1D0) ,IntPtr.Zero));
             }
         }
 

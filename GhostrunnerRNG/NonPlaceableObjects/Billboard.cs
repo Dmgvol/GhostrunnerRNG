@@ -10,7 +10,7 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
 
         // 0x045A3C20, 0x98, firstOffset, 0x128, 0xA8, secondOffset
         public Billboard(int firstOffset, int secondOffset) {
-            ObjectDP = new DeepPointer(0x045A3C20, 0x98, firstOffset, 0x128, 0xA8, secondOffset);
+            ObjectDP = new DeepPointer(0x04609420, 0x98, firstOffset, 0x128, 0xA8, secondOffset);
 
             // Pointers
             Pointers.Add("Time1", new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(0x2C8), IntPtr.Zero));

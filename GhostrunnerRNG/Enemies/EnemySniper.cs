@@ -86,7 +86,7 @@ namespace GhostrunnerRNG.Enemies {
 
             // patrol DP
             offsets.RemoveAt(offsets.Count - 1);
-            offsets.Add(0x808);
+            offsets.Add(0x810);
             if(patrolPoints.Count == 0) {
                 offsets.Add(0x0);
             } else {
@@ -100,7 +100,7 @@ namespace GhostrunnerRNG.Enemies {
             // delay DP
             offsets = new List<int>(ObjectDP.GetOffsets());
             offsets.RemoveAt(offsets.Count - 1);
-            offsets.Add(0x808);
+            offsets.Add(0x810);
             if(patrolPoints.Count == 0) {
                 offsets.Add(0x0);
             } else {
@@ -125,7 +125,7 @@ namespace GhostrunnerRNG.Enemies {
             // focus DP
             offsets = new List<int>(ObjectDP.GetOffsets());
             offsets.RemoveAt(offsets.Count - 1);
-            offsets.Add(0x818);
+            offsets.Add(0x820);
             if(focusPoints.Count == 0) {
                 offsets.Add(0x0);
             } else {
@@ -138,7 +138,7 @@ namespace GhostrunnerRNG.Enemies {
             // focus delay DP
             offsets = new List<int>(ObjectDP.GetOffsets());
             offsets.RemoveAt(offsets.Count - 1);
-            offsets.Add(0x818);
+            offsets.Add(0x820);
             if(focusPoints.Count == 0) {
                 offsets.Add(0x0);
             } else {

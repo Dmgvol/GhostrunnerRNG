@@ -12,7 +12,7 @@ namespace GhostrunnerRNG.Maps {
         private readonly Vector3f Core = new Vector3f(-14500f, -4900f, -700f);
 
         // Rotation
-        private DeepPointer RotationDP = new DeepPointer(0x045A3C20, 0x30, 0xE8, 0x10, 0x298, 0x60, 0x2C0);
+        private DeepPointer RotationDP = new DeepPointer(0x04609420, 0x30, 0xE8, 0x10, 0x298, 0x60, 0x2C0);
         private IntPtr RotationPtr;
         private int rotationTimeOffset = 0x5A;
         private int rotationAngleOffset = 0x5F;
