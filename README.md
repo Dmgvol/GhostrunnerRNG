@@ -1,6 +1,7 @@
-[![](https://img.shields.io/badge/Dharma-Unlocked-green)](https://github.com/Dmgvol/GhostrunnerRNG/) [![](https://img.shields.io/badge/Discord-GRSR-blue)](https://discord.com/invite/eZRz3Q5) ![](https://img.shields.io/github/downloads/dmgvol/ghostrunnerrng/total) [![](https://img.shields.io/badge/Supported_Game_Version-0.32091.481-orange)](https://github.com/Dmgvol/GhostrunnerRNG/)
+[![](https://img.shields.io/badge/Dharma-Unlocked-green)](https://github.com/Dmgvol/GhostrunnerRNG/) [![](https://img.shields.io/badge/Discord-GRSR-blue)](https://discord.com/invite/eZRz3Q5) ![](https://img.shields.io/github/downloads/dmgvol/ghostrunnerrng/total) [![](https://img.shields.io/badge/Supported_Game_Version-0.32091.481-orange)](https://github.com/Dmgvol/GhostrunnerRNG/) [![](https://img.shields.io/badge/Latest_update-NOT_SUPPORTED_YET-red)](https://github.com/Dmgvol/GhostrunnerRNG/)
 
 # GhostrunnerRNG
+**Latest patch/update is not supported(yet), come back later, thanks!<br>**
 Randomizes enemies in a challenging and unexpected way, every time you load a level.<br>
 It is challenging and it will test how fast you can adapt and figure out how to clear the kill rooms.<br>
 Also... It is 100% harder then the classic difficulty.
