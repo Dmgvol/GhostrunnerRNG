@@ -19,24 +19,24 @@ namespace GhostrunnerRNG.Maps {
         protected override void Gen_PerRoom() {
 
             ////// Green Platforms //////
-            platforms.Add(new GreenPlatform(0x9E0));
-            platforms.Add(new GreenPlatform(0x9F8));
-            platforms.Add(new GreenPlatform(0xA00));
-            platforms.Add(new GreenPlatform(0xA08));
-            platforms.Add(new GreenPlatform(0xA30));
-            platforms.Add(new GreenPlatform(0xA20));
-            platforms.Add(new GreenPlatform(0xA18));
-            platforms.Add(new GreenPlatform(0xA28));
-            platforms.Add(new GreenPlatform(0xA10));
-            platforms.Add(new GreenPlatform(0x9F0));
-            platforms.Add(new GreenPlatform(0x9E8));
-            platforms.Add(new GreenPlatform(0x9D8));
-            platforms.Add(new GreenPlatform(0x9D0));
-            platforms.Add(new GreenPlatform(0x9C8));
-            platforms.Add(new GreenPlatform(0x9C0));
-            platforms.Add(new GreenPlatform(0x9B8));
-            platforms.Add(new GreenPlatform(0x9B0));
-            platforms.Add(new GreenPlatform(0x9A8));
+            platforms.Add(new GreenPlatform(0x9E0, 0xE88));
+            platforms.Add(new GreenPlatform(0x9F8, 0xDB));
+            platforms.Add(new GreenPlatform(0xA00, 0xD68));
+            platforms.Add(new GreenPlatform(0xA08, 0xD20));
+            platforms.Add(new GreenPlatform(0xA30, 0xBB8));
+            platforms.Add(new GreenPlatform(0xA20, 0xC48));
+            platforms.Add(new GreenPlatform(0xA18, 0xC90));
+            platforms.Add(new GreenPlatform(0xA28, 0xC00));
+            platforms.Add(new GreenPlatform(0xA10, 0xCD8));
+            platforms.Add(new GreenPlatform(0x9F0, 0xDF8));
+            platforms.Add(new GreenPlatform(0x9E8, 0xE40));
+            platforms.Add(new GreenPlatform(0x9D8, 0xED0));
+            platforms.Add(new GreenPlatform(0x9D0, 0xF18));
+            platforms.Add(new GreenPlatform(0x9C8, 0xF60));
+            platforms.Add(new GreenPlatform(0x9C0, 0xFA8));
+            platforms.Add(new GreenPlatform(0x9B8, 0xFF0));
+            platforms.Add(new GreenPlatform(0x9B0, 0x1038));
+            platforms.Add(new GreenPlatform(0x9A8, 0x1080));
 
             // Platforms layouts
             platformLayouts.Add(new SpawnData(new Vector3f(50232.93f, -10371.06f, 2988.9f), new Angle(1.00f, 0.00f)));

@@ -14,5 +14,7 @@ namespace GhostrunnerRNG.Game {
                 Pointers[item.Key] = new Tuple<DeepPointer, IntPtr>(item.Value.Item1, ptr);
             }
         }
+
+        public void Add(string key, DeepPointer dp) => Pointers.Add(key, new Tuple<DeepPointer, IntPtr>(dp, IntPtr.Zero));
     }
 }

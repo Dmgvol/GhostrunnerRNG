@@ -350,7 +350,7 @@ namespace GhostrunnerRNG.MapGen {
             Console.WriteLine(str);
         }
 
-         ~MapCore() {
+        ~MapCore() {
             foreach(Enemy e in Enemies) {
                 e.ClearAllPlanes();
             }

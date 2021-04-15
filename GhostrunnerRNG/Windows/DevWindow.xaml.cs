@@ -224,7 +224,7 @@ namespace GhostrunnerRNG.Windows {
 
 			// create platforms
 			if(greenPlatforms == null) {
-				greenPlatforms = new List<GreenPlatform>() { new GreenPlatform(0x9E0), new GreenPlatform(0x9F8) };
+				greenPlatforms = new List<GreenPlatform>() { new GreenPlatform(0x9E0, 0xE88), new GreenPlatform(0x9F8, 0xDB0) };
 			}
 
 			SpawnData spawn = new SpawnData(new Vector3f(GameHook.xPos, GameHook.yPos, GameHook.zPos), GameHook.angle);

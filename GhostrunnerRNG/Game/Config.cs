@@ -1,4 +1,7 @@
-﻿using System;
+﻿using GhostrunnerRNG.Localization;
+using System;
+using static GhostrunnerRNG.Localization.LocalizationBase;
+using static GhostrunnerRNG.Localization.LocalizationManager;
 
 namespace GhostrunnerRNG.Game {
     class Config {
@@ -26,6 +29,9 @@ namespace GhostrunnerRNG.Game {
         public delegate void NotifySeedChanged(int newSeed);
         public event NotifySeedChanged SeedChanged;
 
+        // localization
+        public LocalizationManager localizationManager;
+
         // Singelton Config
         public static Config GetInstance() {
             if(instance == null)
@@ -39,6 +45,7 @@ namespace GhostrunnerRNG.Game {
 
         public Config() {
             NewSeed();
+            localizationManager = new LocalizationManager();
         }
 
         public void NewSeed(int? seed = null) {
@@ -58,5 +65,14 @@ namespace GhostrunnerRNG.Game {
             // notify if any subscribers
             if(SeedChanged != null) SeedChanged(Seed);
         }
+
+
+        // Localization
+        public void SetLanguage(Language lang) {
+            localizationManager.SetLanguage(lang);
+        }
+
+        public string GetString(TextAlias alias) =>  localizationManager.GetLocalization(alias);
+        
     }
 }

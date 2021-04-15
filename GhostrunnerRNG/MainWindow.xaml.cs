@@ -26,7 +26,6 @@ namespace GhostrunnerRNG {
 
 			// Config - singleton
 			Config.GetInstance().SeedChanged += SeedChanged;
-			Config.GetInstance();
 
 			game = new GameHook(this);
 

@@ -75,6 +75,14 @@
     <Compile Include="Game\GameHook.cs" />
     <Compile Include="Game\GameUtils.cs" />
     <Compile Include="Game\SpawnData.cs" />
+    <Compile Include="Localization\Lang_DE.cs" />
+    <Compile Include="Localization\Lang_EN.cs" />
+    <Compile Include="Localization\Lang_FR.cs" />
+    <Compile Include="Localization\Lang_PL.cs" />
+    <Compile Include="Localization\Lang_RU.cs" />
+    <Compile Include="Localization\Lang_ES.cs" />
+    <Compile Include="Localization\LocalizationBase.cs" />
+    <Compile Include="Localization\LocalizationManager.cs" />
     <Compile Include="MapGen\AmidaCVPlatform.cs" />
     <Compile Include="MapGen\CustomCP.cs" />
     <Compile Include="GameObjects\CVOrb.cs" />

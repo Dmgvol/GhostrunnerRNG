@@ -81,7 +81,7 @@ namespace GhostrunnerRNG.MapGen {
                     if(!PlayerInVolume(LastPlayerPos) && PlayerInVolume(Player)) {
                         MovePlayer();
                     }
-                    LastPlayerPos = Player;
+                LastPlayerPos = Player;
             }
         }
 

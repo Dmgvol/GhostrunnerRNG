@@ -8,9 +8,10 @@ using GhostrunnerRNG.Maps;
 using static GhostrunnerRNG.Game.GameUtils;
 using GhostrunnerRNG.MapGen;
 using System.Text;
+using GhostrunnerRNG.Localization;
 
 namespace GhostrunnerRNG.Game {
-    class GameHook {
+	class GameHook {
 
 		// Hook
 		public static Process game { get; private set; }
@@ -18,8 +19,8 @@ namespace GhostrunnerRNG.Game {
 		Timer updateTimer;
 
 		//////// Pointers ////////
-		DeepPointer mapNameDP, hcDP, capsuleDP, LoadingDP, preciseTimeDP, reloadCounterDP;
-		public static IntPtr mapNamePtr, hcPtr, xPosPtr, yPosPtr, zPosPtr, angleSinPtr, angleCosPtr, LoadingPtr, preciseTimePtr, reloadCounterPtr;
+		DeepPointer mapNameDP, hcDP, capsuleDP, LoadingDP, preciseTimeDP, reloadCounterDP, SettingsLangDP;
+		public static IntPtr mapNamePtr, hcPtr, xPosPtr, yPosPtr, zPosPtr, angleSinPtr, angleCosPtr, LoadingPtr, preciseTimePtr, reloadCounterPtr, SettingsLangPtr;
 
 		// player pos&aim, timer, hcFlag
 		public static bool IsHC;
@@ -29,9 +30,9 @@ namespace GhostrunnerRNG.Game {
 
 		private int _cpCounter;
 		public int cpCounter {
-            get { return _cpCounter; }
-            set { if(value != _cpCounter) {_cpCounter = value; cpCounterChanged(value); } }
-        }
+			get { return _cpCounter; }
+			set { if(value != _cpCounter) { _cpCounter = value; cpCounterChanged(value); } }
+		}
 
 		// MAP OBJECT
 		MapCore currentMap;
@@ -50,7 +51,7 @@ namespace GhostrunnerRNG.Game {
 
 		private MainWindow main;
 
-        public GameHook(MainWindow main) {
+		public GameHook(MainWindow main) {
 			this.main = main;
 
 			// Update Timer
@@ -181,10 +182,10 @@ namespace GhostrunnerRNG.Game {
 				// Create Map Object
 				bool mapCreated = CreateMapObject(AccurateMapType);
 				main.ToggleRngControls(mapCreated && currentMap.HasRng);
-                if(mapCreated) {
+				if(mapCreated) {
 					NewRNG();
 					return;
-                }
+				}
 
 				// Maps without RNG
 				if(!MapHasRng(AccurateMapType)) {
@@ -205,19 +206,19 @@ namespace GhostrunnerRNG.Game {
 		}
 
 		private bool CreateMapObject(MapType type) {
-            switch(type) {
+			switch(type) {
 				case MapType.AwakeningLookInside:
 					if(xPos < 50000) {
 						// Awakening
 						AccurateMapType = MapType.Awakening;
 						currentMap = new Awakening();
 						return true;
-                    } else {
+					} else {
 						// Look Inside
 						AccurateMapType = MapType.LookInside;
 						currentMap = new LookInside();
 						return true;
-                    }
+					}
 
 				case MapType.LookInsideCV:
 					currentMap = new LookInsideCV();
@@ -261,12 +262,12 @@ namespace GhostrunnerRNG.Game {
 						AccurateMapType = MapType.RunUp;
 						currentMap = new RunUp();
 						return true;
-                    } else {
+					} else {
 						// TOM
 						AccurateMapType = MapType.Gatekeeper;
 						currentMap = new GateKeeper();
 						return true;
-                    }
+					}
 
 				case MapType.DharmaCity:
 					currentMap = new DharmaCity();
@@ -286,11 +287,11 @@ namespace GhostrunnerRNG.Game {
 						AccurateMapType = MapType.Faster;
 						currentMap = new Faster();
 						return true;
-                    } else {
+					} else {
 						// Hell
 						AccurateMapType = MapType.InHerOwnImage;
 						return false;
-                    }
+					}
 
 				case MapType.ForbiddenZone:
 					currentMap = new ForbiddenZone();
@@ -311,7 +312,7 @@ namespace GhostrunnerRNG.Game {
 
 			AccurateMapType = GetMapType(MapName);
 			return false;
-        }
+		}
 
 
 		public void NewRNG(bool force = false) {
@@ -325,7 +326,7 @@ namespace GhostrunnerRNG.Game {
 			}
 
 			// valid map but no rng?
-            if(!currentMap.HasRng) {
+			if(!currentMap.HasRng) {
 				LogStatus("No RNG for this section, relax...");
 				return;
 			}
@@ -343,7 +344,7 @@ namespace GhostrunnerRNG.Game {
 
 		private void LogStatus(string log) {
 			main.LogStatus(log);
-        }
+		}
 
 		// Is it Hardcore mode?
 		private void checkHCMode() {
@@ -361,12 +362,12 @@ namespace GhostrunnerRNG.Game {
 				// first restart/death
 				main.LogStatus("Rng Loaded! good luck!");
 				return;
-            }
+			}
 
 			// silly death/cp load messges
 			if(value == 100) {
 				main.LogStatus("Try harder!");
-			}else if(value == 300) {
+			} else if(value == 300) {
 				main.LogStatus("You like losing, eh?");
 			} else if(value == 1000) {
 				main.LogStatus("Worst Player Achievement Unlocked!");
@@ -397,17 +398,17 @@ namespace GhostrunnerRNG.Game {
 
 		private void SetPointersByModuleSize(int moduleSize) {
 			switch(moduleSize) {
-				case 78376960:
-					Debug.WriteLine("found steam5");
-					capsuleDP = new DeepPointer(0x04328538, 0x30, 0x130, 0x0);
-					mapNameDP = new DeepPointer(0x04328548, 0x30, 0xF8, 0x0);
-					preciseTimeDP = new DeepPointer(0x045A3C20, 0x138, 0xB0, 0x128);
-					hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
-					LoadingDP = new DeepPointer(0x0445ED38, 0x1E8);
-					reloadCounterDP = new DeepPointer(0x045A3C20, 0x128, 0x388);
-					break;
+                case 78376960:
+                    Debug.WriteLine("found steam5");
+                    capsuleDP = new DeepPointer(0x04328538, 0x30, 0x130, 0x0);
+                    mapNameDP = new DeepPointer(0x04328548, 0x30, 0xF8, 0x0);
+                    preciseTimeDP = new DeepPointer(0x045A3C20, 0x138, 0xB0, 0x128);
+                    hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
+                    LoadingDP = new DeepPointer(0x0445ED38, 0x1E8);
+                    reloadCounterDP = new DeepPointer(0x045A3C20, 0x128, 0x388);
+                    break;
 
-				case 78856192:
+                case 78856192:
 					Debug.WriteLine("found steam6");
 					capsuleDP = new DeepPointer(0x0438BB50, 0x30, 0x130, 0x0);
 					mapNameDP = new DeepPointer(0x0438BB40, 0x30, 0xF8, 0x0);
@@ -475,7 +476,7 @@ namespace GhostrunnerRNG.Game {
 
 			// rng started in middle of level, request to restart or menu
 			if(mapFrom == MapType.Unknown && mapTo != MapType.MainMenu) {
-                AccurateMapType = MapType.Unknown;
+				AccurateMapType = MapType.Unknown;
 				LogStatus("[!] Level is already running,\nreturn to MainMenu or restart level!");
 				return;
 			}
@@ -498,9 +499,34 @@ namespace GhostrunnerRNG.Game {
 			}
 		}
 
+		private LocalizationManager.Language GetSettingsLang() {
+			byte langID;
+			SettingsLangDP = new DeepPointer(0x0438D7F8, 0x58, 0x60);
+			SettingsLangDP.DerefOffsets(game, out SettingsLangPtr);
+			game.ReadValue(SettingsLangPtr, out langID);
+            switch(langID) {
+				case 0:
+					return LocalizationManager.Language.EN;
+				case 1:
+					return LocalizationManager.Language.PL;
+				case 2:
+					return LocalizationManager.Language.FR;
+				case 3:
+					return LocalizationManager.Language.DE;
+				case 6:
+					return LocalizationManager.Language.ES;
+				case 7:
+					return LocalizationManager.Language.RU;
+			}
+
+			return LocalizationManager.Language.OTHER;
+        }
+
 		private void MenuLoaded() {
-			string Title = "Randomizer Mode";
-			string Description = "Randomizes enemies and objects in a challenging and unexpected way.";
+			Config.GetInstance().SetLanguage(GetSettingsLang()); // read UI language
+			// get localized text
+			string Title = Config.GetInstance().GetString(LocalizationBase.TextAlias.Mode_Title);
+			string Description = Config.GetInstance().GetString(LocalizationBase.TextAlias.Mode_Description);
 			// title
 			DeepPointer titleDP = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x2F0, 0x20, 0x0);
 			DeepPointer titleLengthDP = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x2F0, 0x28);
@@ -526,7 +552,7 @@ namespace GhostrunnerRNG.Game {
 		/// For future updates (localization needed)
 		/// </summary>
 		private void EditProTips() {
-            for(int i = 1; i < 12; i++) {
+			for(int i = 1; i < 12; i++) {
 				DeepPointer tipDP = new DeepPointer(0x043FD270, 0x368, 0x80, 0x28 * (i - 1), 0x0, 0x0);//badpointer
 				DeepPointer tipLengthDP = new DeepPointer(0x043FD270, 0x368, 0x80, 0x28 * (i - 1), 0x8);//badpointer
 				IntPtr tipPtr, tipLengthPtr;
@@ -539,11 +565,10 @@ namespace GhostrunnerRNG.Game {
 		}
 
 		private byte[] StringToMemoryBytes(string str) {
-			var titleBytes = Encoding.ASCII.GetBytes(str).ToList();
+			var titleBytes = Encoding.Unicode.GetBytes(str).ToList();
 			List<byte> memoryBytes = new List<byte>();
 			for(int i = 0; i < titleBytes.Count; i++) {
 				memoryBytes.Add(titleBytes[i]);
-				memoryBytes.Add(00);
 			}
 			memoryBytes.Add(00);
 			memoryBytes.Add(00);
