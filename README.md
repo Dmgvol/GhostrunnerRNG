@@ -1,7 +1,8 @@
 [![](https://img.shields.io/badge/Dharma-Unlocked-green)](https://github.com/Dmgvol/GhostrunnerRNG/) [![](https://img.shields.io/badge/Discord-GRSR-blue)](https://discord.com/invite/eZRz3Q5) ![](https://img.shields.io/github/downloads/dmgvol/ghostrunnerrng/total) [![](https://img.shields.io/badge/Supported_Game_Version-0.32091.481-orange)](https://github.com/Dmgvol/GhostrunnerRNG/) [![](https://img.shields.io/badge/Latest_update-NOT_SUPPORTED_YET-red)](https://github.com/Dmgvol/GhostrunnerRNG/)
-
+![ModLogo](/GhostrunnerRNG/Resources/header.png)
 # GhostrunnerRNG
-**Latest patch/update is not supported(yet), come back later, thanks!<br>**
+**Latest patch/update is not supported(yet), come back later, thanks!**
+
 Randomizes enemies in a challenging and unexpected way, every time you load a level.<br>
 It is challenging and it will test how fast you can adapt and figure out how to clear the kill rooms.<br>
 Also... It is 100% harder then the classic difficulty.
@@ -9,7 +10,7 @@ Also... It is 100% harder then the classic difficulty.
 ## Open Beta Version
 After months of hard work, we're excited to announce the open beta for this project!<br>
 Trailer: https://www.youtube.com/watch?v=YXnTPiwxBw8<br>
-Download: [Download latest version(the EXE file)](https://github.com/Dmgvol/GhostrunnerRNG/releases/latest)<br>
+Download: [Download latest version(the EXE file)](https://github.com/Dmgvol/GhostrunnerRNG/releases/latest) (Latest version not supported)<br>
 Please read [How to use](#How-to-use) section below.
 
 ### Which elements it modifies/randomizes?
@@ -47,9 +48,10 @@ So.. once you got the first checkpoint ► restart checkpoint.
 The exe window will show relevant info regarding the rng.
 
 ### Planned/Upcoming features
-- [x] Classic Levels.
+- [x] Classic Levels
 - [ ] SR Focus (enemies will spawn on popular speedrunning routes)
-- [ ] Hardcore Levels.
+- [ ] Killruns
+- [ ] Hardcore Levels
 - [ ] Custom modes (TBA)
 - [ ] Abilities
 - [ ] Enemy stats
