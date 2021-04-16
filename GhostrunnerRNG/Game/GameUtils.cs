@@ -29,7 +29,13 @@ namespace GhostrunnerRNG.Game {
             { "/Game/Levels/Test_Levels/Ld_test/Mindhacking_Tutorial",      MapType.OverlordCV},
             { "/Game/Levels/03_HIGHTECH/03_03/03_03_World",                 MapType.TYWB},
             { "/Game/Levels/03_HIGHTECH/03_04/03_04_world",                 MapType.TheSummit},
-            { "/Game/Levels/03_HIGHTECH/03_04/Cyberspace_Architect",        MapType.TheMonster}
+            { "/Game/Levels/03_HIGHTECH/03_04/Cyberspace_Architect",        MapType.TheMonster},
+            // Killruns
+            { "/Game/Levels/KILLRUN/KILLRUN_01/Killrun_01_World",           MapType.KillRun1},
+            { "/Game/Levels/KILLRUN/KILLRUN_04/KILLRUN_04_WORLD",           MapType.KillRun2},
+            { "/Game/Levels/KILLRUN/KILLRUN_03/KILLRUN_03_WORLD",           MapType.KillRun3},
+            { "/Game/Levels/KILLRUN/KILLRUN_02/Killrun_02_world",           MapType.KillRun4},
+            { "/Game/Levels/KILLRUN/KILLRUN_05/Killrun_05_World",           MapType.KillRun5}
         };
 
         public enum MapType {
@@ -64,14 +70,15 @@ namespace GhostrunnerRNG.Game {
             OverlordCV,
             TYWB,
             TheSummit,
-            TheMonster
+            TheMonster,
+
+            // Killruns
+            KillRun1, KillRun2, KillRun3, KillRun4, KillRun5
         }
 
         private static List<MapType> MapsWithoutRNG = new List<MapType>() {
             MapType.InHerOwnImage,
-            MapType.SurgeCV,
-            MapType.OverlordCV,
-            MapType.TheSummit,
+            MapType.TheSummit
         };
 
         private static List<MapType> SupportedMaps = new List<MapType>() {
@@ -94,10 +101,13 @@ namespace GhostrunnerRNG.Game {
             MapType.Echoes,
             MapType.EchoesCV,
             MapType.Faster,
+            MapType.SurgeCV,
             MapType.ForbiddenZone,
             MapType.ReignInHell,
             MapType.ReignInHellCV,
-            MapType.TYWB
+            MapType.OverlordCV,
+            MapType.TYWB,
+            MapType.TheMonster,
         };
 
         private static List<MapType> CVMaps = new List<MapType>() {
@@ -110,8 +120,7 @@ namespace GhostrunnerRNG.Game {
             MapType.EchoesCV,
             MapType.SurgeCV,
             MapType.ReignInHellCV,
-            MapType.OverlordCV,
-            MapType.TheSummit
+            MapType.OverlordCV
         };
 
         public static bool IsCVMap(MapType type) => CVMaps.Contains(type);

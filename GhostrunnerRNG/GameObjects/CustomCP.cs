@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using static GhostrunnerRNG.Game.GameUtils;
 
-namespace GhostrunnerRNG.MapGen {
+namespace GhostrunnerRNG.GameObjects {
     public class CustomCP {
 
         Dictionary<MapType, DeepPointer> MapCPPointers = new Dictionary<MapType, DeepPointer>() {

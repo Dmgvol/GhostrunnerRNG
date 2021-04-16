@@ -13,7 +13,6 @@ namespace GhostrunnerRNG.Enemies {
             enemyType = EnemyTypes.Drone;
             Pos = enemy.Pos;
 
-
             // extra pos pointer
             List<int> offsets = new List<int>(ObjectDP.GetOffsets());
             offsets.RemoveAt(offsets.Count - 1);

@@ -1,8 +1,9 @@
 ﻿using GhostrunnerRNG.Game;
+using GhostrunnerRNG.MapGen;
 using System;
 using System.Diagnostics;
 
-namespace GhostrunnerRNG.MapGen {
+namespace GhostrunnerRNG.GameObjects {
     class AmidaCVPlatform : WorldObject{
         // Box/hitbox offset
         public static Vector3f PlatformBoxOffset { get; private set; } = new Vector3f(303, 303, 5.05f);
@@ -18,17 +19,14 @@ namespace GhostrunnerRNG.MapGen {
 
         public override void SetMemoryPos(Process game, SpawnData spawnData) {
             DerefPointer(game);
-
             // visual center
             game.WriteBytes(PlatformPtr, BitConverter.GetBytes(spawnData.pos.X));
             game.WriteBytes(PlatformPtr + 4, BitConverter.GetBytes(spawnData.pos.Y));
             game.WriteBytes(PlatformPtr + 8, BitConverter.GetBytes(spawnData.pos.Z));
-
             // box center
             game.WriteBytes(PlatformBoxCenterPtr, BitConverter.GetBytes(spawnData.pos.X));
             game.WriteBytes(PlatformBoxCenterPtr + 4, BitConverter.GetBytes(spawnData.pos.Y));
             game.WriteBytes(PlatformBoxCenterPtr + 8, BitConverter.GetBytes(spawnData.pos.Z));
-
             // Corners of hitbox
             game.WriteBytes(BoxPtr, BitConverter.GetBytes(spawnData.pos.X - PlatformBoxOffset.X));
             game.WriteBytes(BoxPtr + 4, BitConverter.GetBytes(spawnData.pos.Y - PlatformBoxOffset.Y));

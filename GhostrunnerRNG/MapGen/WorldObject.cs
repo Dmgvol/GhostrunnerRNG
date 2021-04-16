@@ -18,9 +18,8 @@ namespace GhostrunnerRNG.MapGen {
         public Vector3f Pos = Vector3f.Empty;
         public Angle angle { get; private set; }
 
-        public WorldObject() {
+        public WorldObject() {}
 
-        }
         public WorldObject(DeepPointer ObjectDP) {
             this.ObjectDP = ObjectDP;
         }
@@ -85,11 +84,10 @@ namespace GhostrunnerRNG.MapGen {
 
                 angle = spawnData.angle;
             }
-
         }
 
         // Write last pos to memory
-        public void SetMemoryPos(Process game) {
+        public virtual void SetMemoryPos(Process game) {
             if(Pos.IsEmpty()) return;
 
             DerefPointer(game);

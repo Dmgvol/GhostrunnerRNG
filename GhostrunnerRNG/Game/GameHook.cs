@@ -161,6 +161,7 @@ namespace GhostrunnerRNG.Game {
 
 			// done loading?
 			if(!rngLoaded && levelStarted && (xPos != 0 && yPos != 0)) {
+				AccurateMapType = GetMapType(MapName);
 				rngLoaded = true;
 
 				//HC not supported
@@ -180,7 +181,9 @@ namespace GhostrunnerRNG.Game {
 				}
 
 				// Create Map Object
+                Console.WriteLine($"AccurateMapType: {AccurateMapType}");
 				bool mapCreated = CreateMapObject(AccurateMapType);
+                Console.WriteLine(mapCreated);
 				main.ToggleRngControls(mapCreated && currentMap.HasRng);
 				if(mapCreated) {
 					NewRNG();
@@ -257,7 +260,7 @@ namespace GhostrunnerRNG.Game {
 					return true;
 
 				case MapType.RunUpGatekeeper:
-					if(yPos < 14000) {
+					if(yPos < 0) {
 						// RunUp
 						AccurateMapType = MapType.RunUp;
 						currentMap = new RunUp();
@@ -293,6 +296,10 @@ namespace GhostrunnerRNG.Game {
 						return false;
 					}
 
+				case MapType.SurgeCV:
+					currentMap = new SurgeCV();
+					return true;
+
 				case MapType.ForbiddenZone:
 					currentMap = new ForbiddenZone();
 					return true;
@@ -305,8 +312,16 @@ namespace GhostrunnerRNG.Game {
 					currentMap = new ReignInHellCV();
 					return true;
 
+				case MapType.OverlordCV:
+					currentMap = new OverlordCV();
+					return true;
+
 				case MapType.TYWB:
 					currentMap = new TYWB();
+					return true;
+
+				case MapType.TheMonster:
+					currentMap = new TheMonster();
 					return true;
 			}
 
@@ -318,7 +333,7 @@ namespace GhostrunnerRNG.Game {
 		public void NewRNG(bool force = false) {
 			if(currentMap == null) return;
 
-			// Can RNG?
+			// Can not RNG?
 			if(!Config.GetInstance().Gen_RngOnRestart) {
 				currentMap = null;
 				LogStatus("RNG disabled by user.");
@@ -336,7 +351,7 @@ namespace GhostrunnerRNG.Game {
 				Config.GetInstance().NewSeed();
 				currentMap.RandomizeEnemies(game);
 				if(currentMap.CPRequired)
-					LogStatus("RNG Generated! \nDie or load cp to see changes.");
+					LogStatus("RNG Generated!\n Die or load cp to see changes.");
 				else
 					main.LogStatus("Rng Loaded! good luck!");
 			}

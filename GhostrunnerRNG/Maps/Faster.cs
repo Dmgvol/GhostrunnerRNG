@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
+using GhostrunnerRNG.GameObjects;
 using GhostrunnerRNG.MapGen;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System;
@@ -150,7 +151,7 @@ namespace GhostrunnerRNG.Maps {
             board1.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 1, Angle1 = 0, Time2 = 1, Angle2 = 0 }.SetRarity(0.05));
             board1.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 500, Angle1 = 200000, Time2 = 1, Angle2 = 90 }.SetRarity(0.05));
             board1.AddSpawnInfo(new BillboardSpawnInfo());
-            nonPlaceableObjects.Add(board1);
+            worldObjects.Add(board1);
 
             Billboard board2 = new Billboard(0x0, 0x138);
             board2.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 4, Angle1 = -40, Time2 = 0.5f, Angle2 = 40 });
@@ -160,7 +161,7 @@ namespace GhostrunnerRNG.Maps {
             board2.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 0.25f, Angle1 = 60, Time2 = 500, Angle2 = 0 });
             board2.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 500, Angle1 = 200000, Time2 = 1, Angle2 = 90 }.SetRarity(0.05));
             board2.AddSpawnInfo(new BillboardSpawnInfo());
-            nonPlaceableObjects.Add(board2);
+            worldObjects.Add(board2);
             #endregion
 
             #region Jump
@@ -186,7 +187,7 @@ namespace GhostrunnerRNG.Maps {
             //default
             uplink.AddSpawnInfo(new UplinkJumpSpawnInfo());
 
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
             #endregion
 
             #region shuriken1
@@ -198,16 +199,16 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 3600, MaxAttacks = 3600 }.SetRarity(0.05));
             //default
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo());
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
             #endregion
 
             #region Targets
-            nonPlaceableObjects.Add(new ShurikenTarget(0x10, 0xc98).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
-            nonPlaceableObjects.Add(new ShurikenTarget(0x10, 0xd00).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
-            nonPlaceableObjects.Add(new ShurikenTarget(0x10, 0xcf8).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
-            nonPlaceableObjects.Add(new ShurikenTarget(0x10, 0xcf0).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
-            nonPlaceableObjects.Add(new ShurikenTarget(0x10, 0xce8).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
-            nonPlaceableObjects.Add(new ShurikenTarget(0x10, 0xce0).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
+            worldObjects.Add(new ShurikenTarget(0x10, 0xc98).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
+            worldObjects.Add(new ShurikenTarget(0x10, 0xd00).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
+            worldObjects.Add(new ShurikenTarget(0x10, 0xcf8).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
+            worldObjects.Add(new ShurikenTarget(0x10, 0xcf0).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
+            worldObjects.Add(new ShurikenTarget(0x10, 0xce8).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
+            worldObjects.Add(new ShurikenTarget(0x10, 0xce0).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
             #endregion
 
             #region Signs1
@@ -252,7 +253,7 @@ namespace GhostrunnerRNG.Maps {
                 new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 3},
             });
 
-            nonPlaceableObjects.Add(chained);
+            worldObjects.Add(chained);
             #endregion
 
             #region Signs2
@@ -269,7 +270,7 @@ namespace GhostrunnerRNG.Maps {
                 new SignSpawnerSpawnInfo { DelayOnStart = result[5], SpawnDelay = 6.8f},
                 new SignSpawnerSpawnInfo { DelayOnStart = result[6], SpawnDelay = 6.8f},
             });
-            nonPlaceableObjects.Add(chained);
+            worldObjects.Add(chained);
             #endregion
 
             #region ForceSlideTrigger
@@ -285,7 +286,7 @@ namespace GhostrunnerRNG.Maps {
             #region Signs Triggers
             // force signs
             // Default: -11830, 160550, 2040 | 650, 1025, 540
-            nonPlaceableObjects.Add(new Trigger(0x18, 0x380, new Vector3f(-11815, 139661, 350), new Vector3f(650, 1025, 540), // first wagon doorframe
+            worldObjects.Add(new Trigger(0x18, 0x380, new Vector3f(-11815, 139661, 350), new Vector3f(650, 1025, 540), // first wagon doorframe
                 new DeepPointer(0x04609420, 0x1F8, 0x60, 0xD0, 0x298, 0x830, 0xB0, 0x5A0, 0x1A8, 0x0), 0x19000,
                 "9A F1 42 C6 B0 C6 1B 48 33 D3 BA 44 66 BE 2E C6 50 CC 1D 48 66 96 21 45"));
             #endregion

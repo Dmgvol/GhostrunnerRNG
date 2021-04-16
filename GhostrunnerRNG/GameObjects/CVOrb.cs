@@ -32,9 +32,7 @@ namespace GhostrunnerRNG.GameObjects {
         /// Echoes CV
         /// </summary>
         /// <param name="n">orb index</param>
-        public CVOrb(int n) : base(new DeepPointer(0x04609420, 0x30, 0xA8, 0x10 + 0x8 * (n - 1), 0x220, 0x11c)) {
-
-        }
+        public CVOrb(int n) : base(new DeepPointer(0x04609420, 0x30, 0xA8, 0x10 + 0x8 * (n - 1), 0x220, 0x11c)) {}
 
         public override void SetMemoryPos(Process game, SpawnData spawnData) {
             DerefPointer(game);

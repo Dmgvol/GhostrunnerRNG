@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Game;
 using GhostrunnerRNG.GameObjects;
 using GhostrunnerRNG.MapGen;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -113,6 +114,19 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(49968, -38949, 17498), new Vector3f(45421, -39878, 17498)));
             Rooms.Add(layout);
             #endregion
+
+
+            for(int i = 0; i < platformLayouts.Count; i++) {
+                platformLayouts[i].angle = ToQuaternion(platformLayouts[i].angle);
+            }
+
+
+
+        }
+
+        private QuaternionAngle ToQuaternion(Angle angle) {
+            double angleRadian = (angle.angleSin > 0) ? Math.Acos(angle.angleCos) : -Math.Acos(angle.angleCos);
+            return new QuaternionAngle((float)(angleRadian * 180 / Math.PI) * 2, 0, 0);
         }
 
         public override void RandomizeEnemies(Process game) {

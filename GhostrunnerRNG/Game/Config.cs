@@ -5,7 +5,7 @@ using static GhostrunnerRNG.Localization.LocalizationManager;
 
 namespace GhostrunnerRNG.Game {
     class Config {
-        public const string VERSION = "0.3.02";
+        public const string VERSION = "0.3.03";
 
         private static Config instance;
 
@@ -39,10 +39,6 @@ namespace GhostrunnerRNG.Game {
             return instance;
         }
 
-        public void SetInstance(Config cfg) {
-            instance = cfg;
-        }
-
         public Config() {
             NewSeed();
             localizationManager = new LocalizationManager();
@@ -73,6 +69,5 @@ namespace GhostrunnerRNG.Game {
         }
 
         public string GetString(TextAlias alias) =>  localizationManager.GetLocalization(alias);
-        
     }
 }

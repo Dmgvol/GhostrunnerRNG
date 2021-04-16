@@ -203,19 +203,6 @@ namespace GhostrunnerRNG.MapGen {
             return new Vector3f(newX, newY, newZ);
         }
 
-        private Vector3f RandomWithinRect_Splitter(Vector3f a, Vector3f b) {
-            float xDelta = Math.Max(a.X, b.X) - Math.Min(a.X, b.X) - 1000 ;
-            float newX = Math.Min(a.X, b.X) + Config.GetInstance().r.Next((int)xDelta);
-
-            float yDelta = Math.Max(a.Y, b.Y) - Math.Min(a.Y, b.Y) - 1000;
-            float newY = Math.Min(a.Y, b.Y) + Config.GetInstance().r.Next((int)yDelta);
-
-            float zDelta = Math.Max(a.Z, b.Z) - Math.Min(a.Z, b.Z) - 1000;
-            float newZ = Math.Min(a.Z, b.Z) + Config.GetInstance().r.Next((int)zDelta);
-
-            return new Vector3f(newX, newY, newZ);
-        }
-
         public bool ValidForSplitter() {
             if(cornerB.IsEmpty()) return false;
 

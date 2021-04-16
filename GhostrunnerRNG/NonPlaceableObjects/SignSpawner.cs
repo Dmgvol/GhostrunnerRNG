@@ -7,7 +7,6 @@ using System.Linq;
 namespace GhostrunnerRNG.NonPlaceableObjects {
     class SignSpawner : NonPlaceableObject {
 
-        // 0x045A3C20, 0x98, 0x18, 0x128, 0xA8, offset
         public SignSpawner(int offset) {
             ObjectDP = new DeepPointer(0x04609420, 0x98, 0x18, 0x128, 0xA8, offset);
 

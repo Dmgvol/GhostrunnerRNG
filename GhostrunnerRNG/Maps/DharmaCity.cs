@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
+using GhostrunnerRNG.GameObjects;
 using GhostrunnerRNG.MapGen;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System.Collections.Generic;
@@ -261,7 +262,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(jumpSpawn);//high jump
             jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = 8.0f, JumpGravity = 2.0f }.SetRarity(0.15);
             uplink.AddSpawnInfo(jumpSpawn);//ultra long jump, to the door
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             //second jump
             uplink = new UplinkJump(0x10, 0x8F0);// 4.7,3,6
@@ -274,7 +275,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(jumpSpawn);//high jump
             jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = Config.GetInstance().r.Next(30, 61) / 10, JumpForwardMultiplier = 3.5f, JumpGravity = Config.GetInstance().r.Next(40, 61) / 10 }.SetRarity(0.25);
             uplink.AddSpawnInfo(jumpSpawn);//random jump
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             //third jump
             uplink = new UplinkJump(0x18, 0x7D8);// 4.3,3.6,6
@@ -293,7 +294,7 @@ namespace GhostrunnerRNG.Maps {
                 JumpGravity = Config.GetInstance().r.Next(10, 101) / 10
             };
             uplink.AddSpawnInfo(jumpSpawn);//random jump
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             //fourth jump, patrol drone room
             uplink = new UplinkJump(0x28, 0x240);// 4.0,2.5,6
@@ -310,7 +311,7 @@ namespace GhostrunnerRNG.Maps {
                 JumpGravity = Config.GetInstance().r.Next(10, 101) / 10
             };
             uplink.AddSpawnInfo(jumpSpawn);//random jump
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             //fifth jump, 3 drone hallway
             uplink = new UplinkJump(0x30, 0x5d0);// 3.8,3.3,6
@@ -328,7 +329,7 @@ namespace GhostrunnerRNG.Maps {
                 JumpGravity = Config.GetInstance().r.Next(10, 101) / 10
             };
             uplink.AddSpawnInfo(jumpSpawn);//random jump
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
             #endregion
 
             #region Billboards
@@ -339,7 +340,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 1, Angle1 = 270, Time2 = 3, Angle2 = -45});
             uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 3, Angle1 = -30, Time2 = 3, Angle2 = -50 }); 
             uplink.AddSpawnInfo(new BillboardSpawnInfo()); // default
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             uplink = new Billboard(0x20, 0x108);
             uplink.AddSpawnInfo(new BillboardSpawnInfo { Angle1 = -350 }); // extra spins
@@ -347,7 +348,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 1, Angle1 = -270, Time2 = 2, Angle2 = 45 });
             uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 3, Angle1 = -60, Time2 = 2, Angle2 = 20 });
             uplink.AddSpawnInfo(new BillboardSpawnInfo()); // default
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             uplink = new Billboard(0x28, 0x1A8);
             uplink.AddSpawnInfo(new BillboardSpawnInfo { Angle1 = -810 }); // extra spins
@@ -355,7 +356,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 1, Angle1 = -220, Time2 = 2, Angle2 = 35 });
             uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 3, Angle1 = -90, Time2 = 2, Angle2 = 30 });
             uplink.AddSpawnInfo(new BillboardSpawnInfo()); // default
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             uplink = new Billboard(0x30, 0x258);
             uplink.AddSpawnInfo(new BillboardSpawnInfo { Angle1 = 450 }); // extra spins
@@ -364,7 +365,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 3, Angle1 = -90, Time2 = 2, Angle2 = -180 });
             uplink.AddSpawnInfo(new BillboardSpawnInfo { Time1 = 0, Time2 = 0 }.SetRarity(0.05)); // no time
             uplink.AddSpawnInfo(new BillboardSpawnInfo()); // default
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
             #endregion
         }
     }

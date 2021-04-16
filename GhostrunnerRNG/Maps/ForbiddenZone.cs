@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
+using GhostrunnerRNG.GameObjects;
 using GhostrunnerRNG.MapGen;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System.Collections.Generic;
@@ -580,7 +581,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
             jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 3.25f, JumpForwardMultiplier = 6.0f, JumpGravity = 3.0f };
             uplink.AddSpawnInfo(jumpSpawn);//short jump
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             //second jump, hardest room bottom
             uplink = new UplinkJump(0x0, 0xCE8);// 6,3,6
@@ -593,7 +594,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(jumpSpawn);//high jump
             jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 2.0f, JumpForwardMultiplier = 5.0f, JumpGravity = -1.0f * Config.GetInstance().r.Next(30, 61) / 10 };
             uplink.AddSpawnInfo(jumpSpawn);//negative gravity jump
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             //third jump,hardest room uptop
             uplink = new UplinkJump(0x0, 0xCE0);// 4.5,3,6
@@ -612,7 +613,7 @@ namespace GhostrunnerRNG.Maps {
                 JumpGravity = Config.GetInstance().r.Next(30, 61) / 10
             };
             uplink.AddSpawnInfo(jumpSpawn);//random jump
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             //fourth jump, after 4 turrets
             uplink = new UplinkJump(0x10, 0x1008);// 6,3,6
@@ -627,7 +628,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(jumpSpawn);//long jump
             jumpSpawn = new UplinkJumpSpawnInfo { JumpForwardMultiplier = -3.0f };
             uplink.AddSpawnInfo(jumpSpawn);//normal backward jump
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             //fifth jump, second jump after 4 turrets
             uplink = new UplinkJump(0x10, 0xFF8);// 3.8,3.3,6
@@ -642,7 +643,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(jumpSpawn);//ceiling slide
             jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = -4.0f }.SetRarity(0.1);
             uplink.AddSpawnInfo(jumpSpawn);//cant jump
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
             #endregion
 
             #region Shurikens
@@ -653,7 +654,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 5, MaxAttacks = Config.GetInstance().r.Next(3, 6) }); // unlucky rng
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 500, MaxAttacks = 500 }.SetRarity(0.2)); // lucky rng
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo()); // default
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
             #endregion
         }
     }

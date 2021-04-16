@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
+using GhostrunnerRNG.GameObjects;
 using GhostrunnerRNG.Maps;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System;
@@ -20,8 +21,8 @@ namespace GhostrunnerRNG.MapGen {
         // enemies without cp
         protected List<Enemy> EnemiesWithoutCP = new List<Enemy>();
 
-        // list of NonPlaceableObjects
-        protected List<NonPlaceableObject> nonPlaceableObjects = new List<NonPlaceableObject>();
+        // list of WorldObject
+        protected List<WorldObject> worldObjects = new List<WorldObject>();
 
         // custom checkpoints
         protected List<CustomCP> CustomCheckPoints = new List<CustomCP>();
@@ -187,8 +188,12 @@ namespace GhostrunnerRNG.MapGen {
 
 
             // uplinks and other nonPlaceableObjects
-            for(int i = 0; i < nonPlaceableObjects.Count; i++) {
-                nonPlaceableObjects[i].Randomize(game);
+            for(int i = 0; i < worldObjects.Count; i++) {
+                if(worldObjects[i] is NonPlaceableObject npo) {
+                    npo.Randomize(game);
+                }else {
+                    worldObjects[i].SetMemoryPos(game);
+                }
             }
 
         }
@@ -321,6 +326,18 @@ namespace GhostrunnerRNG.MapGen {
             game.WriteBytes(cpPtr + 8, BitConverter.GetBytes(pos.Z));
         }
 
+        protected void ModifyCP(DeepPointer dp, Vector3f pos, Angle angle, Process game) {
+            IntPtr cpPtr;
+            dp.DerefOffsets(game, out cpPtr);
+            // pos
+            game.WriteBytes(cpPtr, BitConverter.GetBytes(pos.X));
+            game.WriteBytes(cpPtr + 4, BitConverter.GetBytes(pos.Y));
+            game.WriteBytes(cpPtr + 8, BitConverter.GetBytes(pos.Z));
+            // angle
+            game.WriteBytes(cpPtr - 8, BitConverter.GetBytes(angle.angleSin));
+            game.WriteBytes(cpPtr - 4, BitConverter.GetBytes(angle.angleCos));
+        }
+
         protected void ModifyCP(Process game, SpawnData sp, DeepPointer dp, int[] posAppendOffsets, int[] angleAppendOffsets) {
             DeepPointer posDP = AppendBaseOffset(dp, posAppendOffsets);
             DeepPointer angleDP = AppendBaseOffset(dp, angleAppendOffsets);
@@ -342,12 +359,6 @@ namespace GhostrunnerRNG.MapGen {
             List<int> offsets = new List<int>(dp.GetOffsets());
             offsets.AddRange(appendOffsets); // add new offsets
             return new DeepPointer(dp.GetBase(), new List<int>(offsets));
-        }
-
-        protected void PrintEnemyPos(List<Enemy> enemies) {
-            string str = "";
-            foreach(Enemy e in enemies) str += e.Pos + "\n";
-            Console.WriteLine(str);
         }
 
         ~MapCore() {

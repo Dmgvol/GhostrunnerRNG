@@ -454,7 +454,7 @@ namespace GhostrunnerRNG.Maps {
             jumpSpawn.JumpGravity = Config.GetInstance().r.Next(3, 9);
             uplink.AddSpawnInfo(jumpSpawn);
 
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
             #endregion
 
             #region Shurikens //20,99 default
@@ -464,7 +464,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 10, MaxAttacks = 5 }); // few attacks
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 10, MaxAttacks = 1 }); // single attack
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 500, MaxAttacks = 25 }.SetRarity(0.2)); //to the EoL
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
             #endregion
 
             #region Billboard
@@ -473,7 +473,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(new BillboardSpawnInfo { Angle1 = -110 - (360 * Config.GetInstance().r.Next(3)), Angle2 = 110 + (360 * Config.GetInstance().r.Next(3)) }); // random additional spins
             uplink.AddSpawnInfo(new BillboardSpawnInfo { Angle1 = -220, Angle2 = 200}); // proper angles
             uplink.AddSpawnInfo(new BillboardSpawnInfo()); // default
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
             #endregion
         }
     }

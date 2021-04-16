@@ -1,9 +1,9 @@
-﻿using System;
+﻿using GhostrunnerRNG.MapGen;
+using System;
 using System.Diagnostics;
 
-namespace GhostrunnerRNG.MapGen {
+namespace GhostrunnerRNG.GameObjects {
     class CVPlatform : WorldObject {
-        // Head/Main PTR is :if full ptr is 045A3C20+30+A8+138+248+1D0, then head ptr will be +045A3C20+30+A8+138
         DeepPointer endPointDP, startMoveDelayDP, timeLerpA_DP, timeLerpB_DP;
         IntPtr endPointPtr, startMoveDelayPtr, timeLerpA_Ptr, timeLerpB_Ptr;
 

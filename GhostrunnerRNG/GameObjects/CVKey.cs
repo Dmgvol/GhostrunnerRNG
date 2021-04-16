@@ -18,16 +18,14 @@ namespace GhostrunnerRNG.GameObjects {
 
         public override void SetMemoryPos(Process game, SpawnData spawnData) {
             DerefPointer(game);
-
+            // Hologram
             game.WriteBytes(DP.Pointers["Hologram"].Item2, BitConverter.GetBytes((float)spawnData.pos.X));
             game.WriteBytes(DP.Pointers["Hologram"].Item2 + 4, BitConverter.GetBytes((float)spawnData.pos.Y));
             game.WriteBytes(DP.Pointers["Hologram"].Item2 + 8, BitConverter.GetBytes((float)spawnData.pos.Z + ZOffset));
-
             // Center
             game.WriteBytes(DP.Pointers["Center"].Item2, BitConverter.GetBytes((float)spawnData.pos.X));
             game.WriteBytes(DP.Pointers["Center"].Item2 + 4, BitConverter.GetBytes((float)spawnData.pos.Y));
             game.WriteBytes(DP.Pointers["Center"].Item2 + 8, BitConverter.GetBytes((float)spawnData.pos.Z + ZOffset));
-
             // Hitbox
             game.WriteBytes(DP.Pointers["Box"].Item2, BitConverter.GetBytes((float)spawnData.pos.X - BoxOffset.X * 1.01f));
             game.WriteBytes(DP.Pointers["Box"].Item2 + 4, BitConverter.GetBytes((float)spawnData.pos.Y - BoxOffset.Y * 1.01f));

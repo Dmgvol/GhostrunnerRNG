@@ -249,47 +249,47 @@ namespace GhostrunnerRNG.Maps {
             NonPlaceableObject uplink = new UplinkShurikens(0x30, 0xF28);
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(40, 80) / 10.0f, MaxAttacks = 12 }); // normal rng
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 3, MaxAttacks = 2}); // no mistakes
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             // 2 - 3 targets after fan
             uplink = new UplinkShurikens(0x48, 0x1B68);
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(50, 120) / 10.0f, MaxAttacks = 12 }); // normal rng
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 5, MaxAttacks = 3 }); // no mistakes
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             // 3 - 5 smgs
             uplink = new UplinkShurikens(0x40, 0xF20);
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(60, 120) / 10.0f, MaxAttacks = 20 }); // normal rng
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 6, MaxAttacks = 5 }); // no mistakes
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 3, MaxAttacks = 1 }); // just one, good luck
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             // 4 - last room
             uplink = new UplinkShurikens(0x8, 0x19A0);
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(50, 120) / 10.0f, MaxAttacks = 20 }); // normal rng
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 4, MaxAttacks = 3 }); // no mistakes
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 5, MaxAttacks = 2 }); // challenge: 3rd target with sword
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
             #endregion
 
             #region ToggleableFans
-            nonPlaceableObjects.Add(new ToggleableFan(0x18, 0x68).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x20, 0x128).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x20, 0x140).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x20, 0x138).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x20, 0x130).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x28, 0x1A0).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x28, 0x1A8).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x28, 0x1B0).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x28, 0x198).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x28, 0x1B8).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x48, 0x298).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x48, 0x2B0).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x48, 0x2A8).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x48, 0x2A0).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x40, 0x238).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x8, 0x240).LoadDefaultPreset());
-            nonPlaceableObjects.Add(new ToggleableFan(0x8, 0x248).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x18, 0x68).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x20, 0x128).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x20, 0x140).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x20, 0x138).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x20, 0x130).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x28, 0x1A0).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x28, 0x1A8).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x28, 0x1B0).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x28, 0x198).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x28, 0x1B8).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x48, 0x298).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x48, 0x2B0).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x48, 0x2A8).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x48, 0x2A0).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x40, 0x238).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x8, 0x240).LoadDefaultPreset());
+            worldObjects.Add(new ToggleableFan(0x8, 0x248).LoadDefaultPreset());
             #endregion
         }
     }

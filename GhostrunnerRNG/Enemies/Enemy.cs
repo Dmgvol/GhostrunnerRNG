@@ -22,19 +22,8 @@ namespace GhostrunnerRNG.Enemies {
             this.enemyType = enemyType;
         }
 
-        // get random spawndata
-        [Obsolete("Get spawndata from spawnplane, we do not link enemies with direct planes anymore")]
-        public SpawnData GetSpawnData() {
-            if(planes == null || planes.Count == 0) throw new IndexOutOfRangeException();
-
-            int plane = Config.GetInstance().r.Next(0, planes.Count);
-            return planes[plane].GetRandomSpawnData();
-        }
-
         // clear all planes
-        internal void ClearAllPlanes() {
-            planes.Clear();
-        }
+        public void ClearAllPlanes() => planes.Clear();
 
         protected DeepPointer AppendBaseLastOffset(params int[] appendOffsets) {
             List<int> offsets = new List<int>(ObjectDP.GetOffsets());

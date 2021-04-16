@@ -17,13 +17,13 @@ namespace GhostrunnerRNG.Maps {
 
         protected override void Gen_PerRoom() {
             // declare lasers
-            nonPlaceableObjects.Add(new TomLaser(0xb88).AddLaserRange(-1, 4, new QuaternionAngle(0, 0, 0)));
+            worldObjects.Add(new TomLaser(0xb88).AddLaserRange(-1, 4, new QuaternionAngle(0, 0, 0)));
 
-            nonPlaceableObjects.Add(new TomLaser(0xb88 + 0x8).AddLaserRange(0, 4, new QuaternionAngle(0, 180, 0), true));
+            worldObjects.Add(new TomLaser(0xb88 + 0x8).AddLaserRange(0, 4, new QuaternionAngle(0, 180, 0), true));
 
-            nonPlaceableObjects.Add(new TomLaser(0xb88 + (0x8 * 2)).AddLaserRange(-4, 1, new QuaternionAngle(0, 0, 0), false));
+            worldObjects.Add(new TomLaser(0xb88 + (0x8 * 2)).AddLaserRange(-4, 1, new QuaternionAngle(0, 0, 0), false));
 
-            nonPlaceableObjects.Add(new TomLaser(0xb88 + (0x8 * 3)).AddLaserRange(-4, 0, new QuaternionAngle(0, 180, 0), true));
+            worldObjects.Add(new TomLaser(0xb88 + (0x8 * 3)).AddLaserRange(-4, 0, new QuaternionAngle(0, 180, 0), true));
 
 
             // NOTE: Lasers with broken hitboxes (disabled until we find a way to move those hitboxes)
@@ -83,22 +83,22 @@ namespace GhostrunnerRNG.Maps {
             #endregion
 
             ////// SECTION 3 ////
-            nonPlaceableObjects.Add(new TomLaser(0xD78).SectionThree().AddLaserRange(-18, -6, new QuaternionAngle(90, 0, 0, 0), false)
+            worldObjects.Add(new TomLaser(0xD78).SectionThree().AddLaserRange(-18, -6, new QuaternionAngle(90, 0, 0, 0), false)
                 .AddLaserRange(18, 6, new QuaternionAngle(90, 0, 0, 0), false)
                 .AddPosOffset(new Vector3f(30, 0, -1000)));
 
-            nonPlaceableObjects.Add(new TomLaser(0xD80).SectionThree().AddLaserRange(-5, 5, new QuaternionAngle(90, 0, 0, 0), false).AddPosOffset(new Vector3f(30, 20, -1000)));
+            worldObjects.Add(new TomLaser(0xD80).SectionThree().AddLaserRange(-5, 5, new QuaternionAngle(90, 0, 0, 0), false).AddPosOffset(new Vector3f(30, 20, -1000)));
 
-            nonPlaceableObjects.Add(new TomLaser(0xD58).SectionThree().AddLaserRange(-3, 3, new QuaternionAngle(90, 0, 0, 0), false).AddPosOffset(new Vector3f(30, 20, 0)));
+            worldObjects.Add(new TomLaser(0xD58).SectionThree().AddLaserRange(-3, 3, new QuaternionAngle(90, 0, 0, 0), false).AddPosOffset(new Vector3f(30, 20, 0)));
 
-            nonPlaceableObjects.Add(new TomLaser(0xD60).SectionThree().AddLaserRange(-12, -9, new QuaternionAngle(90, 0, 0, 0), false)
+            worldObjects.Add(new TomLaser(0xD60).SectionThree().AddLaserRange(-12, -9, new QuaternionAngle(90, 0, 0, 0), false)
                 .AddLaserRange(9, 12, new QuaternionAngle(90, 0, 0, 0), false)
                 .AddPosOffset(new Vector3f(30, 0, 0)));
 
-            nonPlaceableObjects.Add(new TomLaser(0xD68).SectionThree().AddLaserRange(-8, -5, new QuaternionAngle(90, 0, 0, 0), false)
+            worldObjects.Add(new TomLaser(0xD68).SectionThree().AddLaserRange(-8, -5, new QuaternionAngle(90, 0, 0, 0), false)
                 .AddPosOffset(new Vector3f(30, 0, 0)));
 
-            nonPlaceableObjects.Add(new TomLaser(0xD70).SectionThree().AddLaserRange(5, 8, new QuaternionAngle(90, 0, 0, 0), false)
+            worldObjects.Add(new TomLaser(0xD70).SectionThree().AddLaserRange(5, 8, new QuaternionAngle(90, 0, 0, 0), false)
                .AddPosOffset(new Vector3f(30, 0, 0)));
         }
 

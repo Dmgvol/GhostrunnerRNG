@@ -97,10 +97,17 @@ namespace GhostrunnerRNG.Enemies {
                 game.WriteBytes(ptr, BitConverter.GetBytes((float)defaultValue));
             }
         }
+    }
 
-        // force update (if not null)
-        private void ModifyIfChanged(Process game, IntPtr ptr, ref float? n) {
-            if(n != null) game.WriteBytes(ptr, BitConverter.GetBytes((float)n));
-        }
+    public class TurretSpawnInfo : SpawnInfo {
+        public float? VerticalAngle;
+        public float? AngleToDestoryFromFace; // 270 default
+        public float? HorizontalAngle; //+- of head move
+        public float? HorizontalSpeed;
+        public float? HorizontalDetectionAngle; // 15 default
+        public float? VerticalDetectionAngle; // 15 default
+        public float? VisibleLaserLength; // 8000 default
+        public float? RotationOffset; // 
+        public float? HorizontalAngleSmooth; // corner smoothing value
     }
 }

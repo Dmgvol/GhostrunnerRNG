@@ -83,10 +83,10 @@
     <Compile Include="Localization\Lang_ES.cs" />
     <Compile Include="Localization\LocalizationBase.cs" />
     <Compile Include="Localization\LocalizationManager.cs" />
-    <Compile Include="MapGen\AmidaCVPlatform.cs" />
-    <Compile Include="MapGen\CustomCP.cs" />
+    <Compile Include="GameObjects\AmidaCVPlatform.cs" />
+    <Compile Include="GameObjects\CustomCP.cs" />
     <Compile Include="GameObjects\CVOrb.cs" />
-    <Compile Include="MapGen\CVPlatform.cs" />
+    <Compile Include="GameObjects\CVPlatform.cs" />
     <Compile Include="Enemies\Enemy.cs" />
     <Compile Include="Enemies\EnemyDrone.cs" />
     <Compile Include="Enemies\EnemySniper.cs" />
@@ -95,6 +95,9 @@
     <Compile Include="Maps\GateKeeper.cs" />
     <Compile Include="Maps\IModes.cs" />
     <Compile Include="Maps\LookInsideCV.cs" />
+    <Compile Include="Maps\OverlordCV.cs" />
+    <Compile Include="Maps\SurgeCV.cs" />
+    <Compile Include="Maps\TheMonster.cs" />
     <Compile Include="Maps\ReignInHell.cs" />
     <Compile Include="Maps\ReignInHellCV.cs" />
     <Compile Include="Maps\RoadToAmidaCV.cs" />
@@ -103,6 +106,7 @@
     <Compile Include="Maps\TYWB.cs" />
     <Compile Include="NonPlaceableObjects\Billboard.cs" />
     <Compile Include="NonPlaceableObjects\ChainedSignSpawners.cs" />
+    <Compile Include="NonPlaceableObjects\JumpPad.cs" />
     <Compile Include="NonPlaceableObjects\NonPlaceableObject.cs" />
     <Compile Include="MapGen\RoomLayout.cs" />
     <Compile Include="MapGen\Room.cs" />
@@ -110,10 +114,10 @@
     <Compile Include="MapGen\SpawnPlane.cs" />
     <Compile Include="NonPlaceableObjects\ShurikenTarget.cs" />
     <Compile Include="NonPlaceableObjects\SignSpawner.cs" />
-    <Compile Include="NonPlaceableObjects\TetrisTrigger.cs" />
+    <Compile Include="GameObjects\TetrisTrigger.cs" />
     <Compile Include="NonPlaceableObjects\ToggleableFan.cs" />
     <Compile Include="NonPlaceableObjects\TomLaser.cs" />
-    <Compile Include="NonPlaceableObjects\Trigger.cs" />
+    <Compile Include="GameObjects\Trigger.cs" />
     <Compile Include="NonPlaceableObjects\UplinkJump.cs" />
     <Compile Include="MapGen\WorldObject.cs" />
     <Compile Include="Maps\Awakening.cs" />

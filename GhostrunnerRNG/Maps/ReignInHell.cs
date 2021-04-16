@@ -186,7 +186,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(jumpSpawn);//bounce
             jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = -1.0f, JumpForwardMultiplier = -3.0f, JumpGravity = -3.0f }.SetRarity(0.15);
             uplink.AddSpawnInfo(jumpSpawn);//bounce
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
             #endregion
 
             #region Shurikens
@@ -196,19 +196,19 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(6, 11), MaxAttacks = 6 }); // for 3 argets max 2 hits
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 6, MaxAttacks = Config.GetInstance().r.Next(6, 11) }); // basic
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 6, MaxAttacks = 20 }); // default
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
             #endregion
 
             #region Targets
             //collectible
             var collectibleTarget = new ShurikenTarget(0x0, 0x230).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) });
             collectibleTarget.OverwritePointerOffset("HitsNeeded", 0x220);
-            nonPlaceableObjects.Add(collectibleTarget);
+            worldObjects.Add(collectibleTarget);
 
             //for the fan
-            nonPlaceableObjects.Add(new ShurikenTarget(0x0, 0xD70).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 3) }));
-            nonPlaceableObjects.Add(new ShurikenTarget(0x0, 0xD60).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 3) }));
-            nonPlaceableObjects.Add(new ShurikenTarget(0x0, 0xD58).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 3) }));
+            worldObjects.Add(new ShurikenTarget(0x0, 0xD70).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 3) }));
+            worldObjects.Add(new ShurikenTarget(0x0, 0xD60).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 3) }));
+            worldObjects.Add(new ShurikenTarget(0x0, 0xD58).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 3) }));
             #endregion
         }
 
@@ -477,7 +477,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(jumpSpawn);//zero gravity jump
             jumpSpawn = new UplinkJumpSpawnInfo { JumpMultiplier = 25.0f, JumpForwardMultiplier = -1.0f, JumpGravity = -4.0f }.SetRarity(0.15);
             uplink.AddSpawnInfo(jumpSpawn);//ceiling slide
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
             #endregion
 
             #region Shurikens
@@ -487,7 +487,7 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(4, 11), MaxAttacks = Config.GetInstance().r.Next(7, 15) });
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 15, MaxAttacks = Config.GetInstance().r.Next(3, 7) });//unlucky rng
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo().SetRarity(0.5)); // default
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
             #endregion
 
             #region Slomo

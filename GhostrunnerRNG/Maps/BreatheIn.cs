@@ -140,7 +140,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// Room 15+3 layout //// 
-            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x80, 0x128, 0xA8, 0xD0, 0x248, 0x1D0), new Vector3f(140756, -63564, 3948), GameHook.game);
+            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x80, 0x128, 0xA8, 0xD0, 0x248, 0x1D0), new Vector3f(140756, -63564, 3948), new Angle(0.83f, 0.56f) ,GameHook.game);
             enemies = room_15.ReturnEnemiesInRoom(AllEnemies);
             enemies1 = room_3.ReturnEnemiesInRoom(AllEnemies);
             layout = new RoomLayout(enemies[0], enemies[1], enemies[2], enemies1[0], enemies1[1], enemies1[2]); // 2 pistols+ 4 uzi
@@ -245,16 +245,16 @@ namespace GhostrunnerRNG.Maps {
             // 1
             NonPlaceableObject uplink = new UplinkSlowmo(0x8, 0x188, 0xA0); 
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(3 , 7)});
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             // 2
             uplink = new UplinkSlowmo(0x8, 0x180, 0xA0);
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(3, 7) });
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
             // 3
             uplink = new UplinkSlowmo(0x8, 0x178, 0xA0);  // same as sub 2, first slowmo
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(6, 12) });
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             //// Sub 2
             // 4 - skipped, same as previous one (3)
@@ -263,14 +263,14 @@ namespace GhostrunnerRNG.Maps {
             uplink = new UplinkSlowmo(0x58, 0x100, 0xA0);  // same as 7
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(6, 12) });
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = 1 }); // fake slowmo
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             //// Sub 3
             // 6
             uplink = new UplinkSlowmo(0x60, 0x140, 0xA0);
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(10, 16) });
             // no fake slowmo here, same values used in sub 8, needed to pass fans
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             //// Sub 4
             // 7 - skipped, same as (5)
@@ -280,7 +280,7 @@ namespace GhostrunnerRNG.Maps {
             uplink = new UplinkSlowmo(0x80, 0xD8, 0xA0);
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(6, 12) });
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = 1 }); // fake slowmo
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             //// Sub 8
             // 9 - skipped, same as (6)
@@ -289,12 +289,12 @@ namespace GhostrunnerRNG.Maps {
             // 10
             uplink = new UplinkSlowmo(0x18, 0xC0, 0xA0);
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(10, 20) });
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             // 11
             uplink = new UplinkSlowmo(0x18, 0xC0, 0xA0);
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(10, 25) });
-            nonPlaceableObjects.Add(uplink);
+            worldObjects.Add(uplink);
 
             //// Sub 14
             // 12 - skipped, same as (3) and (4)

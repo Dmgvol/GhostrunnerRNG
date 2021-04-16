@@ -17,14 +17,6 @@ namespace GhostrunnerRNG.Enemies {
         private DeepPointer shieldGlowDP;
         private IntPtr shieldGlowPtr;
 
-
-        [Obsolete("Use constructor without dp")]
-        public EnemyShieldOrb(Enemy enemy, DeepPointer dp) : base(enemy.GetObjectDP()) {
-            enemyType = EnemyTypes.ShieldOrb;
-            Pos = enemy.Pos;
-            shieldGlowDP = dp;
-        }
-
         public EnemyShieldOrb(Enemy enemy) : base(enemy.GetObjectDP()) {
             Pos = enemy.Pos;
             enemyType = EnemyTypes.ShieldOrb;
@@ -91,17 +83,6 @@ namespace GhostrunnerRNG.Enemies {
                 game.WriteBytes(beamPtr + 4, BitConverter.GetBytes((float)Pos.Y));
                 game.WriteBytes(beamPtr + 8, BitConverter.GetBytes((float)Pos.Z));
             }
-        }
-
-        public void HideBeam_Range(int firstOffset, int secondOffset, int startIndex, int endIndex) {
-            for(int i = startIndex; i <= endIndex; i += 0x8) {
-                HideBeam(new DeepPointer(0x04609420, 0x98, firstOffset, 0x128, 0xA8, secondOffset, 0x200, i, 0x1D0));
-            }
-        }
-
-        public void HideBeam(DeepPointer dp) {
-            // hide
-            BeamsToHide.Add(dp);
         }
 
         public override void SetMemoryPos(Process game, SpawnData spawnData) {
