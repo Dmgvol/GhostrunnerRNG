@@ -3,6 +3,7 @@ using GhostrunnerRNG.GameObjects;
 using GhostrunnerRNG.MapGen;
 using System;
 using System.Collections.Generic;
+using GhostrunnerRNG.NonPlaceableObjects;
 using System.Diagnostics;
 
 namespace GhostrunnerRNG.Maps {
@@ -121,7 +122,58 @@ namespace GhostrunnerRNG.Maps {
             }
 
 
+            ////// JumpPads //////
+            #region JumpPad
+            NonPlaceableObject jumppad =  new JumpPad(0xB78);//5000
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo());//default
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(90.0f, -60.0f, 0.0f), Speed = 6000});//backwards 1 platfrom
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(120.0f, -60.0f, 0.0f), Speed = 8000}.SetRarity(0.5));//backwards 2 platform
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(0.0f, -92.0f, 0.0f), Speed = 8500 }.SetRarity(0.35));//3 platfrom
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(0.0f, -92.0f, 0.0f), Speed = 9500 }.SetRarity(0.2));//to the last jumppad
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(0.0f, -95.0f, 0.0f), Speed = 14000 }.SetRarity(0.2));//to the EOL
+            worldObjects.Add(jumppad);
 
+            jumppad = new JumpPad(0xB70);//5000
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo());//default
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(90.0f, -50.0f, 0.0f), Speed = 6000 });//front without cp
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-11.0f, -40.0f, 0.0f), Speed = 8200 });//3 green platforms
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-135.0f, -40.0f, 0.0f), Speed = 6500 });//left side
+            //jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-90.0f, -37.0f, 0.0f), Speed = 8000 }.SetRarity(0.2));//for hardcore
+            worldObjects.Add(jumppad);
+
+            jumppad = new JumpPad(0xB68);//5000
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo());//default
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-90.0f, -50.0f, 0.0f), Speed = 6000 });//front without cp
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(0.0f, -90.0f, 0.0f), Speed = 10200 }.SetRarity(0.5));// last jumppad
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(0.0f, -90.0f, 0.0f), Speed = 13200 }.SetRarity(0.25));//to the EOL
+            worldObjects.Add(jumppad);
+
+            jumppad = new JumpPad(0xB60);//5000
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo());//default
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(0.0f, -90.0f, 0.0f), Speed = 6000 });//1 up
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-125.0f, -30.0f, 0.0f), Speed = 12200 }.SetRarity(0.25));// hard jump, easy with sideway jump
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(25.0f, -60.0f, 0.0f), Speed = 7500 }.SetRarity(0.35));//2 up
+            worldObjects.Add(jumppad);
+
+            jumppad = new JumpPad(0xB88);//5000
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo());//default
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(65.0f, -60.0f, 0.0f), Speed = 5500 });//1 up
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(135.0f, -45.0f, 0.0f), Speed = 8200 });// right side
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(25.0f, -40.0f, 0.0f), Speed = 6500 });//left side up
+            worldObjects.Add(jumppad);
+
+            jumppad = new JumpPad(0x6a8);//3500
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo());//default
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-36.0f, -20.0f, 0.0f), Speed = 8500 });//climb on other side
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-33.0f, -20.0f, 0.0f), Speed = 13200 }.SetRarity(0.35));// bounce jump,sideways(can make to the last jumppad)
+            worldObjects.Add(jumppad);
+
+            jumppad = new JumpPad(0xB80);//10000
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo());//default
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(0.0f, -90.0f, 0.0f), Speed = 9280 });//short
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(0.0f, -90.0f, 0.0f), Speed = 150000 });//teleport
+            worldObjects.Add(jumppad);
+            #endregion
         }
 
         private QuaternionAngle ToQuaternion(Angle angle) {
