@@ -107,5 +107,8 @@ namespace GhostrunnerRNG.MapGen {
         }
 
         public DeepPointer GetObjectDP() => ObjectDP;
+        public IntPtr GetObjectPtr() => ObjectPtr;
+
+        public void Deref(Process game) => DerefPointer(game);
     }
 }

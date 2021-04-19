@@ -228,7 +228,7 @@ namespace GhostrunnerRNG.Windows {
 			}
 
 			SpawnData spawn = new SpawnData(new Vector3f(GameHook.xPos, GameHook.yPos, GameHook.zPos), GameHook.angle);
-			outputBoxPlatform.Text = $"platformLayouts.Add(new SpawnData(new Vector3f({spawn.pos.X}f, {spawn.pos.Y}f, {spawn.pos.Z}f), new Angle({spawn.angle.angleSin:0.00}f, {spawn.angle.angleCos:0.00}f)));";
+			outputBoxPlatform.Text = $"platformLayouts.Add(new SpawnData(new Vector3f({(int)spawn.pos.X}f, {(int)spawn.pos.Y}f, {(int)spawn.pos.Z}f), new Angle({spawn.angle.angleSin:0.00}f, {spawn.angle.angleCos:0.00}f)));";
 			greenPlatforms[firstPlatform ? 0 : 1].SetMemoryPos(GameHook.game, spawn);
 		}
 

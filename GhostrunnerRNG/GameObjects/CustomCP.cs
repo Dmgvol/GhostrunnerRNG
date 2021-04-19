@@ -9,11 +9,11 @@ namespace GhostrunnerRNG.GameObjects {
         Dictionary<MapType, DeepPointer> MapCPPointers = new Dictionary<MapType, DeepPointer>() {
             { MapType.Awakening, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},
             { MapType.LookInside, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},
-            { MapType.LookInsideCV, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},
+            { MapType.LookInsideCV, new DeepPointer(0x0438BB18, 0x28, 0x0, 0x48)},
             { MapType.Faster, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},
             { MapType.InHerOwnImage, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},
             { MapType.ReignInHell, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},
-            { MapType.ReignInHellCV, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},
+            { MapType.ReignInHellCV, new DeepPointer(0x0438BB18, 0x28, 0x0, 0x48)},
 
             { MapType.TheClimb, new DeepPointer(0x0438BB18, 0x28, 0xA8, 0x48)},
             { MapType.TheClimbCV, new DeepPointer(0x0438BB18, 0x28, 0x28, 0x48)},

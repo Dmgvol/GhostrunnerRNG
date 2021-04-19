@@ -32,10 +32,10 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
                 int i = Config.GetInstance().r.Next(spawnLst.Count);
                 // change modified values only
                 ModifyIfChanged(game, Pointers["Speed"].Item2, spawnLst[i].Speed, defaultInfo.Speed);
-                ModifyIfChanged(game, Pointers["Rotation"].Item2, spawnLst[i].Angle.quaternion.x, defaultInfo.Angle.quaternion.x);
-                ModifyIfChanged(game, Pointers["Rotation"].Item2 + 4, spawnLst[i].Angle.quaternion.y, defaultInfo.Angle.quaternion.y);
-                ModifyIfChanged(game, Pointers["Rotation"].Item2 + 8, spawnLst[i].Angle.quaternion.z, defaultInfo.Angle.quaternion.z);
-                ModifyIfChanged(game, Pointers["Rotation"].Item2 + 12, spawnLst[i].Angle.quaternion.w, defaultInfo.Angle.quaternion.w);
+                ModifyIfChanged(game, Pointers["Rotation"].Item2, spawnLst[i].Angle?.quaternion.x, defaultInfo.Angle.quaternion.x);
+                ModifyIfChanged(game, Pointers["Rotation"].Item2 + 4, spawnLst[i].Angle?.quaternion.y, defaultInfo.Angle.quaternion.y);
+                ModifyIfChanged(game, Pointers["Rotation"].Item2 + 8, spawnLst[i].Angle?.quaternion.z, defaultInfo.Angle.quaternion.z);
+                ModifyIfChanged(game, Pointers["Rotation"].Item2 + 12, spawnLst[i].Angle?.quaternion.w, defaultInfo.Angle.quaternion.w);
             }
         }
 

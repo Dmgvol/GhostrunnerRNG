@@ -143,7 +143,7 @@ namespace GhostrunnerRNG.Maps {
             // Core rotation rng
             if(RotationPtr != IntPtr.Zero) {
                 game.WriteBytes(RotationPtr, BitConverter.GetBytes((float)Config.GetInstance().r.Next(2, 5)));
-                game.WriteBytes(RotationPtr + rotationTimeOffset, BitConverter.GetBytes((float)Config.GetInstance().r.Next(1, 5)));
+                game.WriteBytes(RotationPtr + rotationTimeOffset, BitConverter.GetBytes((float)Config.GetInstance().r.Next(2, 5)));
                 game.WriteBytes(RotationPtr + rotationAngleOffset, BitConverter.GetBytes((float)Config.GetInstance().r.Next(2) == 0 ? 90f : -90f));
             }
         }

@@ -312,11 +312,11 @@ namespace GhostrunnerRNG.Game {
 					currentMap = new ReignInHellCV();
 					return true;
 
-				case MapType.OverlordCV:
-					currentMap = new OverlordCV();
-					return true;
+                case MapType.OverlordCV:
+                    currentMap = new OverlordCV();
+                    return true;
 
-				case MapType.TYWB:
+                case MapType.TYWB:
 					currentMap = new TYWB();
 					return true;
 

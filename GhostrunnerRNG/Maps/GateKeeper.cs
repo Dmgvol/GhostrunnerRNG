@@ -10,9 +10,12 @@ namespace GhostrunnerRNG.Maps {
         //private DeepPointer WhiteRing1DP = new DeepPointer(0x04609420, 0x98, 0x30, 0x128, 0xA8, 0x708, 0x9E8, 0x134);
         //private IntPtr WhiteRing1Ptr;
 
+        EasyPointers EP = new EasyPointers();
+
         public GateKeeper() : base(GameUtils.MapType.Gatekeeper, manualGen: true) {
             if(GameHook.IsHC) return;
             Gen_PerRoom();
+            EP.Add("Rotation", new DeepPointer(0x04609420, 0x98, 0x30, 0x128, 0xA8, 0x708, 0x840, 0xA0, 0x20));
         }
 
         protected override void Gen_PerRoom() {
@@ -104,6 +107,10 @@ namespace GhostrunnerRNG.Maps {
 
         public override void RandomizeEnemies(Process game) {
             base.RandomizeEnemies(game);
+            EP.DerefPointers(game);
+
+            // rotation
+            game.WriteBytes(EP.Pointers["Rotation"].Item2, BitConverter.GetBytes((float)Config.GetInstance().r.Next(18, 23)));
         }
     }
 }
