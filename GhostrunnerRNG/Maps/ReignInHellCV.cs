@@ -149,30 +149,34 @@ namespace GhostrunnerRNG.Maps {
 
             jumppad = new JumpPad(0x508);//4700
             jumppad.AddSpawnInfo(new JumpPadSpawnInfo());//default
-            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-85.0f, -40.0f, 0.0f), Speed = 8000 }.SetRarity(0.035));//skip all jumppads
-            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-60.0f, -73.0f, 0.0f), Speed = 12750 }.SetRarity(0.25));//oob to the exit
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-85.0f, -40.0f, 0.0f), Speed = 8000 }.SetRarity(0.35));//skip all jumppads
+            //jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-60.0f, -73.0f, 0.0f), Speed = 12750 }.SetRarity(0.25));//oob to the exit
             jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(0.0f, -90.00f, 0.0f), Speed = 100000 }.SetRarity(0.35));//troll
             jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-57.0f, -45.00f, 0.0f), Speed = 7200 }.SetRarity(0.5));//skip 2
-            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-35.0f, -70.00f, 0.0f), Speed = 7200 }.SetRarity(1.35));//skip 1
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-35.0f, -70.00f, 0.0f), Speed = 7200 });//skip 1
             worldObjects.Add(jumppad);
 
             jumppad = new JumpPad(0x500);//4800
             jumppad.AddSpawnInfo(new JumpPadSpawnInfo());//default
-            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-75.0f, -60.0f, 0.0f), Speed = 5500 }.SetRarity(0.35));//skip all jumppads
-            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-85.0f, -70.0f, 0.0f), Speed = 8000 }.SetRarity(0.5));//oob to the next section
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-75.0f, -60.0f, 0.0f), Speed = 5500 }.SetRarity(0.5));//skip all jumppads
+            //jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-85.0f, -70.0f, 0.0f), Speed = 8000 }.SetRarity(0.5));//oob to the next section
             jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-42.5f, -40.0f, 0.0f), Speed = 5800 });//skip 1
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-2.0f, -3.0f, 0.0f), Speed = 10800 });//fast bounce 
             worldObjects.Add(jumppad);
 
             jumppad = new JumpPad(0x4F0);//4800
             jumppad.AddSpawnInfo(new JumpPadSpawnInfo());//default
             jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-127.0f, -60.0f, 0.0f), Speed = 6500 });//skip all jumppads
-            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(0.0f, -90.00f, 0.0f), Speed = 100000 }.SetRarity(0.35));//troll
-            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-75.0f, -70.0f, 0.0f), Speed = 8050 }.SetRarity(1.35));//oob to the exit
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(0.0f, -90.00f, 0.0f), Speed = 100000 }.SetRarity(0.5));//troll
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-75.0f, -70.0f, 0.0f), Speed = 8050 }.SetRarity(0.35));//oob to the exit
             worldObjects.Add(jumppad);
 
-            //jumppad = new JumpPad(0x4F8);//4600
-            //jumppad.AddSpawnInfo(new JumpPadSpawnInfo());//default
-            //worldObjects.Add(jumppad);
+            jumppad = new JumpPad(0x4F8);//4600
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo());//default
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(.0f, -90.00f, 0.0f), Speed = 10000 }.SetRarity(0.35));//troll
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-170.0f, -60.00f, 0.0f), Speed = 5000 });//high
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(-177.0f, -23.00f, 0.0f), Speed = 12000 });//fast
+            worldObjects.Add(jumppad);
             #endregion
 
         }
