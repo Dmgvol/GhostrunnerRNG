@@ -31,50 +31,49 @@ namespace GhostrunnerRNG.Maps {
 
             //// Layouts ////
             // section 1
-            Section1Spawns.Add(new SpawnData(new Vector3f(792, 9229, 482), new Angle(1.00f, 0.01f))); // default
-            Section1Spawns.Add(new SpawnData(new Vector3f(-2386, 6176, 536), new Angle(0.89f, 0.45f))); // exit ledge
-            Section1Spawns.Add(new SpawnData(new Vector3f(-1714, 9701, 690), new Angle(-0.98f, 0.20f))); // right rock
-            Section1Spawns.Add(new SpawnData(new Vector3f(-2189, 9689, 1655), new Angle(-0.99f, 0.16f))); // pam
-            Section1Spawns.Add(new SpawnData(new Vector3f(-1260, 9682, 1514), new Angle(-1.00f, 0.07f))); // pam 2
-            Section1Spawns.Add(new SpawnData(new Vector3f(-4973, 9148, 1499), new Angle(0.01f, 1.00f))); // arc behind spawn
-            Section1Spawns.Add(new SpawnData(new Vector3f(-4201, 11227, 2186), new Angle(-0.42f, 0.91f)));// highest palm
-            Section1Spawns.Add(new SpawnData(new Vector3f(-2203, 6098, 1910), new Angle(0.71f, 0.71f)));// palm near next pahse 
+            Section1Spawns.Add(new SpawnData(new Vector3f(800, 9200, 477), new Angle(0.71f, 0.71f))); // default
+            Section1Spawns.Add(new SpawnData(new Vector3f(-2386, 6176, 536), new Angle(0.0f, 1.0f))); // exit ledge
+            Section1Spawns.Add(new SpawnData(new Vector3f(-1714, 9701, 690), new Angle(0.71f, 0.71f))); // right rock
+            Section1Spawns.Add(new SpawnData(new Vector3f(-2189, 9689, 1655), new Angle(0.71f, 0.71f))); // pam
+            Section1Spawns.Add(new SpawnData(new Vector3f(-1260, 9682, 1514), new Angle(0.71f, 0.71f))); // pam 2
+            Section1Spawns.Add(new SpawnData(new Vector3f(-4973, 9148, 1499), new Angle(-0.71f, 0.71f))); // arc behind spawn
+            Section1Spawns.Add(new SpawnData(new Vector3f(-4201, 11227, 2186), new Angle(1.0f, 0.0f)));// highest palm
+            Section1Spawns.Add(new SpawnData(new Vector3f(-2203, 6098, 1910), new Angle(0.0f, 1.0f)));// palm near next pahse 
 
             // section 2
-            Section2Spawns.Add(new SpawnData(new Vector3f(-2591, 1355, 498), new Angle(0.84f, 0.53f)));
-            Section2Spawns.Add(new SpawnData(new Vector3f(-1530, 429, 398), new Angle(0.88f, 0.47f)));
+            Section2Spawns.Add(new SpawnData(new Vector3f(-2600, 1400, 490), new Angle(0.0f, 1.0f)));//default
+            Section2Spawns.Add(new SpawnData(new Vector3f(-1450, 400, 390), new Angle(0.0f, 1.0f)));
 
-            Section2Spawns.Add(new SpawnData(new Vector3f(-2591, 1355, 498), new Angle(0.84f, 0.53f)));
-            Section2Spawns.Add(new SpawnData(new Vector3f(-3928, 15, 505), new Angle(0.67f, 0.74f)));
+            Section2Spawns.Add(new SpawnData(new Vector3f(-2591, 1355, 498), new Angle(0.0f, 1.0f)));
+            Section2Spawns.Add(new SpawnData(new Vector3f(-3928, 15, 505), new Angle(0.0f, 1.0f)));
 
-            Section2Spawns.Add(new SpawnData(new Vector3f(-2591, 1355, 498), new Angle(0.84f, 0.53f)));
-            Section2Spawns.Add(new SpawnData(new Vector3f(-2037, 2441, 497), new Angle(0.56f, 0.83f)));
+            Section2Spawns.Add(new SpawnData(new Vector3f(-2591, 1355, 498), new Angle(0.0f, 1.0f)));
+            Section2Spawns.Add(new SpawnData(new Vector3f(-2037, 2441, 497), new Angle(0.0f, 1.0f)));
 
-            Section2Spawns.Add(new SpawnData(new Vector3f(-4268, 2725, 497), new Angle(0.04f, 1.00f)));
-            Section2Spawns.Add(new SpawnData(new Vector3f(-3021, 2831, 498), new Angle(0.04f, 1.00f)));
+            Section2Spawns.Add(new SpawnData(new Vector3f(-4268, 2725, 497), new Angle(-0.71f, 0.71f)));
+            Section2Spawns.Add(new SpawnData(new Vector3f(-3021, 2831, 498), new Angle(-0.71f, 0.71f)));
 
-            Section2Spawns.Add(new SpawnData(new Vector3f(-1493, 2764, 1608), new Angle(0.99f, 0.11f)));
-            Section2Spawns.Add(new SpawnData(new Vector3f(-2780, 2936, 498), new Angle(0.98f, 0.20f)));
+            Section2Spawns.Add(new SpawnData(new Vector3f(-1493, 2764, 1608), new Angle(0.0f, 1.0f)));
+            Section2Spawns.Add(new SpawnData(new Vector3f(-2780, 2936, 498), new Angle(-0.71f, 0.71f)));
 
-            Section2Spawns.Add(new SpawnData(new Vector3f(-3699, -2199, 1678), new Angle(0.58f, 0.82f)));
-            Section2Spawns.Add(new SpawnData(new Vector3f(-4133, -1901, 1690), new Angle(0.52f, 0.86f)));
+            Section2Spawns.Add(new SpawnData(new Vector3f(-3699, -2199, 1678), new Angle(0.0f, 1.0f)));
+            Section2Spawns.Add(new SpawnData(new Vector3f(-4133, -1901, 1690), new Angle(0.0f, 1.0f)));
 
-            Section2Spawns.Add(new SpawnData(new Vector3f(-3827, 3575, 2450), new Angle(-0.62f, 0.78f)));
-            Section2Spawns.Add(new SpawnData(new Vector3f(-4513, 3332, 2692), new Angle(-0.41f, 0.91f)));
-
+            Section2Spawns.Add(new SpawnData(new Vector3f(-3827, 3575, 2450), new Angle(-1.0f, 0.0f)));
+            Section2Spawns.Add(new SpawnData(new Vector3f(-4513, 3332, 2692), new Angle(-1.0f, 0.0f)));
 
             // section 3
-            Section3Spawns.Add(new SpawnData(new Vector3f(-5141, -8693, 2898), new Angle(-0.02f, 1.00f))); // default
-            Section3Spawns.Add(new SpawnData(new Vector3f(-5971, -8434, 3096), new Angle(-0.12f, 0.99f)));
-            Section3Spawns.Add(new SpawnData(new Vector3f(-6017, -8988, 3100), new Angle(0.08f, 1.00f)));
+            Section3Spawns.Add(new SpawnData(new Vector3f(-5162, -8694, 2898), new Angle(-0.89f, 0.46f))); // default
+            Section3Spawns.Add(new SpawnData(new Vector3f(-5981, -8421, 3089), new Angle(-0.82f, 0.57f)));
+            Section3Spawns.Add(new SpawnData(new Vector3f(-5993, -9006, 3091), new Angle(-0.82f, 0.57f)));
 
-            Section3Spawns.Add(new SpawnData(new Vector3f(-2629, -10411, 3043), new Angle(0.78f, 0.63f)));
-            Section3Spawns.Add(new SpawnData(new Vector3f(-2874, -9929, 2965), new Angle(0.78f, 0.63f)));
-            Section3Spawns.Add(new SpawnData(new Vector3f(-2898.7f, -10215.11f, 2847.67f), new Angle(0.78f, 0.63f)));
+            Section3Spawns.Add(new SpawnData(new Vector3f(-2629, -10411, 3043), new Angle(0.0f, 1.0f)));
+            Section3Spawns.Add(new SpawnData(new Vector3f(-2874, -9929, 2965), new Angle(0.0f, 1.0f)));
+            Section3Spawns.Add(new SpawnData(new Vector3f(-2898, -10215, 2847), new Angle(0.0f, 1.0f)));
 
-            Section3Spawns.Add(new SpawnData(new Vector3f(-4042, -12560, 2464), new Angle(0.70f, 0.71f)));
-            Section3Spawns.Add(new SpawnData(new Vector3f(-3884, -12385, 2418), new Angle(0.70f, 0.71f)));
-            Section3Spawns.Add(new SpawnData(new Vector3f(-3603, -12379, 2369), new Angle(0.70f, 0.72f)));
+            Section3Spawns.Add(new SpawnData(new Vector3f(-4042, -12560, 2464), new Angle(0.0f, 1.0f)));
+            Section3Spawns.Add(new SpawnData(new Vector3f(-3884, -12385, 2418), new Angle(0.0f, 1.0f)));
+            Section3Spawns.Add(new SpawnData(new Vector3f(-3603, -12379, 2369), new Angle(0.0f, 1.0f)));
 
 
             #region JumpPad
@@ -89,6 +88,8 @@ namespace GhostrunnerRNG.Maps {
             jumppad.AddSpawnInfo(new JumpPadSpawnInfo());//default
             jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Speed = 6000, Angle = new QuaternionAngle(-147, -45, 0) }.SetRarity(0.5)); // to the exit 
             jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Speed = 4750, Angle = new QuaternionAngle(-120, -45, 0) }); // long
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Speed = 4230, Angle = new QuaternionAngle(-98, -60, 0) }); // next jumppad
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Speed = 6600, Angle = new QuaternionAngle(0, -90, 0) }.SetRarity(0.5)); // high
             worldObjects.Add(jumppad);
 
             //jumppad = new JumpPad(0x148);//3500
@@ -98,7 +99,8 @@ namespace GhostrunnerRNG.Maps {
 
         }
 
-        public override void RandomizeEnemies(Process game) {
+        public override void RandomizeEnemies(Process game) { 
+            base.RandomizeEnemies(game);
             // section 1
             int r = Config.GetInstance().r.Next(Section1Spawns.Count);
             //enemies[0].SetMemoryPos(game, Section1Spawns[r]);
@@ -113,7 +115,6 @@ namespace GhostrunnerRNG.Maps {
             enemies[3].SetMemoryPos(game, Section3Spawns[r * 3]);
             enemies[4].SetMemoryPos(game, Section3Spawns[r * 3 + 1]);
             enemies[5].SetMemoryPos(game, Section3Spawns[r * 3 + 2]);
-
         }
 
         private void SetCVPlayerPos(Process game, Enemy enemy, SpawnData spawnData) {
