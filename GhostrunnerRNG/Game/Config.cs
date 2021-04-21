@@ -16,6 +16,7 @@ namespace GhostrunnerRNG.Game {
         public bool Gen_RngTargets = true;
 
         public bool Setting_RemoveForceSlideTrigger = true;
+        public bool Settings_ForcedRestart = true;
 
         public enum Difficulty { Easy, Normal, SR, Nightmare}
         public Difficulty Setting_Difficulty = Difficulty.Normal;

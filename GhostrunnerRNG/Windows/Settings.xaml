@@ -61,7 +61,8 @@
             <StackPanel Grid.Row="1"  >
                 <Label HorizontalAlignment="Left" Margin="0, 5" VerticalAlignment="Top" Content="Advanced" Style="{StaticResource WhiteLabelHeader}"/>
                 <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_SlideForceTrigger" ToolTip="Disable trigger that forces player to slide in Faster map" Content="Disable forced-slide trigger in Faster" HorizontalAlignment="Left" Style="{StaticResource DarkCheckBox}"/>
-
+                <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_SettingForcedRestart" ToolTip="Will Instat restart each level" Content="Force Instat-Restart on start (Experimental)" HorizontalAlignment="Left" Style="{StaticResource DarkCheckBox}"/>
+                
                 <!--TBA feature option-->
                 <CheckBox Margin="10, 0" Content="No Sword, gloves only" ToolTip="You really like to suffer, eh?"  HorizontalAlignment="Left"  Style="{StaticResource DisabledDarkCheckBox}"/>
             </StackPanel>

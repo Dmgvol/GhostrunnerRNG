@@ -21,6 +21,7 @@ namespace GhostrunnerRNG.Windows {
             checkbox_RngCybervoid.IsChecked = Config.GetInstance().Gen_RngCV;
             checkbox_RngTargets.IsChecked = Config.GetInstance().Gen_RngTargets;
             checkbox_SlideForceTrigger.IsChecked = Config.GetInstance().Setting_RemoveForceSlideTrigger;
+            checkbox_SettingForcedRestart.IsChecked = Config.GetInstance().Settings_ForcedRestart;
 
             // diff
             difBoxes = new List<CheckBox>() {Dif_easy, Dif_Normal, Dif_SR, Dif_NM };
@@ -54,6 +55,7 @@ namespace GhostrunnerRNG.Windows {
             Config.GetInstance().Gen_RngOnRestart = checkbox_RngOnRestart.IsChecked == true;
             Config.GetInstance().Gen_RngTargets = checkbox_RngTargets.IsChecked == true;
             Config.GetInstance().Setting_RemoveForceSlideTrigger = checkbox_SlideForceTrigger.IsChecked == true;
+            Config.GetInstance().Settings_ForcedRestart = checkbox_SettingForcedRestart.IsChecked == true;
             Config.GetInstance().Setting_Difficulty = selectedDiff;
             // and close
             Close();
@@ -89,6 +91,7 @@ namespace GhostrunnerRNG.Windows {
                     DifDesc.Text =
                         " \u2022 Super hard enemy placements.\n" +
                         " \u2022 You agree to suffer.\n" +
+                        " \u2022 Where speedrunners become casuals.\n" +
                         " \u2022 You agree to become soil.";
                 }
                 DisableDifBoxes(box);

@@ -28,10 +28,11 @@ namespace GhostrunnerRNG.Game {
 		public float oldPreciseTimer, preciseTimer;
 		public static Angle angle = new Angle();
 
+		public static int CP_COUNTER;
 		private int _cpCounter;
 		public int cpCounter {
 			get { return _cpCounter; }
-			set { if(value != _cpCounter) { _cpCounter = value; cpCounterChanged(value); } }
+			set { if(value != _cpCounter) { _cpCounter = value; CP_COUNTER = value; cpCounterChanged(value); } }
 		}
 
 		// MAP OBJECT
@@ -181,9 +182,7 @@ namespace GhostrunnerRNG.Game {
 				}
 
 				// Create Map Object
-                Console.WriteLine($"AccurateMapType: {AccurateMapType}");
 				bool mapCreated = CreateMapObject(AccurateMapType);
-                Console.WriteLine(mapCreated);
 				main.ToggleRngControls(mapCreated && currentMap.HasRng);
 				if(mapCreated) {
 					NewRNG();
@@ -245,6 +244,10 @@ namespace GhostrunnerRNG.Game {
 
 				case MapType.BreatheIn:
 					currentMap = new BreatheIn();
+					return true;
+
+				case MapType.BreatheInCV:
+					currentMap = new BreatheInCV();
 					return true;
 
 				case MapType.RoadToAmida:
@@ -413,16 +416,6 @@ namespace GhostrunnerRNG.Game {
 
 		private void SetPointersByModuleSize(int moduleSize) {
 			switch(moduleSize) {
-                case 78376960:
-                    Debug.WriteLine("found steam5");
-                    capsuleDP = new DeepPointer(0x04328538, 0x30, 0x130, 0x0);
-                    mapNameDP = new DeepPointer(0x04328548, 0x30, 0xF8, 0x0);
-                    preciseTimeDP = new DeepPointer(0x045A3C20, 0x138, 0xB0, 0x128);
-                    hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
-                    LoadingDP = new DeepPointer(0x0445ED38, 0x1E8);
-                    reloadCounterDP = new DeepPointer(0x045A3C20, 0x128, 0x388);
-                    break;
-
                 case 78856192:
 					Debug.WriteLine("found steam6");
 					capsuleDP = new DeepPointer(0x0438BB50, 0x30, 0x130, 0x0);
@@ -433,26 +426,6 @@ namespace GhostrunnerRNG.Game {
 					reloadCounterDP = new DeepPointer(0x04609420, 0x128, 0x388);
 					break;
 
-				case 78168064:
-					Debug.WriteLine("found gog5");
-					capsuleDP = new DeepPointer(0x04328538, 0x30, 0x130, 0x0);
-					mapNameDP = new DeepPointer(0x04328548, 0x30, 0xF8, 0x0);
-					preciseTimeDP = new DeepPointer(0x045A3C20, 0x138, 0xB0, 0x128);
-					hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
-					LoadingDP = new DeepPointer(0x0445ED38, 0x1E8);
-					reloadCounterDP = new DeepPointer(0x045A3C20, 0x128, 0x388);
-					break;
-
-
-				case 77910016:
-					Debug.WriteLine("found egs3");
-					capsuleDP = new DeepPointer(0x042F0310, 0x30, 0x130, 0x0);
-					mapNameDP = new DeepPointer(0x042F02E8, 0x30, 0xF8, 0x0);
-					preciseTimeDP = new DeepPointer(0x045A3C20, 0x138, 0xB0, 0x128);
-					hcDP = new DeepPointer(0x04328548, 0x328, 0x30);
-					LoadingDP = new DeepPointer(0x0445ED38, 0x1E8);
-					reloadCounterDP = new DeepPointer(0x045A3C20, 0x128, 0x388);
-					break;
 				default:
 					updateTimer.Stop();
 					Console.WriteLine(moduleSize.ToString());
@@ -563,21 +536,9 @@ namespace GhostrunnerRNG.Game {
 			game.WriteBytes(descPtr, StringToMemoryBytes(Description));
 		}
 
-		/// <summary>
-		/// For future updates (localization needed)
-		/// </summary>
-		private void EditProTips() {
-			for(int i = 1; i < 12; i++) {
-				DeepPointer tipDP = new DeepPointer(0x043FD270, 0x368, 0x80, 0x28 * (i - 1), 0x0, 0x0);//badpointer
-				DeepPointer tipLengthDP = new DeepPointer(0x043FD270, 0x368, 0x80, 0x28 * (i - 1), 0x8);//badpointer
-				IntPtr tipPtr, tipLengthPtr;
-				tipDP.DerefOffsets(game, out tipPtr);
-				tipLengthDP.DerefOffsets(game, out tipLengthPtr);
-				string tip = "You're too slow, go faster! ";
-				game.WriteBytes(tipPtr, StringToMemoryBytes(tip));
-				game.WriteBytes(tipLengthPtr, BitConverter.GetBytes((int)(tip.Length + 1)));
-			}
-		}
+		public void ForceRestart() {
+
+        }
 
 		private byte[] StringToMemoryBytes(string str) {
 			var titleBytes = Encoding.Unicode.GetBytes(str).ToList();

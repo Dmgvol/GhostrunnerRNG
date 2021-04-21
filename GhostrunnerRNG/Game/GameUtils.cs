@@ -1,6 +1,8 @@
 ﻿using GhostrunnerRNG.Enemies;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace GhostrunnerRNG.Game {
     public class GameUtils {
@@ -92,6 +94,7 @@ namespace GhostrunnerRNG.Game {
             MapType.JackedUp,
             MapType.BlinkCV,
             MapType.BreatheIn,
+            MapType.BreatheInCV,
             MapType.RoadToAmida,
             MapType.RoadToAmidaCV,
             MapType.TempestCV,
@@ -233,6 +236,139 @@ namespace GhostrunnerRNG.Game {
             euler.Y %= 360;
             euler.Z %= 360;
             return euler;
+        }
+
+        public static VirtualKeyCode? ConvertKeybindToKey(int keybind) {
+            // A - Z
+            if(keybind >= 96246 && keybind <= 96296) {
+                keybind -= 96246;
+                keybind /= 2;
+                return VirtualKeyCode.VK_A + keybind;
+            }
+
+            // 0 - 9
+            if(keybind >= 96213 && keybind <= 96244) {
+                keybind -= 96213;
+                keybind /= 3;
+                return VirtualKeyCode.VK_0 + keybind;
+            }
+
+            // F1 - F10
+            if(keybind >= 96383 && keybind <= 96401) {
+                keybind -= 96383;
+                keybind /= 2;
+                return VirtualKeyCode.F1 + keybind;
+            }
+
+            // Numpad0 - Numpad9
+            if(keybind >= 96298 && keybind <= 96355) {
+                keybind -= 96298;
+                keybind /= 6;
+                return VirtualKeyCode.NUMPAD0 + keybind;
+            }
+
+            // Arrows
+            if(keybind >= 96193 && keybind <= 96202) {
+                keybind -= 96193;
+                keybind /= 3;
+                return VirtualKeyCode.LEFT + keybind;
+            }
+
+            // special
+            switch(keybind) {
+                case 96404: // F11
+                    return VirtualKeyCode.F11;
+                case 96407: // F12
+                    return VirtualKeyCode.F12;
+                case 96503:
+                    return VirtualKeyCode.OEM_3; // ~ (tilda)
+                case 96153:
+                    return VirtualKeyCode.TAB;
+                case 96164:
+                    return VirtualKeyCode.CAPITAL; // Caps lock
+                case 96421:
+                    return VirtualKeyCode.LSHIFT;
+                case 96433:
+                    return VirtualKeyCode.LCONTROL;
+                case 96457:
+                    return VirtualKeyCode.LWIN; // I doubt some one will use win key for restart, but okay
+                case 96447:
+                    return VirtualKeyCode.LMENU; // LAlt
+                case 96173:
+                    return VirtualKeyCode.SPACE;
+                case 96452:
+                    return VirtualKeyCode.RMENU; // RAlt
+                case 96464:
+                    return VirtualKeyCode.RWIN;
+                case 96440:
+                    return VirtualKeyCode.RCONTROL;
+                case 96427:
+                    return VirtualKeyCode.RSHIFT;
+                case 96156:
+                    return VirtualKeyCode.RETURN; // Enter!
+                case 96523:
+                    return VirtualKeyCode.OEM_5; // \
+                case 96147:
+                    return VirtualKeyCode.BACK;
+
+                // above arrows
+                case 96415:
+                    return VirtualKeyCode.SCROLL;
+                case 96160:
+                    return VirtualKeyCode.PAUSE;
+                case 96205:
+                    return VirtualKeyCode.INSERT;
+                case 96190:
+                    return VirtualKeyCode.HOME;
+                case 96178:
+                    return VirtualKeyCode.PRIOR; // Page up
+                case 96182:
+                    return VirtualKeyCode.NEXT; // Page down
+                case 96187:
+                    return VirtualKeyCode.END;
+                case 96209:
+                    return VirtualKeyCode.DELETE;
+
+                // NumPad specials
+                case 96410:
+                    return VirtualKeyCode.NUMLOCK;
+                case 96379: // numpad divide
+                    return VirtualKeyCode.DIVIDE;
+                case 96361: // numpad multiply 
+                    return VirtualKeyCode.MULTIPLY;
+                case 96369:  // numpad sub
+                    return VirtualKeyCode.SUBTRACT;
+                case 96366:
+                    return VirtualKeyCode.ADD;
+                case 96374: // numpad dot
+                    return VirtualKeyCode.DECIMAL;
+
+                // Others
+                case 96471: // ;
+                    return VirtualKeyCode.OEM_1;
+                case 96477: // = +
+                    return VirtualKeyCode.OEM_PLUS;
+                case 96481: // ,
+                    return VirtualKeyCode.OEM_COMMA;
+                case 96485: // _ -
+                    return VirtualKeyCode.OEM_MINUS;
+                case 96507: // [
+                    return VirtualKeyCode.OEM_4;
+                case 96529: // ]
+                    return VirtualKeyCode.OEM_6;
+                case 96545: // '
+                    return VirtualKeyCode.OEM_7;
+                case 96495: // .
+                    return VirtualKeyCode.OEM_PERIOD;
+                case 96499: // /
+                    return VirtualKeyCode.OEM_2;
+
+                // Mouse
+                case 96118: // middle mouse button
+                    return VirtualKeyCode.MBUTTON;
+
+            }
+            return null;
         }
 
         public static bool IsNumeric(string value) => float.TryParse(value, out _);

@@ -2,7 +2,6 @@
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
 using GhostrunnerRNG.NonPlaceableObjects;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -16,6 +15,7 @@ namespace GhostrunnerRNG.Maps {
         private List<Enemy> enemies = new List<Enemy>();
 
         public SurgeCV() : base(GameUtils.MapType.SurgeCV, manualGen:true) {
+            CPRequired = false;
             Gen_PerRoom();
         }
         protected override void Gen_PerRoom() {
@@ -34,24 +34,18 @@ namespace GhostrunnerRNG.Maps {
             Section1Spawns.Add(new SpawnData(new Vector3f(800, 9200, 477), new Angle(0.71f, 0.71f))); // default
             Section1Spawns.Add(new SpawnData(new Vector3f(-2386, 6176, 536), new Angle(0.0f, 1.0f))); // exit ledge
             Section1Spawns.Add(new SpawnData(new Vector3f(-1714, 9701, 690), new Angle(0.71f, 0.71f))); // right rock
-            Section1Spawns.Add(new SpawnData(new Vector3f(-2189, 9689, 1655), new Angle(0.71f, 0.71f))); // pam
-            Section1Spawns.Add(new SpawnData(new Vector3f(-1260, 9682, 1514), new Angle(0.71f, 0.71f))); // pam 2
+            Section1Spawns.Add(new SpawnData(new Vector3f(-2189, 9689, 1655), new Angle(0.71f, 0.71f))); // palm
+            Section1Spawns.Add(new SpawnData(new Vector3f(-1260, 9682, 1514), new Angle(0.71f, 0.71f))); // palm 2
             Section1Spawns.Add(new SpawnData(new Vector3f(-4973, 9148, 1499), new Angle(-0.71f, 0.71f))); // arc behind spawn
             Section1Spawns.Add(new SpawnData(new Vector3f(-4201, 11227, 2186), new Angle(1.0f, 0.0f)));// highest palm
-            Section1Spawns.Add(new SpawnData(new Vector3f(-2203, 6098, 1910), new Angle(0.0f, 1.0f)));// palm near next pahse 
+            Section1Spawns.Add(new SpawnData(new Vector3f(-2203, 6098, 1910), new Angle(0.0f, 1.0f)));// palm near next phase 
 
             // section 2
             Section2Spawns.Add(new SpawnData(new Vector3f(-2600, 1400, 490), new Angle(0.0f, 1.0f)));//default
             Section2Spawns.Add(new SpawnData(new Vector3f(-1450, 400, 390), new Angle(0.0f, 1.0f)));
 
             Section2Spawns.Add(new SpawnData(new Vector3f(-2591, 1355, 498), new Angle(0.0f, 1.0f)));
-            Section2Spawns.Add(new SpawnData(new Vector3f(-3928, 15, 505), new Angle(0.0f, 1.0f)));
-
-            Section2Spawns.Add(new SpawnData(new Vector3f(-2591, 1355, 498), new Angle(0.0f, 1.0f)));
             Section2Spawns.Add(new SpawnData(new Vector3f(-2037, 2441, 497), new Angle(0.0f, 1.0f)));
-
-            Section2Spawns.Add(new SpawnData(new Vector3f(-4268, 2725, 497), new Angle(-0.71f, 0.71f)));
-            Section2Spawns.Add(new SpawnData(new Vector3f(-3021, 2831, 498), new Angle(-0.71f, 0.71f)));
 
             Section2Spawns.Add(new SpawnData(new Vector3f(-1493, 2764, 1608), new Angle(0.0f, 1.0f)));
             Section2Spawns.Add(new SpawnData(new Vector3f(-2780, 2936, 498), new Angle(-0.71f, 0.71f)));
@@ -103,8 +97,7 @@ namespace GhostrunnerRNG.Maps {
             base.RandomizeEnemies(game);
             // section 1
             int r = Config.GetInstance().r.Next(Section1Spawns.Count);
-            //enemies[0].SetMemoryPos(game, Section1Spawns[r]);
-            SetCVPlayerPos(game, enemies[0], Section1Spawns[r]);
+            enemies[0].SetMemoryPos(game, Section1Spawns[r]);
 
             // section 2
             r = Config.GetInstance().r.Next(Section2Spawns.Count / 2);
@@ -115,17 +108,6 @@ namespace GhostrunnerRNG.Maps {
             enemies[3].SetMemoryPos(game, Section3Spawns[r * 3]);
             enemies[4].SetMemoryPos(game, Section3Spawns[r * 3 + 1]);
             enemies[5].SetMemoryPos(game, Section3Spawns[r * 3 + 2]);
-        }
-
-        private void SetCVPlayerPos(Process game, Enemy enemy, SpawnData spawnData) {
-            enemy.Deref(game);
-
-            game.WriteBytes(enemy.GetObjectPtr() - 8, BitConverter.GetBytes((float)spawnData.angle.angleSin));
-            game.WriteBytes(enemy.GetObjectPtr() - 4, BitConverter.GetBytes((float)spawnData.angle.angleCos));
-            
-            game.WriteBytes(enemy.GetObjectPtr(), BitConverter.GetBytes((float)spawnData.pos.X));
-            game.WriteBytes(enemy.GetObjectPtr() + 4, BitConverter.GetBytes((float)spawnData.pos.Y));
-            game.WriteBytes(enemy.GetObjectPtr() + 8, BitConverter.GetBytes((float)spawnData.pos.Z));
         }
     }
 }

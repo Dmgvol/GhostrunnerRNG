@@ -2,11 +2,13 @@
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.GameObjects;
 using GhostrunnerRNG.Maps;
+using GhostrunnerRNG.MemoryUtils;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using static GhostrunnerRNG.Game.GameUtils;
 
 namespace GhostrunnerRNG.MapGen {
@@ -27,15 +29,34 @@ namespace GhostrunnerRNG.MapGen {
         // custom checkpoints
         protected List<CustomCP> CustomCheckPoints = new List<CustomCP>();
 
+        private EasyPointers CoreEP = new EasyPointers();
+
         public MapType mapType { get; private set; }
 
         // general
         public bool HasRng = true;
         public bool CPRequired = true;
 
+        // forced cp
+        private Thread Thread_Restart;
+        private bool FirstUpdate = true;
+        public bool ForcedCPFlag = false;
+
+        // player move
+        private Vector3f _playerPos;
+        protected bool PlayerMoved = false;
+
         public MapCore(MapType mapType, bool BeforeCV = true, bool manualGen = false) {
             this.mapType = mapType;
             Config.GetInstance().NewSeed();
+            if(Config.GetInstance().Settings_ForcedRestart) {
+                CoreEP.Add("RestartFlag", new DeepPointer(0x0438D7F8, 0x58, 0xB0));
+                CoreEP.Add("RestartBind", new DeepPointer(0x0438D7F8, 0x70, 0x60, 0x188));
+                CoreEP.Add("CutsceneTimer", new DeepPointer(0x04609420, 0x128, 0x38C));
+                CoreEP.Add("CanRestart", new DeepPointer(0x04609420, 0x188, 0x2EB));
+                CheckPlayerMove(true);
+            }
+
 
             if(manualGen) return;
 
@@ -197,6 +218,18 @@ namespace GhostrunnerRNG.MapGen {
             }
 
         }
+        
+        // check if player moved from spawn pos
+        public void CheckPlayerMove(bool first = false) {
+            if(PlayerMoved) return;
+            if(first) {
+                _playerPos = new Vector3f(GameHook.xPos, GameHook.yPos, GameHook.zPos);
+                return;
+            }
+            // check if played moved
+            if(_playerPos.X != GameHook.xPos || _playerPos.Y != GameHook.yPos || _playerPos.Z != GameHook.zPos)
+                PlayerMoved = true;
+        }
 
         public virtual void UpdateMap(Vector3f Player) {
             // check custom checkpoints
@@ -206,7 +239,64 @@ namespace GhostrunnerRNG.MapGen {
                 }
                 CustomCheckPoints.RemoveAll(x => x.CPTriggered);
             }
+
+            // Deref EasyPointers - if needed
+            if(Config.GetInstance().Settings_ForcedRestart && FirstUpdate) {
+                FirstUpdate = false;
+                CoreEP.DerefPointers(GameHook.game);
+
+                // update player pos
+                CheckPlayerMove(true);
+            }
+
+            // forced restart?
+            if(Config.GetInstance().Settings_ForcedRestart && !ForcedCPFlag && CPRequired && GameHook.CP_COUNTER == 0) {
+                float value = 0;
+                bool canRestart;
+                CheckPlayerMove();
+                GameHook.game.ReadValue(CoreEP.Pointers["CutsceneTimer"].Item2, out value);
+                GameHook.game.ReadValue(CoreEP.Pointers["CanRestart"].Item2, out canRestart);
+                
+                if((PlayerMoved && canRestart) || value > 0) {
+                    ForcedCPFlag = true;
+                    ForceRestart();
+                }
+            }
         }
+
+        public void ForceRestart() {
+            // Doing it on a separated thread to avoid game/rng getting stuck
+            Thread_Restart = new Thread(new ThreadStart(TRestart));
+            Thread_Restart.Start();
+        }
+
+        private void TRestart() {
+            // read player settings
+            byte[] restartFlag = new byte[1];
+            int restartBind;
+            GameHook.game.ReadBytes(CoreEP.Pointers["RestartFlag"].Item2, restartFlag.Length, out restartFlag);
+            GameHook.game.ReadValue(CoreEP.Pointers["RestartBind"].Item2, out restartBind);
+
+            var key = ConvertKeybindToKey(restartBind); // get current keybinding
+            if(key == null) { // failed to get key?
+                MainWindow.GlobalLog = "Error:\n Failed to read Restart Keybinding";
+                return;
+            }
+
+            // restart disabled? enable it!
+            if(restartFlag[0] == 0) GameHook.game.WriteBytes(CoreEP.Pointers["RestartFlag"].Item2, new byte[] {1});
+
+            if(mapType == MapType.Awakening) Thread.Sleep(500);
+            // simulate restart key
+            if(key is VirtualKeyCode k) globalKeyboardHook.KeyPress(k);
+
+            // restart was disabled?
+            if(restartFlag[0] == 0) {
+                Thread.Sleep(100);
+                GameHook.game.WriteBytes(CoreEP.Pointers["RestartFlag"].Item2, restartFlag);
+            }
+        }
+
 
         protected void RandomPickEnemiesWithoutCP(ref List<Enemy> enemies, bool force = false, bool removeCP = true, int enemyIndex = -1) {
             if(enemies == null || enemies.Count == 0) return;

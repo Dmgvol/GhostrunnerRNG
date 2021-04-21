@@ -327,7 +327,7 @@ namespace GhostrunnerRNG.Maps {
 
             jumppad = new JumpPad(0xB80);//10000
             jumppad.AddSpawnInfo(new JumpPadSpawnInfo());//default
-            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(0.0f, -90.0f, 0.0f), Speed = 9280 });//short
+            jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(0.0f, -90.0f, 0.0f), Speed = 9350 });//short
             jumppad.AddSpawnInfo(new JumpPadSpawnInfo { Angle = new QuaternionAngle(0.0f, -90.0f, 0.0f), Speed = 150000 });//teleport
             worldObjects.Add(jumppad);
             #endregion

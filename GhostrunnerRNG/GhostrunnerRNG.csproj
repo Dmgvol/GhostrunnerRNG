@@ -91,6 +91,7 @@
     <Compile Include="Enemies\EnemyDrone.cs" />
     <Compile Include="Enemies\EnemySniper.cs" />
     <Compile Include="MapGen\MapCore.cs" />
+    <Compile Include="Maps\BreatheInCV.cs" />
     <Compile Include="Maps\EchoesCV.cs" />
     <Compile Include="Maps\GateKeeper.cs" />
     <Compile Include="Maps\IModes.cs" />
@@ -104,8 +105,10 @@
     <Compile Include="Maps\TempestCV.cs" />
     <Compile Include="Maps\TheClimbCV.cs" />
     <Compile Include="Maps\TYWB.cs" />
+    <Compile Include="MemoryUtils\VirtualKeyCode.cs" />
     <Compile Include="NonPlaceableObjects\Billboard.cs" />
     <Compile Include="NonPlaceableObjects\ChainedSignSpawners.cs" />
+    <Compile Include="GameObjects\CVButton.cs" />
     <Compile Include="NonPlaceableObjects\JumpPad.cs" />
     <Compile Include="NonPlaceableObjects\NonPlaceableObject.cs" />
     <Compile Include="MapGen\RoomLayout.cs" />
