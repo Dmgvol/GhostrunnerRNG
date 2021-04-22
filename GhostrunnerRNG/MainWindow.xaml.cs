@@ -50,7 +50,7 @@ namespace GhostrunnerRNG {
 				default:
 					break;
 			}
-			e.Handled = true;
+			e.Handled = false;
 		}
 
 		//// Log & GlobalLog ////

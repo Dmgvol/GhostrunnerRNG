@@ -16,25 +16,26 @@ namespace GhostrunnerRNG.Maps {
         Room room2 = new Room(new Vector3f(-9458, 18142, -135), new Vector3f(-5490, 14078, 1942));
         Room room_3platforms = new Room(new Vector3f(-9025, 10537, -563), new Vector3f(-6563, 7547, 1574));
 
+        List<Vector3f> platformDefaultPositions = new List<Vector3f>();
+
         // predefined spawns for platforms
         List<PlatformSpawner> platformSpawns = new List<PlatformSpawner>();
         List<CVPlatform> platforms = new List<CVPlatform>();
 
-        public BlinkCV() : base(GameUtils.MapType.BlinkCV, manualGen:true) {
+        public BlinkCV() : base(GameUtils.MapType.BlinkCV, manualGen: true) {
             if(GameHook.IsHC) return;
-
             Gen_PerRoom();
         }
 
         protected override void Gen_PerRoom() {
             // get all enemies and create layout & rooms
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game);
-           
-            //// Sort enemies per room ////
+
+            // Sort enemies per room
             Enemies_Room1 = room1.ReturnEnemiesInRoom(AllEnemies);
             Enemies_Room2 = room2.ReturnEnemiesInRoom(AllEnemies);
             Enemies_Room3 = room_3platforms.ReturnEnemiesInRoom(AllEnemies);
-           
+
             // spawn planes for 3 platforms
             platformSpawns.Add(new PlatformSpawner() {
                 p1_start = new Vector3f(-7331, 9542, 803),
@@ -72,9 +73,20 @@ namespace GhostrunnerRNG.Maps {
             platforms.Add(new CVPlatform(new DeepPointer(0x04609420, 0x30, 0xA8, 0x138)));
             platforms.Add(new CVPlatform(new DeepPointer(0x04609420, 0x30, 0xA8, 0x128)));
             platforms.Add(new CVPlatform(new DeepPointer(0x04609420, 0x30, 0xA8, 0x130)));
+
+            // default pos
+            platformDefaultPositions.Add(platforms[0].GetMemoryPos(GameHook.game));
+            platformDefaultPositions.Add(platforms[1].GetMemoryPos(GameHook.game));
+            platformDefaultPositions.Add(platforms[2].GetMemoryPos(GameHook.game));
+
+            // set second patrol to same pos (stop platforms)
+            for (int i = 0; i < platforms.Count; i++) {
+                platforms[i].Pos = platformDefaultPositions[i];
+                platforms[i].EndPoint = platformDefaultPositions[i];
+                platforms[i].WriteMemory(GameHook.game);
+            }
         }
 
-        // Custom Randomizer
         public override void RandomizeEnemies(Process game) {
             //// Room 1 ////
             Vector3f pos1 = new Vector3f(-7550, 23550, 390);
@@ -102,27 +114,68 @@ namespace GhostrunnerRNG.Maps {
             Enemies_Room2[2].SetMemoryPos(game, new SpawnData(pos6));
 
             //// room 3 - platforms ////
-            int spawnIndex = Config.GetInstance().r.Next(platformSpawns.Count);
+            if (FirstPlatformsRngFlag) {
+                int spawnIndex = Config.GetInstance().r.Next(platformSpawns.Count);
 
-            // asign platform values
-            platforms[0].Pos = platformSpawns[spawnIndex].p1_start;
-            platforms[0].EndPoint = platformSpawns[spawnIndex].p1_end;
-            platforms[0].WriteMemory(GameHook.game);
+                //asign platform values
+                platforms[0].Pos = platformSpawns[spawnIndex].p1_start;
+                platforms[0].EndPoint = platformSpawns[spawnIndex].p1_end;
+                platforms[0].WriteMemory(GameHook.game);
 
-            platforms[1].Pos = platformSpawns[spawnIndex].p2_start;
-            platforms[1].WriteMemory(GameHook.game);
+                platforms[1].Pos = platformSpawns[spawnIndex].p2_start;
+                platforms[1].WriteMemory(GameHook.game);
 
-            platforms[2].Pos = platformSpawns[spawnIndex].p3_start;
-            platforms[2].EndPoint = platformSpawns[spawnIndex].p3_end;
-            platforms[2].WriteMemory(GameHook.game);
+                platforms[2].Pos = platformSpawns[spawnIndex].p3_start;
+                platforms[2].EndPoint = platformSpawns[spawnIndex].p3_end;
+                platforms[2].WriteMemory(GameHook.game);
 
-            // asign enemies based on platform rng
-            Enemies_Room3[0].SetMemoryPos(game, new SpawnData(platformSpawns[spawnIndex].p1_start + new Vector3f(0, -25, 110)));
-            Enemies_Room3[1].SetMemoryPos(game, new SpawnData(platformSpawns[spawnIndex].p2_start + new Vector3f(0, -25, 110)));
-            Enemies_Room3[2].SetMemoryPos(game, new SpawnData(platformSpawns[spawnIndex].p3_start + new Vector3f(0, -25, 110)));
+                // asign enemies based on platform rng
+                Enemies_Room3[0].SetMemoryPos(game, new SpawnData(platformSpawns[spawnIndex].p1_start + new Vector3f(0, -25, 110)));
+                Enemies_Room3[1].SetMemoryPos(game, new SpawnData(platformSpawns[spawnIndex].p2_start + new Vector3f(0, -25, 110)));
+                Enemies_Room3[2].SetMemoryPos(game, new SpawnData(platformSpawns[spawnIndex].p3_start + new Vector3f(0, -25, 110)));
+            }
         }
 
-        private struct PlatformSpawner{
+        private bool FirstPlatformsRngFlag = false;
+        // Trigger Volume for Platforms
+        private Vector3f cornerA = new Vector3f(-10817, 19596, 1975);
+        private Vector3f cornerB = new Vector3f(-3712, 21937, -1790);
+
+        public override void UpdateMap(Vector3f Player) {
+            base.UpdateMap(Player);
+
+            if (!FirstPlatformsRngFlag && PlayerInVolume(Player)) {
+                FirstPlatformsRngFlag = true;
+
+                // rng
+                int spawnIndex = Config.GetInstance().r.Next(platformSpawns.Count);
+
+                //asign platform values
+                platforms[0].Pos = platformSpawns[spawnIndex].p1_start;
+                platforms[0].EndPoint = platformSpawns[spawnIndex].p1_end;
+                platforms[0].WriteMemory(GameHook.game);
+
+                platforms[1].Pos = platformSpawns[spawnIndex].p2_start;
+                platforms[1].WriteMemory(GameHook.game);
+
+                platforms[2].Pos = platformSpawns[spawnIndex].p3_start;
+                platforms[2].EndPoint = platformSpawns[spawnIndex].p3_end;
+                platforms[2].WriteMemory(GameHook.game);
+
+                // asign enemies based on platform rng
+                Enemies_Room3[0].SetMemoryPos(GameHook.game, new SpawnData(platformSpawns[spawnIndex].p1_start + new Vector3f(0, -25, 110)));
+                Enemies_Room3[1].SetMemoryPos(GameHook.game, new SpawnData(platformSpawns[spawnIndex].p2_start + new Vector3f(0, -25, 110)));
+                Enemies_Room3[2].SetMemoryPos(GameHook.game, new SpawnData(platformSpawns[spawnIndex].p3_start + new Vector3f(0, -25, 110)));
+            }
+        }
+
+        private bool PlayerInVolume(Vector3f player) {
+            return (player.X >= Math.Min(cornerA.X, cornerB.X) && player.X <= Math.Max(cornerA.X, cornerB.X) &&
+               player.Y >= Math.Min(cornerA.Y, cornerB.Y) && player.Y <= Math.Max(cornerA.Y, cornerB.Y) &&
+               player.Z >= Math.Min(cornerA.Z, cornerB.Z) && player.Z <= Math.Max(cornerA.Z, cornerB.Z));
+        }
+
+        private struct PlatformSpawner {
             public Vector3f p1_start, p1_end;
             public Vector3f p2_start;
             public Vector3f p3_start, p3_end;

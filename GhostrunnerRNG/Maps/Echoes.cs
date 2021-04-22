@@ -2,9 +2,7 @@
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
 using GhostrunnerRNG.NonPlaceableObjects;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using static GhostrunnerRNG.Enemies.Enemy;
 
 namespace GhostrunnerRNG.Maps {
@@ -46,8 +44,7 @@ namespace GhostrunnerRNG.Maps {
             Gen_PerRoom();
         }
         protected override void Gen_PerRoom() {
-            //indexes from 0 to 61 without 30 - 31
-
+            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x30, 0x128, 0xA8, 0x1280, 0x248, 0x1D0), new Vector3f(67150, -3805.012695f, 6745), GameHook.game);
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 30);
             AllEnemies.AddRange(GetAllEnemies(GameHook.game, 32, 30));
 

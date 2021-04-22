@@ -28,7 +28,7 @@ namespace GhostrunnerRNG.Maps {
         }
 
         protected override void Gen_PerRoom() {
-            // static enemy gap
+            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x0, 0x128, 0xA8, 0xD0, 0x248, 0x1D0), new Vector3f(33409, -55474, 2309), GameHook.game);
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 29);
             AllEnemies.AddRange(GetAllEnemies(GameHook.game, 39, 30));
             // dynamic gap: bulk search and filter by exact locations

@@ -249,11 +249,14 @@ namespace GhostrunnerRNG.MapGen {
                 CheckPlayerMove(true);
             }
 
+            // player moved?
+            if(!PlayerMoved)
+                CheckPlayerMove();
+
             // forced restart?
             if(Config.GetInstance().Settings_ForcedRestart && !ForcedCPFlag && CPRequired && GameHook.CP_COUNTER == 0) {
                 float value = 0;
                 bool canRestart;
-                CheckPlayerMove();
                 GameHook.game.ReadValue(CoreEP.Pointers["CutsceneTimer"].Item2, out value);
                 GameHook.game.ReadValue(CoreEP.Pointers["CanRestart"].Item2, out canRestart);
                 
@@ -284,7 +287,7 @@ namespace GhostrunnerRNG.MapGen {
             }
 
             // restart disabled? enable it!
-            if(restartFlag[0] == 0) GameHook.game.WriteBytes(CoreEP.Pointers["RestartFlag"].Item2, new byte[] {1});
+            if(restartFlag[0] == 0) GameHook.game.WriteBytes(CoreEP.Pointers["RestartFlag"].Item2, new byte[] {1 });
 
             if(mapType == MapType.Awakening) Thread.Sleep(500);
             // simulate restart key

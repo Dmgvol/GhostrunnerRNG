@@ -33,6 +33,7 @@ namespace GhostrunnerRNG.Maps {
         }
 
         protected override void Gen_PerRoom() {
+            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x8, 0x128, 0xA8, 0x78, 0x248, 0x1D0), new Vector3f(73395, -3290, 1340), GameHook.game);
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 26);
             AllEnemies.AddRange(GetAllEnemies(GameHook.game, 27, 13));
             Rooms = new List<RoomLayout>();
