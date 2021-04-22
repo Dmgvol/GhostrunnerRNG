@@ -27,7 +27,7 @@ What's new:[Latest Changelog](#Latest-Changelog).
 - Menu UI: GameMode selection (Mod description)
 
 ### Which Levels?
-All classic levels (besides Hell & Mara):
+All classic levels (besides Hel & Mara):
 
 - Awakening
 - Look Inside + CV
@@ -54,7 +54,7 @@ The exe window will show relevant info regarding the rng.
 
 ### Planned/Upcoming features
 - [x] Cybervoid Levels
-- [x] Classic Levels (besides Hell & Mara)
+- [x] Classic Levels (besides Hel & Mara)
 - [ ] Killruns
 - [ ] SR Difficulty (for speedrunners)
 - [ ] Nightmare difficulty
