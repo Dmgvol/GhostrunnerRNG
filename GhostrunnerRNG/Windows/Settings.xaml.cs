@@ -24,7 +24,7 @@ namespace GhostrunnerRNG.Windows {
             checkbox_SettingForcedRestart.IsChecked = Config.GetInstance().Settings_ForcedRestart;
 
             // diff
-            difBoxes = new List<CheckBox>() {Dif_easy, Dif_Normal, Dif_SR, Dif_NM };
+            difBoxes = new List<CheckBox>() {Dif_easy, Dif_Normal, Dif_NM };
             selectedDiff = Config.GetInstance().Setting_Difficulty;
 
             switch(selectedDiff) {
@@ -33,9 +33,6 @@ namespace GhostrunnerRNG.Windows {
                     break;
                 case Config.Difficulty.Normal:
                     Dif_Normal.IsChecked = true;
-                    break;
-                case Config.Difficulty.SR:
-                    Dif_SR.IsChecked = true;
                     break;
                 case Config.Difficulty.Nightmare:
                     Dif_NM.IsChecked = true;
@@ -79,19 +76,12 @@ namespace GhostrunnerRNG.Windows {
                     selectedDiff = Config.Difficulty.Normal;
                     DifDesc.Text =
                        " \u2022 Balanced as originally intended,\n    be ready for quite a challenge.";
-                } else if(box.Name.Equals(nameof(Dif_SR))) {
-                    selectedDiff = Config.Difficulty.SR;
-                    DifDesc.Text =
-                        " \u2022 Enemies placed in speedrunning routes.\n" +
-                        " \u2022 Heavily rely on DSJ and SDSJ.\n" +
-                        " \u2022 Hard-to-reach spots rarity boost.\n" +
-                        " \u2022 You agree to suffer";
                 } else if(box.Name.Equals(nameof(Dif_NM))) {
                     selectedDiff = Config.Difficulty.Nightmare;
                     DifDesc.Text =
                         " \u2022 Super hard enemy placements.\n" +
                         " \u2022 You agree to suffer.\n" +
-                        " \u2022 Where speedrunners become casuals.\n" +
+                        " \u2022 Hard-to-reach spots rarity boost.\n" +
                         " \u2022 You agree to become soil.";
                 }
                 DisableDifBoxes(box);

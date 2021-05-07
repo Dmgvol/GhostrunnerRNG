@@ -90,6 +90,8 @@
     <Compile Include="Enemies\Enemy.cs" />
     <Compile Include="Enemies\EnemyDrone.cs" />
     <Compile Include="Enemies\EnemySniper.cs" />
+    <Compile Include="MapGen\DynamicRoomLayout.cs" />
+    <Compile Include="MapGen\IRandomize.cs" />
     <Compile Include="MapGen\MapCore.cs" />
     <Compile Include="Maps\BreatheInCV.cs" />
     <Compile Include="Maps\EchoesCV.cs" />

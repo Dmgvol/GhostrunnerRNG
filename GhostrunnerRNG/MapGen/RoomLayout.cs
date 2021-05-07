@@ -1,14 +1,16 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
 namespace GhostrunnerRNG.MapGen {
-    public class RoomLayout {
+    public class RoomLayout : IRandomize  {
 
         private List<SpawnPlane> spawnPlanes = new List<SpawnPlane>();
         private List<WorldObject> roomObjects = new List<WorldObject>();
+        private Tuple<Vector3f, Angle> AttachedCPData;
 
         public RoomLayout() {}
 
@@ -102,6 +104,26 @@ namespace GhostrunnerRNG.MapGen {
                         availableSpawnPlanes.RemoveAt(indexToRemove);
                 }
             }
+
+            // Need to modify cp? find parent and change
+            if(AttachedCPData != null) {
+                var dp = roomObjects.OfType<Enemy>()?.Last()?.GetObjectDP();
+                List<int> offsets = new List<int>(dp.GetOffsets());
+                offsets[offsets.Count - 1] = 0x5D0;
+                offsets.Add(0x280);
+                offsets.Add(0x248);
+                offsets.Add(0x1D0);
+                DeepPointer parentDP = new DeepPointer(dp.GetBase(), offsets);
+                IntPtr parentPtr;
+                parentDP.DerefOffsets(game, out parentPtr);
+                //  pos
+                game.WriteValue(parentPtr, AttachedCPData.Item1.X);
+                game.WriteValue(parentPtr + 4, AttachedCPData.Item1.Y);
+                game.WriteValue(parentPtr + 8, AttachedCPData.Item1.Z);
+                // angle
+                game.WriteValue(parentPtr - 8, AttachedCPData.Item2.angleSin);
+                game.WriteValue(parentPtr - 4, AttachedCPData.Item2.angleCos);
+            }
         }
 
         // since we modify a copy of the list, we want to remove the actual spawnplane when we're done with the modified element,
@@ -116,6 +138,10 @@ namespace GhostrunnerRNG.MapGen {
 
         public void AddSpawnPlane(SpawnPlane spanwPlane) {
             spawnPlanes.Add(spanwPlane);
+        }
+
+        public void ModifyAttachedCP(Vector3f vec, Angle angle) {
+            AttachedCPData = new Tuple<Vector3f, Angle>(vec, angle);
         }
     }
 }

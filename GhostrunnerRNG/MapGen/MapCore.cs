@@ -18,7 +18,8 @@ namespace GhostrunnerRNG.MapGen {
         public List<Enemy> Enemies = new List<Enemy>();
 
         // room layouts (different gen)
-        protected List<RoomLayout> Rooms;
+        protected List<RoomLayout> Rooms = new List<RoomLayout>();
+        protected List<DynamicRoomLayout> DynamicRooms = new List<DynamicRoomLayout>();
 
         // enemies without cp
         protected List<Enemy> EnemiesWithoutCP = new List<Enemy>();
@@ -69,9 +70,6 @@ namespace GhostrunnerRNG.MapGen {
                     case Config.Difficulty.Normal:
                         mode.Gen_Normal();
                         break;
-                    case Config.Difficulty.SR:
-                        mode.Gen_SR();
-                        break;
                     case Config.Difficulty.Nightmare:
                         mode.Gen_Nightmare();
                         break;
@@ -91,9 +89,6 @@ namespace GhostrunnerRNG.MapGen {
                         case Config.Difficulty.Normal:
                             modeCV.Gen_Normal_BeforeCV();
                             break;
-                        case Config.Difficulty.SR:
-                            modeCV.Gen_SR_BeforeCV();
-                            break;
                         case Config.Difficulty.Nightmare:
                             modeCV.Gen_Nightmare_BeforeCV();
                             break;
@@ -108,9 +103,6 @@ namespace GhostrunnerRNG.MapGen {
                             break;
                         case Config.Difficulty.Normal:
                             modeCV.Gen_Normal_AfterCV();
-                            break;
-                        case Config.Difficulty.SR:
-                            modeCV.Gen_SR_AfterCV();
                             break;
                         case Config.Difficulty.Nightmare:
                             modeCV.Gen_Nightmare_AfterCV();
@@ -169,8 +161,15 @@ namespace GhostrunnerRNG.MapGen {
 
         // new RNG
         public virtual void RandomizeEnemies(Process game) {
+            // Dynamic Rooms
+            if(DynamicRooms?.Count > 0) {
+                DynamicRooms.ForEach(x => x.RandomizeEnemies(game));
+            }
+
+            // Generic Rooms
             if(Rooms != null && Rooms.Count > 0) {
-                // RoomLayout Gen
+               
+                // Regular Rooms
                 for(int i = 0; i < Rooms.Count; i++) {
                     Rooms[i].RandomizeEnemies(game);
                 }
@@ -206,11 +205,18 @@ namespace GhostrunnerRNG.MapGen {
                     }
                 }
             }
-
+            
 
             // uplinks and other nonPlaceableObjects
             for(int i = 0; i < worldObjects.Count; i++) {
                 if(worldObjects[i] is NonPlaceableObject npo) {
+                    // easy mode? skip Uplinks, billboards and AmidaFans RNG
+                    if(Config.GetInstance().Setting_Difficulty == Config.Difficulty.Easy &&
+                        Config.GetInstance().Settings_DisableUplinksOnEasy &&
+                        (npo is UplinkJump || npo is UplinkShurikens || npo is UplinkSlowmo ||
+                        npo is Billboard || npo is ToggleableFan || npo is ShurikenTarget)) return;
+
+
                     npo.Randomize(game);
                 }else {
                     worldObjects[i].SetMemoryPos(game);
@@ -260,10 +266,47 @@ namespace GhostrunnerRNG.MapGen {
                 GameHook.game.ReadValue(CoreEP.Pointers["CutsceneTimer"].Item2, out value);
                 GameHook.game.ReadValue(CoreEP.Pointers["CanRestart"].Item2, out canRestart);
                 
-                if((PlayerMoved && canRestart) || value > 0) {
+                if((PlayerMoved && canRestart && mapType != MapType.Faster) || value > 0) {
+                    // Note: Faster; restart only after cutscene to avoid NG new upgrade being stuck
                     ForcedCPFlag = true;
                     ForceRestart();
                 }
+            }
+        }
+
+        public void DEV_FindAllCP(List<Room> rooms) {
+            int c = 0;
+            for(var i = 1; i < 1000; i++) {
+                for(var j = 1; j < 20; j++) {
+                    DeepPointer hitDP = new DeepPointer(0x04609420, 0x98, 0x8 * (j - 1), 0x128, 0xA8, 0x8 * (i - 1), 0x248, 0x1D0);
+                    IntPtr hitPtr;
+                    hitDP.DerefOffsets(GameHook.game, out hitPtr);
+                    float x,y,z;
+                    GameHook.game.ReadValue(hitPtr, out x);
+                    GameHook.game.ReadValue(hitPtr + 4, out y);
+                    GameHook.game.ReadValue(hitPtr + 8, out z);
+
+                    if(rooms.Where(r => PlayerWithinRectangle(new Vector3f(x,y,z), r.pointA, r.pointB)).Count() > 0) {
+                        c++;
+                        Console.WriteLine($"CP:\nPos: {x} {y} {z}");
+                        Console.WriteLine($"(0x04609420, 0x98, 0x{0x8 * (j - 1):X}, 0x128, 0xA8, 0x{0x8 * (i - 1):X}, 0x248, 0x1D0)");
+                    }
+                }
+            }
+            Console.WriteLine("found: " + c);
+        }
+
+        public void DEV_GetEnemyTypes(List<Enemy> enemies) {
+            for(int i = 0; i < enemies.Count; i++) {
+                List<int> offsets = new List<int>(enemies[i].GetObjectDP().GetOffsets());
+                offsets[offsets.Count - 1] = 0x0;
+                DeepPointer parentDP = new DeepPointer(enemies[i].GetObjectDP().GetBase(), offsets);
+                IntPtr parentPtr;
+                parentDP.DerefOffsets(GameHook.game, out parentPtr);
+                //  pos
+                int value;
+                GameHook.game.ReadValue(parentPtr, out value);
+                Console.WriteLine($"Enemy: {i}: {value}");
             }
         }
 
@@ -337,7 +380,7 @@ namespace GhostrunnerRNG.MapGen {
             // get needed only
             for(int i = 0; i < enemiesBulk.Count; i++) {
                 for(int j = 0; j < positions.Count; j++) {
-                    if((int)enemiesBulk[i].Pos.X == (int)positions[j].X && (int)enemiesBulk[i].Pos.Y == (int)positions[j].Y && (int)enemiesBulk[i].Pos.Z == (int)positions[j].Z) {
+                    if(EnemyInApproximetry(enemiesBulk[i].Pos, positions[j])) { 
                         enemies.Add(enemiesBulk[i]);
                     }
                 }
@@ -345,6 +388,16 @@ namespace GhostrunnerRNG.MapGen {
 
             return enemies;
         }
+
+        private bool EnemyInApproximetry(Vector3f enemy, Vector3f target, float threshold = 50) {
+            Vector3f cornerA = target - new Vector3f(threshold, threshold, threshold);
+            Vector3f cornerB = target + new Vector3f(threshold, threshold, threshold);
+
+            return (enemy.X >= Math.Min(cornerA.X, cornerB.X) && enemy.X <= Math.Max(cornerA.X, cornerB.X) &&
+               enemy.Y >= Math.Min(cornerA.Y, cornerB.Y) && enemy.Y <= Math.Max(cornerA.Y, cornerB.Y) &&
+               enemy.Z >= Math.Min(cornerA.Z, cornerB.Z) && enemy.Z <= Math.Max(cornerA.Z, cornerB.Z));
+        }
+
 
         protected void TakeLastEnemyFromCP(ref List<Enemy> enemies, bool force = false, bool removeCP = true, bool attachedDoor = false, int enemyIndex = 0) {
             if(enemies == null || enemies.Count == 0) return;
@@ -379,7 +432,7 @@ namespace GhostrunnerRNG.MapGen {
                 }
             }
             //return if didn't find last enemy index
-            if(index == -1) {
+            if(attachedDoor && index == -1) {
                 return;
             }
 
@@ -411,7 +464,7 @@ namespace GhostrunnerRNG.MapGen {
             enemies.RemoveAt(index);
         }
 
-        protected void ModifyCP(DeepPointer dp, Vector3f pos, Process game) {
+        public static void ModifyCP(DeepPointer dp, Vector3f pos, Process game) {
             IntPtr cpPtr;
             dp.DerefOffsets(game, out cpPtr);
             game.WriteBytes(cpPtr, BitConverter.GetBytes(pos.X));
@@ -419,7 +472,7 @@ namespace GhostrunnerRNG.MapGen {
             game.WriteBytes(cpPtr + 8, BitConverter.GetBytes(pos.Z));
         }
 
-        protected void ModifyCP(DeepPointer dp, Vector3f pos, Angle angle, Process game) {
+        public static void ModifyCP(DeepPointer dp, Vector3f pos, Angle angle, Process game) {
             IntPtr cpPtr;
             dp.DerefOffsets(game, out cpPtr);
             // pos

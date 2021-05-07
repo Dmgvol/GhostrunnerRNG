@@ -2,7 +2,6 @@
     public interface IModes {
         void Gen_Easy(); // Easy layouts, no uplinks
         void Gen_Normal(); // Normal, the usual rng
-        void Gen_SR(); // For speedrunners
         void Gen_Hardcore(); // CLASSIC LEVELS - Ingame Hardcore mode selected
         void Gen_Nightmare(); // Make them suffer, crazy layouts!
     }
@@ -13,9 +12,6 @@
 
         void Gen_Normal_BeforeCV();
         void Gen_Normal_AfterCV();
-
-        void Gen_SR_BeforeCV();
-        void Gen_SR_AfterCV();
 
         void Gen_Hardcore_BeforeCV();
         void Gen_Hardcore_AfterCV();

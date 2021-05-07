@@ -9,7 +9,7 @@ using System.Linq;
 using static GhostrunnerRNG.Enemies.Enemy;
 
 namespace GhostrunnerRNG.Maps {
-    class Faster : MapCore {
+    class Faster : MapCore, IModes {
 
         #region Rooms
         // City
@@ -23,21 +23,16 @@ namespace GhostrunnerRNG.Maps {
         private Room room_6 = new Room(new Vector3f(-10888, 193792, 2282), new Vector3f(-12856, 204304, -232)); // 3 weebs, 1 frogger
         #endregion
 
-        public Faster() : base(GameUtils.MapType.Faster, manualGen: true) {
-            if(GameHook.IsHC) return;
+        public Faster() : base(GameUtils.MapType.Faster) { }
 
-            Gen_PerRoom();
-           
-        }
-
-        protected override void Gen_PerRoom() {
-            //indexes ?
+        public void Gen_Normal() {
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 6);
             AllEnemies.AddRange(GetAllEnemies(GameHook.game, 8, 11));
             Rooms = new List<RoomLayout>();
             RoomLayout layout;
             List<Enemy> enemies;
 
+            // drones
             enemies = room_1.ReturnEnemiesInRoom(AllEnemies);
             enemies[0] = new EnemyDrone(enemies[0]);
             enemies[1] = new EnemyDrone(enemies[1]);
@@ -51,7 +46,6 @@ namespace GhostrunnerRNG.Maps {
             Rooms.Add(layout);
 
             enemies = room_3.ReturnEnemiesInRoom(AllEnemies);
-
             enemies[0] = new EnemyDrone(enemies[0]);
             enemies[4].SetEnemyType(EnemyTypes.Weeb);
             layout = new RoomLayout(enemies);
@@ -59,17 +53,22 @@ namespace GhostrunnerRNG.Maps {
             //drone planes
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-3380, -162846, -1032), new Vector3f(-1529, -164636, -532), new Angle(-0.34f, 0.94f)).Mask(SpawnPlane.Mask_Airborne));//near left billboard
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-6211, -163236, -1457), new Vector3f(-4321, -164490, -618), new Angle(-0.01f, 1.00f)).Mask(SpawnPlane.Mask_Airborne));//between grapple point and door 
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(2870, -164751, -1396), new Vector3f(841, -166047, -595), new Angle(-0.52f, 0.85f)).Mask(SpawnPlane.Mask_Airborne));//left of the cp point
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-5800, -166436, -1140), new Vector3f(-3738, -168281, -544), new Angle(-0.08f, 1.00f)).Mask(SpawnPlane.Mask_Airborne));//above pistol+uzi plane
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(2870, -164751, -1396), new Vector3f(841, -166047, -595), new Angle(-0.52f, 0.85f)).Mask(SpawnPlane.Mask_Airborne).setDiff(1));//left of the cp point
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-5800, -166436, -1140), new Vector3f(-3738, -168281, -544), new Angle(-0.08f, 1.00f)).Mask(SpawnPlane.Mask_Airborne).setDiff(1));//above pistol+uzi plane
+
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-1894, -162544, -1383), new Angle(-0.30f, 0.96f)).Mask(SpawnPlane.Mask_Airborne).setDiff(0));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-4854, -161955, -1196), new Angle(-0.38f, 0.92f)).Mask(SpawnPlane.Mask_Airborne).setDiff(0));
+
             //pistols +uzi+weeb
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-2262, -165921, -1065), new Angle(-0.14f, 0.99f)).Mask(SpawnPlane.Mask_HighgroundLimited));//pole between billboards
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-2262, -165921, -1065), new Angle(-0.14f, 0.99f)).Mask(SpawnPlane.Mask_HighgroundLimited).setDiff(1));//pole between billboards
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-6285, -161101, -799), new Angle(-0.55f, 0.84f)).Mask(SpawnPlane.Mask_HighgroundLimited));// above shuriken
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-6987, -162593, -1043), new Angle(0.02f, 1.00f)).Mask(SpawnPlane.Mask_HighgroundLimited));//zipline pole near door
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-1224, -165351, -1141), new Vector3f(-3209, -165362, -1141), new Angle(-0.17f, 0.99f)).AsVerticalPlane().Mask(SpawnPlane.Mask_HighgroundLimited));//left billboard
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-1224, -165351, -1141), new Vector3f(-3209, -165362, -1141), new Angle(-0.17f, 0.99f))
+                .AsVerticalPlane().Mask(SpawnPlane.Mask_HighgroundLimited).setDiff(1));//left billboard
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-2422, -161895, -1043), new Angle(-0.70f, 0.72f)).Mask(SpawnPlane.Mask_HighgroundLimited));//end of zipline on weeb platform
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(232, -165490, -2201), new Vector3f(-392, -167449, -2201), new Angle(-0.41f, 0.91f)).Mask(SpawnPlane.Mask_Highground));//platform near cp
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(2087, -166558, -971), new Angle(-0.24f, 0.97f)).Mask(SpawnPlane.Mask_HighgroundLimited));//pole near cp
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-4725, -165273, -611), new Angle(0.03f, 1.00f)).Mask(SpawnPlane.Mask_HighgroundLimited));//sigh in the middle
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(2087, -166558, -971), new Angle(-0.24f, 0.97f)).Mask(SpawnPlane.Mask_HighgroundLimited).setDiff(1));//pole near cp
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-4725, -165273, -611), new Angle(0.03f, 1.00f)).Mask(SpawnPlane.Mask_HighgroundLimited).setDiff(1));//sigh in the middle
             //defualt planes
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-6153, -167230, -2191), new Vector3f(-3729, -166006, -2192), new Angle(0.24f, 0.97f)).SetMaxEnemies(2).Mask(SpawnPlane.Mask_Flatground));//pistol+uzi
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-4328, -164639, -2191), new Vector3f(-3766, -165860, -2191), new Angle(0.01f, 1.00f)).Mask(SpawnPlane.Mask_Flatground));//uzi near drone
@@ -134,7 +133,7 @@ namespace GhostrunnerRNG.Maps {
 
             //random spots
             layout = new RoomLayout();
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-17479, -142371, -2700), new Angle(-0.72f, 0.70f)).Mask(SpawnPlane.Mask_Airborne));//slide section before second shuriken
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-17479, -142371, -2700), new Angle(-0.72f, 0.70f)).Mask(SpawnPlane.Mask_Airborne).setDiff(1));//slide section before second shuriken
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-10730, -161776, -1647), new Vector3f(-9819, -162463, -1647), new Angle(0.00f, 1.00f)).Mask(SpawnPlane.Mask_Flatground));//after 1 fight
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(12121, -171111, -763), new Angle(0.20f, 0.98f)).Mask(SpawnPlane.Mask_Airborne));//near second billboard
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(27927, -152787, 605), new Angle(0.70f, 0.72f)).Mask(SpawnPlane.Mask_Highground));//hel platform
@@ -284,12 +283,32 @@ namespace GhostrunnerRNG.Maps {
 
 
             #region Signs Triggers
-            // force signs
+            // force signs, section 1
             // Default: -11830, 160550, 2040 | 650, 1025, 540
             worldObjects.Add(new Trigger(0x18, 0x380, new Vector3f(-11815, 139661, 350), new Vector3f(650, 1025, 540), // first wagon doorframe
                 new DeepPointer(0x04609420, 0x1F8, 0x60, 0xD0, 0x298, 0x830, 0xB0, 0x5A0, 0x1A8, 0x0), 0x19000,
                 "9A F1 42 C6 B0 C6 1B 48 33 D3 BA 44 66 BE 2E C6 50 CC 1D 48 66 96 21 45"));
+
+            // trigger to disable first signs moved upwards, to avoid double signs(because speedrunners...)
+            worldObjects.Add(new Trigger(0x18, 0x17c8, new Vector3f(-11801, 181093, 1609), new Vector3f(595, 40, 528.75f),
+                new DeepPointer(0x04609420, 0x1F8, 0x60, 0xD0, 0x298, 0x830, 0xB0, 0x5A0, 0x1A8, 0x0), 0x19000,
+                "EE C3 41 C6 66 BA 30 48 6A F6 27 43 54 FC 2E C6 9A CE 30 48 33 81 9A 44"));
+
             #endregion
         }
+
+        public void Gen_Easy() {
+            Gen_Normal();
+        }
+
+        public void Gen_Hardcore() {
+            throw new NotImplementedException();
+        }
+
+        public void Gen_Nightmare() {
+            throw new NotImplementedException();
+        }
+
+        protected override void Gen_PerRoom() {}
     }
 }

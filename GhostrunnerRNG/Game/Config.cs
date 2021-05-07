@@ -18,7 +18,9 @@ namespace GhostrunnerRNG.Game {
         public bool Setting_RemoveForceSlideTrigger = true;
         public bool Settings_ForcedRestart = true;
 
-        public enum Difficulty { Easy, Normal, SR, Nightmare}
+        public readonly bool Settings_DisableUplinksOnEasy = true;
+
+        public enum Difficulty { Easy, Normal, Nightmare}
         public Difficulty Setting_Difficulty = Difficulty.Normal;
 
         // RNG - singleton

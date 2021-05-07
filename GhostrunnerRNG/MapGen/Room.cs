@@ -6,8 +6,8 @@ using GhostrunnerRNG.Enemies;
 namespace GhostrunnerRNG.MapGen {
     // Room is the same as a geometrical rectangle class, just different name.
 
-    class Room {
-        Vector3f pointA, pointB;
+    public class Room {
+        public Vector3f pointA, pointB;
 
         public Room(Vector3f a, Vector3f b) {
             pointA = a;

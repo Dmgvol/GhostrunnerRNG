@@ -25,6 +25,12 @@ namespace GhostrunnerRNG.MapGen {
 
         public double rarity { get; private set; } = 1;
 
+
+        /// <summary>
+        /// -1: valid for all(default), 0: easy only , 0.5: easy + normal, 1: normal only
+        /// </summary>
+        public double difficulty { get; private set; } = -1;
+
         public bool SplitterAllowedToSpawn = false;
 
 
@@ -130,6 +136,16 @@ namespace GhostrunnerRNG.MapGen {
             return this;
         }
 
+        /// <summary> Sets plane's validation for specific difficulties </summary>
+        public SpawnPlane setDiff(double diff) {
+            if(diff % 0.5 > 0) diff -= diff % 0.5f;
+            if(diff < -1) diff = -1;
+            if(diff > 1) diff = 1;
+
+            difficulty = diff;
+            return this;
+        }
+
         // ban enemy type from using this spawnPlane
         public SpawnPlane BanEnemyType(Enemy.EnemyTypes enemyType) {
             if(BannedTypes.Contains(enemyType)) return this;
@@ -143,7 +159,24 @@ namespace GhostrunnerRNG.MapGen {
             return this;
         }
 
+        private bool ValidDiff() {
+            if(difficulty < 0) return true; // all
+
+            if(Config.GetInstance().Setting_Difficulty == Config.Difficulty.Easy)
+                    return difficulty <= 0.5;
+
+            if(Config.GetInstance().Setting_Difficulty == Config.Difficulty.Normal)
+                return difficulty >= 0.5 && difficulty <= 1.5;
+            
+            // return true otherwise, because we care only for easy and normal
+            return true;
+        }
+
         public bool IsEnemyAllowed(Enemy.EnemyTypes enemyType, double rarity = 1) {
+            // spawn plane valid for diff?
+            if(!ValidDiff()) return false;
+
+            // rarity
             if(this.rarity < rarity) return false;
 
             // splitter? check if allowed
@@ -157,6 +190,7 @@ namespace GhostrunnerRNG.MapGen {
         }
 
         public bool IsAllowed(double rarity = 1) {
+            if(!ValidDiff()) return false;
             if(this.rarity < rarity) return false;
             return true;
         }

@@ -36,7 +36,6 @@
                     <Label HorizontalAlignment="Left" Margin="0, 5" VerticalAlignment="Top" Content="Difficulty (classic levels)" Style="{StaticResource WhiteLabelHeader}"/>
                     <CheckBox Margin="10, 0" x:Name="Dif_easy" Content="Easy" HorizontalAlignment="Left" IsChecked="False" Style="{StaticResource DisabledDarkCheckBox}" Checked="Dif_Checked" Unchecked="Dif_Checked"/>
                     <CheckBox Margin="10, 0" x:Name="Dif_Normal" Content="Normal" HorizontalAlignment="Left" IsChecked="false" Style="{StaticResource DarkCheckBox}" Foreground="White" Checked="Dif_Checked" Unchecked="Dif_Checked"/>
-                    <CheckBox Margin="10, 0" x:Name="Dif_SR" Content="SR Focus (hard)" HorizontalAlignment="Left" IsChecked="False" Style="{StaticResource DisabledDarkCheckBox}" Checked="Dif_Checked" Unchecked="Dif_Checked"/>
                     <CheckBox Margin="10, 0" x:Name="Dif_NM" Content="Nightmare" HorizontalAlignment="Left" IsChecked="False" Style="{StaticResource DisabledDarkCheckBox}" Checked="Dif_Checked" Unchecked="Dif_Checked"/>
                 </StackPanel>
             </Grid>
@@ -61,7 +60,7 @@
             <StackPanel Grid.Row="1"  >
                 <Label HorizontalAlignment="Left" Margin="0, 5" VerticalAlignment="Top" Content="Advanced" Style="{StaticResource WhiteLabelHeader}"/>
                 <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_SlideForceTrigger" ToolTip="Disable trigger that forces player to slide in Faster map" Content="Disable forced-slide trigger in Faster" HorizontalAlignment="Left" Style="{StaticResource DarkCheckBox}"/>
-                <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_SettingForcedRestart" ToolTip="Will Instat restart each level" Content="Force Instat-Restart on start (Experimental)" HorizontalAlignment="Left" Style="{StaticResource DarkCheckBox}"/>
+                <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_SettingForcedRestart" ToolTip="Will Instat restart each level" Content="Force Instant-Restart on start (Experimental)" HorizontalAlignment="Left" Style="{StaticResource DarkCheckBox}"/>
                 
                 <!--TBA feature option-->
                 <CheckBox Margin="10, 0" Content="No Sword, gloves only" ToolTip="You really like to suffer, eh?"  HorizontalAlignment="Left"  Style="{StaticResource DisabledDarkCheckBox}"/>
