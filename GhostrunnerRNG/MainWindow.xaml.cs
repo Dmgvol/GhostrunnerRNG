@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.Windows;
+using System.ComponentModel;
 
 namespace GhostrunnerRNG {
     public partial class MainWindow : Window {
@@ -41,8 +42,13 @@ namespace GhostrunnerRNG {
             LogStatus("Idle");
 		}
 
-		//// HotKeys ////
-		private void InputKeyDown(object sender, KeyEventArgs e) {
+        protected override void OnClosing(CancelEventArgs e) {
+			GameHook.overlayM?.CloseOverlay();
+            base.OnClosing(e);
+        }
+
+        //// HotKeys ////
+        private void InputKeyDown(object sender, KeyEventArgs e) {
 			switch(e.KeyCode) {
 				case Keys.F7:
 					game.NewRNG(true);

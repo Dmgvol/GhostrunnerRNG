@@ -273,7 +273,7 @@ namespace GhostrunnerRNG.Maps {
             #endregion
 
             #region ForceSlideTrigger
-            if(Config.GetInstance().Setting_RemoveForceSlideTrigger) {
+            if(Config.GetInstance().Settings_RemoveForceSlideTrigger) {
                 IntPtr triggerPtr;
                 DeepPointer triggerDP = new DeepPointer(0x04609420, 0x98, 0x10, 0x128, 0xA8, 0x3C0, 0x230, 0x398, 0x150);
                 triggerDP.DerefOffsets(GameHook.game, out triggerPtr);

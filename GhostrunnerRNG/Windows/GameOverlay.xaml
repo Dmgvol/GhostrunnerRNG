@@ -1,0 +1,19 @@
+﻿<Window x:Class="GhostrunnerRNG.Windows.GameOverlay"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GhostrunnerRNG.Windows"
+        mc:Ignorable="d"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Topmost="true"
+        Background="Transparent"
+        Title="RNG Overlay" Height="1080" Width="1920">
+    <Grid Margin="20">
+        <StackPanel Orientation="Vertical">
+            <Label  Content=">: Debug Stats" FontSize="20" FontFamily="Bender" FontWeight="Bold" Foreground="#fdb300"/>
+            <Label x:Name="Label1" Content="" FontSize="16" FontFamily="Bender" FontStyle="Italic" Foreground="#ededed"/>
+        </StackPanel>
+    </Grid>
+</Window>

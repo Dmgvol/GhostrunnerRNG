@@ -23,7 +23,7 @@
                 <ColumnDefinition Width="100*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="180"/>
+                <RowDefinition Height="200"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
@@ -34,7 +34,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel>
                     <Label HorizontalAlignment="Left" Margin="0, 5" VerticalAlignment="Top" Content="Difficulty (classic levels)" Style="{StaticResource WhiteLabelHeader}"/>
-                    <CheckBox Margin="10, 0" x:Name="Dif_easy" Content="Easy" HorizontalAlignment="Left" IsChecked="False" Style="{StaticResource DisabledDarkCheckBox}" Checked="Dif_Checked" Unchecked="Dif_Checked"/>
+                    <CheckBox Margin="10, 0" x:Name="Dif_easy" Content="Easy" HorizontalAlignment="Left" IsChecked="False" Style="{StaticResource DarkCheckBox}" Checked="Dif_Checked" Unchecked="Dif_Checked"/>
                     <CheckBox Margin="10, 0" x:Name="Dif_Normal" Content="Normal" HorizontalAlignment="Left" IsChecked="false" Style="{StaticResource DarkCheckBox}" Foreground="White" Checked="Dif_Checked" Unchecked="Dif_Checked"/>
                     <CheckBox Margin="10, 0" x:Name="Dif_NM" Content="Nightmare" HorizontalAlignment="Left" IsChecked="False" Style="{StaticResource DisabledDarkCheckBox}" Checked="Dif_Checked" Unchecked="Dif_Checked"/>
                 </StackPanel>
@@ -45,11 +45,12 @@
             <Border BorderBrush="{StaticResource BackgroundLight}" BorderThickness="1" Grid.RowSpan="2" VerticalAlignment="Stretch" Width="1" Margin="0,0,10,0" HorizontalAlignment="Right"/>
 
             <!--==== GENERAL SETTINGS ====-->
-            <StackPanel Grid.Row="0" Margin="0, 10" >
+            <StackPanel Grid.Row="0" Margin="0, 10" Grid.RowSpan="2" >
                 <Label HorizontalAlignment="Left" Margin="0, 5" VerticalAlignment="Top" Content="General" Style="{StaticResource WhiteLabelHeader}"/>
                 <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_RngOnRestart" ToolTip="Will randomize on new level or level restart" Content="New RNG on level restart/load" HorizontalAlignment="Left" Style="{StaticResource DarkCheckBox}"/>
                 <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_RngCybervoid" ToolTip="RNG Cybervoids; platforms, enemies..."  Content="RNG Cybervoids" HorizontalAlignment="Left"  Height="28" Width="auto" Style="{StaticResource DarkCheckBox}"/>
                 <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_RngTargets" ToolTip="Shuriken targets can range from 1 to 3 needed hits to activate"  Content="Randomize needed hits for shuriken targets" HorizontalAlignment="Left" Style="{StaticResource DarkCheckBox}"/>
+                <CheckBox Margin="10, 0" IsChecked="false" x:Name="checkbox_EnableOverlay" ToolTip="Shows info realtime"  Content="Enable RNG custom game overlay" HorizontalAlignment="Left" Style="{StaticResource DarkCheckBox}"/>
 
                 <!--Fake/Troll/Meme option-->
                 <CheckBox Margin="10, 0" Content="Random game crashes" IsChecked="True"  HorizontalAlignment="Left"  Style="{StaticResource DisabledDarkCheckBox}"/>

@@ -53,9 +53,9 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-33776, -8237, 6194), new Vector3f(-36841, -7593, 6194), new Angle(0.0f, 1.00f)));//closer middle platform spawn plane
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-36922, -5423, 6198), new Vector3f(-34115, -5995, 6202), new Angle(-0.68f, 0.74f)));//closer left platformspawn plane
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-40545, -5525, 6195), new Vector3f(-38839, -6006, 6202), new Angle(-0.03f, 1.00f))); //far left platform spawn plane
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-37883, -7182, 6881), new Angle(-0.09f, 1.00f)).setDiff(1));//billboard in the middle
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-36108, -10755, 6917), new Angle(0.38f, 0.93f)).setDiff(1));//billboard on the right
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-37630, -5086, 6880), new Angle(-0.26f, 0.96f)).setDiff(1));//billboard on the left
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-37883, -7182, 6881), new Angle(-0.09f, 1.00f)));//billboard in the middle
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-36108, -10755, 6917), new Angle(0.38f, 0.93f)));//billboard on the right
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-37630, -5086, 6880), new Angle(-0.26f, 0.96f)));//billboard on the left
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-35764, -9000, 7410), new Vector3f(-38934, -9000, 7410), new Angle(0.09f, 1.00f)).SetMaxEnemies(2).setDiff(1));//grapples line on the right
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-35077, -6800, 7410), new Vector3f(-36823, -6800, 7410), new Angle(-0.11f, 0.99f)).setDiff(1));//grapples line on the left
             Rooms.Add(layout);

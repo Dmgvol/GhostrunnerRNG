@@ -110,7 +110,7 @@ namespace GhostrunnerRNG.Maps {
 
             layout = new RoomLayout(shieldOrb1); //orb
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(148695, -88911, 3261)));//behind billboard near middle platform
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(152815, -87759, 2230)).setDiff(1).setRarity(0.2));//under right platform
+            //layout.AddSpawnPlane(new SpawnPlane(new Vector3f(152815, -87759, 2230)).setDiff(1).setRarity(0.2));//under right platform     - nightmare
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(150835, -87631, 2750), new Vector3f(148114, -85596, 3600)));//middle platform
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(147351, -82958, 3417)));//billboard near exit
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(144450, -85503, 2921), new Vector3f(144450, -84265, 3523)));//wall near slowmo platform

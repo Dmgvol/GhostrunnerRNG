@@ -73,6 +73,7 @@
     <Compile Include="Game\Config.cs" />
     <Compile Include="Game\EasyPointers.cs" />
     <Compile Include="Game\GameHook.cs" />
+    <Compile Include="Game\OverlayManager.cs" />
     <Compile Include="Game\GameUtils.cs" />
     <Compile Include="Game\SpawnData.cs" />
     <Compile Include="Localization\Lang_DE.cs" />
@@ -151,6 +152,9 @@
     <Compile Include="Windows\DevWindow.xaml.cs">
       <DependentUpon>DevWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\GameOverlay.xaml.cs">
+      <DependentUpon>GameOverlay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
@@ -175,6 +179,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\DevWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\GameOverlay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

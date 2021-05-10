@@ -5,7 +5,7 @@ using static GhostrunnerRNG.Localization.LocalizationManager;
 
 namespace GhostrunnerRNG.Game {
     class Config {
-        public const string VERSION = "0.3.03";
+        public const string VERSION = "0.3.04";
 
         private static Config instance;
 
@@ -15,8 +15,9 @@ namespace GhostrunnerRNG.Game {
         public bool Gen_RngCV = true;
         public bool Gen_RngTargets = true;
 
-        public bool Setting_RemoveForceSlideTrigger = true;
+        public bool Settings_RemoveForceSlideTrigger = true;
         public bool Settings_ForcedRestart = true;
+        public bool Settings_EnableOverlay = false;
 
         public readonly bool Settings_DisableUplinksOnEasy = true;
 

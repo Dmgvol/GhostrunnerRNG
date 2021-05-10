@@ -50,6 +50,10 @@ namespace GhostrunnerRNG.Game {
 		public static MapType AccurateMapType { get; private set; }
 
 
+		// OVERLAY
+		public static OverlayManager overlayM;
+
+
 		private MainWindow main;
 
 		public GameHook(MainWindow main) {
@@ -63,6 +67,8 @@ namespace GhostrunnerRNG.Game {
 			updateTimer.Start();
 
 			oldPreciseTimer = preciseTimer = -1;
+
+			overlayM = new OverlayManager();
 		}
 
 		// Timer Tick
@@ -114,6 +120,8 @@ namespace GhostrunnerRNG.Game {
 			game.ReadValue<float>(xPosPtr, out xPos);
 			game.ReadValue<float>(yPosPtr, out yPos);
 			game.ReadValue<float>(zPosPtr, out zPos);
+
+			overlayM?.UpdateOverlay_SimpleText($"-> Player pos: {xPos:0}, {yPos:0}, {yPos:0}");
 
 			// Update Map
 			if(currentMap != null) {
@@ -167,7 +175,8 @@ namespace GhostrunnerRNG.Game {
 
 				//HC not supported
 				checkHCMode();
-				if(IsHC) {
+				if(IsHC && 
+					(AccurateMapType != MapType.AwakeningLookInside && AccurateMapType != MapType.Awakening)) {
 					currentMap = null;
 					main.ToggleRngControls(false);
 					AccurateMapType = MapType.Unknown;

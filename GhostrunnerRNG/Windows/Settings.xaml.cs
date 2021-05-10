@@ -20,8 +20,9 @@ namespace GhostrunnerRNG.Windows {
             checkbox_RngOnRestart.IsChecked = Config.GetInstance().Gen_RngOnRestart;
             checkbox_RngCybervoid.IsChecked = Config.GetInstance().Gen_RngCV;
             checkbox_RngTargets.IsChecked = Config.GetInstance().Gen_RngTargets;
-            checkbox_SlideForceTrigger.IsChecked = Config.GetInstance().Setting_RemoveForceSlideTrigger;
+            checkbox_SlideForceTrigger.IsChecked = Config.GetInstance().Settings_RemoveForceSlideTrigger;
             checkbox_SettingForcedRestart.IsChecked = Config.GetInstance().Settings_ForcedRestart;
+            checkbox_EnableOverlay.IsChecked = Config.GetInstance().Settings_EnableOverlay;
 
             // diff
             difBoxes = new List<CheckBox>() {Dif_easy, Dif_Normal, Dif_NM };
@@ -51,9 +52,16 @@ namespace GhostrunnerRNG.Windows {
             Config.GetInstance().Gen_RngCV = checkbox_RngCybervoid.IsChecked == true;
             Config.GetInstance().Gen_RngOnRestart = checkbox_RngOnRestart.IsChecked == true;
             Config.GetInstance().Gen_RngTargets = checkbox_RngTargets.IsChecked == true;
-            Config.GetInstance().Setting_RemoveForceSlideTrigger = checkbox_SlideForceTrigger.IsChecked == true;
+            Config.GetInstance().Settings_RemoveForceSlideTrigger = checkbox_SlideForceTrigger.IsChecked == true;
             Config.GetInstance().Settings_ForcedRestart = checkbox_SettingForcedRestart.IsChecked == true;
             Config.GetInstance().Setting_Difficulty = selectedDiff;
+            Config.GetInstance().Settings_EnableOverlay = checkbox_EnableOverlay.IsChecked == true;
+
+            // Overlay
+            if(Config.GetInstance().Settings_EnableOverlay) {
+                GameHook.overlayM?.CheckOverlay();
+            }
+
             // and close
             Close();
         }
