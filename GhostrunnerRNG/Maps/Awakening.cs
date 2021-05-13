@@ -281,7 +281,8 @@ namespace GhostrunnerRNG.Maps {
             // room 4
             enemies = hc_room4.ReturnEnemiesInRoom(AllEnemies);
             enemies[0] = new EnemyDrone(enemies[0]);
-            for(int i = 0; i < 3; i++)  RandomPickEnemiesWithoutCP(ref enemies, force: true, removeCP: false);
+            RemoveParentObjects(ref enemies);
+            EnemiesWithoutCP.AddRange(enemies);
 
             // room 5
             enemies = hc_room5.ReturnEnemiesInRoom(AllEnemies);
@@ -319,7 +320,7 @@ namespace GhostrunnerRNG.Maps {
             // orb
             layout = new RoomLayout(enemies.Take(1).Single());
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-95, -74846, 966))); // top of billboard right
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-1265, -75711, 2797), new Vector3f(-2452, -75093, 1825)).AsVerticalPlane()); // top-up curved billboard
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-1265, -75711, 2797), new Vector3f(-1224, -75844, 1457)).AsVerticalPlane()); // top-up curved billboard
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(895, -70257, 811))); // street light, middle
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-2705, -68480, 1051))); // top of curve billboard, near exit
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(4773, -71128, 1276))); // left billboard, high
@@ -327,6 +328,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(4054, -71784, -200))); // under slide
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-2544, -69779, 289))); // near exit door
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(673, -75451, 565), new Vector3f(-583, -75460, 912)).AsVerticalPlane()); // right small billboard
+            layout.DoNotReuse();
             Rooms.Add(layout);
 
             // enemies
@@ -377,10 +379,7 @@ namespace GhostrunnerRNG.Maps {
             ////////////////// Combine enemies from LookInside to Awakening //////////////////
             var LIenemiesAll = LookInside.ReturnEnemiesInRoom(AllEnemies);
             // remove any cp and attached doors 
-            for(int i = 0; i < LIenemiesAll.Count; i++) {
-                RandomPickEnemiesWithoutCP(ref LIenemiesAll, force: true, removeCP: true, modifyList:false);
-                TakeLastEnemyFromCP(ref LIenemiesAll, force: true, removeCP: true, attachedDoor: true, modifyList:false);
-            }
+            RemoveParentObjects(ref LIenemiesAll);
 
 
             // LookInside Room1
@@ -401,6 +400,7 @@ namespace GhostrunnerRNG.Maps {
             turretSpawn.VerticalAngle = 0;
             turretSpawn.HorizontalSpeed = 50;
             turretSpawn.HorizontalAngle = 45;
+            turretSpawn.SetRange(TurretSpawnInfo.DefaultRange);
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-1082, -74877, 339), new Angle(0.76f, 0.65f)).SetSpawnInfo(turretSpawn));
 
             // Last room, exit door platform, aiming to middle
@@ -408,6 +408,7 @@ namespace GhostrunnerRNG.Maps {
             turretSpawn.VerticalAngle = 10;
             turretSpawn.HorizontalSpeed = 30;
             turretSpawn.HorizontalAngle = 35;
+            turretSpawn.SetRange(TurretSpawnInfo.DefaultRange);
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-975, -70054, -80), new Angle(-0.02f, 1.00f)).SetSpawnInfo(turretSpawn));
 
             // Last room, left bottom, aiming to middle/slide
@@ -415,6 +416,7 @@ namespace GhostrunnerRNG.Maps {
             turretSpawn.VerticalAngle = 30;
             turretSpawn.HorizontalSpeed = 30;
             turretSpawn.HorizontalAngle = 40;
+            turretSpawn.SetRange(TurretSpawnInfo.DefaultRange);
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(4739, -70409, -350), new Angle(1.00f, 0.02f)).SetSpawnInfo(turretSpawn));
 
             // Last room, middle metal wall, aiming to door
@@ -422,6 +424,7 @@ namespace GhostrunnerRNG.Maps {
             turretSpawn.VerticalAngle = 20;
             turretSpawn.HorizontalSpeed = 40;
             turretSpawn.HorizontalAngle = 30;
+            turretSpawn.SetRange(TurretSpawnInfo.DefaultRange);
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-66, -69760, 256), new QuaternionAngle(0.00f, -0.71f, 0.71f, 0.00f)).SetSpawnInfo(turretSpawn));
 
 
@@ -430,6 +433,7 @@ namespace GhostrunnerRNG.Maps {
             turretSpawn.VerticalAngle = 10;
             turretSpawn.HorizontalSpeed = 30;
             turretSpawn.HorizontalAngle = 30;
+            turretSpawn.SetRange(TurretSpawnInfo.DefaultRange);
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-8836, -54267, 3403), new Angle(-0.69f, 0.72f)).SetSpawnInfo(turretSpawn));
 
 
@@ -438,6 +442,7 @@ namespace GhostrunnerRNG.Maps {
             turretSpawn.VerticalAngle = 0;
             turretSpawn.HorizontalSpeed = 0;
             turretSpawn.HorizontalAngle = 0;
+            turretSpawn.SetRange(TurretSpawnInfo.DefaultRange);
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11887, -56304, 4500), new QuaternionAngle(0.00f, 0.22f, 0.00f, 0.98f)).SetSpawnInfo(turretSpawn));
 
 
@@ -446,6 +451,7 @@ namespace GhostrunnerRNG.Maps {
             turretSpawn.VerticalAngle = 30;
             turretSpawn.HorizontalSpeed = 30;
             turretSpawn.HorizontalAngle = 30;
+            turretSpawn.SetRange(TurretSpawnInfo.DefaultRange);
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(5282, -66960, 1678), new Angle(-0.47f, 0.88f)).SetSpawnInfo(turretSpawn));
 
 
@@ -454,6 +460,7 @@ namespace GhostrunnerRNG.Maps {
             turretSpawn.VerticalAngle = 10;
             turretSpawn.HorizontalSpeed = 50;
             turretSpawn.HorizontalAngle = 45;
+            turretSpawn.SetRange(TurretSpawnInfo.DefaultRange);
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-30803, -63598, 3198), new Angle(0.39f, 0.92f)).SetSpawnInfo(turretSpawn));
 
             // First classic pistol room, on billboard side, aiming towards main path
@@ -461,6 +468,7 @@ namespace GhostrunnerRNG.Maps {
             turretSpawn.VerticalAngle = 0;
             turretSpawn.HorizontalSpeed = 0;
             turretSpawn.HorizontalAngle = 0;
+            turretSpawn.SetRange(3220);
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-14269, -61957, 3503), new QuaternionAngle(-0.35f, 0.61f, -0.61f, 0.35f)).SetSpawnInfo(turretSpawn));
 
             layout.DoNotReuse();
@@ -501,6 +509,7 @@ namespace GhostrunnerRNG.Maps {
 
             // last slide, after 3dude hallway
             LIenemies = LookInisde_room3.ReturnEnemiesInRoom(LIenemiesAll);
+            LIenemies[0] = new EnemyShieldOrb(LIenemies[0]);
             // 0 - orb
             layout = new RoomLayout(LIenemies.Take(1).Single());
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(8990, -73925, 2302), new Vector3f(9006, -72959, 1917))); // billboard
@@ -520,6 +529,18 @@ namespace GhostrunnerRNG.Maps {
             // drone extra
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(8851, -75820, 2415), new Vector3f(7486, -75685, 2415), new Angle(0.69f, 0.72f)).Mask(SpawnPlane.Mask_Airborne));
             Rooms.Add(layout);
+
+
+
+            // Custom Checkpoints
+            // after big slide, (just bigger/additional for speedrunners)
+            CustomCheckPoints.Add(new GameObjects.CustomCP(mapType, new Vector3f(2546, -60309, 640), new Vector3f(5995, -58083, 3287),
+                new Vector3f(4099, -58986, 1396), new Angle(-0.22f, 0.98f)));
+
+            // after "3dudehallway"
+            CustomCheckPoints.Add(new GameObjects.CustomCP(mapType, new Vector3f(5554, -73284, 2487), new Vector3f(7084, -72234, 1285), 
+                new Vector3f(6099, -72832, 1800), new Angle(-0.03f, 1.00f)));
+
 
         }
 

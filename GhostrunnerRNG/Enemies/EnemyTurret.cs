@@ -25,6 +25,8 @@ namespace GhostrunnerRNG.Enemies {
             Pointers.Add("VisibleLaserLength", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6B8), IntPtr.Zero));
             Pointers.Add("RotationOffset", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6A8), IntPtr.Zero));
             Pointers.Add("HorizontalAngleSmooth", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x6EC), IntPtr.Zero));
+            Pointers.Add("MaxAttackRange", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0xE0, 0x2E8, 0xB0, 0x0, 0x50), IntPtr.Zero));
+            Pointers.Add("MaxAttackRange2", new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0xE0, 0x2E8, 0xB0, 0x0, 0x54), IntPtr.Zero));
         }
 
         protected override void DerefPointer(Process game) {
@@ -58,6 +60,10 @@ namespace GhostrunnerRNG.Enemies {
             DefaultData.RotationOffset = value;
             game.ReadValue(Pointers["HorizontalAngleSmooth"].Item2, out value);
             DefaultData.HorizontalAngleSmooth = value;
+            game.ReadValue(Pointers["MaxAttackRange"].Item2, out value);
+            DefaultData.MaxAttackRange = value;
+            game.ReadValue(Pointers["MaxAttackRange2"].Item2, out value);
+            DefaultData.MaxAttackRange2 = value;
         }
 
         public override void SetMemoryPos(Process game, SpawnData spawnData) {
@@ -71,17 +77,25 @@ namespace GhostrunnerRNG.Enemies {
             base.SetMemoryPos(game, spawnData);
 
             // SpawnData contains SpawnInfo of type Turret?
-            if(spawnData.spawnInfo != null && spawnData.spawnInfo is TurretSpawnInfo) {
-                ModifyIfChanged(game, Pointers["AngleToDestoryFromFace"].Item2, ref ((TurretSpawnInfo)spawnData.spawnInfo).AngleToDestoryFromFace, DefaultData.AngleToDestoryFromFace);
-                ModifyIfChanged(game, Pointers["HorizontalAngle"].Item2, ref ((TurretSpawnInfo)spawnData.spawnInfo).HorizontalAngle, DefaultData.HorizontalAngle);
-                ModifyIfChanged(game, Pointers["HorizontalSpeed"].Item2, ref ((TurretSpawnInfo)spawnData.spawnInfo).HorizontalSpeed, DefaultData.HorizontalSpeed);
-                ModifyIfChanged(game, Pointers["HorizontalDetectionAngle"].Item2, ref ((TurretSpawnInfo)spawnData.spawnInfo).HorizontalDetectionAngle, DefaultData.HorizontalDetectionAngle);
-                ModifyIfChanged(game, Pointers["VerticalAngle"].Item2, ref ((TurretSpawnInfo)spawnData.spawnInfo).VerticalAngle, DefaultData.VerticalAngle);
-                ModifyIfChanged(game, Pointers["VerticalDetectionAngle"].Item2, ref ((TurretSpawnInfo)spawnData.spawnInfo).VerticalDetectionAngle, DefaultData.VerticalDetectionAngle);
-                ModifyIfChanged(game, Pointers["VisibleLaserLength"].Item2, ref ((TurretSpawnInfo)spawnData.spawnInfo).VisibleLaserLength, DefaultData.VisibleLaserLength);
-                ModifyIfChanged(game, Pointers["RotationOffset"].Item2, ref ((TurretSpawnInfo)spawnData.spawnInfo).RotationOffset, DefaultData.RotationOffset);
+            if(spawnData.spawnInfo != null && spawnData.spawnInfo is TurretSpawnInfo info) {
+                ModifyIfChanged(game, Pointers["AngleToDestoryFromFace"].Item2, ref info.AngleToDestoryFromFace, DefaultData.AngleToDestoryFromFace);
+                ModifyIfChanged(game, Pointers["HorizontalAngle"].Item2, ref info.HorizontalAngle, DefaultData.HorizontalAngle);
+                ModifyIfChanged(game, Pointers["HorizontalSpeed"].Item2, ref info.HorizontalSpeed, DefaultData.HorizontalSpeed);
+                ModifyIfChanged(game, Pointers["HorizontalDetectionAngle"].Item2, ref info.HorizontalDetectionAngle, DefaultData.HorizontalDetectionAngle);
+                ModifyIfChanged(game, Pointers["VerticalAngle"].Item2, ref info.VerticalAngle, DefaultData.VerticalAngle);
+                ModifyIfChanged(game, Pointers["VerticalDetectionAngle"].Item2, ref info.VerticalDetectionAngle, DefaultData.VerticalDetectionAngle);
+                ModifyIfChanged(game, Pointers["VisibleLaserLength"].Item2, ref info.VisibleLaserLength, DefaultData.VisibleLaserLength);
+                ModifyIfChanged(game, Pointers["RotationOffset"].Item2, ref info.RotationOffset, DefaultData.RotationOffset);
 
-                if(((TurretSpawnInfo)spawnData.spawnInfo).HorizontalAngle is float angle && angle != 0) {
+                if(info.SetRangeAsVisible) {
+                    game.WriteBytes(Pointers["MaxAttackRange"].Item2, BitConverter.GetBytes((float)DefaultData.VisibleLaserLength));
+                    game.WriteBytes(Pointers["MaxAttackRange2"].Item2, BitConverter.GetBytes((float)DefaultData.VisibleLaserLength));
+                } else {
+                    ModifyIfChanged(game, Pointers["MaxAttackRange"].Item2, ref info.MaxAttackRange, DefaultData.MaxAttackRange);
+                    ModifyIfChanged(game, Pointers["MaxAttackRange2"].Item2, ref info.MaxAttackRange2, DefaultData.MaxAttackRange2);
+                }
+
+                if(info.HorizontalAngle is float angle && angle != 0) {
                     game.WriteBytes(Pointers["HorizontalAngleSmooth"].Item2, BitConverter.GetBytes((float)1.0f / angle));
                 }
             }
@@ -109,5 +123,19 @@ namespace GhostrunnerRNG.Enemies {
         public float? VisibleLaserLength; // 8000 default
         public float? RotationOffset; // 
         public float? HorizontalAngleSmooth; // corner smoothing value
+        public float? MaxAttackRange; // max attack/detection range
+        public float? MaxAttackRange2; // max attack/detection range
+
+        public const float DefaultRange = 8000;
+
+        public void SetRange(float range) {
+            VisibleLaserLength = range;
+            MaxAttackRange = range;
+            MaxAttackRange2 = range;
+            if(HorizontalAngle == null || (HorizontalAngle != null & HorizontalAngle == 0))
+            HorizontalAngle = 0.001f; // fix for static turrets
+        }
+
+        public bool SetRangeAsVisible = false;
     }
 }

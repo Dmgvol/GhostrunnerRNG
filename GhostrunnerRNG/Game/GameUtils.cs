@@ -2,7 +2,6 @@
 using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace GhostrunnerRNG.Game {
     public class GameUtils {

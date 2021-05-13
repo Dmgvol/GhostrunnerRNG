@@ -344,7 +344,7 @@ namespace GhostrunnerRNG.MapGen {
         }
 
 
-        protected void RandomPickEnemiesWithoutCP(ref List<Enemy> enemies, bool force = false, bool removeCP = true, int enemyIndex = -1, int enemyIndexBesides = -1, bool modifyList = true) {
+        protected void RandomPickEnemiesWithoutCP(ref List<Enemy> enemies, bool force = false, bool removeCP = true, int enemyIndex = -1, int enemyIndexBesides = -1, bool modifyList = true, bool moveToEnemiesWithoutCP = true) {
             if(enemies == null || enemies.Count == 0) return;
 
             // 50-50 chance to even pick an enemy
@@ -365,10 +365,8 @@ namespace GhostrunnerRNG.MapGen {
             }
 
             // add select to list and remove it from enemies, so it won't be used in spawnplanes
-            if(modifyList) {
-                EnemiesWithoutCP.Add(enemies[index]);
-                enemies.RemoveAt(index);
-            }
+            EnemiesWithoutCP.Add(enemies[index]);
+            enemies.RemoveAt(index);
         }
 
         protected List<Enemy> GetAllEnemies_Bulk(int index, int target, Process game, List<Vector3f> positions) {
@@ -408,8 +406,17 @@ namespace GhostrunnerRNG.MapGen {
                enemy.Z >= Math.Min(cornerA.Z, cornerB.Z) && enemy.Z <= Math.Max(cornerA.Z, cornerB.Z));
         }
 
+        protected void RemoveParentObjects(ref List<Enemy> enemies) {
+            enemies.ForEach(x => x.DisableAttachedCP(GameHook.game));
+        }
 
-        protected void TakeLastEnemyFromCP(ref List<Enemy> enemies, bool force = false, bool removeCP = true, bool attachedDoor = false, int enemyIndex = 0, bool modifyList = true) {
+        protected List<Enemy> RemoveParentObjects(List<Enemy> enemies) {
+            RemoveParentObjects(ref enemies);
+            return enemies;
+        }
+
+
+        protected void TakeLastEnemyFromCP(ref List<Enemy> enemies, bool force = false, bool removeCP = true, bool attachedDoor = false, int enemyIndex = 0, bool moveToEnemiesWithoutCP = true) {
             if(enemies == null || enemies.Count == 0) return;
 
             // 50-50 chance to even pick an enemy
@@ -470,10 +477,8 @@ namespace GhostrunnerRNG.MapGen {
             }
 
             // add last enmy to list and remove it from enemies, so it won't be used in spawnplanes
-            if(modifyList) {
-                EnemiesWithoutCP.Add(enemies[index]);
-                enemies.RemoveAt(index);
-            }
+            if(moveToEnemiesWithoutCP) EnemiesWithoutCP.Add(enemies[index]);
+            enemies.RemoveAt(index);
         }
 
         public static void ModifyCP(DeepPointer dp, Vector3f pos, Process game) {

@@ -113,6 +113,16 @@ namespace GhostrunnerRNG.Windows {
 					case Keys.NumPad2:
 						// 2'nd pos save
 						pos2 = new Vector3f(GameHook.xPos, GameHook.yPos, GameHook.zPos);
+
+						if(!pos1.IsEmpty() && !pos2.IsEmpty()) {
+							double distance = Math.Sqrt(
+								Math.Pow(pos2.X - pos1.X,2) +
+								Math.Pow(pos2.Y - pos1.Y, 2) +
+								Math.Pow(pos2.Z - pos1.Z, 2)
+								);
+							RangeLabel.Content = $"Distance: {distance:00}";
+                        }
+
 						break;
 					case Keys.NumPad3:
 						// generate code: 2 pos, fixed current angle
