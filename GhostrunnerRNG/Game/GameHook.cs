@@ -175,8 +175,7 @@ namespace GhostrunnerRNG.Game {
 
 				//HC not supported
 				checkHCMode();
-				if(IsHC && 
-					(AccurateMapType != MapType.AwakeningLookInside && AccurateMapType != MapType.Awakening)) {
+				if(IsHC && !HCMapSupported(AccurateMapType)) {
 					currentMap = null;
 					main.ToggleRngControls(false);
 					AccurateMapType = MapType.Unknown;

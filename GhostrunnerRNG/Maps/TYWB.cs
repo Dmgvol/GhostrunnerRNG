@@ -71,7 +71,7 @@ namespace GhostrunnerRNG.Maps {
 
             //// Room 3 - 2 pistols, 4 uzi////
             enemies = room_3.ReturnEnemiesInRoom(AllEnemies);
-            TakeLastEnemyFromCP(ref enemies, force: false, removeCP: true, attachedDoor: true); // take one random
+            DetachEnemyFromCP(ref enemies, force: false); // take one random
             layout = new RoomLayout(enemies);
             // default
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(63368, 10689, 2852), new Vector3f(63746, 8180, 2852), new Angle(-0.69f, 0.72f)).Mask(SpawnPlane.Mask_Flatground));
@@ -109,8 +109,8 @@ namespace GhostrunnerRNG.Maps {
             enemies[2].SetEnemyType(Enemy.EnemyTypes.Weeb);
             enemies[3].SetEnemyType(Enemy.EnemyTypes.Weeb);
             enemies[4].SetEnemyType(Enemy.EnemyTypes.Weeb);
-            TakeLastEnemyFromCP(ref enemies, force: true, attachedDoor: true, removeCP: true); // take 2 weebs, by force
-            TakeLastEnemyFromCP(ref enemies, force: true, attachedDoor: true, removeCP: true);
+            DetachEnemyFromCP(ref enemies, force: true); // take 2 weebs, by force
+            DetachEnemyFromCP(ref enemies, force: true);
 
             // Room 5 - 2 balls, 1 pistol,  3 weebs, 3 geckos////
             enemies = room_5.ReturnEnemiesInRoom(AllEnemies);
@@ -324,8 +324,8 @@ namespace GhostrunnerRNG.Maps {
             }
 
 
-            TakeLastEnemyFromCP(ref enemies, force: true, removeCP: true, attachedDoor: true, enemyIndex: 4); // take one pistol
-            TakeLastEnemyFromCP(ref enemies, force: true, removeCP: true, attachedDoor: true, enemyIndex: 1); // take one drone
+            DetachEnemyFromCP(ref enemies, force: true, enemyIndex: 4); // take one pistol
+            DetachEnemyFromCP(ref enemies, force: true, enemyIndex: 1); // take one drone
 
             layout = new RoomLayout(enemies);
             //// drones
@@ -369,8 +369,8 @@ namespace GhostrunnerRNG.Maps {
             enemies[0] = new EnemyDrone(enemies[0]);
             enemies[1] = new EnemyDrone(enemies[1]);
 
-            TakeLastEnemyFromCP(ref enemies, force: false, removeCP: true, attachedDoor: true, enemyIndex: 2); // chance to take uzi
-            TakeLastEnemyFromCP(ref enemies, force: false, removeCP: true, attachedDoor: true, enemyIndex: 0); // chance to take drone
+            DetachEnemyFromCP(ref enemies, force: false, enemyIndex: 2); // chance to take uzi
+            DetachEnemyFromCP(ref enemies, force: false, enemyIndex: 0); // chance to take drone
 
             layout = new RoomLayout(enemies);
             // drones
@@ -387,7 +387,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(65308, 139203, 5941), new Vector3f(69685, 139185, 5941), new Angle(-0.74f, 0.67f)).AsVerticalPlane().Mask(SpawnPlane.Mask_HighgroundLimited).setDiff(1)); // billboard near ceiling
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(68168, 136516, 5885), new Vector3f(69356, 136510, 5885), new Angle(0.73f, 0.68f)).AsVerticalPlane().Mask(SpawnPlane.Mask_HighgroundLimited).setDiff(1)); // pipe near ceiling, left
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(71028, 139219, 4448), new Vector3f(66322, 139240, 4448), new Angle(-0.67f, 0.74f)).AsVerticalPlane().Mask(SpawnPlane.Mask_HighgroundLimited)); // along the metal wall piece
-
+            layout.DoNotReuse();
             Rooms.Add(layout);
 
             // EXTRA

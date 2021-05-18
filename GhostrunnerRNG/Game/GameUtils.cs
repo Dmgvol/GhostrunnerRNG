@@ -112,6 +112,25 @@ namespace GhostrunnerRNG.Game {
             MapType.TheMonster,
         };
 
+
+        private static List<MapType> SupportedHCMaps = new List<MapType>() {
+            MapType.Awakening,
+            MapType.LookInside,
+            MapType.TheClimb,
+            //MapType.JackedUp,
+            //MapType.BreatheIn,
+            //MapType.RoadToAmida,
+            //MapType.RunUp,
+            //MapType.Gatekeeper,
+            //MapType.DharmaCity,
+            //MapType.Echoes,
+            //MapType.Faster,
+            //MapType.ForbiddenZone,
+            //MapType.ReignInHell,
+            //MapType.TYWB,
+            //MapType.TheMonster,
+        };
+
         private static List<MapType> CVMaps = new List<MapType>() {
             MapType.LookInsideCV,
             MapType.TheClimbCV,
@@ -128,6 +147,8 @@ namespace GhostrunnerRNG.Game {
         public static bool IsCVMap(MapType type) => CVMaps.Contains(type);
         public static bool MapHasRng(MapType type) => !MapsWithoutRNG.Contains(type);
         public static bool MapSupported(MapType type) => SupportedMaps.Contains(type);
+        public static bool HCMapSupported(MapType type) => SupportedHCMaps.Contains(type);
+
 
 
         public static MapType GetMapType(string fullName) {

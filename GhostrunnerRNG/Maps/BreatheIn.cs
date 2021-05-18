@@ -312,11 +312,9 @@ namespace GhostrunnerRNG.Maps {
 
         public void Gen_Normal_AfterCV() { HasRng = false; }
 
-        public void Gen_Hardcore_BeforeCV() {
+        public void Gen_Hardcore() {
             throw new System.NotImplementedException();
         }
-
-        public void Gen_Hardcore_AfterCV() { HasRng = false; }
 
         public void Gen_Nightmare_BeforeCV() {
             throw new System.NotImplementedException();

@@ -63,6 +63,11 @@ namespace GhostrunnerRNG.MapGen {
 
             // Level has IModes Interface
             if(this is IModes mode) {
+                if(GameHook.IsHC) {
+                    mode.Gen_Hardcore();
+                    return;
+                }
+
                 switch(Config.GetInstance().Setting_Difficulty) {
                     case Config.Difficulty.Easy:
                         mode.Gen_Easy();
@@ -74,13 +79,16 @@ namespace GhostrunnerRNG.MapGen {
                         mode.Gen_Nightmare();
                         break;
                 }
-
-                if(GameHook.IsHC) mode.Gen_Hardcore();
                 return;
             }
 
             //  Modes Interface
             if(this is IModesMidCV modeCV) {
+                if(GameHook.IsHC) {
+                    modeCV.Gen_Hardcore();
+                    return;
+                }
+
                 if(BeforeCV) {
                     switch(Config.GetInstance().Setting_Difficulty) {
                         case Config.Difficulty.Easy:
@@ -93,8 +101,6 @@ namespace GhostrunnerRNG.MapGen {
                             modeCV.Gen_Nightmare_BeforeCV();
                             break;
                     }
-
-                    if(GameHook.IsHC) modeCV.Gen_Hardcore_BeforeCV();
                     return;
                 } else {
                     switch(Config.GetInstance().Setting_Difficulty) {
@@ -108,8 +114,6 @@ namespace GhostrunnerRNG.MapGen {
                             modeCV.Gen_Nightmare_AfterCV();
                             break;
                     }
-
-                    if(GameHook.IsHC) modeCV.Gen_Hardcore_AfterCV();
                     return;
                 }
             }
@@ -344,7 +348,7 @@ namespace GhostrunnerRNG.MapGen {
         }
 
 
-        protected void RandomPickEnemiesWithoutCP(ref List<Enemy> enemies, bool force = false, bool removeCP = true, int enemyIndex = -1, int enemyIndexBesides = -1, bool modifyList = true, bool moveToEnemiesWithoutCP = true) {
+        protected void RandomPickEnemiesWithoutCP(ref List<Enemy> enemies, bool force = false, bool removeCP = true, int enemyIndex = -1, int enemyIndexBesides = -1) {
             if(enemies == null || enemies.Count == 0) return;
 
             // 50-50 chance to even pick an enemy
@@ -415,70 +419,22 @@ namespace GhostrunnerRNG.MapGen {
             return enemies;
         }
 
-
-        protected void TakeLastEnemyFromCP(ref List<Enemy> enemies, bool force = false, bool removeCP = true, bool attachedDoor = false, int enemyIndex = 0, bool moveToEnemiesWithoutCP = true) {
+        /// <summary>
+        /// Removes enemy from CP/Door and reduces enemy count if found, removes from enemiesList and moves to EnemiesWithoutCP
+        /// </summary>
+        /// <param name="enemies">Referance to enemies list</param>
+        /// <param name="force">false has a 50% chance</param>
+        /// <param name="enemyIndex">Specific enemy index, leave empty for random(default)</param>
+        /// <param name="moveToEnemiesWithoutCP">To move enemy to EnemiesWithoutCP? true by default</param>
+        /// <param name="modifyList">To remove enemy from referenced enemies list? true by default</param>
+        protected void DetachEnemyFromCP(ref List<Enemy> enemies, bool force = false, int enemyIndex = -1, bool moveToEnemiesWithoutCP = true, bool modifyList = true) {
             if(enemies == null || enemies.Count == 0) return;
-
-            // 50-50 chance to even pick an enemy
             if(!force && Config.GetInstance().r.Next(2) == 0) return;
+            if(enemyIndex < 0) enemyIndex = Config.GetInstance().r.Next(enemies.Count);
+            enemies[enemyIndex].DisableAttachedCP(GameHook.game);
 
-            int index = -1;
-
-            // create DP to the last enemy in the list
-            List<int> offsets = new List<int>(enemies[enemyIndex].GetObjectDP().GetOffsets());
-            offsets.RemoveAt(offsets.Count - 1); // removes last offset
-            offsets.Add(0x5D0);
-            offsets.Add(0x228);
-            offsets.Add(0x8 * (enemies.Count - 1));
-            offsets.Add(0x0);
-            DeepPointer lastenemyDP = new DeepPointer(enemies[enemyIndex].GetObjectDP().GetBase(), new List<int>(offsets));
-            // get enemy pointer
-            IntPtr lastenemyPtr;
-            lastenemyDP.DerefOffsets(GameHook.game, out lastenemyPtr);
-            //find last enemy index
-            DeepPointer enemyDP;
-            IntPtr enemyPtr;
-            for(var i = 0; i < enemies.Count; i++) {
-                offsets = new List<int>(enemies[i].GetObjectDP().GetOffsets());
-                offsets[offsets.Count - 1] = 0x0; // set last offset to 0
-                enemyDP = new DeepPointer(enemies[i].GetObjectDP().GetBase(), new List<int>(offsets));
-                enemyDP.DerefOffsets(GameHook.game, out enemyPtr);
-                if(enemyPtr == lastenemyPtr) {
-                    index = i;
-                    break;
-                }
-            }
-            //return if didn't find last enemy index
-            if(attachedDoor && index == -1) {
-                return;
-            }
-
-            // attached to a door? find last enemy in the list and reduce door needed enemies count
-            if(attachedDoor) {
-                offsets = new List<int>(enemies[index].GetObjectDP().GetOffsets());
-                offsets.RemoveAt(offsets.Count - 1); // removes last offset
-                offsets.Add(0x5D0);
-                offsets.Add(0x230);
-                DeepPointer doorDP = new DeepPointer(enemies[index].GetObjectDP().GetBase(), new List<int>(offsets));
-                // get value, reduce by one and write back
-                IntPtr doorPtr;
-                int doorCount;
-                doorDP.DerefOffsets(GameHook.game, out doorPtr);
-                // read default value
-                GameHook.game.ReadValue<int>(doorPtr, out doorCount);
-                doorCount -= 1;
-                // update decreased value
-                GameHook.game.WriteBytes(doorPtr, BitConverter.GetBytes(doorCount));
-            }
-
-            // remove cp for last enemy in the list
-            if(removeCP) {
-                enemies[index].DisableAttachedCP(GameHook.game);
-            }
-
-            // add last enmy to list and remove it from enemies, so it won't be used in spawnplanes
-            if(moveToEnemiesWithoutCP) EnemiesWithoutCP.Add(enemies[index]);
-            enemies.RemoveAt(index);
+            if(moveToEnemiesWithoutCP) EnemiesWithoutCP.Add(enemies[enemyIndex]);
+            if(modifyList) enemies.RemoveAt(enemyIndex);
         }
 
         public static void ModifyCP(DeepPointer dp, Vector3f pos, Process game) {

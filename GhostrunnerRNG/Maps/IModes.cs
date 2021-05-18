@@ -13,10 +13,9 @@
         void Gen_Normal_BeforeCV();
         void Gen_Normal_AfterCV();
 
-        void Gen_Hardcore_BeforeCV();
-        void Gen_Hardcore_AfterCV();
 
         void Gen_Nightmare_BeforeCV();
         void Gen_Nightmare_AfterCV();
+        void Gen_Hardcore();
     }
 }

@@ -76,7 +76,7 @@ namespace GhostrunnerRNG.Maps {
 
             //// room 3 - 3 pistol, before bridge
             enemies = room3.ReturnEnemiesInRoom(AllEnemies);
-            TakeLastEnemyFromCP(ref enemies, force: false, attachedDoor: true, removeCP: true);
+            DetachEnemyFromCP(ref enemies, force: false);
             layout = new RoomLayout(enemies);
             // default
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-8179, -54300, 3408), new Vector3f(-9091, -52688, 3402), new Angle(-0.9f, 0.43f)));
@@ -94,7 +94,7 @@ namespace GhostrunnerRNG.Maps {
 
             //// Room 4 - 3 pistol, hallway
             enemies = room4.ReturnEnemiesInRoom(AllEnemies);
-            TakeLastEnemyFromCP(ref enemies, force: false, attachedDoor: true, removeCP: true);
+            DetachEnemyFromCP(ref enemies, force: false);
             layout = new RoomLayout(enemies);
             // default
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(5740, -63956, 1468), new Vector3f(6337, -64859, 1468), new Angle(0.72f, 0.7f)));
@@ -163,7 +163,7 @@ namespace GhostrunnerRNG.Maps {
 
             //// room 3 - 3 pistol, before bridge
             enemies = room3.ReturnEnemiesInRoom(AllEnemies);
-            TakeLastEnemyFromCP(ref enemies, force: false, attachedDoor: true, removeCP: true);
+            DetachEnemyFromCP(ref enemies, force: false);
             layout = new RoomLayout(enemies);
             // special/high spots
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12850, -56073, 4908), new Angle(-1.00f, 0.03f))); // door frame
@@ -178,7 +178,7 @@ namespace GhostrunnerRNG.Maps {
 
             //// Room 4 - 3 pistol, hallway
             enemies = room4.ReturnEnemiesInRoom(AllEnemies);
-            TakeLastEnemyFromCP(ref enemies, force: false, attachedDoor: true, removeCP: true);
+            DetachEnemyFromCP(ref enemies, force: false);
             layout = new RoomLayout(enemies);
             // special/high spots
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(5839, -61841, 2457), new Angle(0.76f, 0.65f))); // neon sign, first building/platform
@@ -190,7 +190,7 @@ namespace GhostrunnerRNG.Maps {
 
             //// Room 5 - 5 enemies, dome
             enemies = room5.ReturnEnemiesInRoom(AllEnemies);
-            TakeLastEnemyFromCP(ref enemies, force: false, attachedDoor: true, removeCP: true);
+            DetachEnemyFromCP(ref enemies, force: false);
             layout = new RoomLayout(enemies);
             // high/special spots
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(3256, -68387, 237), new Angle(-0.61f, 0.79f))); // neon sign platform, far bottom
@@ -287,7 +287,7 @@ namespace GhostrunnerRNG.Maps {
             // room 5
             enemies = hc_room5.ReturnEnemiesInRoom(AllEnemies);
             enemies[2].SetEnemyType(Enemy.EnemyTypes.Waver);
-            TakeLastEnemyFromCP(ref enemies, force: true, removeCP: true);
+            DetachEnemyFromCP(ref enemies, force: true);
             layout = new RoomLayout(enemies);
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(6758, -62646, 2116), new Angle(0.87f, 0.50f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // billboard
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(6421, -64019, 2238), new Angle(0.77f, 0.64f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // pipes

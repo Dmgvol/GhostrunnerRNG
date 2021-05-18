@@ -498,12 +498,7 @@ namespace GhostrunnerRNG.Maps {
 
         public void Gen_Easy_AfterCV() {Gen_Normal_AfterCV();}
 
-        public void Gen_Hardcore_BeforeCV() {
-            throw new NotImplementedException();
-        }
-        public void Gen_Hardcore_AfterCV() {
-            throw new NotImplementedException();
-        }
+        public void Gen_Hardcore() { }
 
 
         public void Gen_Nightmare_BeforeCV() {
