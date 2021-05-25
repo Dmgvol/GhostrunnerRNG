@@ -805,7 +805,7 @@ namespace GhostrunnerRNG.Maps {
                 .SetMaxEnemies(2).AllowSplitter().Mask(SpawnPlane.Mask_Flatground)); // default, back
 
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(28310, -82292, 6237), new Angle(-0.54f, 0.84f))
-                .AllowSplitter().Mask(SpawnPlane.Mask_Flatground)); // extended platform 
+                .Mask(SpawnPlane.Mask_Flatground)); // extended platform 
 
             // billboards
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(28003, -79224, 7048), new Vector3f(28950, -79231, 7048), new Angle(-0.68f, 0.73f)) // far back
@@ -977,7 +977,6 @@ namespace GhostrunnerRNG.Maps {
 
             //// Room 9 ////
             enemies = HC_room_9.ReturnEnemiesInRoom(AllEnemies);
-            enemies.ForEach(e => System.Console.WriteLine(e.Pos));
             enemies[0] = new EnemyShieldOrb(enemies[0]);
             enemies[1] = new EnemyShieldOrb(enemies[1]);
             enemies[2] = new EnemyShieldOrb(enemies[2]);

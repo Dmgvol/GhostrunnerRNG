@@ -117,7 +117,7 @@ namespace GhostrunnerRNG.Game {
             MapType.Awakening,
             MapType.LookInside,
             MapType.TheClimb,
-            //MapType.JackedUp,
+            MapType.JackedUp,
             //MapType.BreatheIn,
             //MapType.RoadToAmida,
             //MapType.RunUp,
