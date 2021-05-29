@@ -55,14 +55,15 @@ The exe window will show relevant info regarding the rng.
 ### Planned/Upcoming features
 - [x] Cybervoid Levels
 - [x] Classic Levels (besides Hel & Mara)
-- [ ] Killruns
-- [ ] SR Difficulty (for speedrunners)
-- [ ] Nightmare difficulty
 - [ ] Hardcore Levels
+- [ ] Boss levels
 - [ ] Custom modes (TBA)
+- [ ] Tasks + custom overlay
+- [ ] Reward system
 - [ ] Tetris Blocks
 - [ ] Abilities
 - [ ] Enemy stats
+- [ ] WaveMode DLC RNG (planned)
 - [ ] More RNG!
 
 ### Latest Changelog
