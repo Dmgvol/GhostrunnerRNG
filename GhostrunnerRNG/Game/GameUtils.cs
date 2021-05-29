@@ -2,6 +2,10 @@
 using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace GhostrunnerRNG.Game {
     public class GameUtils {
@@ -118,7 +122,7 @@ namespace GhostrunnerRNG.Game {
             MapType.LookInside,
             MapType.TheClimb,
             MapType.JackedUp,
-            //MapType.BreatheIn,
+            MapType.BreatheIn,
             //MapType.RoadToAmida,
             //MapType.RunUp,
             //MapType.Gatekeeper,
@@ -256,6 +260,59 @@ namespace GhostrunnerRNG.Game {
             euler.Y %= 360;
             euler.Z %= 360;
             return euler;
+        }
+
+
+        private static EasyPointers EnemyTypeEP = new EasyPointers();
+        public static void DEV_PrintEnemyTypes(Process game, List<Enemy> enemies) {
+            // pointers
+            if(EnemyTypeEP.Pointers.Count == 0) {
+                EnemyTypeEP.Add("pistol", new DeepPointer(0x3189000 +  0x17f240));
+                EnemyTypeEP.Add("turret", new DeepPointer(0x3189000 + 0x189A00));
+                EnemyTypeEP.Add("drone", new DeepPointer(0x3189000 + 0x17FC58));
+                EnemyTypeEP.Add("ball", new DeepPointer(0x3189000 + 0x18A6E0));
+                EnemyTypeEP.Add("splitter", new DeepPointer(0x3189000 + 0x18B208));
+                EnemyTypeEP.Add("meleeShifter", new DeepPointer(0x3189000 + 0x18D238));
+                EnemyTypeEP.Add("shooterShifter", new DeepPointer(0x3189000 + 0x18D238));
+                EnemyTypeEP.Add("shield", new DeepPointer(0x3189000 + 0x18FF70));
+                EnemyTypeEP.Add("uzi", new DeepPointer(0x3189000 + 0x194810));
+                EnemyTypeEP.Add("gecko", new DeepPointer(0x3189000 + 0x195B48));
+                EnemyTypeEP.Add("frogger", new DeepPointer(0x3189000 + 0x185198));
+                EnemyTypeEP.Add("weeb", new DeepPointer(0x3189000 + 0x1879E0));
+                EnemyTypeEP.Add("spider", new DeepPointer(0x3189000 + 0x193520));
+                EnemyTypeEP.Add("sniper", new DeepPointer(0x3189000 + 0x191900));
+                EnemyTypeEP.Add("hel", new DeepPointer(0x3189000 + 0x1705BB));
+                EnemyTypeEP.Add("mara", new DeepPointer(0x3189000 + 0x174198));
+            }
+
+            EnemyTypeEP.DerefPointers(game);
+
+            // compare data
+            for(int i = 0; i < enemies.Count; i++) {
+                // create 0x0 DP of enemy
+                var dp = enemies[i].GetObjectDP();
+                var offsets = dp.GetOffsets();
+                offsets[offsets.Count - 1] = 0x0;
+                // deref DP
+                DeepPointer baseDP = new DeepPointer(dp.GetBase(), offsets);
+                IntPtr enemyBasePtr;
+                baseDP.DerefOffsets(game, out enemyBasePtr);
+                // read value
+                byte[] enemyValue = new byte[8];
+                game.ReadBytes(enemyBasePtr, 8, out enemyValue);
+                // get IndentityAddressHEX and compare it with enemy value as HEX
+                string enemyHex = BitConverter.ToString(enemyValue.Reverse().ToArray()).Replace("-", string.Empty).Remove(0, 4);
+                string enemyType = EnemyTypeEP.Pointers.FirstOrDefault(x => x.Value.Item2.ToString("x8").ToUpper() == enemyHex).Key;
+                // print type
+                Console.WriteLine($"{i}:{enemyType}");
+            }
+        }
+
+        public static void DEV_PrintEnemyTypes_Bulk(Process game, params List<Enemy>[] enemyLists) {
+            for(int i = 0; i < enemyLists.Length; i++) {
+                Console.WriteLine($"\nRoom {i+1}:");
+                DEV_PrintEnemyTypes(game, enemyLists[i]);
+            }
         }
 
         public static VirtualKeyCode? ConvertKeybindToKey(int keybind) {

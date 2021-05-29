@@ -33,9 +33,12 @@ namespace GhostrunnerRNG.Enemies {
             base.SetMemoryPos(game, spawnData);
 
             // Update shift positions with spawndata/spawninfo, if any
+
+            // Fixed shift points for that enemy
             if(spawnInfos != null && spawnInfos.Count > 0) {
                 int i = Config.GetInstance().r.Next(spawnInfos.Count);
                 for(int j = 0; j < ShiftPointers.Count; j++) {
+                    if(j >= ShiftPointers.Count) break;
                     game.WriteBytes(ShiftPointers[j].Item2, BitConverter.GetBytes((float)spawnInfos[i].shiftPoints[j].Item1.X));
                     game.WriteBytes(ShiftPointers[j].Item2 + 4, BitConverter.GetBytes((float)spawnInfos[i].shiftPoints[j].Item1.Y));
                     game.WriteBytes(ShiftPointers[j].Item2 + 8, BitConverter.GetBytes((float)spawnInfos[i].shiftPoints[j].Item1.Z));
@@ -43,8 +46,10 @@ namespace GhostrunnerRNG.Enemies {
                     game.WriteBytes(ShiftPointers[j].Item2 - 4, BitConverter.GetBytes((float)spawnInfos[i].shiftPoints[j].Item2.angleCos));
                 }
 
+            // dynamic from ShifterSpawnInfo
             } else if(spawnData.spawnInfo != null && spawnData.spawnInfo is ShifterSpawnInfo info && info.shiftPoints != null && ShiftPointers.Count == info.shiftPoints.Count) {
                 for(int i = 0; i < info.shiftPoints.Count; i++) {
+                    if(i >= ShiftPointers.Count) break; // break if there are more shift points info than actual points for this enemy
                     game.WriteBytes(ShiftPointers[i].Item2, BitConverter.GetBytes((float)info.shiftPoints[i].Item1.X));
                     game.WriteBytes(ShiftPointers[i].Item2 + 4, BitConverter.GetBytes((float)info.shiftPoints[i].Item1.Y));
                     game.WriteBytes(ShiftPointers[i].Item2 + 8, BitConverter.GetBytes((float)info.shiftPoints[i].Item1.Z));

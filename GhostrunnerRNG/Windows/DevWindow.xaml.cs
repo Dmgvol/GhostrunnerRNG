@@ -28,6 +28,9 @@ namespace GhostrunnerRNG.Windows {
 		// green platforms
 		private List<GreenPlatform> greenPlatforms;
 
+		public List<string> MaskSource = new List<string>() { "None", "Flatground", "Highground", "HighgroundLimited", "Airborne", "Sniper", "Turret"};
+		private string currMask = "";
+
 		public DevWindow() {
             InitializeComponent();
 			// reset stats
@@ -38,6 +41,10 @@ namespace GhostrunnerRNG.Windows {
 			// HotKeys
 			kbHook.KeyDown += InputKeyDown;
 			HookKeys(true);
+
+			// mask items
+			MaskCombobox.ItemsSource = MaskSource;
+			MaskCombobox.SelectedIndex = 0;
 
 			// seed already forced? display it in textbox
 			if(Config.GetInstance().ForceSeed is int seed)
@@ -126,18 +133,18 @@ namespace GhostrunnerRNG.Windows {
 						break;
 					case Keys.NumPad3:
 						// generate code: 2 pos, fixed current angle
-						outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z}), new Angle({GameHook.angle.angleSin:0.00}f, {GameHook.angle.angleCos:0.00}f)));";
+						outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z}), new Angle({GameHook.angle.angleSin:0.00}f, {GameHook.angle.angleCos:0.00}f)){currMask});";
 						break;
 					case Keys.NumPad4:
 						// generate code: 1 pos, fixed current angle
-						outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Angle({GameHook.angle.angleSin:0.00}f, {GameHook.angle.angleCos:0.00}f)));";
+						outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Angle({GameHook.angle.angleSin:0.00}f, {GameHook.angle.angleCos:0.00}f)){currMask});";
 						break;
 					case Keys.NumPad5:
 						// generate code: 1 pos
-						outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z})));";
+						outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}){currMask}));";
 						break;
 					case Keys.NumPad6:
-						outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z})));";
+						outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z})){currMask});";
 						break;
 					case Keys.NumPad7:
 						// tp to testpos1
@@ -241,6 +248,32 @@ namespace GhostrunnerRNG.Windows {
 			outputBoxPlatform.Text = $"platformLayouts.Add(new SpawnData(new Vector3f({(int)spawn.pos.X}f, {(int)spawn.pos.Y}f, {(int)spawn.pos.Z}f), new Angle({spawn.angle.angleSin:0.00}f, {spawn.angle.angleCos:0.00}f)));";
 			greenPlatforms[firstPlatform ? 0 : 1].SetMemoryPos(GameHook.game, spawn);
 		}
+
+        private void MaskCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            switch(MaskCombobox.SelectedValue) {
+				case "None":
+					currMask = "";
+					break;
+				case "Flatground":
+					currMask = ".Mask(SpawnPlane.Mask_Flatground)";
+					break;
+				case "Highground":
+					currMask = ".Mask(SpawnPlane.Mask_Highground)";
+					break;
+				case "HighgroundLimited":
+					currMask = ".Mask(SpawnPlane.Mask_HighgroundLimited)";
+					break;
+				case "Airborne":
+					currMask = ".Mask(SpawnPlane.Mask_Airborne)";
+					break;
+				case "Sniper":
+					currMask = ".Mask(SpawnPlane.Mask_Sniper)";
+					break;
+				case "Turret":
+					currMask = ".Mask(SpawnPlane.Mask_Turret)";
+					break;
+			}
+        }
 
         private void Teleport(Process game, Vector3f pos) {
 			game.WriteBytes(GameHook.xPosPtr, BitConverter.GetBytes(pos.X));
