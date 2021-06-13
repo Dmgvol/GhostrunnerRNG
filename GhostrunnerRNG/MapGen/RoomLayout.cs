@@ -8,7 +8,7 @@ using System.Linq;
 namespace GhostrunnerRNG.MapGen {
     public class RoomLayout : IRandomize  {
 
-        private List<SpawnPlane> spawnPlanes = new List<SpawnPlane>();
+        public List<SpawnPlane> spawnPlanes { get; private set; } = new List<SpawnPlane>();
         private List<WorldObject> roomObjects = new List<WorldObject>();
         private Tuple<Vector3f, Angle> AttachedCPData;
 
@@ -20,6 +20,14 @@ namespace GhostrunnerRNG.MapGen {
             }
         }
 
+        public void SwapEnemies(params Enemy[] enemies) {
+            ClearRoomObjects();
+
+            for(int i = 0; i < enemies.Length; i++) {
+                roomObjects.Add(enemies[i]);
+            }
+        }
+        
         public RoomLayout(params WorldObject[] objects) {
             for(int i = 0; i < objects.Length; i++) {
                 roomObjects.Add(objects[i]);
@@ -95,7 +103,7 @@ namespace GhostrunnerRNG.MapGen {
                 // can add enemies to that plane? 
                 if(availableSpawnPlanesUpdated[selectedPlaneIndex].CanAddEnemies()) {
                     roomObjects[i].SetMemoryPos(game, availableSpawnPlanesUpdated[selectedPlaneIndex].GetRandomSpawnData());
-                    availableSpawnPlanesUpdated[selectedPlaneIndex].EnemyAdded();
+                    availableSpawnPlanesUpdated[selectedPlaneIndex].EnemyAdded(roomObjects[i].Pos);
                 }
                 // can't add anymore enemies? remove plane from available list
                 if(!availableSpawnPlanesUpdated[selectedPlaneIndex].CanAddEnemies()) {
@@ -143,5 +151,7 @@ namespace GhostrunnerRNG.MapGen {
         public void ModifyAttachedCP(Vector3f vec, Angle angle) {
             AttachedCPData = new Tuple<Vector3f, Angle>(vec, angle);
         }
+
+        public void ClearRoomObjects() => roomObjects.Clear();
     }
 }

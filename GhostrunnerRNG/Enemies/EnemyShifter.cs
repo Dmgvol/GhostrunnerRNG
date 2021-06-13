@@ -9,13 +9,33 @@ namespace GhostrunnerRNG.Enemies {
         List<Tuple<DeepPointer, IntPtr>> ShiftPointers = new List<Tuple<DeepPointer, IntPtr>>();
 
         private List<ShifterSpawnInfo> spawnInfos;
-      
+
+        private EasyPointers EP = new EasyPointers();
+
         public EnemyShifter(Enemy enemy, int shiftPoints) : base(enemy.GetObjectDP()) {
             Pos = enemy.Pos;
 
             // add pointers
             for(int i = 0; i < shiftPoints; i++) {
                 ShiftPointers.Add(new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x7d8, 0x8 * i, 0x130, 0x1D0) ,IntPtr.Zero));
+            }
+        }
+
+        public EnemyShifter(Enemy enemy) : base(enemy.GetObjectDP()) {
+            Pos = enemy.Pos;
+
+            // additional enemy pointers
+            EP.Add("ShiftCount", AppendBaseLastOffset(0x7E0)); // shift points count
+            EP.DerefPointers(GameHook.game);
+            int count;
+            GameHook.game.ReadValue<int>(EP.Pointers["ShiftCount"].Item2, out count);
+
+            // Throw exception is memory count is 0 or above 20
+            if(count < 1 || count > 20) throw new ArgumentNullException();
+
+            // add pointers
+            for(int i = 0; i < count; i++) {
+                ShiftPointers.Add(new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x7d8, 0x8 * i, 0x130, 0x1D0), IntPtr.Zero));
             }
         }
 
@@ -47,7 +67,7 @@ namespace GhostrunnerRNG.Enemies {
                 }
 
             // dynamic from ShifterSpawnInfo
-            } else if(spawnData.spawnInfo != null && spawnData.spawnInfo is ShifterSpawnInfo info && info.shiftPoints != null && ShiftPointers.Count == info.shiftPoints.Count) {
+            } else if(spawnData.spawnInfo != null && spawnData.spawnInfo is ShifterSpawnInfo info && info.shiftPoints != null && info.shiftPoints.Count >= ShiftPointers.Count) {
                 for(int i = 0; i < info.shiftPoints.Count; i++) {
                     if(i >= ShiftPointers.Count) break; // break if there are more shift points info than actual points for this enemy
                     game.WriteBytes(ShiftPointers[i].Item2, BitConverter.GetBytes((float)info.shiftPoints[i].Item1.X));

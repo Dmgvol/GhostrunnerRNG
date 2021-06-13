@@ -128,12 +128,18 @@ namespace GhostrunnerRNG.Enemies {
 
         public const float DefaultRange = 8000;
 
+
+        public float Range { // trick to call SetRange through variable 
+            get { return (float)MaxAttackRange; }
+            set { SetRange(value); }
+        }
+
         public void SetRange(float range) {
             VisibleLaserLength = range;
             MaxAttackRange = range;
             MaxAttackRange2 = range;
             if(HorizontalAngle == null || (HorizontalAngle != null & HorizontalAngle == 0))
-            HorizontalAngle = 0.001f; // fix for static turrets
+                HorizontalAngle = 0.001f; // fix for static turrets
         }
 
         public bool SetRangeAsVisible = false;

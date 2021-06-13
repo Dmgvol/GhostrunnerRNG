@@ -1,11 +1,10 @@
 ﻿using GhostrunnerRNG.Game;
-using GhostrunnerRNG.Maps;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace GhostrunnerRNG.Enemies {
-    class EnemyShieldOrb : Enemy {
+    public class EnemyShieldOrb : Enemy {
 
         // linked objects
         private List<DeepPointer> LinkedObjectsDP = new List<DeepPointer>();

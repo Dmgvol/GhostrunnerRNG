@@ -7,6 +7,9 @@ using static GhostrunnerRNG.Game.GameUtils;
 namespace GhostrunnerRNG.MapGen {
     public class SpawnPlane {
 
+        public const double MIN_SPAWN_SPACING = 400;
+        public const int ADDITIONAL_SPAWNS = 5;
+
         // 2 sides of the plane
         public Vector3f cornerA { get; private set; }
         public Vector3f cornerB { get; private set; }
@@ -18,6 +21,7 @@ namespace GhostrunnerRNG.MapGen {
         // max/curr enemies per plane(for RoomLayout)
         public int MaxEnemies { get; private set; } = 1;
         public int CurrEnemeies { get; private set; } = 0;
+        public List<Vector3f> RelativeSpawnedPositions { get; private set; } = new List<Vector3f>();
 
         // Vertical Plane - used for spawning orbs along side of billboards
         // Settings to FALSE - will treat it as a volume object (Rectangle of diagonal points)
@@ -177,12 +181,14 @@ namespace GhostrunnerRNG.MapGen {
             if(!ValidDiff()) return false;
 
             // rarity
+            // Easy - no rarity feature(no rare spawn), Nightmare - all included
+            if(Config.GetInstance().Setting_Difficulty == Config.Difficulty.Easy) rarity = 1;
+            else if(Config.GetInstance().Setting_Difficulty == Config.Difficulty.Nightmare) rarity = 0;
             if(this.rarity < rarity) return false;
 
             // splitter? check if allowed
             if(enemyType == Enemy.EnemyTypes.Splitter) {
-                if(SplitterAllowedToSpawn) return true;
-                return ValidForSplitter();
+                return SplitterAllowedToSpawn;
             } 
 
             if(BannedTypes.Count == 0) return true;
@@ -191,6 +197,11 @@ namespace GhostrunnerRNG.MapGen {
 
         public bool IsAllowed(double rarity = 1) {
             if(!ValidDiff()) return false;
+
+            // Easy - no rarity feature, Nightmare - all included
+            if(Config.GetInstance().Setting_Difficulty == Config.Difficulty.Easy) rarity = 1;
+            else if(Config.GetInstance().Setting_Difficulty == Config.Difficulty.Nightmare) rarity = 0;
+
             if(this.rarity < rarity) return false;
             return true;
         }
@@ -220,7 +231,7 @@ namespace GhostrunnerRNG.MapGen {
             if(cornerB.IsEmpty()) {
                 return new SpawnData(cornerA, GetAngle(), PatrolPoints, spawnInfo);
             } else {
-                return new SpawnData(IsVerticalPlane ? RandomWithInVerticalPlane(cornerA, cornerB) : RandomWithinRect(cornerA, cornerB), GetAngle(), PatrolPoints ,spawnInfo);
+                return new SpawnData(IsVerticalPlane ? RandomWithInVerticalPlane(cornerA, cornerB) : RandomWithinRect_Spaced(cornerA, cornerB), GetAngle(), PatrolPoints ,spawnInfo);
             }
         }
 
@@ -235,6 +246,38 @@ namespace GhostrunnerRNG.MapGen {
             float newZ = Math.Min(a.Z, b.Z) + Config.GetInstance().r.Next((int)zDelta);
 
             return new Vector3f(newX, newY, newZ);
+        }
+
+        private Vector3f RandomWithinRect_Spaced(Vector3f a, Vector3f b) {
+            if(MaxEnemies == 1) return RandomWithinRect(a, b); // single enemy -> default
+            if(CurrEnemeies == 0) { // multiple enemies but it's the first -> default
+                Vector3f vec = RandomWithinRect(a, b);
+                return vec;
+            } else {
+                // create n random spawns
+                List<Vector3f> NewSpawns = new List<Vector3f>();
+                for(int i = 0; i < ADDITIONAL_SPAWNS; i++) {
+                    NewSpawns.Add(RandomWithinRect(a, b));
+                }
+
+                // compare distance of new spawns versus existing spawns, and remove below min spawn spacing
+                List<Vector3f> ValidNewSpawns = new List<Vector3f>(NewSpawns);
+                for(int i = 0; i < NewSpawns.Count; i++) {
+                    for(int j = 0; j < RelativeSpawnedPositions.Count; j++) {
+                        if(Vector3f.Distance(NewSpawns[i], RelativeSpawnedPositions[j]) < MIN_SPAWN_SPACING) {
+                            ValidNewSpawns.Remove(NewSpawns[i]);
+                            break;
+                        }
+                    }
+                }
+
+                // Any valid spawns left? pick any!
+                if(ValidNewSpawns.Count > 0) {
+                    return ValidNewSpawns[Config.GetInstance().r.Next(ValidNewSpawns.Count)];
+                } else { // failed to find spaced spot -> default rng
+                    return NewSpawns[Config.GetInstance().r.Next(NewSpawns.Count)];
+                }
+            }
         }
 
         public bool ValidForSplitter() {
@@ -269,9 +312,15 @@ namespace GhostrunnerRNG.MapGen {
         }
 
         // for RoomLayout, to track curr enemies 
-        public void EnemyAdded() => CurrEnemeies++;
-        
-        public void ResetCurrEnemies() =>CurrEnemeies = 0;
+        public void EnemyAdded(Vector3f relativePos) {
+            CurrEnemeies++;
+            RelativeSpawnedPositions.Add(relativePos);
+        }
+
+        public void ResetCurrEnemies() {
+            CurrEnemeies = 0;
+            RelativeSpawnedPositions.Clear();
+        }
         
         public bool CanAddEnemies() => CurrEnemeies < MaxEnemies;
     }

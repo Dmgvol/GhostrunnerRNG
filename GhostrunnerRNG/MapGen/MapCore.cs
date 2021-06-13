@@ -202,6 +202,7 @@ namespace GhostrunnerRNG.MapGen {
                         var spawnData = planes[planeIndex].GetRandomSpawnData();
 
                         EnemiesWithoutCP[i].SetMemoryPos(game, spawnData);
+                        planes[planeIndex].EnemyAdded(spawnData.pos);
                         // update corresponding item in spawnPlanesLeft
                         int indexToRemove = RoomLayout.GetSameSpawnPlaneIndex(spawnPlanesLeft, planes[planeIndex]);
                         if(indexToRemove > -1)
@@ -264,18 +265,20 @@ namespace GhostrunnerRNG.MapGen {
                 CheckPlayerMove();
 
             // forced restart?
+            
+
             if(Config.GetInstance().Settings_ForcedRestart && !ForcedCPFlag && CPRequired && GameHook.CP_COUNTER == 0) {
                 float value = 0;
                 bool canRestart;
                 GameHook.game.ReadValue(CoreEP.Pointers["CutsceneTimer"].Item2, out value);
                 GameHook.game.ReadValue(CoreEP.Pointers["CanRestart"].Item2, out canRestart);
-                
-                if((PlayerMoved && canRestart && mapType != MapType.Faster) || value > 0) {
+                if((PlayerMoved && canRestart && mapType != MapType.Faster) || (value > 0)) {
                     // Note: Faster; restart only after cutscene to avoid NG new upgrade being stuck
                     ForcedCPFlag = true;
                     ForceRestart();
                 }
             }
+               
         }
 
         public void DEV_FindAllCP(List<Room> rooms) {
@@ -435,6 +438,56 @@ namespace GhostrunnerRNG.MapGen {
 
             if(moveToEnemiesWithoutCP) EnemiesWithoutCP.Add(enemies[enemyIndex]);
             if(modifyList) enemies.RemoveAt(enemyIndex);
+        }
+
+
+        protected void AttachToGroup(Enemy enemy0, Enemy enemy) {
+            IntPtr parentPtr, parentPtr0, killcountPtr, killlistPtr, basePtr0;
+            ulong parent, parent0;
+            int killcount;
+            //check if there is a parent object 
+            List<int> offsets = new List<int>(enemy.GetObjectDP().GetOffsets());
+            offsets[offsets.Count - 1] = 0x5D0;
+            DeepPointer parentDP = new DeepPointer(enemy.GetObjectDP().GetBase(), offsets);
+            parentDP.DerefOffsets(GameHook.game, out parentPtr);
+            GameHook.game.ReadValue<ulong>(parentPtr, out parent);
+            //return if there is no parent object 
+            if(parent == 0) return;
+
+            List<int> offsets0 = new List<int>(enemy0.GetObjectDP().GetOffsets());
+            offsets0[offsets0.Count - 1] = 0x5D0;
+            DeepPointer parentDP0 = new DeepPointer(enemy0.GetObjectDP().GetBase(), offsets0);
+            parentDP0.DerefOffsets(GameHook.game, out parentPtr0);
+            GameHook.game.ReadValue<ulong>(parentPtr0, out parent0);
+
+            //read kill count
+            offsets.Add(0x230);
+            DeepPointer killcountDP = new DeepPointer(enemy.GetObjectDP().GetBase(), offsets);
+            killcountDP.DerefOffsets(GameHook.game, out killcountPtr);
+            GameHook.game.ReadValue<int>(killcountPtr, out killcount);
+            if(killcount == 0) return;
+
+            //return if same parent object 
+            if(parent0 == parent) return;
+            //remove previous parentobject
+            if(parent0 != 0) enemy0.DisableAttachedCP(GameHook.game);
+
+            //enemy0 start address
+            basePtr0 = parentPtr0 - 0x5d0;
+
+            //find killlist address and write this enemy pointer
+            offsets[offsets.Count - 1] = 0x228;
+            offsets.Add(0x8 * killcount);
+            DeepPointer killlistDP = new DeepPointer(enemy.GetObjectDP().GetBase(), offsets);
+            killlistDP.DerefOffsets(GameHook.game, out killlistPtr);
+            GameHook.game.WriteBytes(killlistPtr, BitConverter.GetBytes((ulong)basePtr0));
+
+
+            killcount += 1;
+            // update kill count
+            GameHook.game.WriteBytes(killcountPtr, BitConverter.GetBytes(killcount));
+            //add parent object
+            GameHook.game.WriteBytes(parentPtr0, BitConverter.GetBytes((ulong)parent));
         }
 
         public static void ModifyCP(DeepPointer dp, Vector3f pos, Process game) {

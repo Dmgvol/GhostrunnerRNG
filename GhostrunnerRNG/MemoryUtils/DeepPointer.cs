@@ -168,6 +168,9 @@ namespace GhostrunnerRNG {
     public struct Vector3f {
         public static Vector3f Empty = new Vector3f(0, 0, 0);
 
+        public static double Distance(Vector3f A, Vector3f B) {
+           return Math.Abs(Math.Sqrt( Math.Pow(B.X - A.X, 2) + Math.Pow(B.Y - A.Y, 2) + Math.Pow(B.Z - A.Z, 2)));
+        }
        
         public float X { get; set; }
         public float Y { get; set; }

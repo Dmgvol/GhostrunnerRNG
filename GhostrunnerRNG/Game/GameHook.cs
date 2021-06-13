@@ -32,7 +32,13 @@ namespace GhostrunnerRNG.Game {
 		private int _cpCounter;
 		public int cpCounter {
 			get { return _cpCounter; }
-			set { if(value != _cpCounter) { _cpCounter = value; CP_COUNTER = value; cpCounterChanged(value); } }
+			set {
+				if(value != _cpCounter) {
+					_cpCounter = value; 
+					CP_COUNTER = value; 
+					cpCounterChanged(value);
+				} 
+			}
 		}
 
 		// MAP OBJECT
@@ -104,9 +110,9 @@ namespace GhostrunnerRNG.Game {
 			game.ReadString(mapNamePtr, 250, out map);
 			if(!string.IsNullOrEmpty(map)) {
 				if(currentMap != null) {
-					main.label_levelName.Text = $"Current Level: {currentMap.mapType}";  // load map type from object
+					main.label_levelName.Text = $"Current Level: {currentMap.mapType}{(IsHC ? " HC" : "")}";  // load map type from object
 				} else {
-					main.label_levelName.Text = $"Current Level: {AccurateMapType}";     // last updated
+					main.label_levelName.Text = $"Current Level: {AccurateMapType}{(IsHC ? " HC" : "")}";     // last updated
 				}
 				MapName = map;
 			}
@@ -129,7 +135,7 @@ namespace GhostrunnerRNG.Game {
 			}
 
 			//// Death/CP counter
-			int cp = 0;
+			int cp;
 			game.ReadValue<int>(reloadCounterPtr, out cp);
 			cpCounter = cp;
 
@@ -543,10 +549,6 @@ namespace GhostrunnerRNG.Game {
 			game.WriteBytes(titlePtr, StringToMemoryBytes(Title));
 			game.WriteBytes(descPtr, StringToMemoryBytes(Description));
 		}
-
-		public void ForceRestart() {
-
-        }
 
 		private byte[] StringToMemoryBytes(string str) {
 			var titleBytes = Encoding.Unicode.GetBytes(str).ToList();

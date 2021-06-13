@@ -50,6 +50,7 @@ namespace GhostrunnerRNG.Maps {
         private Room HC_room_11 = new Room(new Vector3f(63012, -59427, 5150), new Vector3f(58665, -57461, 3476)); // shielder, 3 uzi
         private Room HC_room_12 = new Room(new Vector3f(59985, -76681, 2043), new Vector3f(67923, -66899, 6993)); // 5 orbs, waver, shielder, pistol, uzi
         private Room HC_room_13 = new Room(new Vector3f(72471, -92630, 2530), new Vector3f(66087, -101995, 5566)); // shifter, splitter, 2 uzi, waver
+        private Room HC_Room14 = new Room(new Vector3f(54296, -64937, 7209), new Vector3f(48524, -56378, 4768)); // 2 drones, uzi
         #endregion
 
         public BreatheIn() : base(MapType.BreatheIn, BeforeCV: GameHook.xPos > 150000.0f) {
@@ -335,6 +336,9 @@ namespace GhostrunnerRNG.Maps {
             List<Enemy> Snipers = new List<Enemy>();
             Rooms = new List<RoomLayout>();
             RoomLayout layout;
+ 
+            // Room 6, corner CP modified to avoid spawn kill
+            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x80, 0x128, 0xA8, 0xC0, 0x248, 0x1D0), new Vector3f(137166, -61553, 3948), new Angle(-0.95f, 0.31f), GameHook.game);
 
 
             //// Room 1 ////
@@ -348,8 +352,7 @@ namespace GhostrunnerRNG.Maps {
 
             //// Room 2 ////
             enemies = HC_room_2.ReturnEnemiesInRoom(AllEnemies);
-            enemies.ForEach(e => System.Console.WriteLine(e.Pos));
-            enemies[0] = new EnemyShifter(enemies[0], 3);
+            enemies[0] = new EnemyShifter(enemies[0]);
             enemies[2].SetEnemyType(Enemy.EnemyTypes.Waver);
             enemies[3].SetEnemyType(Enemy.EnemyTypes.Weeb);
             // remove shifter to its own list
@@ -417,9 +420,9 @@ namespace GhostrunnerRNG.Maps {
 
             //// Room 4 ////
             enemies = HC_room_4.ReturnEnemiesInRoom(AllEnemies);
-            enemies[3] = new EnemyShifter(enemies[3], 5);
-            enemies[4] = new EnemyShifter(enemies[4], 5);
-            enemies[5] = new EnemyShifter(enemies[5], 5);            
+            enemies[3] = new EnemyShifter(enemies[3]);
+            enemies[4] = new EnemyShifter(enemies[4]);
+            enemies[5] = new EnemyShifter(enemies[5]);            
             // shifters - disable cp and move shifter to their own list
             enemies[3].DisableAttachedCP(GameHook.game);
             enemies[4].DisableAttachedCP(GameHook.game);
@@ -517,7 +520,6 @@ namespace GhostrunnerRNG.Maps {
             EnemiesWithoutCP.AddRange(enemies);
 
 
-
             //// Room 10 ////
             enemies = HC_room_10.ReturnEnemiesInRoom(AllEnemies);
             enemies[0] = new EnemyTurret(enemies[0]);
@@ -550,8 +552,6 @@ namespace GhostrunnerRNG.Maps {
             // additional (drones)
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(78035, -55012, 4424), new Vector3f(78749, -53274, 4802), new Angle(0.26f, 0.96f)).Mask(SpawnPlane.Mask_Airborne));
             Rooms.Add(layout);
-
-
 
 
             //// Room 11 ////
@@ -592,7 +592,9 @@ namespace GhostrunnerRNG.Maps {
             Rooms.Add(layout);
 
             // enemies
-            layout = new RoomLayout(enemies.Skip(5).ToList());
+            enemies.RemoveRange(0, 5); // get rid of orbs
+            RandomPickEnemiesWithoutCP(ref enemies, force: true);
+            layout = new RoomLayout(enemies);
             // default
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(63108, -68457, 3598), new Vector3f(64752, -67860, 3598), new Angle(-0.71f, 0.70f)).Mask(SpawnPlane.Mask_Flatground));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(66587, -69428, 4697), new Vector3f(67122, -70462, 4699), new Angle(-0.97f, 0.26f)).Mask(SpawnPlane.Mask_Flatground));
@@ -623,7 +625,7 @@ namespace GhostrunnerRNG.Maps {
             //// Room 13 ////
             enemies = HC_room_13.ReturnEnemiesInRoom(AllEnemies);
             enemies[0].SetEnemyType(Enemy.EnemyTypes.Splitter);
-            enemies[1] = new EnemyShifter(enemies[1], 4);
+            enemies[1] = new EnemyShifter(enemies[1]);
             enemies[4].SetEnemyType(Enemy.EnemyTypes.Waver);
             RandomPickEnemiesWithoutCP(ref enemies, enemyIndex: 4); // waver
             // move shifter
@@ -633,10 +635,10 @@ namespace GhostrunnerRNG.Maps {
 
             layout = new RoomLayout(enemies);
             // default
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(68151, -96340, 3805), new Vector3f(66625, -97334, 3808)).Mask(SpawnPlane.Mask_Flatground));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(71241, -97252, 3802), new Vector3f(70308, -96633, 3798)).Mask(SpawnPlane.Mask_Flatground));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(70297, -100348, 3805), new Vector3f(71417, -99349, 3808)).Mask(SpawnPlane.Mask_Flatground));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(68194, -99294, 3798), new Vector3f(67292, -100355, 3798)).Mask(SpawnPlane.Mask_Flatground));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(68151, -96340, 3805), new Vector3f(66625, -97334, 3808)).Mask(SpawnPlane.Mask_Flatground).AllowSplitter());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(71241, -97252, 3802), new Vector3f(70308, -96633, 3798)).Mask(SpawnPlane.Mask_Flatground).AllowSplitter());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(70297, -100348, 3805), new Vector3f(71417, -99349, 3808)).Mask(SpawnPlane.Mask_Flatground).AllowSplitter());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(68194, -99294, 3798), new Vector3f(67292, -100355, 3798)).Mask(SpawnPlane.Mask_Flatground).AllowSplitter());
             // high
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(66996, -100265, 4098), new Angle(0.43f, 0.90f)).Mask(SpawnPlane.Mask_Highground)); // crate
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(65812, -96558, 4798), new Angle(0.34f, 0.94f)).Mask(SpawnPlane.Mask_Highground)); // platform ledge
@@ -645,19 +647,25 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(66588, -98812, 4533), new Vector3f(66608, -97790, 4533), new Angle(0.33f, 0.95f)).Mask(SpawnPlane.Mask_Highground)); // left billboard
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(65847, -96948, 5698), new Angle(0.35f, 0.94f)).Mask(SpawnPlane.Mask_Highground)); // ledge of huge ac unit
             // additional (drone)
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(68009, -98755, 3937), new Vector3f(67121, -97940, 4416)).Mask(SpawnPlane.Mask_Airborne));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(70187, -97737, 3856), new Vector3f(71420, -98678, 4400)).Mask(SpawnPlane.Mask_Airborne));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(71360, -100445, 4430), new Vector3f(67806, -99579, 4430)).Mask(SpawnPlane.Mask_Airborne));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(68009, -98755, 3937), new Vector3f(67121, -97940, 4416), new Angle(0.72f, 0.69f)).Mask(SpawnPlane.Mask_Airborne));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(70187, -97737, 3856), new Vector3f(71420, -98678, 4400), new Angle(0.72f, 0.69f)).Mask(SpawnPlane.Mask_Airborne));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(71360, -100445, 4430), new Vector3f(67806, -99579, 4430), new Angle(0.72f, 0.69f)).Mask(SpawnPlane.Mask_Airborne));
             Rooms.Add(layout);
+
+
+            //// Room 14 ////
+            // useless room, move all to EnemiesWithoutCP
+            enemies = HC_Room14.ReturnEnemiesInRoom(AllEnemies);
+            enemies[0] = new EnemyDrone(enemies[0]);
+            enemies[1] = new EnemyDrone(enemies[1]);
+            RandomPickEnemiesWithoutCP(ref enemies, force: true);
+            RandomPickEnemiesWithoutCP(ref enemies, force: true);
+            RandomPickEnemiesWithoutCP(ref enemies, force: true);
 
 
 
             ///// SNIPERS
             layout = new RoomLayout(Snipers);
-
-            // tunnel clever/hidden spot, behind cp (doable for casuals as well), before room 3
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(171087, -71441, 2800), new Angle(-0.71f, 0.70f))
-                .SetSpawnInfo(new SniperSpawnInfo().SinglePatrol(new Vector3f(171113, -72332, 2693))));
             // room 3 - top, aiming to middle
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(169174, -79376, 4398), new Angle(0.95f, 0.30f))
                 .SetSpawnInfo(new SniperSpawnInfo().SinglePatrol(new Vector3f(167191, -78244, 2800))));
@@ -690,9 +698,17 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(134905, -62510, 3948), new Angle(0.28f, 0.96f))
                 .SetSpawnInfo(new SniperSpawnInfo().SinglePatrol(new Vector3f(135923, -61825, 4048))));
 
+            // room 10, near exit door
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(80648, -56235, 4199), new Angle(0.73f, 0.68f))
+                .SetSpawnInfo(new SniperSpawnInfo().SinglePatrol(new Vector3f(80597, -50309, 4198))));
+
             // spinning platform/fan room, hiding behind crates
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(104532, -40937, 3747), new Angle(-1.00f, 0.00f))
-             .SetSpawnInfo(new SniperSpawnInfo().SinglePatrol(new Vector3f(104408, -40936, 3603))));
+                .SetSpawnInfo(new SniperSpawnInfo().SinglePatrol(new Vector3f(104408, -40936, 3603))));
+
+            // before grinder, right of CP
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(70038, -59302, 4198), new Angle(0.99f, 0.11f))
+                 .SetSpawnInfo(new SniperSpawnInfo().SinglePatrol(new Vector3f(69968, -59288, 4043))));
 
             // after grinder, hiding behind left wall/corner
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(61344, -57913, 4498), new Angle(-0.99f, 0.11f))
@@ -701,7 +717,6 @@ namespace GhostrunnerRNG.Maps {
             // after grinder room, around the corner
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(56797, -57717, 4501), new Angle(-0.69f, 0.72f))
                  .SetSpawnInfo(new SniperSpawnInfo().SinglePatrol(new Vector3f(56803, -57859, 4345))));
-
 
             layout.DoNotReuse();
             layout.Mask(SpawnPlane.Mask_Sniper);
@@ -722,7 +737,6 @@ namespace GhostrunnerRNG.Maps {
              };
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(183243, -56600, 2748), new Angle(0.92f, 0.40f)).SetSpawnInfo(info));
 
-
             // room 3
             info = new ShifterSpawnInfo();
             info.shiftPoints = new List<Tuple<Vector3f, Angle>>() {
@@ -733,7 +747,6 @@ namespace GhostrunnerRNG.Maps {
                     new Tuple<Vector3f, Angle>(new Vector3f(171852, -81589, 2802), new Angle(0.99f, 0.12f))
              };
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(169396, -76223, 2798), new Angle(0.23f, 0.97f)).SetSpawnInfo(info));
-
 
             // room 4
             info = new ShifterSpawnInfo();
@@ -746,6 +759,16 @@ namespace GhostrunnerRNG.Maps {
              };
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(152854, -83814, 2798), new Angle(0.14f, 0.99f)).SetSpawnInfo(info));
 
+            // room 10
+            info = new ShifterSpawnInfo();
+            info.shiftPoints = new List<Tuple<Vector3f, Angle>>() {
+                    new Tuple<Vector3f, Angle>(new Vector3f(79493, -51328, 4152), new Angle(-0.07f, 1.00f)),
+                    new Tuple<Vector3f, Angle>(new Vector3f(81838, -50513, 4797), new Angle(-0.34f, 0.94f)),
+                    new Tuple<Vector3f, Angle>(new Vector3f(79793, -55579, 4449), new Angle(0.24f, 0.97f)),
+                    new Tuple<Vector3f, Angle>(new Vector3f(76867, -55329, 5008), new Angle(0.33f, 0.94f)),
+                    new Tuple<Vector3f, Angle>(new Vector3f(76328, -53709, 5434), new Angle(0.09f, 1.00f))
+             };
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(82670, -52140, 4198), new Angle(0.12f, 0.99f)).SetSpawnInfo(info));
 
             // room 12
             info = new ShifterSpawnInfo();
@@ -758,7 +781,6 @@ namespace GhostrunnerRNG.Maps {
              };
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(65136, -69490, 3798), new Angle(-0.98f, 0.20f)).SetSpawnInfo(info));
 
-
             // last room
             info = new ShifterSpawnInfo();
             info.shiftPoints = new List<Tuple<Vector3f, Angle>>() {
@@ -769,6 +791,7 @@ namespace GhostrunnerRNG.Maps {
                     new Tuple<Vector3f, Angle>(new Vector3f(65359, -95448, 4798), new Angle(0.12f, 0.99f))
              };
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(71403, -96622, 3953), new Angle(0.78f, 0.63f)).SetSpawnInfo(info));
+
             layout.DoNotReuse();
             Rooms.Add(layout);
 
@@ -776,11 +799,14 @@ namespace GhostrunnerRNG.Maps {
 
             //// TURRETS
             layout = new RoomLayout();
-            // first room aiming toward uplink
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(174538, -59582, 2748), new Angle(-0.84f, 0.54f)).SetSpawnInfo(new TurretSpawnInfo()));
+            // first room aiming towards fan
+            var turrInfo = new TurretSpawnInfo();
+            turrInfo.VerticalAngle = 10;
+            turrInfo.HorizontalAngle = 20;
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(178097, -59380, 2748), new Angle(-0.71f, 0.70f)).SetSpawnInfo(turrInfo));
 
             // room 3
-            var turrInfo = new TurretSpawnInfo();
+            turrInfo = new TurretSpawnInfo();
             turrInfo.VerticalAngle = 10;
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(167714, -77371, 2800), new Angle(-0.94f, 0.34f)).SetSpawnInfo(turrInfo));
 
@@ -788,7 +814,6 @@ namespace GhostrunnerRNG.Maps {
             turrInfo = new TurretSpawnInfo();
             turrInfo.HorizontalSpeed = 0;
             turrInfo.VerticalAngle = 15;
-            turrInfo.RotationOffset = 20;
             // 20 0 -90 quaternion
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(147202, -82883, 3021), new QuaternionAngle(-0.70f, -0.12f, 0.12f, 0.70f)).SetSpawnInfo(turrInfo));
 
@@ -818,7 +843,8 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(85944, -48563, 4206), new Angle(-0.21f, 0.98f)).SetSpawnInfo(turrInfo));
 
             // default turret
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(80510, -52614, 4198), new Angle(-0.73f, 0.68f)).SetSpawnInfo(new TurretSpawnInfo()));
+            turrInfo = new TurretSpawnInfo();
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(80510, -52614, 4198), new Angle(-0.73f, 0.68f)).SetSpawnInfo(turrInfo));
 
             layout.Mask(SpawnPlane.Mask_Turret);
             Rooms.Add(layout);
@@ -845,7 +871,8 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(118007, -43337, 4347), new Angle(0.09f, 1.00f)).Mask(SpawnPlane.Mask_Airborne));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(116343, -42282, 4234), new Angle(-0.06f, 1.00f)).Mask(SpawnPlane.Mask_Airborne));
             // after that section ^
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(115506, -40151, 3801), new Angle(-0.60f, 0.80f)).Mask(SpawnPlane.Mask_Highground));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(115506, -40151, 3801), new Angle(-0.60f, 0.80f)).Mask(SpawnPlane.Mask_Highground)); // edge
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(108417, -40979, 3748), new Angle(0.13f, 0.99f)).Mask(SpawnPlane.Mask_Highground)); // waver default spot
             // grapple between pipes room
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(97274, -40876, 4196), new Angle(-0.01f, 1.00f)).Mask(SpawnPlane.Mask_Flatground));
             // crashers with laser walls
@@ -859,9 +886,10 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(62030, -78179, 3498), new Angle(0.69f, 0.72f)).Mask(SpawnPlane.Mask_Highground));
             // room 11 (after grinder)
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(59216, -58961, 4498), new Vector3f(60895, -58264, 4501), new Angle(-0.02f, 1.00f))
-                .Mask(SpawnPlane.Mask_Flatground).SetMaxEnemies(3));
+                .Mask(SpawnPlane.Mask_Flatground).SetMaxEnemies(4));
+            // right after room 10
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(80545, -57743, 4503), new Angle(0.79f, 0.61f)).Mask(SpawnPlane.Mask_Highground));
             Rooms.Add(layout);
-
         }
 
         public void Gen_Nightmare_BeforeCV() {}

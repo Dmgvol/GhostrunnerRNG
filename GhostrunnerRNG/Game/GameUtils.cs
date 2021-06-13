@@ -1,4 +1,5 @@
 ﻿using GhostrunnerRNG.Enemies;
+using GhostrunnerRNG.MapGen;
 using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Collections.Generic;
@@ -118,12 +119,13 @@ namespace GhostrunnerRNG.Game {
 
 
         private static List<MapType> SupportedHCMaps = new List<MapType>() {
+            MapType.AwakeningLookInside,
             MapType.Awakening,
             MapType.LookInside,
             MapType.TheClimb,
             MapType.JackedUp,
             MapType.BreatheIn,
-            //MapType.RoadToAmida,
+            MapType.RoadToAmida,
             //MapType.RunUp,
             //MapType.Gatekeeper,
             //MapType.DharmaCity,
@@ -308,10 +310,11 @@ namespace GhostrunnerRNG.Game {
             }
         }
 
-        public static void DEV_PrintEnemyTypes_Bulk(Process game, params List<Enemy>[] enemyLists) {
-            for(int i = 0; i < enemyLists.Length; i++) {
+        public static void DEV_PrintEnemyTypes_Bulk(Process game, List<Enemy> AllEnemies, params Room[] rooms) {
+            for(int i = 0; i < rooms.Length; i++) {
+                List<Enemy> enemies = rooms[i].ReturnEnemiesInRoom(AllEnemies);
                 Console.WriteLine($"\nRoom {i+1}:");
-                DEV_PrintEnemyTypes(game, enemyLists[i]);
+                DEV_PrintEnemyTypes(game, enemies);
             }
         }
 
