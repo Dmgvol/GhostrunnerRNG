@@ -29,7 +29,6 @@ namespace GhostrunnerRNG.Enemies {
             EP.DerefPointers(GameHook.game);
             int count;
             GameHook.game.ReadValue<int>(EP.Pointers["ShiftCount"].Item2, out count);
-
             // Throw exception is memory count is 0 or above 20
             if(count < 1 || count > 20) throw new ArgumentNullException();
 

@@ -64,6 +64,7 @@ namespace GhostrunnerRNG.Enemies {
             DefaultData.MaxAttackRange = value;
             game.ReadValue(Pointers["MaxAttackRange2"].Item2, out value);
             DefaultData.MaxAttackRange2 = value;
+            Console.WriteLine(value);
         }
 
         public override void SetMemoryPos(Process game, SpawnData spawnData) {
@@ -90,9 +91,14 @@ namespace GhostrunnerRNG.Enemies {
                 if(info.SetRangeAsVisible) {
                     game.WriteBytes(Pointers["MaxAttackRange"].Item2, BitConverter.GetBytes((float)DefaultData.VisibleLaserLength));
                     game.WriteBytes(Pointers["MaxAttackRange2"].Item2, BitConverter.GetBytes((float)DefaultData.VisibleLaserLength));
+                    game.WriteBytes(Pointers["VisibleLaserLength"].Item2, BitConverter.GetBytes((float)DefaultData.VisibleLaserLength));
                 } else {
                     ModifyIfChanged(game, Pointers["MaxAttackRange"].Item2, ref info.MaxAttackRange, DefaultData.MaxAttackRange);
                     ModifyIfChanged(game, Pointers["MaxAttackRange2"].Item2, ref info.MaxAttackRange2, DefaultData.MaxAttackRange2);
+
+                    if(info.VisibleLaserLength == null) {
+                        game.WriteBytes(Pointers["VisibleLaserLength"].Item2, BitConverter.GetBytes((float)DefaultData.VisibleLaserLength));
+                    }
                 }
 
                 if(info.HorizontalAngle is float angle && angle != 0) {

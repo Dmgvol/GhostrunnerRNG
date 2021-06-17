@@ -490,6 +490,17 @@ namespace GhostrunnerRNG.MapGen {
             GameHook.game.WriteBytes(parentPtr0, BitConverter.GetBytes((ulong)parent));
         }
 
+        public static void DisableCP(DeepPointer dp) {
+            IntPtr cpPtr;
+            var offsets = dp.GetOffsets();
+            offsets.RemoveRange(offsets.Count - 2, 2);
+            offsets.Add(0x02A0);
+            dp = new DeepPointer(dp.GetBase(), offsets);
+            dp.DerefOffsets(GameHook.game, out cpPtr);
+            GameHook.game.WriteBytes(cpPtr, new byte[] {0});
+        }
+
+
         public static void ModifyCP(DeepPointer dp, Vector3f pos, Process game) {
             IntPtr cpPtr;
             dp.DerefOffsets(game, out cpPtr);
@@ -497,6 +508,7 @@ namespace GhostrunnerRNG.MapGen {
             game.WriteBytes(cpPtr + 4, BitConverter.GetBytes(pos.Y));
             game.WriteBytes(cpPtr + 8, BitConverter.GetBytes(pos.Z));
         }
+
 
         public static void ModifyCP(DeepPointer dp, Vector3f pos, Angle angle, Process game) {
             IntPtr cpPtr;

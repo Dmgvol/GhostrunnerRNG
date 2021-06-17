@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace GhostrunnerRNG.Game {
     public class GameUtils {
@@ -119,14 +117,15 @@ namespace GhostrunnerRNG.Game {
 
 
         private static List<MapType> SupportedHCMaps = new List<MapType>() {
-            MapType.AwakeningLookInside,
+                MapType.AwakeningLookInside,
             MapType.Awakening,
             MapType.LookInside,
             MapType.TheClimb,
             MapType.JackedUp,
             MapType.BreatheIn,
             MapType.RoadToAmida,
-            //MapType.RunUp,
+                MapType.RunUpGatekeeper,
+            MapType.RunUp,
             //MapType.Gatekeeper,
             //MapType.DharmaCity,
             //MapType.Echoes,

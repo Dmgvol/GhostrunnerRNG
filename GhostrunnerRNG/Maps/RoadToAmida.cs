@@ -2,7 +2,6 @@
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
 using GhostrunnerRNG.NonPlaceableObjects;
-using GhostrunnerRNG.Windows;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -580,6 +579,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// Room 11 ////
+            DisableCP(new DeepPointer(0x04609420, 0x98, 0x30, 0x128, 0xA8, 0xF68, 0x248, 0x1D0)); // disable small platform
             enemies = HC_room11.ReturnEnemiesInRoom(AllEnemies);
             enemies[0] = new EnemyShifter(enemies[0]);
             enemies[1] = new EnemyShifter(enemies[1]);
@@ -755,7 +755,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-69628, -1574, -4451), new Vector3f(-68195, -925, -4451), new Angle(-1.00f, 0.01f)).Mask(SpawnPlane.Mask_Flatground).AllowSplitter());
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-64731, -847, -4452), new Vector3f(-66477, -1564, -4452), new Angle(1.00f, 0.00f)).Mask(SpawnPlane.Mask_Flatground).SetMaxEnemies(2).AllowSplitter());
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-64553, 359, -4651), new Vector3f(-65913, -552, -4651), new Angle(-1.00f, 0.01f)).Mask(SpawnPlane.Mask_Flatground).AllowSplitter());
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-67011, -108, -5161), new Vector3f(-67977, -709, -5161), new Angle(-1.00f, 0.03f)).Mask(SpawnPlane.Mask_Flatground).AllowSplitter());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-67011, -108, -5161), new Vector3f(-67977, -709, -5161), new Angle(-1.00f, 0.03f)).Mask(SpawnPlane.Mask_Highground).AllowSplitter());
             // high/special
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-69784, -426, -4451), new Angle(-0.53f, 0.84f)).Mask(SpawnPlane.Mask_Highground)); // near umbrella
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-67618, -1640, -4757), new Angle(0.91f, 0.42f)).Mask(SpawnPlane.Mask_Highground)); // concrete frame, middle

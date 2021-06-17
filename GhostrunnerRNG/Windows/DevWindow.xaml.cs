@@ -115,6 +115,8 @@ namespace GhostrunnerRNG.Windows {
 						pos1 = new Vector3f(GameHook.xPos, GameHook.yPos, GameHook.zPos);
 						if(checkbox_onlyVector.IsChecked == true) {
 							outputBox.Text = $"new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z})";
+						}else if(checkbox_VectorAngle.IsChecked == true) {
+							outputBox.Text = $"new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Angle({GameHook.angle.angleSin:0.00}f, {GameHook.angle.angleCos:0.00}f)";
 						}
 						break;
 					case Keys.NumPad2:
@@ -274,6 +276,17 @@ namespace GhostrunnerRNG.Windows {
 					break;
 			}
         }
+
+        private void checkbox_onlyVector_Checked(object sender, RoutedEventArgs e) {
+			if(checkbox_onlyVector.IsChecked == true)
+				checkbox_VectorAngle.IsChecked = false;
+
+		}
+
+        private void checkbox_VectorAngle_Checked(object sender, RoutedEventArgs e) {
+			if(checkbox_VectorAngle.IsChecked == true)
+				checkbox_onlyVector.IsChecked = false;
+		}
 
         private void Teleport(Process game, Vector3f pos) {
 			game.WriteBytes(GameHook.xPosPtr, BitConverter.GetBytes(pos.X));
