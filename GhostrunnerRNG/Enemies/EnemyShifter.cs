@@ -14,7 +14,6 @@ namespace GhostrunnerRNG.Enemies {
 
         public EnemyShifter(Enemy enemy, int shiftPoints) : base(enemy.GetObjectDP()) {
             Pos = enemy.Pos;
-
             // add pointers
             for(int i = 0; i < shiftPoints; i++) {
                 ShiftPointers.Add(new Tuple<DeepPointer, IntPtr>(AppendBaseLastOffset(0x7d8, 0x8 * i, 0x130, 0x1D0) ,IntPtr.Zero));
@@ -90,6 +89,9 @@ namespace GhostrunnerRNG.Enemies {
             }
             ShiftPointers = lst;
         }
+
+        public int AllocatedShiftPoints() => ShiftPointers.Count;
+
     }
 
     public class ShifterSpawnInfo : SpawnInfo {

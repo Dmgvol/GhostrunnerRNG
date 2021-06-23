@@ -292,7 +292,6 @@ namespace GhostrunnerRNG.Maps {
             Rooms.Add(layout);
 
 
-
             //// Room 3 ////
             enemies = HC_room3.ReturnEnemiesInRoom(AllEnemies);
             enemies[1].SetEnemyType(Enemy.EnemyTypes.Weeb);
@@ -301,10 +300,10 @@ namespace GhostrunnerRNG.Maps {
             RandomPickEnemiesWithoutCP(ref enemies);
             layout = new RoomLayout(enemies);
             // default planes
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(72730, -60695, 3598), new Vector3f(71414, -60001, 3597), new Angle(-0.26f, 0.96f)).Mask(SpawnPlane.Mask_Flatground)); // closest to the exit
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(75255, -62267, 3598), new Vector3f(73738, -61609, 3604), new Angle(-0.54f, 0.84f)).Mask(SpawnPlane.Mask_Flatground)); // closest to the entry
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(71589, -62234, 3598), new Vector3f(72761, -61553, 3598), new Angle(0.00f, 1.00f)).Mask(SpawnPlane.Mask_Flatground)); // platform on the right
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(73675, -59999, 3597), new Vector3f(75104, -60602, 3597), new Angle(-0.72f, 0.69f)).Mask(SpawnPlane.Mask_Flatground)); // platform on the left
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(71461, -60099, 3597), new Vector3f(72487, -60573, 3597), new Angle(-0.01f, 1.00f)).Mask(SpawnPlane.Mask_Flatground)); // closest to the exit
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(73731, -61708, 3604), new Vector3f(74815, -62185, 3598), new Angle(-0.48f, 0.88f)).Mask(SpawnPlane.Mask_Flatground)); // closest to the entry
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(72560, -61653, 3598), new Vector3f(71520, -62198, 3598), new Angle(0.08f, 1.00f)).Mask(SpawnPlane.Mask_Flatground)); // platform on the right
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(75104, -60602, 3597), new Vector3f(73753, -60032, 3597), new Angle(-0.71f, 0.71f)).Mask(SpawnPlane.Mask_Flatground)); // platform on the left
             // high/special
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(74554, -63128, 4334), new Angle(-0.38f, 0.93f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // thing on the wall near entry door
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(73100, -62328, 4435), new Vector3f(73100, -59976, 4435), new Angle(0.00f, 1.00f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // shorter line

@@ -10,7 +10,7 @@ namespace GhostrunnerRNG.MapGen {
 
         public List<SpawnPlane> spawnPlanes { get; private set; } = new List<SpawnPlane>();
         private List<WorldObject> roomObjects = new List<WorldObject>();
-        private Tuple<Vector3f, Angle> AttachedCPData;
+        private object AttachedCPData;
 
         public RoomLayout() {}
 
@@ -115,22 +115,27 @@ namespace GhostrunnerRNG.MapGen {
 
             // Need to modify cp? find parent and change
             if(AttachedCPData != null) {
-                var dp = roomObjects.OfType<Enemy>()?.Last()?.GetObjectDP();
-                List<int> offsets = new List<int>(dp.GetOffsets());
-                offsets[offsets.Count - 1] = 0x5D0;
-                offsets.Add(0x280);
-                offsets.Add(0x248);
-                offsets.Add(0x1D0);
-                DeepPointer parentDP = new DeepPointer(dp.GetBase(), offsets);
-                IntPtr parentPtr;
-                parentDP.DerefOffsets(game, out parentPtr);
-                //  pos
-                game.WriteValue(parentPtr, AttachedCPData.Item1.X);
-                game.WriteValue(parentPtr + 4, AttachedCPData.Item1.Y);
-                game.WriteValue(parentPtr + 8, AttachedCPData.Item1.Z);
-                // angle
-                game.WriteValue(parentPtr - 8, AttachedCPData.Item2.angleSin);
-                game.WriteValue(parentPtr - 4, AttachedCPData.Item2.angleCos);
+                // Full CP details or partial data?
+                if(AttachedCPData is CPData cpdata) {
+                    MapCore.ModifyCP(cpdata.CP_Pointer, cpdata.SpawnPos, cpdata.SpawnAngle, GameHook.game);
+                } else if(AttachedCPData is Tuple<Vector3f, Angle> data) {
+                    var dp = roomObjects.OfType<Enemy>()?.Last()?.GetObjectDP();
+                    List<int> offsets = new List<int>(dp.GetOffsets());
+                    offsets[offsets.Count - 1] = 0x5D0;
+                    offsets.Add(0x280);
+                    offsets.Add(0x248);
+                    offsets.Add(0x1D0);
+                    DeepPointer parentDP = new DeepPointer(dp.GetBase(), offsets);
+                    IntPtr parentPtr;
+                    parentDP.DerefOffsets(game, out parentPtr);
+                    //  pos
+                    game.WriteValue(parentPtr, data.Item1.X);
+                    game.WriteValue(parentPtr + 4, data.Item1.Y);
+                    game.WriteValue(parentPtr + 8, data.Item1.Z);
+                    // angle
+                    game.WriteValue(parentPtr - 8, data.Item2.angleSin);
+                    game.WriteValue(parentPtr - 4, data.Item2.angleCos);
+                }
             }
         }
 
@@ -152,6 +157,21 @@ namespace GhostrunnerRNG.MapGen {
             AttachedCPData = new Tuple<Vector3f, Angle>(vec, angle);
         }
 
+        public void ModifyAttachedCP(DeepPointer ptr, Vector3f vec, Angle angle) {
+            AttachedCPData = new CPData { CP_Pointer = ptr, SpawnPos = vec, SpawnAngle = angle }; ;
+        }
+
         public void ClearRoomObjects() => roomObjects.Clear();
+
+
+        /// <summary>
+        /// CP Data contains DP, pos and spawn
+        /// </summary>
+        private struct CPData {
+            public DeepPointer CP_Pointer;
+            public Vector3f SpawnPos;
+            public Angle SpawnAngle;
+        }
     }
+
 }
