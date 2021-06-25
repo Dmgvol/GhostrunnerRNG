@@ -1,5 +1,5 @@
 ﻿using GhostrunnerRNG.Game;
-using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,9 +8,9 @@ using System.Linq;
 namespace GhostrunnerRNG.NonPlaceableObjects {
     class Billboard : NonPlaceableObject {
 
-        // 0x045A3C20, 0x98, firstOffset, 0x128, 0xA8, secondOffset
+        // base, 0x98, firstOffset, 0x128, 0xA8, secondOffset
         public Billboard(int firstOffset, int secondOffset) {
-            ObjectDP = new DeepPointer(0x04609420, 0x98, firstOffset, 0x128, 0xA8, secondOffset);
+            ObjectDP = new DeepPointer(PtrDB.DP_Billboard).ModifyOffset(1, firstOffset).ModifyOffset(4, secondOffset);
 
             // Pointers
             Pointers.Add("Time1", new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(0x2C8), IntPtr.Zero));

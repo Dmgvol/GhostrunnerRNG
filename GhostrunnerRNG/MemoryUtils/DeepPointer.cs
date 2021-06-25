@@ -155,6 +155,43 @@ namespace GhostrunnerRNG {
             _offsets.AddRange(offsets);
         }
 
+        internal DeepPointer MultiplyOffset(int offsetIndex, OffsetT multiplayBy) {
+            if(offsetIndex >= 0 && offsetIndex < _offsets.Count) {
+                if(_offsets[0] == 0) offsetIndex++;
+
+                _offsets[offsetIndex] *= multiplayBy;
+            }
+            return this;
+        }
+
+        internal DeepPointer ModifyOffset(int offsetIndex, OffsetT NewValue) {
+            if(offsetIndex >= 0 && offsetIndex < _offsets.Count) {
+                if(_offsets[0] == 0) offsetIndex++;
+
+                _offsets[offsetIndex] = NewValue;
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// Replaces 0x0 with given values by order
+        /// </summary>
+        /// <param name="values"></param>
+        /// <returns></returns>
+        internal DeepPointer Format(params OffsetT[] values) {
+            if(_offsets.Count(x=>x == 0x0) - 1 == values.Length) {
+                int curr = 0;
+                for(int i = 1; i < _offsets.Count; i++) {
+                    if(_offsets[i] == 0) {
+                        _offsets[i] = values[curr];
+                        curr++;
+                    }
+                }
+            } else { throw new ArgumentOutOfRangeException(); }
+            return this;
+        }
+
+
         public override string ToString() {
             string str = "0x" + GetBase();
             for(int i = 0; i < _offsets.Count; i++) {

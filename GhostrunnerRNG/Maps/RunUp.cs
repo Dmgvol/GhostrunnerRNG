@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -161,7 +162,7 @@ namespace GhostrunnerRNG.Maps {
             Rooms.Add(layout);
 
             //// room 11 layout //// 2 dudes 
-            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x0, 0x128, 0xA8, 0xA98, 0x248, 0x1D0), new Vector3f(55595, -13929, 2228), new Angle(1,0), GameHook.game);
+            ModifyCP(new DeepPointer(PtrDB.DP_RunUp_ElevatorCP), new Vector3f(55595, -13929, 2228), new Angle(1,0), GameHook.game);
             List<Enemy> enemies = room_11.ReturnEnemiesInRoom(AllEnemies);
             layout = new RoomLayout(enemies[0], enemies[1]);//room with train on the left
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(59758, -13541, 2218), new Vector3f(59317, -13955, 2218), new Angle(-0.56f, 0.83f)));//behind middle wall

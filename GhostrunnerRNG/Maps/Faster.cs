@@ -2,6 +2,7 @@
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.GameObjects;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System;
 using System.Collections.Generic;
@@ -78,7 +79,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             //delete additional cp in that section???
-            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x18, 0x128, 0xA8, 0x1760, 0x240, 0x398, 0x150), new Vector3f(0, 0, 0), GameHook.game);
+            DisableCP(new DeepPointer(PtrDB.DP_Faster_Train1_CP));
             enemies = room_4.ReturnEnemiesInRoom(AllEnemies);
             enemies[1].SetEnemyType(EnemyTypes.Weeb);
             enemies[2].SetEnemyType(EnemyTypes.Weeb);
@@ -113,7 +114,7 @@ namespace GhostrunnerRNG.Maps {
             Rooms.Add(layout);
 
             //Delete cp before EoL
-            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x18, 0x128, 0xA8, 0x1720, 0x240, 0x398, 0x150), new Vector3f(0, 0, 0), GameHook.game);
+            ModifyCP(new DeepPointer(PtrDB.DP_Faster_TrainLast_CP), new Vector3f(0, 0, 0), GameHook.game);
             enemies = room_6.ReturnEnemiesInRoom(AllEnemies);
             enemies[1].SetEnemyType(EnemyTypes.Weeb);
             enemies[2].SetEnemyType(EnemyTypes.Weeb);
@@ -275,7 +276,7 @@ namespace GhostrunnerRNG.Maps {
             #region ForceSlideTrigger
             if(Config.GetInstance().Settings_RemoveForceSlideTrigger) {
                 IntPtr triggerPtr;
-                DeepPointer triggerDP = new DeepPointer(0x04609420, 0x98, 0x10, 0x128, 0xA8, 0x3C0, 0x230, 0x398, 0x150);
+                DeepPointer triggerDP = new DeepPointer(PtrDB.DP_Faster_ForcedSliderTrigger);
                 triggerDP.DerefOffsets(GameHook.game, out triggerPtr);
                 GameHook.game.WriteBytes(triggerPtr, BitConverter.GetBytes((float)0));
             }
@@ -286,13 +287,11 @@ namespace GhostrunnerRNG.Maps {
             // force signs, section 1
             // Default: -11830, 160550, 2040 | 650, 1025, 540
             worldObjects.Add(new Trigger(0x18, 0x380, new Vector3f(-11815, 139661, 350), new Vector3f(650, 1025, 540), // first wagon doorframe
-                new DeepPointer(0x04609420, 0x1F8, 0x60, 0xD0, 0x298, 0x830, 0xB0, 0x5A0, 0x1A8, 0x0), 0x19000,
-                "9A F1 42 C6 B0 C6 1B 48 33 D3 BA 44 66 BE 2E C6 50 CC 1D 48 66 96 21 45"));
+                new DeepPointer(PtrDB.DP_SignTrigger_Scan), PtrDB.SignTrigger_ScanLength, PtrDB.SignTrigger1_Signature));
 
             // trigger to disable first signs moved upwards, to avoid double signs(because speedrunners...)
             worldObjects.Add(new Trigger(0x18, 0x17c8, new Vector3f(-11801, 181093, 1609), new Vector3f(595, 40, 528.75f),
-                new DeepPointer(0x04609420, 0x1F8, 0x60, 0xD0, 0x298, 0x830, 0xB0, 0x5A0, 0x1A8, 0x0), 0x19000,
-                "EE C3 41 C6 66 BA 30 48 6A F6 27 43 54 FC 2E C6 9A CE 30 48 33 81 9A 44"));
+                new DeepPointer(PtrDB.DP_SignTrigger_Scan), PtrDB.SignTrigger_ScanLength, PtrDB.SignTrigger2_Signature));
 
             #endregion
         }

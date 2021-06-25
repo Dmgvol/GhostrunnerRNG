@@ -2,6 +2,7 @@
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.GameObjects;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -70,9 +71,9 @@ namespace GhostrunnerRNG.Maps {
             });
 
             // platforms 
-            platforms.Add(new CVPlatform(new DeepPointer(0x04609420, 0x30, 0xA8, 0x138)));
-            platforms.Add(new CVPlatform(new DeepPointer(0x04609420, 0x30, 0xA8, 0x128)));
-            platforms.Add(new CVPlatform(new DeepPointer(0x04609420, 0x30, 0xA8, 0x130)));
+            platforms.Add(new CVPlatform(new DeepPointer(PtrDB.DP_BlinkCV_Platform1)));
+            platforms.Add(new CVPlatform(new DeepPointer(PtrDB.DP_BlinkCV_Platform2)));
+            platforms.Add(new CVPlatform(new DeepPointer(PtrDB.DP_BlinkCV_Platform3)));
 
             // default pos
             platformDefaultPositions.Add(platforms[0].GetMemoryPos(GameHook.game));

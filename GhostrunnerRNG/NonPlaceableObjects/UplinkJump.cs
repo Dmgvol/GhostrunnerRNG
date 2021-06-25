@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +11,7 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
 
         //0x045A3C20, 0x98, <firstOffset>, 0x128, 0xA8, <secondOffset>
         public UplinkJump(int firstOffset, int secondOffset) {
-            ObjectDP = new DeepPointer(0x04609420, 0x98, firstOffset, 0x128, 0xA8, secondOffset);
+            ObjectDP = new DeepPointer(PtrDB.DP_UplinkJump).ModifyOffset(1, firstOffset).ModifyOffset(4, secondOffset);
             
             // add pointers
             Pointers.Add("TimeToActivate", new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(0x234), IntPtr.Zero));

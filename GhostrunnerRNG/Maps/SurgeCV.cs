@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,14 +21,14 @@ namespace GhostrunnerRNG.Maps {
         }
         protected override void Gen_PerRoom() {
             // section 1 - single enemy
-            enemies.Add(new Enemy(new DeepPointer(0x04609420, 0x30, 0xA8, 0x10, 0x130, 0x1D0)));
+            enemies.Add(new Enemy(new DeepPointer(PtrDB.DP_SurgeCV_EnemyEntity).Format(0x10)));
             // section 2 - double enemies
-            enemies.Add(new Enemy(new DeepPointer(0x04609420, 0x30, 0xA8, 0x30, 0x130, 0x1D0)));
-            enemies.Add(new Enemy(new DeepPointer(0x04609420, 0x30, 0xA8, 0x38, 0x130, 0x1D0)));
+            enemies.Add(new Enemy(new DeepPointer(PtrDB.DP_SurgeCV_EnemyEntity).Format(0x30)));
+            enemies.Add(new Enemy(new DeepPointer(PtrDB.DP_SurgeCV_EnemyEntity).Format(0x38)));
             // section 3 - triple enemies
-            enemies.Add(new Enemy(new DeepPointer(0x04609420, 0x30, 0xA8, 0x28, 0x130, 0x1D0)));
-            enemies.Add(new Enemy(new DeepPointer(0x04609420, 0x30, 0xA8, 0x20, 0x130, 0x1D0)));
-            enemies.Add(new Enemy(new DeepPointer(0x04609420, 0x30, 0xA8, 0x18, 0x130, 0x1D0)));
+            enemies.Add(new Enemy(new DeepPointer(PtrDB.DP_SurgeCV_EnemyEntity).Format(0x28)));
+            enemies.Add(new Enemy(new DeepPointer(PtrDB.DP_SurgeCV_EnemyEntity).Format(0x20)));
+            enemies.Add(new Enemy(new DeepPointer(PtrDB.DP_SurgeCV_EnemyEntity).Format(0x18)));
 
             //// Layouts ////
             // section 1

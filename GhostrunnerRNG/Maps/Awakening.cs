@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,7 @@ namespace GhostrunnerRNG.Maps {
         }
 
         private void CheckNewGame() {
-            DeepPointer bestTimeDP = new DeepPointer(0x0438BB40, 0xE0, 0xC8, 0x30, 0xF0, 0x8);
+            DeepPointer bestTimeDP = new DeepPointer(PtrDB.DP_Awakening_BestTime);
             IntPtr bestTimePtr;
             bestTimeDP.DerefOffsets(GameHook.game, out bestTimePtr);
             float time;

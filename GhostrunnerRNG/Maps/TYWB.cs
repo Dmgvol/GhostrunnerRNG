@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace GhostrunnerRNG.Maps {
         #endregion
 
         public TYWB() : base(GameUtils.MapType.TYWB) {
-            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x0, 0x128, 0xA8, 0xD0, 0x248, 0x1D0), new Vector3f(33409, -55474, 2309), GameHook.game);
+            ModifyCP(new DeepPointer(PtrDB.DP_TYWB_ElevatorCP), new Vector3f(33409, -55474, 2309), GameHook.game);
         }
 
         public void Gen_Normal() {

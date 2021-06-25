@@ -344,7 +344,6 @@ namespace GhostrunnerRNG.Maps {
             if(platforms.Count == 0 || platformLayouts.Count == 0 || platformLayouts.Count < platforms.Count) return;
 
             int r = Config.GetInstance().r.Next(platformLayouts.Count / platforms.Count);
-            Console.WriteLine(r);
             for(int i = 0; i < platforms.Count; i++) {
                 platforms[i].SetMemoryPos(game, new SpawnData(platformLayouts[platforms.Count * r  + i].pos, platformLayouts[platforms.Count * r + i].angle));
             }

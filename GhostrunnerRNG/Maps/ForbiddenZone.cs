@@ -2,6 +2,7 @@
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.GameObjects;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace GhostrunnerRNG.Maps {
         #endregion
 
         public ForbiddenZone() : base(GameUtils.MapType.ForbiddenZone) {
-            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x8, 0x128, 0xA8, 0x78, 0x248, 0x1D0), new Vector3f(73395, -3290, 1340), GameHook.game);
+            ModifyCP(new DeepPointer(PtrDB.DP_ForbiddenZone_ElevatorCP), new Vector3f(73395, -3290, 1340), GameHook.game);
         }
 
         public void Gen_Normal() {
@@ -79,9 +80,7 @@ namespace GhostrunnerRNG.Maps {
             layout = new RoomLayout(turret);
 
             // change cp to avoid spawn kill, to previous platform
-            ModifyCP(GameHook.game,
-                new SpawnData(new Vector3f(66641, -9836, 1602), new Angle(-0.71f, 0.71f)),
-                new DeepPointer(0x04609420, 0x98, 0x18, 0x128, 0xA8, 0x210, 0x248), new int[] { 0x1D0 }, new int[] { 0x1C8 });
+            ModifyCP(new DeepPointer(PtrDB.DP_ForbiddenZone_Room2_CP), new Vector3f(66641, -9836, 1602), new Angle(-0.71f, 0.71f), GameHook.game);
 
             // default
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(66640, -13529, 2708), new Angle(-0.72f, 0.70f)).SetSpawnInfo(new TurretSpawnInfo()));

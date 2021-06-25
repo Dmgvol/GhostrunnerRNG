@@ -51,10 +51,10 @@ namespace GhostrunnerRNG.MapGen {
             this.mapType = mapType;
             Config.GetInstance().NewSeed();
             if(Config.GetInstance().Settings_ForcedRestart) {
-                CoreEP.Add("RestartFlag", new DeepPointer(0x0438D7F8, 0x58, 0xB0));
-                CoreEP.Add("RestartBind", new DeepPointer(0x0438D7F8, 0x70, 0x60, 0x188));
-                CoreEP.Add("CutsceneTimer", new DeepPointer(0x04609420, 0x128, 0x38C));
-                CoreEP.Add("CanRestart", new DeepPointer(0x04609420, 0x188, 0x2EB));
+                CoreEP.Add("RestartFlag", PtrDB.DP_RestartFlag);
+                CoreEP.Add("RestartBind", PtrDB.DP_RestartBind);
+                CoreEP.Add("CutsceneTimer", PtrDB.DP_CutsceneTimer);
+                CoreEP.Add("CanRestart", PtrDB.DP_CanRestart);
                 CheckPlayerMove(true);
             }
 
@@ -126,11 +126,11 @@ namespace GhostrunnerRNG.MapGen {
         public List<Enemy> GetAllEnemies(Process game, int startIndex = 0) {
             int index = startIndex;
             List<Enemy> enemies = new List<Enemy>();
-            Enemy enemy = new Enemy(new DeepPointer(0x04609420, 0x138, 0xB0, 0xB0, 0x20, 0x4F0));
+            Enemy enemy = new Enemy(new DeepPointer(PtrDB.DP_EnemyListFirstEntity));
             while(!enemy.GetMemoryPos(game).IsEmpty()) {
                 index++;
                 enemies.Add(enemy);
-                enemy = new Enemy(new DeepPointer(0x04609420, 0x138, 0xB0, 0xB0, (0x20 * (index + 1)), 0x4F0));
+                enemy = new Enemy(new DeepPointer(PtrDB.DP_EnemyListFirstEntity).MultiplyOffset(3, index + 1));
             }
             return enemies;
         }
@@ -145,7 +145,7 @@ namespace GhostrunnerRNG.MapGen {
 
             while(ValidEnemy || threshold > 0) {
                 index++;
-                enemy = new Enemy(new DeepPointer(0x04609420, 0x138, 0xB0, 0xB0, (0x20 * (index + 1)), 0x4F0));
+                enemy = new Enemy(new DeepPointer(PtrDB.DP_EnemyListFirstEntity).MultiplyOffset(3, index + 1));
                 ValidEnemy = !enemy.GetMemoryPos(game).IsEmpty();
                 if(!ValidEnemy) {
                     threshold--;
@@ -285,7 +285,7 @@ namespace GhostrunnerRNG.MapGen {
             int c = 0;
             for(var i = 1; i < 1000; i++) {
                 for(var j = 1; j < 20; j++) {
-                    DeepPointer hitDP = new DeepPointer(0x04609420, 0x98, 0x8 * (j - 1), 0x128, 0xA8, 0x8 * (i - 1), 0x248, 0x1D0);
+                    DeepPointer hitDP = new DeepPointer(PtrDB.DP_InteractiveObjPattern).MultiplyOffset(1, j-1).ModifyOffset(4, j-1);
                     IntPtr hitPtr;
                     hitDP.DerefOffsets(GameHook.game, out hitPtr);
                     float x,y,z;
@@ -385,7 +385,7 @@ namespace GhostrunnerRNG.MapGen {
             // get bulk enemies
             while(ValidEnemy || index < target) {
                 index++;
-                enemy = new Enemy(new DeepPointer(0x04609420, 0x138, 0xB0, 0xB0, (0x20 * (index + 1)), 0x4F0));
+                enemy = new Enemy(new DeepPointer(PtrDB.DP_EnemyListFirstEntity).MultiplyOffset(3, index + 1));
                 ValidEnemy = !enemy.GetMemoryPos(game).IsEmpty();
                 if(ValidEnemy) {
                     enemiesBulk.Add(enemy);

@@ -1,4 +1,5 @@
 ﻿using GhostrunnerRNG.Game;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +9,7 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
     class JumpPad : NonPlaceableObject {
 
         public JumpPad(int offset) {
-            ObjectDP = new DeepPointer(0x04609420, 0x30, 0xA8, offset);
+            ObjectDP = new DeepPointer(PtrDB.DP_JumpPad).ModifyOffset(2, offset);
 
             // Pointers
             Pointers.Add("Speed", new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(0x248), IntPtr.Zero));

@@ -64,7 +64,6 @@ namespace GhostrunnerRNG.Enemies {
             DefaultData.MaxAttackRange = value;
             game.ReadValue(Pointers["MaxAttackRange2"].Item2, out value);
             DefaultData.MaxAttackRange2 = value;
-            Console.WriteLine(value);
         }
 
         public override void SetMemoryPos(Process game, SpawnData spawnData) {

@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System.Collections.Generic;
 using static GhostrunnerRNG.Enemies.Enemy;
@@ -39,7 +40,7 @@ namespace GhostrunnerRNG.Maps {
         #endregion
 
         public Echoes() : base(GameUtils.MapType.Echoes) {
-            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x30, 0x128, 0xA8, 0x1280, 0x248, 0x1D0), new Vector3f(67150, -3805.012695f, 6745), GameHook.game);
+            ModifyCP(new DeepPointer(PtrDB.DP_Echoes_ElevatorCP), new Vector3f(67150, -3805.012695f, 6745), GameHook.game);
         }
         public void Gen_Normal() {
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 30);

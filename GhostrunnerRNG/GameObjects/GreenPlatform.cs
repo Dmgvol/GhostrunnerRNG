@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Diagnostics;
 
@@ -10,10 +11,11 @@ namespace GhostrunnerRNG.GameObjects {
 
         private const float SphereR = 1579.342407f;
 
-        public GreenPlatform(int offset, int boxOffset) : base(new DeepPointer(0x04609420, 0x30, 0xA8, offset, 0x130, 0x1D0)) {
-            EP.Add("SphereCenter",new DeepPointer(0x04609420, 0x30, 0xA8, offset, 0x230, 0x398, 0x150));
-            EP.Add("SphereBox", new DeepPointer(0x04609420, 0x1F8, 0x60, 0xD0, 0x8C0, 0xB0, 0x5A0, 0x1A8, boxOffset));
-            EP.Add("OldCollision", new DeepPointer(0x04609420, 0x30, 0xA8, offset, 0x238, 0x398, 0x150));
+        public GreenPlatform(int offset, int boxOffset) : base(new DeepPointer(PtrDB.DP_LookInsideCV_GreenPlatform).ModifyOffset(2, offset)) {
+            EP.Add("SphereCenter", new DeepPointer(PtrDB.DP_LookInsideCV_GreenPlatform_SphereCenter).ModifyOffset(2, offset));
+            EP.Add("SphereBox", new DeepPointer(PtrDB.DP_LookInsideCV_GreenPlatform_SphereBox).ModifyOffset(7, boxOffset));
+            EP.Add("OldCollision", new DeepPointer(PtrDB.DP_LookInsideCV_GreenPlatform_OldCollision).ModifyOffset(2, offset));
+
         }
 
         public override void SetMemoryPos(Process game, SpawnData spawnData) {

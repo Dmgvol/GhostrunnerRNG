@@ -1,4 +1,5 @@
 ﻿using GhostrunnerRNG.Game;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,9 +8,9 @@ using System.Linq;
 namespace GhostrunnerRNG.NonPlaceableObjects {
     class ToggleableFan : NonPlaceableObject {
 
-        //0x045A3C20 + 98 + <firstOffset> + 128 + A8 + <secondOffset> + XXX
+        //base + 98 + <firstOffset> + 128 + A8 + <secondOffset> + XXX
         public ToggleableFan(int firstOffset, int secondOffset) {
-            ObjectDP = new DeepPointer(0x04609420, 0x98, firstOffset, 0x128, 0xA8, secondOffset);
+            ObjectDP = new DeepPointer(PtrDB.DP_ToggleableFan).ModifyOffset(1, firstOffset).ModifyOffset(4, secondOffset);
 
             // Add pointers
             Pointers.Add("FanSpeed", new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(0x2E0), IntPtr.Zero));

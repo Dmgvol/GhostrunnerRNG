@@ -9,6 +9,7 @@ using static GhostrunnerRNG.Game.GameUtils;
 using GhostrunnerRNG.MapGen;
 using System.Text;
 using GhostrunnerRNG.Localization;
+using GhostrunnerRNG.MemoryUtils;
 
 namespace GhostrunnerRNG.Game {
 	class GameHook {
@@ -432,12 +433,12 @@ namespace GhostrunnerRNG.Game {
 			switch(moduleSize) {
                 case 78856192:
 					Debug.WriteLine("found steam6");
-					capsuleDP = new DeepPointer(0x0438BB50, 0x30, 0x130, 0x0);
-					mapNameDP = new DeepPointer(0x0438BB40, 0x30, 0xF8, 0x0);
-					preciseTimeDP = new DeepPointer(0x04609420, 0x138, 0xB0, 0x128);
-					hcDP = new DeepPointer(0x0438BB40, 0x330, 0x30);
-					LoadingDP = new DeepPointer(0x044C4478, 0x1E8);
-					reloadCounterDP = new DeepPointer(0x04609420, 0x128, 0x388);
+					capsuleDP = new DeepPointer(PtrDB.DP_Module_Capsule);
+					mapNameDP = new DeepPointer(PtrDB.DP_Module_MapName);
+					preciseTimeDP = new DeepPointer(PtrDB.DP_Module_PreciseTime);
+					hcDP = new DeepPointer(PtrDB.DP_Module_HC);
+					LoadingDP = new DeepPointer(PtrDB.DP_Module_Loading);
+					reloadCounterDP = new DeepPointer(PtrDB.DP_Module_ReloadCounter);
 					break;
 
 				default:
@@ -503,7 +504,7 @@ namespace GhostrunnerRNG.Game {
 
 		private LocalizationManager.Language GetSettingsLang() {
 			byte langID;
-			SettingsLangDP = new DeepPointer(0x0438D7F8, 0x58, 0x60);
+			SettingsLangDP = new DeepPointer(PtrDB.DP_Settings_Lang);
 			SettingsLangDP.DerefOffsets(game, out SettingsLangPtr);
 			game.ReadValue(SettingsLangPtr, out langID);
             switch(langID) {
@@ -530,11 +531,11 @@ namespace GhostrunnerRNG.Game {
 			string Title = Config.GetInstance().GetString(LocalizationBase.TextAlias.Mode_Title);
 			string Description = Config.GetInstance().GetString(LocalizationBase.TextAlias.Mode_Description);
 			// title
-			DeepPointer titleDP = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x2F0, 0x20, 0x0);
-			DeepPointer titleLengthDP = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x2F0, 0x28);
+			DeepPointer titleDP = new DeepPointer(PtrDB.DP_MenuTitle);
+			DeepPointer titleLengthDP = new DeepPointer(PtrDB.DP_MenuTitleLength);
 			//description
-			DeepPointer descDP = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x2F0, 0x0, 0x0);
-			DeepPointer descLengthDP = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x2F0, 0x8);
+			DeepPointer descDP = new DeepPointer(PtrDB.DP_MenuDes);
+			DeepPointer descLengthDP = new DeepPointer(PtrDB.DP_MenuDescLength);
 			// pointers
 			IntPtr titlePtr, titleLengthPtr, descPtr, descLengthPtr;
 			// deref

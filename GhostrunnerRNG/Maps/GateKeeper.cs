@@ -1,21 +1,20 @@
 ﻿using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System;
 using System.Diagnostics;
 
 namespace GhostrunnerRNG.Maps {
     class GateKeeper : MapCore {
-        // pointers
-        //private DeepPointer WhiteRing1DP = new DeepPointer(0x04609420, 0x98, 0x30, 0x128, 0xA8, 0x708, 0x9E8, 0x134);
-        //private IntPtr WhiteRing1Ptr;
+        // DeepPointer WhiteRing1DP = 0x04609420, 0x98, 0x30, 0x128, 0xA8, 0x708, 0x9E8, 0x134);
 
         EasyPointers EP = new EasyPointers();
 
         public GateKeeper() : base(GameUtils.MapType.Gatekeeper, manualGen: true) {
             if(GameHook.IsHC) return;
             Gen_PerRoom();
-            EP.Add("Rotation", new DeepPointer(0x04609420, 0x98, 0x30, 0x128, 0xA8, 0x708, 0x840, 0xA0, 0x20));
+            EP.Add("Rotation", new DeepPointer(PtrDB.DP_Tom_Rotation));
         }
 
         protected override void Gen_PerRoom() {

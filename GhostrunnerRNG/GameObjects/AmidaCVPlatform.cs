@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Diagnostics;
 
@@ -12,9 +13,9 @@ namespace GhostrunnerRNG.GameObjects {
         private IntPtr PlatformPtr, PlatformBoxCenterPtr, BoxPtr;
 
         public AmidaCVPlatform(int firstOffset, int secondOffset) : base(null){
-            PlatformDP = new DeepPointer(0x04609420, 0x210, firstOffset, 0x1D0); // visual center
-            PlatformBoxCenterDP = new DeepPointer(0x04609420, 0x210, firstOffset, 0x398 , 0xA0);// box center
-            BoxDP = new DeepPointer(0x04609420, 0x1F8, 0x60, 0xD0, 0x8C0, 0xB0, 0x570, 0x1A8, secondOffset); // collision/box center coords
+            PlatformDP = new DeepPointer(PtrDB.DP_AmidaCV_Platform).ModifyOffset(1, firstOffset); // visual center
+            PlatformBoxCenterDP = new DeepPointer(PtrDB.DP_AmidaCV_PlatformBoxCenter).ModifyOffset(1, firstOffset); // box center
+            BoxDP = new DeepPointer(PtrDB.DP_AmidaCV_Box).ModifyOffset(7, secondOffset); // collision/box center coords
         }
 
         public override void SetMemoryPos(Process game, SpawnData spawnData) {

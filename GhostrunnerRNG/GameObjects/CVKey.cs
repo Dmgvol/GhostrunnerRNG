@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Diagnostics;
 
@@ -11,9 +12,10 @@ namespace GhostrunnerRNG.GameObjects {
         private const float ZOffset = 120;
 
         public CVKey(int hologramOffset, int centerOffset, int boxOffset) : base(null){
-            DP.Pointers.Add("Hologram", new Tuple<DeepPointer, IntPtr>(new DeepPointer(0x04609420, 0x30, 0xA8, hologramOffset, 0x130, 0x1D0), IntPtr.Zero));
-            DP.Pointers.Add("Center", new Tuple<DeepPointer, IntPtr>(new DeepPointer(0x04609420, 0x30, 0xA8, centerOffset, 0x220, 0x398, 0x150), IntPtr.Zero));
-            DP.Pointers.Add("Box", new Tuple<DeepPointer, IntPtr>(new DeepPointer(0x04609420, 0x1F8, 0x60, 0xD0, 0x8C0, 0xB0, 0x5A0, 0x1A8, boxOffset), IntPtr.Zero));
+            DP.Pointers.Add("Hologram", new Tuple<DeepPointer, IntPtr>(new DeepPointer(PtrDB.DP_CVKey_Hologram).Format(hologramOffset), IntPtr.Zero));
+            DP.Pointers.Add("Center", new Tuple<DeepPointer, IntPtr>(new DeepPointer(PtrDB.DP_CVKey_Center).Format(centerOffset), IntPtr.Zero));
+            DP.Pointers.Add("Box", new Tuple<DeepPointer, IntPtr>(new DeepPointer(PtrDB.DP_CVKey_Box).Format(boxOffset), IntPtr.Zero));
+
         }
 
         public override void SetMemoryPos(Process game, SpawnData spawnData) {

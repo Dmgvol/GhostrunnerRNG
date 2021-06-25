@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System;
 using System.Collections.Generic;
@@ -54,7 +55,7 @@ namespace GhostrunnerRNG.Maps {
         #endregion
 
         public BreatheIn() : base(MapType.BreatheIn, BeforeCV: GameHook.xPos > 150000.0f) {
-            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x8, 0x128, 0xA8, 0x40, 0x248, 0x1D0), new Vector3f(197550, -49400, 9645), GameHook.game);
+            ModifyCP(new DeepPointer(PtrDB.DP_BreatheIn_ElevatorCP), new Vector3f(197550, -49400, 9645), GameHook.game);
         }
 
         public void Gen_Easy_BeforeCV() {Gen_Normal_BeforeCV();}
@@ -154,7 +155,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// Room 15 layout //// 
-            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x80, 0x128, 0xA8, 0xD0, 0x248, 0x1D0), new Vector3f(140756, -63564, 3948), new Angle(0.83f, 0.56f), GameHook.game);
+            ModifyCP(new DeepPointer(PtrDB.DP_BreatheIn_Room15_CP), new Vector3f(140756, -63564, 3948), new Angle(0.83f, 0.56f), GameHook.game);
 
             layout = new RoomLayout(room_15.ReturnEnemiesInRoom(AllEnemies)); // 2 pistols+ 4 uzi
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(139294, -69248, 5284), new Vector3f(139218, -70234, 5284), new Angle(-0.49f, 0.87f)).AsVerticalPlane().setDiff(1));//crane
@@ -338,8 +339,7 @@ namespace GhostrunnerRNG.Maps {
             RoomLayout layout;
  
             // Room 6, corner CP modified to avoid spawn kill
-            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x80, 0x128, 0xA8, 0xC0, 0x248, 0x1D0), new Vector3f(137166, -61553, 3948), new Angle(-0.95f, 0.31f), GameHook.game);
-
+            ModifyCP(new DeepPointer(PtrDB.DP_BreatheIn_HC_Room6_CP), new Vector3f(137166, -61553, 3948), new Angle(-0.95f, 0.31f), GameHook.game);
 
             //// Room 1 ////
             var enemies = HC_room_1.ReturnEnemiesInRoom(AllEnemies);

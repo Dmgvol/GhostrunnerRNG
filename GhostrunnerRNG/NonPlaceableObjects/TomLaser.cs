@@ -1,4 +1,5 @@
 ﻿using GhostrunnerRNG.Game;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,7 +14,7 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
         private bool AsVertical = false;
         private Vector3f posOffset = Vector3f.Empty;
         public TomLaser(int offset) {
-            ObjectDP = new DeepPointer(0x04609420, 0x98, 0x30, 0x128, 0xA8, 0x708, offset);
+            ObjectDP = new DeepPointer(PtrDB.DP_Tom_Laser).ModifyOffset(5, offset);
 
             // pointers
             Pointers.Add("Pos", new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(0x11C), IntPtr.Zero));

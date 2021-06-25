@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace GhostrunnerRNG.Maps {
         #endregion
 
         public ReignInHell() : base(MapType.ReignInHell, BeforeCV: GameHook.yPos < 20000) {
-            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x0, 0x128, 0xA8, 0x58, 0x248, 0x1D0), new Vector3f(-4295, -11605, 2455), GameHook.game);
+            ModifyCP(new DeepPointer(PtrDB.DP_ReignInHell_ElevatorCP), new Vector3f(-4295, -11605, 2455), GameHook.game);
         }
         public void Gen_Normal_BeforeCV() {
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 36);

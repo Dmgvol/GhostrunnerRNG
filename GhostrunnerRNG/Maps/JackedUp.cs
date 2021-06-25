@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace GhostrunnerRNG.Maps {
         #endregion
 
         public JackedUp() : base(MapType.JackedUp) {
-            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x8, 0x128, 0xA8, 0x30, 0x248, 0x1D0), new Vector3f(-6140, -25230, 1645), GameHook.game);
+            ModifyCP(new DeepPointer(PtrDB.DP_JackedUp_ElevatorCP), new Vector3f(-6140, -25230, 1645), GameHook.game);
         }
 
         public void Gen_Normal() {

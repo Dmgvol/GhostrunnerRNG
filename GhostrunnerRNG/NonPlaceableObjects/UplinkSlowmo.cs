@@ -1,4 +1,5 @@
 ﻿using GhostrunnerRNG.Game;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +9,7 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
     class UplinkSlowmo : NonPlaceableObject {
 
         public UplinkSlowmo(int firstOffset, int secondOffset, int thirdOffet) {
-            ObjectDP = new DeepPointer(0x04609420, 0x98, firstOffset, 0x128, 0xA8, secondOffset, 0x270, thirdOffet);
+            ObjectDP = new DeepPointer(PtrDB.DP_UplinkSlowmo).ModifyOffset(1, firstOffset).ModifyOffset(4, secondOffset).ModifyOffset(6, thirdOffet);
 
             // add pointers
             Pointers.Add("TimeMultiplier", new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(0x8), IntPtr.Zero));

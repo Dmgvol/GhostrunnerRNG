@@ -1,6 +1,7 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -48,7 +49,7 @@ namespace GhostrunnerRNG.Maps {
         #endregion
 
         public RoadToAmida() : base(GameUtils.MapType.RoadToAmida) { 
-            ModifyCP(new DeepPointer(0x04609420, 0x98, 0x0, 0x128, 0xA8, 0xD0, 0x248, 0x1D0), new Vector3f(-122000, -39020, -11285), GameHook.game);
+            ModifyCP(new DeepPointer(PtrDB.DP_RoadToAmida_ElevatorCP), new Vector3f(-122000, -39020, -11285), GameHook.game);
         }
 
         public void Gen_Normal() {
@@ -579,7 +580,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// Room 11 ////
-            DisableCP(new DeepPointer(0x04609420, 0x98, 0x30, 0x128, 0xA8, 0xF68, 0x248, 0x1D0)); // disable small platform
+            DisableCP(new DeepPointer(PtrDB.DP_RoadToAmida_HC_Room11_CP)); // disable small platform
             enemies = HC_room11.ReturnEnemiesInRoom(AllEnemies);
             enemies[0] = new EnemyShifter(enemies[0]);
             enemies[1] = new EnemyShifter(enemies[1]);

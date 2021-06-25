@@ -1,4 +1,5 @@
 ﻿using GhostrunnerRNG.Game;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +9,7 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
     class SignSpawner : NonPlaceableObject {
 
         public SignSpawner(int offset) {
-            ObjectDP = new DeepPointer(0x04609420, 0x98, 0x18, 0x128, 0xA8, offset);
+            ObjectDP = new DeepPointer(PtrDB.DP_SignSpawner).ModifyOffset(4, offset);
 
             Pointers.Add("Speed", new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(0x248), IntPtr.Zero));
             Pointers.Add("SpawnDelay", new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(0x24C), IntPtr.Zero));

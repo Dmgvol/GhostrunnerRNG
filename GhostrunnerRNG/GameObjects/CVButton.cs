@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Diagnostics;
 
@@ -14,9 +15,10 @@ namespace GhostrunnerRNG.GameObjects {
         /// <summary>
         /// CV Button, for BreatheIn CV
         /// </summary>
-        public CVButton(int offset, int boxOffset, bool IsBoxSizeOne) : base(new DeepPointer(0x04609420, 0x30, 0xA8, offset, 0x248, 0x398, 0x150)){
+        public CVButton(int offset, int boxOffset, bool IsBoxSizeOne) : base(new DeepPointer(PtrDB.DP_BreatheInCV_CVButton).Format(offset)){
             // pointers
-            EP.Add("Box", new DeepPointer(0x04609420, 0x1F8, 0x60, 0xD0, 0x8C0, 0xB0, 0x5A0, 0x1A8, boxOffset));
+            EP.Add("Box", new DeepPointer(PtrDB.DP_BreatheInCV_CVButtonBox).Format(boxOffset));
+
             this.IsBoxSizeOne = IsBoxSizeOne;
         }
 

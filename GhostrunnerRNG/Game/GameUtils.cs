@@ -268,22 +268,7 @@ namespace GhostrunnerRNG.Game {
         public static void DEV_PrintEnemyTypes(Process game, List<Enemy> enemies) {
             // pointers
             if(EnemyTypeEP.Pointers.Count == 0) {
-                EnemyTypeEP.Add("pistol", new DeepPointer(0x3189000 +  0x17f240));
-                EnemyTypeEP.Add("turret", new DeepPointer(0x3189000 + 0x189A00));
-                EnemyTypeEP.Add("drone", new DeepPointer(0x3189000 + 0x17FC58));
-                EnemyTypeEP.Add("ball", new DeepPointer(0x3189000 + 0x18A6E0));
-                EnemyTypeEP.Add("splitter", new DeepPointer(0x3189000 + 0x18B208));
-                EnemyTypeEP.Add("meleeShifter", new DeepPointer(0x3189000 + 0x18D238));
-                EnemyTypeEP.Add("shooterShifter", new DeepPointer(0x3189000 + 0x18D238));
-                EnemyTypeEP.Add("shield", new DeepPointer(0x3189000 + 0x18FF70));
-                EnemyTypeEP.Add("uzi", new DeepPointer(0x3189000 + 0x194810));
-                EnemyTypeEP.Add("gecko", new DeepPointer(0x3189000 + 0x195B48));
-                EnemyTypeEP.Add("frogger", new DeepPointer(0x3189000 + 0x185198));
-                EnemyTypeEP.Add("weeb", new DeepPointer(0x3189000 + 0x1879E0));
-                EnemyTypeEP.Add("spider", new DeepPointer(0x3189000 + 0x193520));
-                EnemyTypeEP.Add("sniper", new DeepPointer(0x3189000 + 0x191900));
-                EnemyTypeEP.Add("hel", new DeepPointer(0x3189000 + 0x1705BB));
-                EnemyTypeEP.Add("mara", new DeepPointer(0x3189000 + 0x174198));
+                PtrDB.EnemyTypes.ToList().ForEach(x => EnemyTypeEP.Add(x.Key, x.Value));
             }
 
             EnemyTypeEP.DerefPointers(game);

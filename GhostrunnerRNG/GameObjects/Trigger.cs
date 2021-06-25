@@ -1,4 +1,5 @@
 ﻿using GhostrunnerRNG.MapGen;
+using GhostrunnerRNG.MemoryUtils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,7 +24,7 @@ namespace GhostrunnerRNG.GameObjects {
         private int searchLength;
 
         public Trigger(int firstOffset, int secondOffset, Vector3f pos, Vector3f size, DeepPointer startSearch, int searchLength, string signature) {
-            originDP = new DeepPointer(0x04609420, 0x98, firstOffset, 0x128, 0xA8, secondOffset, 0x220, 0x398, 0x150);
+            originDP = new DeepPointer(PtrDB.DP_WorldTrigger).ModifyOffset(1, firstOffset).ModifyOffset(4, secondOffset);
             this.pos = pos;
             this.size = size;
 
