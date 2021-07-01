@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
+using GhostrunnerRNG.GameObjects;
 using GhostrunnerRNG.MapGen;
 using GhostrunnerRNG.MemoryUtils;
 using System.Collections.Generic;

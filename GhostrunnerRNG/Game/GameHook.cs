@@ -186,7 +186,7 @@ namespace GhostrunnerRNG.Game {
 					currentMap = null;
 					main.ToggleRngControls(false);
 					AccurateMapType = MapType.Unknown;
-					LogStatus("[!] Hardcore mode is not supported for any map.");
+					LogStatus("[!] Hardcore mode is not supported for this map.");
 					return;
 				}
 				// cv map and cv rng is disabled by user?

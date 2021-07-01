@@ -97,7 +97,7 @@ namespace GhostrunnerRNG.MapGen {
                 } else {
                     availableSpawnPlanesUpdated = availableSpawnPlanes.Where(x => x.IsAllowed(rarity)).ToList();
                 }
-                if(availableSpawnPlanesUpdated.Count == 0) break;
+                if(availableSpawnPlanesUpdated.Count == 0) continue;
                 int selectedPlaneIndex = Config.GetInstance().r.Next(0, availableSpawnPlanesUpdated.Count);
 
                 // can add enemies to that plane? 

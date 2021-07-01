@@ -1,5 +1,6 @@
 ﻿using GhostrunnerRNG.Enemies;
 using GhostrunnerRNG.Game;
+using GhostrunnerRNG.GameObjects;
 using GhostrunnerRNG.MapGen;
 using GhostrunnerRNG.MemoryUtils;
 using GhostrunnerRNG.NonPlaceableObjects;
@@ -942,29 +943,7 @@ namespace GhostrunnerRNG.Maps {
 
         public override void RandomizeEnemies(Process game) {
             base.RandomizeEnemies(game);
-
-            //// chainedOrbs ////
-            if(chainedOrbs_Rooms?.Count == 0 || chainedOrbs?.Count == 0) return;
-            // create available indexes, for random room pick
-            List<int> availableIndexes = new List<int>();
-            for(int i = 0; i < chainedOrbs_Rooms.Count; i++) {
-                chainedOrbs_Rooms[i].ClearRoomObjects();
-                availableIndexes.Add(i);
-            }
-
-            // chainedOb loop
-            for(int i = 0; i < chainedOrbs.Count; i++) {
-                // pick random room
-                int randomRoom = Config.GetInstance().r.Next(availableIndexes.Count);
-                // swap enemies to random room
-                List<Enemy> roomEnemies = new List<Enemy>();
-                roomEnemies.Add(chainedOrbs[i].orb);
-                roomEnemies.AddRange(chainedOrbs[i].attachedEnemies);
-                chainedOrbs_Rooms[availableIndexes[randomRoom]].SwapEnemies(roomEnemies.ToArray());
-                availableIndexes.RemoveAt(randomRoom);
-            }
-            // rng chained rooms
-            chainedOrbs_Rooms.ForEach(x => x.RandomizeEnemies(GameHook.game));
+            ChainedOrb.Randomize(ref chainedOrbs, ref chainedOrbs_Rooms);
         }
 
         public void Gen_Nightmare() {
@@ -973,16 +952,5 @@ namespace GhostrunnerRNG.Maps {
 
         protected override void Gen_PerRoom() {}
 
-    }
-
-    public class ChainedOrb {
-        public EnemyShieldOrb orb { get; private set; }
-        public List<Enemy> attachedEnemies { get; private set; }
-
-        public ChainedOrb(EnemyShieldOrb orb, params Enemy[] attachedEnemies) {
-            this.orb = orb;
-            this.attachedEnemies = attachedEnemies.ToList();
-            this.attachedEnemies.ForEach(x => x.DisableAttachedCP(GameHook.game));
-        }
     }
 }

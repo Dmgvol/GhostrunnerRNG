@@ -47,6 +47,12 @@ namespace GhostrunnerRNG.Enemies {
             return this;
         }
 
+        public Enemy AddFixedSpawnInfoList(ref List<Tuple<Vector3f, Angle>> list) {
+            if(spawnInfos == null) spawnInfos = new List<ShifterSpawnInfo>();
+            spawnInfos.Add(PickRandomShiftPoints(ref list, this.AllocatedShiftPoints()));
+            return this;
+        }
+
         public override void SetMemoryPos(Process game, SpawnData spawnData) {
             base.SetMemoryPos(game, spawnData);
 
@@ -92,8 +98,17 @@ namespace GhostrunnerRNG.Enemies {
 
         public int AllocatedShiftPoints() => ShiftPointers.Count;
 
-    }
+        public static ShifterSpawnInfo PickRandomShiftPoints(ref List<Tuple<Vector3f, Angle>> list, int pointCount) {
+            List<Tuple<Vector3f, Angle>> points = new List<Tuple<Vector3f, Angle>>();
+            for(int i = 0; i < pointCount; i++) {
+                int r = Config.GetInstance().r.Next(list.Count);
+                points.Add(list[r]);
+                list.RemoveAt(r);
+            }
+            return new ShifterSpawnInfo() { shiftPoints = points };
+        }
 
+    }
     public class ShifterSpawnInfo : SpawnInfo {
         public List<Tuple<Vector3f, Angle>> shiftPoints;
     }

@@ -66,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GameObjects\ChainedOrb.cs" />
     <Compile Include="GameObjects\CVKey.cs" />
     <Compile Include="Enemies\EnemyShifter.cs" />
     <Compile Include="Enemies\EnemyTurret.cs" />

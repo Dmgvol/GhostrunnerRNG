@@ -216,7 +216,7 @@ namespace GhostrunnerRNG.Maps {
 
             //deafult planes
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(65177, -70196, 3801), new Vector3f(66267, -69282, 3798), new Angle(1.00f, 0.00f)));//first guy near laser
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(66244, -72056, 3100), new Vector3f(62494, -70242, 3098), new Angle(1.00f, 0.00f)).SetMaxEnemies(2));//seconf guy on main platform
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(66244, -72056, 3100), new Vector3f(62485, -70638, 3098), new Angle(1.00f, 0.00f)).SetMaxEnemies(2));//second guy on main platform
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(65559, -75832, 3098), new Vector3f(60985, -74310, 3098), new Angle(0.91f, 0.41f)).SetMaxEnemies(2));//main platform near exit door
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(62331, -74022, 3698), new Vector3f(61553, -72774, 3698), new Angle(0.00f, 1.00f)));//last guy platform
 

@@ -128,7 +128,7 @@ namespace GhostrunnerRNG.Game {
             MapType.RunUp,
             //MapType.Gatekeeper,
             MapType.DharmaCity,
-            //MapType.Echoes,
+            MapType.Echoes,
             //MapType.Faster,
             //MapType.ForbiddenZone,
             //MapType.ReignInHell,

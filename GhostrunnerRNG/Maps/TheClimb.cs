@@ -273,9 +273,9 @@ namespace GhostrunnerRNG.Maps {
 
             // orbs
             layout = new RoomLayout(shieldOrb1, shieldOrb2);  
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(32656, -94724, 38985), new Vector3f(31683, -93829, 38580)));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(30027, -93905, 38775), new Vector3f(28794, -94487, 38408)));
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(28027, -93197, 39472), new Vector3f(26791, -93620, 39126)));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(32656, -94724, 38985), new Vector3f(31683, -93829, 38580)).AsVerticalPlane());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(30027, -93905, 38775), new Vector3f(28794, -94487, 38408)).AsVerticalPlane());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(28027, -93197, 39472), new Vector3f(26791, -93620, 39126)).AsVerticalPlane());
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(28501, -94379, 39179), new Angle(-0.98f, 0.20f)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(24772, -93841, 37917), new Angle(-0.37f, 0.93f)));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(31008, -93832, 39241), new Angle(0.11f, 0.99f)));

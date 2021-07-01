@@ -78,6 +78,14 @@ namespace GhostrunnerRNG.Enemies {
 
             // SpawnData contains SpawnInfo of type Turret?
             if(spawnData.spawnInfo != null && spawnData.spawnInfo is TurretSpawnInfo info) {
+                // Quick fix; make sure static turret update their visible laser one position change
+                if(info.HorizontalAngle is float horizontal && horizontal <= 1.0f &&
+                    info.HorizontalSpeed is float speed && speed <= 1.0f) {
+                    // if both 0, make it micro speed/angle to update visible range
+                    info.HorizontalAngle = info.HorizontalSpeed = 0.005f;
+                }
+
+
                 ModifyIfChanged(game, Pointers["AngleToDestoryFromFace"].Item2, ref info.AngleToDestoryFromFace, DefaultData.AngleToDestoryFromFace);
                 ModifyIfChanged(game, Pointers["HorizontalAngle"].Item2, ref info.HorizontalAngle, DefaultData.HorizontalAngle);
                 ModifyIfChanged(game, Pointers["HorizontalSpeed"].Item2, ref info.HorizontalSpeed, DefaultData.HorizontalSpeed);
