@@ -28,7 +28,7 @@ namespace GhostrunnerRNG.MemoryUtils {
         public static readonly DeepPointer DP_Drone_Dharma_Patrol = new DeepPointer(BASE_KR_Update, 0x98, 0x28, 0x128, 0xA8, 0x238, 0x130, 0x1D0);
 
         // Interactive Objects
-        public static readonly DeepPointer DP_InteractiveObjPattern = new DeepPointer(BASE_KR_Update, 0x98, 0x8, 0x128, 0xA8, 0x8, 0x248, 0x1D0);
+        public static readonly DeepPointer DP_InteractiveObjPattern = new DeepPointer(BASE_KR_Update, 0x98, 0x0, 0x128, 0xA8, 0x0, 0x248, 0x1D0);
 
         // Loading Indicators
         public static readonly DeepPointer DP_RestartFlag = new DeepPointer(0x0438D7F8, 0x58, 0xB0);
@@ -101,6 +101,7 @@ namespace GhostrunnerRNG.MemoryUtils {
         public static readonly DeepPointer DP_Faster_TrainLast_CP = new DeepPointer(BASE_KR_Update, 0x98, 0x18, 0x128, 0xA8, 0x1720, 0x240, 0x398, 0x150); // before EoL
         public static readonly DeepPointer DP_ForbiddenZone_Room2_CP = new DeepPointer(BASE_KR_Update, 0x98, 0x18, 0x128, 0xA8, 0x210, 0x248, 0x1D0);
         public static readonly DeepPointer DP_RoadToAmida_HC_Room11_CP = new DeepPointer(BASE_KR_Update, 0x98, 0x30, 0x128, 0xA8, 0xF68, 0x248, 0x1D0);
+        public static readonly DeepPointer DP_ForbiddenZone_HC_Room2_CP = new DeepPointer(BASE_KR_Update, 0x98, 0x18, 0x128, 0xA8, 0x210, 0x248, 0x1D0);
 
         ////// WorldObjects //////
         public static readonly DeepPointer DP_WorldTrigger = new DeepPointer(BASE_KR_Update, 0x98, 0x0, 0x128, 0xA8, 0x0, 0x220, 0x398, 0x150); // Faster, sign triggers

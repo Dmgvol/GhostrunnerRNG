@@ -285,15 +285,15 @@ namespace GhostrunnerRNG.MapGen {
             int c = 0;
             for(var i = 1; i < 1000; i++) {
                 for(var j = 1; j < 20; j++) {
-                    DeepPointer hitDP = new DeepPointer(PtrDB.DP_InteractiveObjPattern).MultiplyOffset(1, j-1).ModifyOffset(4, j-1);
+                    DeepPointer hitDP = new DeepPointer(PtrDB.DP_InteractiveObjPattern).Format(0x8 * (j - 1), 0x8 * (i - 1));
                     IntPtr hitPtr;
                     hitDP.DerefOffsets(GameHook.game, out hitPtr);
-                    float x,y,z;
+                    float x, y, z;
                     GameHook.game.ReadValue(hitPtr, out x);
                     GameHook.game.ReadValue(hitPtr + 4, out y);
                     GameHook.game.ReadValue(hitPtr + 8, out z);
 
-                    if(rooms.Where(r => PlayerWithinRectangle(new Vector3f(x,y,z), r.pointA, r.pointB)).Count() > 0) {
+                    if(rooms.Where(r => PlayerWithinRectangle(new Vector3f(x, y, z), r.pointA, r.pointB)).Count() > 0) {
                         c++;
                         Console.WriteLine($"CP:\nPos: {x} {y} {z}");
                         Console.WriteLine($"(0x04609420, 0x98, 0x{0x8 * (j - 1):X}, 0x128, 0xA8, 0x{0x8 * (i - 1):X}, 0x248, 0x1D0)");
@@ -302,6 +302,7 @@ namespace GhostrunnerRNG.MapGen {
             }
             Console.WriteLine("found: " + c);
         }
+       
 
         public void DEV_GetEnemyTypes(List<Enemy> enemies) {
             for(int i = 0; i < enemies.Count; i++) {
@@ -363,7 +364,7 @@ namespace GhostrunnerRNG.MapGen {
                 List<int> indexes = new List<int>();
                 for(int i = 0; i < enemies.Count; i++) indexes.Add(i);
                 indexes.RemoveAt(enemyIndexBesides);
-                index = Config.GetInstance().r.Next(indexes.Count);
+                index = indexes[Config.GetInstance().r.Next(indexes.Count)];
             }
 
             // pick random enemy, remove cp

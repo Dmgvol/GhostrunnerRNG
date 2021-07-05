@@ -128,8 +128,6 @@ namespace GhostrunnerRNG.Game {
 			game.ReadValue<float>(yPosPtr, out yPos);
 			game.ReadValue<float>(zPosPtr, out zPos);
 
-			overlayM?.UpdateOverlay_SimpleText($"-> Player pos: {xPos:0}, {yPos:0}, {yPos:0}");
-
 			// Update Map
 			if(currentMap != null) {
 				currentMap.UpdateMap(new Vector3f(xPos, yPos, zPos));

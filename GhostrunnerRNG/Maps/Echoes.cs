@@ -735,7 +735,8 @@ namespace GhostrunnerRNG.Maps {
             chainedOrbs.Add(new ChainedOrb(new EnemyShieldOrb(enemies[2]), attachedEnemy));
             enemies.RemoveAt(2);
             enemies.Remove(attachedEnemy);
-
+            CustomCheckPoints.Add(new CustomCP(mapType, new Vector3f(-10892, 484, 8104), new Vector3f(-8348, 2263, 6432),
+                new Vector3f(-8938, 1892, 6652), new Angle(-1.00f, 0.02f))); // CP after zipline, before 2nd room
             RandomPickEnemiesWithoutCP(ref enemies);
 
             // first section of the room - bottom left

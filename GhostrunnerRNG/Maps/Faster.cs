@@ -24,6 +24,18 @@ namespace GhostrunnerRNG.Maps {
         private Room room_6 = new Room(new Vector3f(-10888, 193792, 2282), new Vector3f(-12856, 204304, -232)); // 3 weebs, 1 frogger
         #endregion
 
+        #region HC Rooms
+        private Room room_HC_1 = new Room(new Vector3f(24932, -156923, 1299), new Vector3f(10698, -174644, -3428)); //
+        private Room room_HC_2 = new Room(new Vector3f(2451, -168975, -3514), new Vector3f(-7273, -160513, 1365)); //
+        private Room room_HC_3 = new Room(new Vector3f(-9395, -164196, -2028), new Vector3f(-19368, -159211, -244)); //
+        // train
+        private Room room_HC_4 = new Room(new Vector3f(-12792, 140276, -169), new Vector3f(-10827, 151498, 2340)); //
+        private Room room_HC_5 = new Room(new Vector3f(-12845, 173090, -151), new Vector3f(-10352, 181356, 1954)); //
+        private Room room_HC_6 = new Room(new Vector3f(-12655, 194571, -163), new Vector3f(-10687, 203602, 1590)); //
+        // hel
+        private Room room_HC_7 = new Room(new Vector3f(281790, 202947, 1397), new Vector3f(298765, 222590, 4989)); //
+        #endregion
+
         public Faster() : base(GameUtils.MapType.Faster) { }
 
         public void Gen_Normal() {
@@ -301,7 +313,190 @@ namespace GhostrunnerRNG.Maps {
         }
 
         public void Gen_Hardcore() {
-            throw new NotImplementedException();
+            List<Enemy> AllEnemies = GetAllEnemies(GameHook.game);
+            Rooms = new List<RoomLayout>();
+            RoomLayout layout;
+
+
+            //// Room 1 ////
+            var enemies = room_HC_1.ReturnEnemiesInRoom(AllEnemies);
+            enemies[0] = new EnemyDrone(enemies[0]);
+            enemies[1].SetEnemyType(EnemyTypes.Splitter);
+            RandomPickEnemiesWithoutCP(ref enemies, force: true);
+            layout = new RoomLayout(enemies);
+            // default
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(20372, -159194, -1401), new Vector3f(20358, -158300, -1406), new Angle(-0.03f, 1.00f))
+                .Mask(SpawnPlane.Mask_Highground).AsVerticalPlane());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(16283, -161699, -2491), new Vector3f(17048, -160976, -2491), new Angle(0.28f, 0.96f))
+                .Mask(SpawnPlane.Mask_Flatground).AllowSplitter()) ;
+            // drones
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(11145, -173357, -880), new Angle(0.25f, 0.97f)).Mask(SpawnPlane.Mask_Airborne));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(22151, -158628, -102), new Angle(0.21f, 0.98f)).Mask(SpawnPlane.Mask_Airborne));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(2159, -165656, -1289), new Angle(-0.52f, 0.85f)).Mask(SpawnPlane.Mask_Airborne));
+            Rooms.Add(layout);
+
+
+            //// Room 2 ////
+            enemies = room_HC_2.ReturnEnemiesInRoom(AllEnemies);
+            enemies[0] = new EnemyTurret(enemies[0]);
+            enemies[1] = new EnemyTurret(enemies[1]);
+            enemies[2] = new EnemyShieldOrb(enemies[2]);
+            RandomPickEnemiesWithoutCP(ref enemies, enemyIndex: 4); // pistol
+            RandomPickEnemiesWithoutCP(ref enemies, enemyIndex: 0); // turret
+            // orb
+            layout = new RoomLayout(enemies.Where(x => x is EnemyShieldOrb).First());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-6152, -160976, -1188))); // default
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-7151, -163770, -1801))); // right of zipline
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-4205, -163386, -2299))); // floating between platforms, under  grapple
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-7105, -167582, -1964))); // zipline 90 corner
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-4821, -161519, -1043))); // wall
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-5500, -164875, -2134))); // floating behind neon sign
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-6144, -161120, -799))); // rooftop above default
+            Rooms.Add(layout);
+            enemies.Remove(enemies.Where(x => x is EnemyShieldOrb).First());
+
+            // enemies
+            layout = new RoomLayout(enemies);
+            // default
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-2837, -161806, -1611), new Vector3f(-6734, -162384, -1611), new Angle(-0.52f, 0.86f))
+                .Mask(SpawnPlane.Mask_Flatground).SetMaxEnemies(3).AllowSplitter());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-6154, -166094, -2211), new Vector3f(-3888, -167198, -2191), new Angle(-0.01f, 1.00f))
+                .Mask(SpawnPlane.Mask_Flatground).SetMaxEnemies(2).AllowSplitter());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-4310, -165849, -2211), new Vector3f(-3764, -164550, -2191), new Angle(-0.71f, 0.70f)).Mask(SpawnPlane.Mask_Flatground));
+            // high/special
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-4640, -164518, -1602), new Angle(-0.18f, 0.98f)).Mask(SpawnPlane.Mask_Highground)); // neon sign in middle
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-2986, -166533, -1141), new Angle(-0.16f, 0.99f)).Mask(SpawnPlane.Mask_Highground)); // billboard
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-7115, -162544, -1045), new Angle(-0.47f, 0.88f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // zipline pole
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-3639, -162424, -1258), new Angle(-0.59f, 0.80f)).Mask(SpawnPlane.Mask_Highground)); // city ad
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-2430, -161829, -1043), new Angle(-0.39f, 0.92f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // zipline pole 2
+            // turrets
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-4467, -164457, -2191), new Angle(-0.54f, 0.84f)).Mask(SpawnPlane.Mask_Turret)
+                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 10, HorizontalSpeed = 20, VerticalAngle = 5})); // default platform corner
+
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-2489, -162374, -1591), new Angle(1.00f, 0.09f)).Mask(SpawnPlane.Mask_Turret)
+                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 0, HorizontalSpeed = 0, VerticalAngle = 5 })); // exit platform, near zipline
+
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-6289, -161081, -1611), new Angle(-0.72f, 0.69f)).Mask(SpawnPlane.Mask_Turret)
+                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 30, HorizontalSpeed = 40, VerticalAngle = 5 })); // near exit
+
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-6522, -166968, -2191), new Angle(0.66f, 0.75f)).Mask(SpawnPlane.Mask_Turret)
+                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 0, HorizontalSpeed = 0, VerticalAngle = 12 })); // first platform, right far corner
+
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-7429, -164705, -2101), new Angle(0.50f, 0.86f)).Mask(SpawnPlane.Mask_Turret)
+                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 20, HorizontalSpeed = 20, VerticalAngle = 23 })); // net/fence wall near exit, right of zipline
+            // drones
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-6368, -162295, -1062), new Vector3f(-2909, -161733, -871), new Angle(-0.73f, 0.69f)).Mask(SpawnPlane.Mask_Airborne));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-6294, -163232, -1390), new Vector3f(-5787, -166775, -1390), new Angle(-0.01f, 1.00f)).Mask(SpawnPlane.Mask_Airborne));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-4794, -167849, -1390), new Angle(0.16f, 0.99f)).Mask(SpawnPlane.Mask_Airborne));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-2711, -162876, -1055), new Angle(-0.41f, 0.91f)).Mask(SpawnPlane.Mask_Airborne)); 
+            Rooms.Add(layout);
+
+
+            //// Room 3 ////
+            enemies = room_HC_3.ReturnEnemiesInRoom(AllEnemies);
+            enemies[0] = new EnemyTurret(enemies[0]);
+            enemies[1] = new EnemyTurret(enemies[1]);
+            enemies[2].SetEnemyType(EnemyTypes.Waver);
+            enemies[3].SetEnemyType(EnemyTypes.Waver);
+            enemies[5].SetEnemyType(EnemyTypes.Weeb);
+            RandomPickEnemiesWithoutCP(ref enemies, force: true);
+            layout = new RoomLayout(enemies);
+            // default
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-9584, -163504, -1651), new Vector3f(-10005, -162787, -1651), new Angle(0.72f, 0.69f)).Mask(SpawnPlane.Mask_Flatground).AllowSplitter());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-10144, -160860, -1651), new Angle(-0.70f, 0.71f)).Mask(SpawnPlane.Mask_Flatground));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12161, -161969, -1647), new Vector3f(-10988, -162483, -1647), new Angle(0.01f, 1.00f)).Mask(SpawnPlane.Mask_Flatground).AllowSplitter());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-13875, -162394, -1647), new Vector3f(-13241, -161806, -1647), new Angle(0.01f, 1.00f)).Mask(SpawnPlane.Mask_Flatground));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-17017, -162299, -1647), new Vector3f(-15992, -161779, -1647), new Angle(-0.01f, 1.00f)).Mask(SpawnPlane.Mask_Flatground).AllowSplitter());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12174, -162915, -1651), new Angle(0.37f, 0.93f)).Mask(SpawnPlane.Mask_Flatground));
+            // high/special
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-14173, -162144, -1199), new Angle(0.03f, 1.00f)).Mask(SpawnPlane.Mask_Highground)); // rooftop
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12536, -162454, -1342), new Vector3f(-12586, -161754, -1340), new Angle(0.01f, 1.00f))
+                .Mask(SpawnPlane.Mask_Highground).AsVerticalPlane()); // gateway arch
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-17966, -162279, -1244), new Angle(0.04f, 1.00f)).Mask(SpawnPlane.Mask_Highground)); // umbrella end
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-14240, -161740, -1025), new Angle(-0.05f, 1.00f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // street light
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-18119, -158765, -770), new Angle(-0.48f, 0.88f)).Mask(SpawnPlane.Mask_Highground)); // shuriken target box
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11940, -163003, -1140), new Angle(0.42f, 0.91f)).Mask(SpawnPlane.Mask_Highground)); // rooftop
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11741, -161557, -1292), new Angle(-0.21f, 0.98f)).Mask(SpawnPlane.Mask_Highground)); // city ad
+            // turrets
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11205, -163541, -1629), new Angle(0.89f, 0.46f)).Mask(SpawnPlane.Mask_Turret)
+                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 20, HorizontalSpeed = 10, VerticalAngle = 10})); // behind right building
+
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12258, -163524, -1139), new Angle(0.91f, 0.41f)).Mask(SpawnPlane.Mask_Turret)
+                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 30, HorizontalSpeed = 20, VerticalAngle = -5 })); // rooftop
+
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-10810, -162952, -841), new Angle(0.97f, 0.24f)).Mask(SpawnPlane.Mask_Turret)
+                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 10, HorizontalSpeed = 5, VerticalAngle = -5 })); // building rooftop
+
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-15700, -162602, -1641), new Angle(0.78f, 0.63f)).Mask(SpawnPlane.Mask_Turret)
+                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 0, HorizontalSpeed = 0, VerticalAngle = 0, VisibleLaserLength = 0 })); // ninja behind last small building
+            // drones
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-18062, -160207, -1379), new Vector3f(-15594, -160997, -938), new Angle(-0.24f, 0.97f)).Mask(SpawnPlane.Mask_Airborne));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-13518, -163157, -893), new Angle(0.30f, 0.95f)).Mask(SpawnPlane.Mask_Airborne));
+            Rooms.Add(layout);
+
+
+            //// Room 4 - Train ////
+            enemies = room_HC_4.ReturnEnemiesInRoom(AllEnemies);
+            enemies[0].SetEnemyType(EnemyTypes.Splitter);
+            enemies[2].SetEnemyType(EnemyTypes.Waver);
+            RandomPickEnemiesWithoutCP(ref enemies, force: true);
+            layout = new RoomLayout(enemies);
+            // default
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12322, 149132, 318), new Vector3f(-11349, 145602, 318), new Angle(-0.70f, 0.71f))
+                .Mask(SpawnPlane.Mask_Flatground).SetMaxEnemies(4).AllowSplitter());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11374, 144494, 308), new Angle(0.92f, 0.39f)).Mask(SpawnPlane.Mask_Highground));
+            // high/special
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11374, 144494, 308), new Angle(0.92f, 0.39f)).Mask(SpawnPlane.Mask_Highground)); // crate
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12190, 142962, 893), new Angle(-0.65f, 0.76f)).Mask(SpawnPlane.Mask_Highground)); // red crate
+            // additional (drones)
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12227, 148569, 1005), new Vector3f(-11480, 145808, 1180), new Angle(-0.69f, 0.72f)).Mask(SpawnPlane.Mask_Airborne));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11193, 141624, 1425), new Angle(-0.91f, 0.41f)).Mask(SpawnPlane.Mask_Airborne));
+            // additional (turrets)
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12213, 143296, 303), new Angle(0.67f, 0.74f)).Mask(SpawnPlane.Mask_Turret)
+                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 0, HorizontalSpeed = 0, VerticalAngle = 5 })); // behind crates
+            Rooms.Add(layout);
+
+
+            //// Room 5 - Train ////
+            enemies = room_HC_5.ReturnEnemiesInRoom(AllEnemies);
+            enemies[0] = new EnemyShieldOrb(enemies[0]);
+            enemies[2].SetEnemyType(EnemyTypes.Weeb);
+            enemies[3].SetEnemyType(EnemyTypes.Weeb);
+            // lonely weeb in next section, no cp needed
+            enemies.Where(x => x.enemyType == EnemyTypes.Weeb && x.Pos.Y > 178000).ToList().ForEach(x => {
+                EnemiesWithoutCP.Add(x);
+                enemies.Remove(x);
+            });
+            layout = new RoomLayout(enemies);
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11495, 175989, 878), new Vector3f(-11495, 176952, 877)).Mask(SpawnPlane.Mask_ShieldOrb));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11438, 175606, 424)).Mask(SpawnPlane.Mask_ShieldOrb));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12389, 177656, 485)).Mask(SpawnPlane.Mask_ShieldOrb));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11918, 175233, 318), new Vector3f(-12367, 177373, 317), new Angle(-0.70f, 0.71f)).Mask(SpawnPlane.Mask_Flatground));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11244, 177967, 360), new Angle(-0.89f, 0.46f)).Mask(SpawnPlane.Mask_Highground));
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11488, 178074, 661), new Angle(-0.76f, 0.65f)).Mask(SpawnPlane.Mask_Highground));
+            layout.DoNotReuse();
+            Rooms.Add(layout);
+
+
+            //// Room 6 - Train ////
+            enemies = room_HC_6.ReturnEnemiesInRoom(AllEnemies); // all uzi
+            int r = Config.GetInstance().r.Next(1, 4);
+            for(int i = 0; i < r; i++)  RandomPickEnemiesWithoutCP(ref enemies, force: true);
+            layout = new RoomLayout(enemies);
+            // default
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11558, 196728, 318), new Vector3f(-12011, 201301, 318), new Angle(-0.71f, 0.71f))
+                .Mask(SpawnPlane.Mask_Flatground).SetMaxEnemies(5).AllowSplitter());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11798, 201592, 893), new Angle(-0.70f, 0.72f)).Mask(SpawnPlane.Mask_Highground)); // red boxes
+            Rooms.Add(layout);
+
+
+            //// Room 7 //// enemies from Hel level
+            enemies = room_HC_7.ReturnEnemiesInRoom(AllEnemies);
+            enemies.ForEach(x => {
+                x.SetEnemyType(EnemyTypes.Drone);
+                x.DisableAttachedCP(GameHook.game);
+            });
+            EnemiesWithoutCP.AddRange(enemies);
         }
 
         public void Gen_Nightmare() {

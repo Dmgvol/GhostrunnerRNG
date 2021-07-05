@@ -8,12 +8,13 @@
         AllowsTransparency="True"
         WindowStyle="None"
         Topmost="true"
-        Background="Transparent"
+        Background="Transparent" IsHitTestVisible="False"
         Title="RNG Overlay" Height="1080" Width="1920">
-    <Grid Margin="20">
-        <StackPanel Orientation="Vertical">
-            <Label  Content=">: Debug Stats" FontSize="20" FontFamily="Bender" FontWeight="Bold" Foreground="#fdb300"/>
-            <Label x:Name="Label1" Content="" FontSize="16" FontFamily="Bender" FontStyle="Italic" Foreground="#ededed"/>
+    <Grid Margin="20" Cursor="None" IsHitTestVisible="false">
+        <!--<Rectangle Fill="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Height="80" Width="250" Opacity="0.0"/>-->
+        <StackPanel Orientation="Vertical" IsHitTestVisible="false">
+            <Label  Content=">: Debug Stats" FontSize="22" FontFamily="Bender" FontWeight="Bold" Foreground="#fdb300" IsHitTestVisible="false"/>
+            <Label x:Name="Label1" Content="" FontSize="18" FontFamily="Bender" FontStyle="Italic" Foreground="#ededed" IsHitTestVisible="false"/>
         </StackPanel>
     </Grid>
 </Window>
