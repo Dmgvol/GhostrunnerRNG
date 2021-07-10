@@ -78,6 +78,8 @@ namespace GhostrunnerRNG.MemoryUtils {
         public static readonly DeepPointer DP_Tom_Rotation = new DeepPointer(BASE_KR_Update, 0x98, 0x30, 0x128, 0xA8, 0x708, 0x840, 0xA0, 0x20);
         public static readonly DeepPointer DP_Faster_ForcedSliderTrigger = new DeepPointer(BASE_KR_Update, 0x98, 0x10, 0x128, 0xA8, 0x3C0, 0x230, 0x398, 0x150);
         public static readonly DeepPointer DP_SignTrigger_Scan = new DeepPointer(BASE_KR_Update, 0x1F8, 0x60, 0xD0, 0x298, 0x830, 0xB0, 0x5A0, 0x1A8, 0x0);
+        public static readonly DeepPointer DP_HCEchoes_Sniperpoints1 = new DeepPointer(BASE_KR_Update, 0x98, 0x28, 0x128, 0xA8, 0xB68);
+        public static readonly DeepPointer DP_HCEchoes_Sniperpoints2 = new DeepPointer(BASE_KR_Update, 0x98, 0x30, 0x128, 0xA8, 0xBD8);
         public static readonly int SignTrigger_ScanLength = 0x19000;
         public static readonly string SignTrigger1_Signature = "9A F1 42 C6 B0 C6 1B 48 33 D3 BA 44 66 BE 2E C6 50 CC 1D 48 66 96 21 45";
         public static readonly string SignTrigger2_Signature = "EE C3 41 C6 66 BA 30 48 6A F6 27 43 54 FC 2E C6 9A CE 30 48 33 81 9A 44";

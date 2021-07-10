@@ -9,6 +9,8 @@ using static GhostrunnerRNG.Game.GameUtils;
 using GhostrunnerRNG.MapGen;
 using GhostrunnerRNG.GameObjects;
 using System.Collections.Generic;
+using GhostrunnerRNG.Enemies;
+using System.Linq;
 
 namespace GhostrunnerRNG.Windows {
 
@@ -64,7 +66,8 @@ namespace GhostrunnerRNG.Windows {
 				kbHook.HookedKeys.Add(Keys.NumPad6);
 				kbHook.HookedKeys.Add(Keys.NumPad7);
 				kbHook.HookedKeys.Add(Keys.NumPad8);
-            } else if(!flag) {
+				kbHook.HookedKeys.Add(Keys.NumPad9);
+			} else if(!flag) {
 				kbHook.HookedKeys.Clear();
             }
 		}
@@ -157,6 +160,22 @@ namespace GhostrunnerRNG.Windows {
 						// tp to testpos2
 						if(!test_pos2.IsEmpty())
 							Teleport(GameHook.game, test_pos2);
+						break;
+
+					case Keys.NumPad9:
+						if(GameHook.game == null) return;
+						List<Enemy> AllEnemies = MapCore.GetAllEnemies(GameHook.game);
+						if(AllEnemies == null || AllEnemies.Count == 0) return;
+						Enemy ClosestToPlayer = AllEnemies.OrderBy(en => 
+						Vector3f.Distance(en.GetMemoryCurrCoords(GameHook.game).Item1, new Vector3f(GameHook.xPos, GameHook.yPos, GameHook.zPos))).First();
+						
+						outputBox.Text = $"new Vector3f({(int)ClosestToPlayer.LastUpdatedCoords.Item1.X}," +
+							$" {(int)ClosestToPlayer.LastUpdatedCoords.Item1.Y}, " +
+							$"{(int)ClosestToPlayer.LastUpdatedCoords.Item1.Z}), " +
+							$"new QuaternionAngle({ClosestToPlayer.LastUpdatedCoords.Item2.quaternion.x:0.00}f," +
+							$" {ClosestToPlayer.LastUpdatedCoords.Item2.quaternion.y:0.00}f, " +
+							$"{ClosestToPlayer.LastUpdatedCoords.Item2.quaternion.z:0.00}f, " +
+							$"{ClosestToPlayer.LastUpdatedCoords.Item2.quaternion.w:0.00}f)";
 						break;
 					default:
 						break;

@@ -58,9 +58,14 @@ namespace GhostrunnerRNG.MapGen {
             Enemy.EnemyTypes.ShieldOrb, Enemy.EnemyTypes.Drone, Enemy.EnemyTypes.Weeb, Enemy.EnemyTypes.Waver, Enemy.EnemyTypes.Sniper, Enemy.EnemyTypes.Turret
         };
 
-        /// <summary> Bans every enemy, besides Drone, use this only for drone spawns </summary>
+        /// <summary> Bans every enemy, besides Waver - use this only for Waver/gecko spawns </summary>
+        public static readonly List<Enemy.EnemyTypes> Mask_Waver = new List<Enemy.EnemyTypes>() {
+            Enemy.EnemyTypes.ShieldOrb, Enemy.EnemyTypes.Weeb, Enemy.EnemyTypes.Default, Enemy.EnemyTypes.Drone, Enemy.EnemyTypes.Sniper, Enemy.EnemyTypes.Turret
+        };
+
+        /// <summary> Bans every enemy, besides Drone - use this only for drone spawns </summary>
         public static readonly List<Enemy.EnemyTypes> Mask_Airborne = new List<Enemy.EnemyTypes>() {
-            Enemy.EnemyTypes.ShieldOrb, Enemy.EnemyTypes.Weeb, Enemy.EnemyTypes.Default, Enemy.EnemyTypes.Waver, Enemy.EnemyTypes.Weeb, Enemy.EnemyTypes.Sniper, Enemy.EnemyTypes.Turret
+            Enemy.EnemyTypes.ShieldOrb, Enemy.EnemyTypes.Weeb, Enemy.EnemyTypes.Default, Enemy.EnemyTypes.Waver, Enemy.EnemyTypes.Sniper, Enemy.EnemyTypes.Turret
         };
 
         /// <summary> Bans every enemy, besides Sniper - use this only for sniper spawns </summary>

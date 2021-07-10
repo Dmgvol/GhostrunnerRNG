@@ -123,7 +123,7 @@ namespace GhostrunnerRNG.MapGen {
 
         }
 
-        public List<Enemy> GetAllEnemies(Process game, int startIndex = 0) {
+        public static List<Enemy> GetAllEnemies(Process game, int startIndex = 0) {
             int index = startIndex;
             List<Enemy> enemies = new List<Enemy>();
             Enemy enemy = new Enemy(new DeepPointer(PtrDB.DP_EnemyListFirstEntity));
@@ -197,16 +197,20 @@ namespace GhostrunnerRNG.MapGen {
                     for(int i = 0; i < EnemiesWithoutCP.Count; i++) {
                         // list of left planes which are suitable for current enemy
                         var planes = spawnPlanesLeft.Where(x => x.IsEnemyAllowed(EnemiesWithoutCP[i].enemyType) && x.CanAddEnemies() && x.ReuseFlag).ToList();
-                        if(planes.Count == 0) continue;
+                        if(planes.Count == 0)  continue;
                         int planeIndex = Config.GetInstance().r.Next(0, planes.Count);
                         var spawnData = planes[planeIndex].GetRandomSpawnData();
 
+                        // Set object pos to spawnData
                         EnemiesWithoutCP[i].SetMemoryPos(game, spawnData);
-                        planes[planeIndex].EnemyAdded(spawnData.pos);
-                        // update corresponding item in spawnPlanesLeft
-                        int indexToRemove = RoomLayout.GetSameSpawnPlaneIndex(spawnPlanesLeft, planes[planeIndex]);
-                        if(indexToRemove > -1)
-                            spawnPlanesLeft.RemoveAt(indexToRemove);
+                        
+                        // update main plane list
+                        int correspodingPlaneIndex = RoomLayout.GetSameSpawnPlaneIndex(spawnPlanesLeft, planes[planeIndex]);
+                        if(correspodingPlaneIndex > -1) {
+                            spawnPlanesLeft[correspodingPlaneIndex].EnemyAdded(spawnData.pos);
+                            if(!spawnPlanesLeft[correspodingPlaneIndex].CanAddEnemies())
+                                spawnPlanesLeft.RemoveAt(correspodingPlaneIndex);
+                        } 
                     }
                 }
             }
@@ -442,28 +446,28 @@ namespace GhostrunnerRNG.MapGen {
         }
 
 
-        protected void AttachToGroup(Enemy enemy0, Enemy enemy) {
+        protected void AttachToGroup(Enemy EnemyToAdd, Enemy EnemyInGroup) {
             IntPtr parentPtr, parentPtr0, killcountPtr, killlistPtr, basePtr0;
             ulong parent, parent0;
             int killcount;
             //check if there is a parent object 
-            List<int> offsets = new List<int>(enemy.GetObjectDP().GetOffsets());
+            List<int> offsets = new List<int>(EnemyInGroup.GetObjectDP().GetOffsets());
             offsets[offsets.Count - 1] = 0x5D0;
-            DeepPointer parentDP = new DeepPointer(enemy.GetObjectDP().GetBase(), offsets);
+            DeepPointer parentDP = new DeepPointer(EnemyInGroup.GetObjectDP().GetBase(), offsets);
             parentDP.DerefOffsets(GameHook.game, out parentPtr);
             GameHook.game.ReadValue<ulong>(parentPtr, out parent);
             //return if there is no parent object 
             if(parent == 0) return;
 
-            List<int> offsets0 = new List<int>(enemy0.GetObjectDP().GetOffsets());
+            List<int> offsets0 = new List<int>(EnemyToAdd.GetObjectDP().GetOffsets());
             offsets0[offsets0.Count - 1] = 0x5D0;
-            DeepPointer parentDP0 = new DeepPointer(enemy0.GetObjectDP().GetBase(), offsets0);
+            DeepPointer parentDP0 = new DeepPointer(EnemyToAdd.GetObjectDP().GetBase(), offsets0);
             parentDP0.DerefOffsets(GameHook.game, out parentPtr0);
             GameHook.game.ReadValue<ulong>(parentPtr0, out parent0);
 
             //read kill count
             offsets.Add(0x230);
-            DeepPointer killcountDP = new DeepPointer(enemy.GetObjectDP().GetBase(), offsets);
+            DeepPointer killcountDP = new DeepPointer(EnemyInGroup.GetObjectDP().GetBase(), offsets);
             killcountDP.DerefOffsets(GameHook.game, out killcountPtr);
             GameHook.game.ReadValue<int>(killcountPtr, out killcount);
             if(killcount == 0) return;
@@ -471,7 +475,7 @@ namespace GhostrunnerRNG.MapGen {
             //return if same parent object 
             if(parent0 == parent) return;
             //remove previous parentobject
-            if(parent0 != 0) enemy0.DisableAttachedCP(GameHook.game);
+            if(parent0 != 0) EnemyToAdd.DisableAttachedCP(GameHook.game);
 
             //enemy0 start address
             basePtr0 = parentPtr0 - 0x5d0;
@@ -479,7 +483,7 @@ namespace GhostrunnerRNG.MapGen {
             //find killlist address and write this enemy pointer
             offsets[offsets.Count - 1] = 0x228;
             offsets.Add(0x8 * killcount);
-            DeepPointer killlistDP = new DeepPointer(enemy.GetObjectDP().GetBase(), offsets);
+            DeepPointer killlistDP = new DeepPointer(EnemyInGroup.GetObjectDP().GetBase(), offsets);
             killlistDP.DerefOffsets(GameHook.game, out killlistPtr);
             GameHook.game.WriteBytes(killlistPtr, BitConverter.GetBytes((ulong)basePtr0));
 

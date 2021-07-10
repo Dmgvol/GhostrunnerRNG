@@ -505,10 +505,47 @@ namespace GhostrunnerRNG.Maps {
         }
 
 
+        private void FixSnipers(List<Enemy> snipers) {
+            int patrolpoints;
+            ulong point = 0;
+            PtrDB.DP_HCEchoes_Sniperpoints1.DerefOffsets(GameHook.game, out IntPtr sniperpoints1);
+            PtrDB.DP_HCEchoes_Sniperpoints2.DerefOffsets(GameHook.game, out IntPtr sniperpoints2);
+            foreach(Enemy sniper in snipers) {
+                IntPtr sniperptr = IntPtr.Subtract(sniper.GetObjectPtr(), 0x4f0);
+
+                GameHook.game.ReadValue<int>(IntPtr.Add(sniperptr, 0x818), out patrolpoints);
+                GameHook.game.ReadValue<IntPtr>(IntPtr.Add(sniperptr, 0x810), out IntPtr sniperpointslist1);
+                GameHook.game.ReadValue<IntPtr>(IntPtr.Add(sniperptr, 0x820), out IntPtr sniperpointslist2);
+                if(patrolpoints == 2) {
+                    for(var i = 0; i < patrolpoints; i++) {//PatrolFocusPoints
+                        GameHook.game.ReadValue<ulong>(IntPtr.Add(sniperpoints1, 0x8 * i), out point);
+                        GameHook.game.WriteBytes(IntPtr.Add(sniperpointslist1, 0x8 * i), BitConverter.GetBytes((ulong)point));
+                    }
+                    GameHook.game.WriteBytes(IntPtr.Add(sniperptr, 0x808), BitConverter.GetBytes((ulong)point));//FirstSniperFocusPoint
+
+                    GameHook.game.ReadValue<ulong>(IntPtr.Subtract(sniperpoints1, 0x8), out point);
+                    GameHook.game.WriteBytes(sniperpointslist2, BitConverter.GetBytes((ulong)point));//NearestFocusPoints
+                } else {
+                    for(var i = 0; i < 2; i++) {//NearestFocusPoints
+                        GameHook.game.ReadValue<ulong>(IntPtr.Add(sniperpoints2, 0x8 * i), out point);
+                        GameHook.game.WriteBytes(IntPtr.Add(sniperpointslist2, 0x8 * i), BitConverter.GetBytes((ulong)point));
+                    }
+
+                    for(var i = 0; i < patrolpoints; i++) {//PatrolFocusPoints
+                        GameHook.game.ReadValue<ulong>(IntPtr.Add(sniperpoints2, 0x10 + 0x8 * i), out point);
+                        GameHook.game.WriteBytes(IntPtr.Add(sniperpointslist1, 0x20 - 0x8 * i), BitConverter.GetBytes((ulong)point));
+                    }
+                    GameHook.game.WriteBytes(IntPtr.Add(sniperptr, 0x808), BitConverter.GetBytes((ulong)point));//FirstSniperFocusPoint
+                }
+
+            }
+        }
+
         private List<ChainedOrb> chainedOrbs = new List<ChainedOrb>();
         private List<RoomLayout> chainedOrbs_Rooms = new List<RoomLayout>();
         public void Gen_Hardcore() {
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game);
+            FixSnipers(AllEnemies.GetRange(39, 2));
             List<Enemy> Shifters = new List<Enemy>();
             Rooms = new List<RoomLayout>();
             RoomLayout layout;

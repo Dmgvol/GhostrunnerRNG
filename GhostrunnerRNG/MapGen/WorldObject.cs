@@ -37,6 +37,28 @@ namespace GhostrunnerRNG.MapGen {
             return Pos;
         }
 
+
+        public Tuple<Vector3f, QuaternionAngle> LastUpdatedCoords;
+        public virtual Tuple<Vector3f, QuaternionAngle> GetMemoryCurrCoords(Process game) {
+            var offsets = ObjectDP.GetOffsets();
+            offsets[offsets.Count - 1] = 0x130;
+            offsets.Add(0x1D0);
+            DeepPointer DP_CurrentPos = new DeepPointer(ObjectDP.GetBase(), offsets);
+            IntPtr PTR_CurrentPos;
+            DP_CurrentPos.DerefOffsets(GameHook.game, out PTR_CurrentPos);
+            float q1, q2, q3, q4, x, y, z;
+
+            game.ReadValue<float>(PTR_CurrentPos, out x);
+            game.ReadValue<float>(PTR_CurrentPos + 4, out y);
+            game.ReadValue<float>(PTR_CurrentPos + 8, out z);
+            game.ReadValue<float>(PTR_CurrentPos - 16, out q1);
+            game.ReadValue<float>(PTR_CurrentPos - 12, out q2);
+            game.ReadValue<float>(PTR_CurrentPos - 8, out q3);
+            game.ReadValue<float>(PTR_CurrentPos - 4, out q4);
+            LastUpdatedCoords = new Tuple<Vector3f, QuaternionAngle>(new Vector3f(x,y,z), new QuaternionAngle(q1, q2, q3, q4));
+            return LastUpdatedCoords;
+        }
+
         public virtual void SetMemoryPos(Process game, Vector3f pos) {
             if(pos.IsEmpty()) return;
             DerefPointer(game);

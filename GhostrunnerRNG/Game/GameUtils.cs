@@ -132,7 +132,7 @@ namespace GhostrunnerRNG.Game {
                 MapType.FasterInHerOwnImage,
             MapType.Faster,
             MapType.ForbiddenZone,
-            //MapType.ReignInHell,
+            MapType.ReignInHell,
             //MapType.TYWB,
             //MapType.TheMonster,
         };
