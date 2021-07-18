@@ -383,7 +383,7 @@ namespace GhostrunnerRNG.Maps {
                 .Mask(SpawnPlane.Mask_Turret).AsVerticalPlane().SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 30, HorizontalSpeed = 20, VerticalAngle = 20})); // slide ledge (Q: 120 20 17)
 
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(68145, -18618, 2878), new Angle(-0.99f, 0.11f)).Mask(SpawnPlane.Mask_Turret)
-                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 30, HorizontalSpeed = 30, VerticalAngle = -10 })); // left crate, default but moving
+                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 30, HorizontalSpeed = 30, VerticalAngle = -10, Range = 5000})); // left crate, default but moving
 
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(65168, -18975, 2301), new Vector3f(65286, -18542, 2301), new Angle(-0.04f, 1.00f)).Mask(SpawnPlane.Mask_Turret)
                   .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 20, HorizontalSpeed = 30, VerticalAngle = 15 })); // right, default but moving

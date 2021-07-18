@@ -108,6 +108,7 @@
     <Compile Include="Maps\RoadToAmidaCV.cs" />
     <Compile Include="Maps\TempestCV.cs" />
     <Compile Include="Maps\TheClimbCV.cs" />
+    <Compile Include="Maps\TheSummit.cs" />
     <Compile Include="Maps\TYWB.cs" />
     <Compile Include="MemoryUtils\PtrDB.cs" />
     <Compile Include="MemoryUtils\VirtualKeyCode.cs" />

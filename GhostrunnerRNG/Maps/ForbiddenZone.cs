@@ -998,7 +998,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(148731, -59625, 8418), new Vector3f(146949, -59957, 8417), new Angle(0.66f, 0.75f))
                 .Mask(SpawnPlane.Mask_Flatground).SetMaxEnemies(2));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(146328, -59570, 8417), new Vector3f(145219, -60047, 8418), new Angle(-0.01f, 1.00f))
-                .Mask(SpawnPlane.Mask_Flatground).SetMaxEnemies(2));
+                .Mask(SpawnPlane.Mask_Highground).SetMaxEnemies(2));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(145435, -56208, 7660), new Angle(-0.72f, 0.70f)).Mask(SpawnPlane.Mask_Highground));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(145553, -55017, 7654), new Angle(-0.73f, 0.69f)).Mask(SpawnPlane.Mask_Highground));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(148272, -55529, 6582), new Angle(1.00f, 0.06f)).Mask(SpawnPlane.Mask_Highground));

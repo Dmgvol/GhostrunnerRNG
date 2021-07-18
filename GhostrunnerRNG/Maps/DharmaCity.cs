@@ -895,6 +895,20 @@ namespace GhostrunnerRNG.Maps {
                 .Mask(SpawnPlane.Mask_Highground).SetMaxEnemies(3)); // after laser maze
             Rooms.Add(layout);
 
+            #region Shurikens
+            //DEV_FindUplinks(Uplinks.Shuriken);
+
+
+            //// (0x04609420, 0x98, 0x18, 0x128, 0xA8, 0x5F0, 0x248, 0x1D0)
+            //// (0x04609420, 0x98, 0x18, 0x128, 0xA8, 0x7E8, 0x248, 0x1D0)
+            //var shuriken = new UplinkShurikens(0x18, 0x7E8);
+            //shuriken.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 2, MaxAttacks = 2 }); // short time
+            //worldObjects.Add(shuriken);
+
+
+            #endregion
+
+
         }
 
         private ShifterSpawnInfo GetRandomShiftPoints(ref List<Tuple<Vector3f, Angle>> list) {

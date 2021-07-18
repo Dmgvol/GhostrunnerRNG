@@ -133,8 +133,8 @@ namespace GhostrunnerRNG.Game {
             MapType.Faster,
             MapType.ForbiddenZone,
             MapType.ReignInHell,
-            //MapType.TYWB,
-            //MapType.TheMonster,
+            MapType.TYWB,
+            MapType.TheSummit,
         };
 
         private static List<MapType> CVMaps = new List<MapType>() {
@@ -266,14 +266,14 @@ namespace GhostrunnerRNG.Game {
 
 
         private static EasyPointers EnemyTypeEP = new EasyPointers();
-        public static void DEV_PrintEnemyTypes(Process game, List<Enemy> enemies) {
+        public static string DEV_PrintEnemyTypes(Process game, List<Enemy> enemies, bool print = true) {
             // pointers
             if(EnemyTypeEP.Pointers.Count == 0) {
                 PtrDB.EnemyTypes.ToList().ForEach(x => EnemyTypeEP.Add(x.Key, x.Value));
             }
 
             EnemyTypeEP.DerefPointers(game);
-
+            string output = "";
             // compare data
             for(int i = 0; i < enemies.Count; i++) {
                 // create 0x0 DP of enemy
@@ -291,16 +291,21 @@ namespace GhostrunnerRNG.Game {
                 string enemyHex = BitConverter.ToString(enemyValue.Reverse().ToArray()).Replace("-", string.Empty).Remove(0, 4);
                 string enemyType = EnemyTypeEP.Pointers.FirstOrDefault(x => x.Value.Item2.ToString("x8").ToUpper() == enemyHex).Key;
                 // print type
-                Console.WriteLine($"{i}:{enemyType}");
+                if(print) Console.WriteLine($"{i}:{enemyType}");
+                output += $"{i}:{enemyType}\n";
             }
+            return output;
         }
 
-        public static void DEV_PrintEnemyTypes_Bulk(Process game, List<Enemy> AllEnemies, params Room[] rooms) {
+        public static string DEV_PrintEnemyTypes_Bulk(Process game, List<Enemy> AllEnemies, bool print = false, params Room[] rooms) {
+            string output = "";
             for(int i = 0; i < rooms.Length; i++) {
                 List<Enemy> enemies = rooms[i].ReturnEnemiesInRoom(AllEnemies);
-                Console.WriteLine($"\nRoom {i+1}:");
-                DEV_PrintEnemyTypes(game, enemies);
+                if(print)Console.WriteLine($"\nRoom {i+1}:");
+                output += $"\nRoom {i + 1}:\n";
+                output += DEV_PrintEnemyTypes(game, enemies, print);
             }
+            return output;
         }
 
         public static VirtualKeyCode? ConvertKeybindToKey(int keybind) {

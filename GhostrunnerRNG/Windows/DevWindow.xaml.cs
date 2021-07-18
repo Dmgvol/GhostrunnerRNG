@@ -146,7 +146,7 @@ namespace GhostrunnerRNG.Windows {
 						break;
 					case Keys.NumPad5:
 						// generate code: 1 pos
-						outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}){currMask}));";
+						outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z})){currMask});";
 						break;
 					case Keys.NumPad6:
 						outputBox.Text = $"layout.AddSpawnPlane(new SpawnPlane(new Vector3f({(int)pos1.X}, {(int)pos1.Y}, {(int)pos1.Z}), new Vector3f({(int)pos2.X}, {(int)pos2.Y}, {(int)pos2.Z})){currMask});";

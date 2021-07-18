@@ -840,6 +840,8 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-11217, 2332, 7498), new Vector3f(-11742, 6154, 7498), new Angle(-0.70f, 0.72f))
                 .Mask(SpawnPlane.Mask_Flatground).SetMaxEnemies(4).AllowSplitter());
             Rooms.Add(layout);
+            CustomCheckPoints.Add(new CustomCP(mapType, new Vector3f(-13959, 0, 8528), new Vector3f(-11319, 2284, 6720),
+                new Vector3f(-12655, 1392, 7522), new Angle(0.11f, 0.99f))); // before that room
 
 
             //// Room 11 ////

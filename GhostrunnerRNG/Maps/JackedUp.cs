@@ -194,8 +194,8 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-40562, -8001, 6758))); // near exit door
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-38650, -6785, 6268))); // behind pillar
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-38129, -10303, 6557))); // above platform light
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-38005, -4924, 5729))); // below billboard, left
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-36112, -10877, 5729))); // below billboard, right
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-37417, -4448, 5899))); // below billboard, left
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-35567, -11227, 5899))); // below billboard, right
             Rooms.Add(layout);
 
             // enemies

@@ -12,9 +12,9 @@ namespace GhostrunnerRNG.Maps {
         EasyPointers EP = new EasyPointers();
 
         public GateKeeper() : base(GameUtils.MapType.Gatekeeper, manualGen: true) {
+            EP.Add("Rotation", new DeepPointer(PtrDB.DP_Tom_Rotation));
             if(GameHook.IsHC) return;
             Gen_PerRoom();
-            EP.Add("Rotation", new DeepPointer(PtrDB.DP_Tom_Rotation));
         }
 
         protected override void Gen_PerRoom() {

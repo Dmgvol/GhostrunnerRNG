@@ -95,6 +95,7 @@ namespace GhostrunnerRNG.MemoryUtils {
         public static readonly DeepPointer DP_Echoes_ElevatorCP = new DeepPointer(BASE_KR_Update, 0x98, 0x30, 0x128, 0xA8, 0x1280, 0x248, 0x1D0);
         public static readonly DeepPointer DP_BreatheIn_ElevatorCP = new DeepPointer(BASE_KR_Update, 0x98, 0x8, 0x128, 0xA8, 0x40, 0x248, 0x1D0);
         public static readonly DeepPointer DP_Dharma_ElevatorCP = new DeepPointer(BASE_KR_Update, 0x98, 0x0, 0x128, 0xA8, 0xE8, 0x248, 0x1D0);
+        public static readonly DeepPointer DP_Summit_ElevatorCP = new DeepPointer(BASE_KR_Update, 0x98, 0x0, 0x128, 0xA8, 0x70, 0x248, 0x1D0);
         // specific checkpoints
         public static readonly DeepPointer DP_BreatheIn_Room15_CP = new DeepPointer(BASE_KR_Update, 0x98, 0x80, 0x128, 0xA8, 0xD0, 0x248, 0x1D0);
         public static readonly DeepPointer DP_BreatheIn_HC_Room6_CP = new DeepPointer(BASE_KR_Update, 0x98, 0x80, 0x128, 0xA8, 0xC0, 0x248, 0x1D0);
@@ -117,6 +118,19 @@ namespace GhostrunnerRNG.MemoryUtils {
         public static readonly DeepPointer DP_SignSpawner = new DeepPointer(BASE_KR_Update, 0x98, 0x18, 0x128, 0xA8, 0x0);
         public static readonly DeepPointer DP_ShurikenTarget = new DeepPointer(BASE_KR_Update, 0x98, 0x0, 0x128, 0xA8, 0x0);
         public static readonly DeepPointer DP_JumpPad = new DeepPointer(BASE_KR_Update, 0x30, 0xA8, 0x0);
+
+
+        ////// DEV //////
+        public static readonly DeepPointer DP_SublevelsCount = new DeepPointer(BASE_KR_Update, 0xA0);
+        public static readonly DeepPointer DP_ObjectsCount = new DeepPointer(BASE_KR_Update, 0x98, 0x0, 0x128, 0xB0);
+        public static readonly DeepPointer DP_VFTablePattern = new DeepPointer(BASE_KR_Update, 0x98, 0x0, 0x128, 0xA8, 0x0, 0x0);
+        // ObjectsTypes
+        public static Dictionary<string, DeepPointer> ObjectsTypes = new Dictionary<string, DeepPointer>() {
+            {"triggerbase", new DeepPointer(0x3189000 +  0x80578)},
+            {"curvefloat", new DeepPointer(0x3189000 +  0x6b26a8)},
+            {"checkpoint", new DeepPointer(0x3189000 +  0x1ADBC8)}
+        };
+
 
         //// CustomCP Pointers ////
         public static Dictionary<MapType, DeepPointer> MapCPPointers = new Dictionary<MapType, DeepPointer>() {

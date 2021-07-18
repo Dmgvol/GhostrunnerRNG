@@ -702,9 +702,9 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(80648, -56235, 4199), new Angle(0.73f, 0.68f))
                 .SetSpawnInfo(new SniperSpawnInfo().SinglePatrol(new Vector3f(80597, -50309, 4198))));
 
-            // spinning platform/fan room, hiding behind crates
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(104532, -40937, 3747), new Angle(-1.00f, 0.00f))
-                .SetSpawnInfo(new SniperSpawnInfo().SinglePatrol(new Vector3f(104408, -40936, 3603))));
+            // spinning platform/fan room, right pipe
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(104399, -42112, 4470), new Angle(0.98f, 0.21f))
+                .SetSpawnInfo(new SniperSpawnInfo().SinglePatrol(new Vector3f(104460, -41924, 4256))));
 
             // before grinder, right of CP
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(70038, -59302, 4198), new Angle(0.99f, 0.11f))

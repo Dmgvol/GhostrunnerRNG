@@ -334,6 +334,8 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(22151, -158628, -102), new Angle(0.21f, 0.98f)).Mask(SpawnPlane.Mask_Airborne));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(2159, -165656, -1289), new Angle(-0.52f, 0.85f)).Mask(SpawnPlane.Mask_Airborne));
             Rooms.Add(layout);
+            CustomCheckPoints.Add(new CustomCP(mapType, new Vector3f(17292, -162103, -1956), new Vector3f(15817, -163058, -2805),
+                new Vector3f(16081, -162398, -2492), new Angle(-0.47f, 0.88f)));
 
 
             //// Room 2 ////

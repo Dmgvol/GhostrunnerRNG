@@ -5,7 +5,7 @@ using static GhostrunnerRNG.Localization.LocalizationManager;
 
 namespace GhostrunnerRNG.Game {
     class Config {
-        public const string VERSION = "0.3.04";
+        public const string VERSION = "0.4.0";
 
         private static Config instance;
 

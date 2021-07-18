@@ -50,7 +50,7 @@
                 <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_RngOnRestart" ToolTip="Will randomize on new level or level restart" Content="New RNG on level restart/load" HorizontalAlignment="Left" Style="{StaticResource DarkCheckBox}"/>
                 <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_RngCybervoid" ToolTip="RNG Cybervoids; platforms, enemies..."  Content="RNG Cybervoids" HorizontalAlignment="Left"  Height="28" Width="auto" Style="{StaticResource DarkCheckBox}"/>
                 <CheckBox Margin="10, 0" IsChecked="True" x:Name="checkbox_RngTargets" ToolTip="Shuriken targets can range from 1 to 3 needed hits to activate"  Content="Randomize needed hits for shuriken targets" HorizontalAlignment="Left" Style="{StaticResource DarkCheckBox}"/>
-                <CheckBox Margin="10, 0" IsChecked="false" x:Name="checkbox_EnableOverlay" ToolTip="Shows info realtime"  Content="Enable RNG custom game overlay" HorizontalAlignment="Left" Style="{StaticResource DarkCheckBox}"/>
+                <CheckBox Margin="10, 0" IsChecked="false" x:Name="checkbox_EnableOverlay" ToolTip="Shows info realtime"  Content="Enable RNG overlay (not ready yet)" HorizontalAlignment="Left" Style="{StaticResource DisabledDarkCheckBox}"/>
 
                 <!--Fake/Troll/Meme option-->
                 <CheckBox Margin="10, 0" Content="Random game crashes" IsChecked="True"  HorizontalAlignment="Left"  Style="{StaticResource DisabledDarkCheckBox}"/>

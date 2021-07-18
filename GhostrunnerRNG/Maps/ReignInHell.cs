@@ -6,6 +6,7 @@ using GhostrunnerRNG.MemoryUtils;
 using GhostrunnerRNG.NonPlaceableObjects;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using static GhostrunnerRNG.Game.GameUtils;
 
@@ -521,11 +522,10 @@ namespace GhostrunnerRNG.Maps {
         public void Gen_Easy_AfterCV() {Gen_Normal_AfterCV();}
 
         public void Gen_Hardcore() {
-            List<Enemy> AllEnemies = GetAllEnemies(GameHook.game);
+            List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 65);
             List<Enemy> Shifters = new List<Enemy>();
             Rooms = new List<RoomLayout>();
             RoomLayout layout;
-
 
             //// Room 1 ////
             var enemies = room_HC_1.ReturnEnemiesInRoom(AllEnemies);
@@ -539,9 +539,10 @@ namespace GhostrunnerRNG.Maps {
                     EnemiesWithoutCP.Add(x);
             });
 
+            
 
             //// Room 2 ////
-            enemies = room_HC_2.ReturnEnemiesInRoom(AllEnemies);
+            enemies = room_HC_2.ReturnEnemiesInRoom(AllEnemies); 
             enemies.ForEach(x => {
                 x.SetEnemyType(Enemy.EnemyTypes.Waver);
                 x.DisableAttachedCP(GameHook.game);
@@ -550,7 +551,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// Room 3 ////
-            enemies = room_HC_3.ReturnEnemiesInRoom(AllEnemies);
+            enemies = room_HC_3.ReturnEnemiesInRoom(AllEnemies); 
             enemies[0] = new EnemyShieldOrb(enemies[0]);
             enemies[1].SetEnemyType(Enemy.EnemyTypes.Weeb);
             enemies[2].SetEnemyType(Enemy.EnemyTypes.Weeb);
@@ -606,7 +607,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// Room 6 ////
-            enemies = room_HC_6.ReturnEnemiesInRoom(AllEnemies);
+            enemies = room_HC_6.ReturnEnemiesInRoom(AllEnemies); 
             enemies[2].SetEnemyType(Enemy.EnemyTypes.Weeb);
             enemies[3].SetEnemyType(Enemy.EnemyTypes.Weeb);
             RandomPickEnemiesWithoutCP(ref enemies, force:true);
@@ -619,7 +620,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// Room 7 ////
-            enemies = room_HC_7.ReturnEnemiesInRoom(AllEnemies);
+            enemies = room_HC_7.ReturnEnemiesInRoom(AllEnemies); 
             Shifters.Add(new EnemyShifter(enemies[1])); // no cp
             layout = new RoomLayout(enemies[0]); // single spider
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-3044, 17983, 5225), new Angle(1.00f, 0.06f))); // default
@@ -634,7 +635,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// Room 8 ////
-            enemies = room_HC_8.ReturnEnemiesInRoom(AllEnemies);
+            enemies = room_HC_8.ReturnEnemiesInRoom(AllEnemies); 
             enemies[4].SetEnemyType(Enemy.EnemyTypes.Waver);
             layout = new RoomLayout(enemies.Take(4).ToList()); // spiders
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-4541, 39700, 7350), new QuaternionAngle(0.00f, 0.00f, -0.71f, 0.71f))); // default, seg 2
@@ -659,7 +660,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// Room 9 ////
-            enemies = room_HC_9.ReturnEnemiesInRoom(AllEnemies);
+            enemies = room_HC_9.ReturnEnemiesInRoom(AllEnemies); 
             enemies[0] = new EnemyShieldOrb(enemies[0]);
             enemies[6].SetEnemyType(Enemy.EnemyTypes.Weeb);
             enemies[7].SetEnemyType(Enemy.EnemyTypes.Weeb);
@@ -742,13 +743,13 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// Room 10 ////
-            enemies = room_HC_10.ReturnEnemiesInRoom(AllEnemies);
+            enemies = room_HC_10.ReturnEnemiesInRoom(AllEnemies); 
             enemies[1].SetEnemyType(Enemy.EnemyTypes.Waver);
             enemies.ForEach(x => EnemiesWithoutCP.Add(x)); // no cp required.
 
 
             //// Room 11 ////
-            enemies = room_HC_11.ReturnEnemiesInRoom(AllEnemies);
+            enemies = room_HC_11.ReturnEnemiesInRoom(AllEnemies); 
             enemies[2].SetEnemyType(Enemy.EnemyTypes.Waver);
             // enemies
             layout = new RoomLayout(enemies[2]);
@@ -785,7 +786,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// Room 13 ////
-            enemies = room_HC_13.ReturnEnemiesInRoom(AllEnemies);
+            enemies = room_HC_13.ReturnEnemiesInRoom(AllEnemies); 
             enemies[0] = new EnemyTurret(enemies[0]);
             enemies[3].SetEnemyType(Enemy.EnemyTypes.Waver);
             enemies[5].SetEnemyType(Enemy.EnemyTypes.Weeb);
@@ -835,13 +836,13 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// Room 14 ////
-            enemies = room_HC_14.ReturnEnemiesInRoom(AllEnemies);
+            enemies = room_HC_14.ReturnEnemiesInRoom(AllEnemies); 
             enemies[0] = new EnemyTurret(enemies[0]);
             enemies[2].SetEnemyType(Enemy.EnemyTypes.Waver);
             enemies[3].SetEnemyType(Enemy.EnemyTypes.Weeb);
             enemies[4].SetEnemyType(Enemy.EnemyTypes.Weeb);
             RandomPickEnemiesWithoutCP(ref enemies, force: true, enemyIndex: 0); // turret
-            RandomPickEnemiesWithoutCP(ref enemies); // another one
+            RandomPickEnemiesWithoutCP(ref enemies, force: true); // another one
 
             // shifter - ATTACHING TO CP
             List<Tuple<Vector3f, Angle>> ShifterPoints_HC_Room14 = new List<Tuple<Vector3f, Angle>>() {
@@ -903,7 +904,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// Room 15 ////
-            enemies = room_HC_15.ReturnEnemiesInRoom(AllEnemies);
+            enemies = room_HC_15.ReturnEnemiesInRoom(AllEnemies); 
             // shifter
             List<Tuple<Vector3f, Angle>> ShifterPoints_HC_Room15 = new List<Tuple<Vector3f, Angle>>() {
                 new Tuple<Vector3f, Angle>(new Vector3f(19687, -10289, 9195), new Angle(0.54f, 0.84f)), // right billboard 1
@@ -915,7 +916,7 @@ namespace GhostrunnerRNG.Maps {
                 new Tuple<Vector3f, Angle>(new Vector3f(18441, -4966, 8497), new Angle(-0.40f, 0.92f)) // left platform corner
             };
             enemies[0] = new EnemyShifter(enemies[0]).AddFixedSpawnInfoList(ref ShifterPoints_HC_Room15);
-            RandomPickEnemiesWithoutCP(ref enemies, enemyIndex: 1); // frogger
+            //RandomPickEnemiesWithoutCP(ref enemies, force:true,enemyIndex: 1); // frogger
             layout = new RoomLayout(enemies);
             // default
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(18215, -6014, 8496), new Vector3f(17457, -5316, 8501), new Angle(-0.27f, 0.96f)).Mask(SpawnPlane.Mask_Flatground));
@@ -925,7 +926,7 @@ namespace GhostrunnerRNG.Maps {
 
 
             //// Room 16 ////
-            enemies = room_HC_16.ReturnEnemiesInRoom(AllEnemies);
+            enemies = room_HC_16.ReturnEnemiesInRoom(AllEnemies); 
             // shifter
             List<Tuple<Vector3f, Angle>> ShifterPoints_HC_Room16 = new List<Tuple<Vector3f, Angle>>() {
                 new Tuple<Vector3f, Angle>(new Vector3f(17302, -20645, 9203), new Angle(0.69f, 0.72f)), // extruded wall part, infront of cp
@@ -1025,8 +1026,6 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-3858, 33859, 7408), new Angle(-0.76f, 0.65f)).Mask(SpawnPlane.Mask_Highground)); // beam, room 8
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(20708, 40956, 7362), new Angle(-1.00f, 0.08f)).Mask(SpawnPlane.Mask_Highground)); // room 10, first platform
             Rooms.Add(layout);
-
-
 
         }
 
