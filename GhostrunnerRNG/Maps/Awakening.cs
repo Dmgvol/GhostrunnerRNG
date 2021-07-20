@@ -342,8 +342,8 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(198, -69741, 913), new Angle(-0.59f, 0.81f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // wall lamp, far back
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-391, -69741, 913), new Angle(-0.66f, 0.75f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // wall lamp, far back
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-2805, -68600, 1051), new Angle(-0.47f, 0.88f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // curved billboard near exit
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(744, -71932, 1408), new Angle(-0.45f, 0.89f))); // middle high billboard/fence
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-2606, -74004, 630), new Angle(-0.07f, 1.00f))); // street light, far right corner
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(744, -71932, 1408), new Angle(-0.45f, 0.89f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // middle high billboard/fence
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-2606, -74004, 630), new Angle(-0.07f, 1.00f)).Mask(SpawnPlane.Mask_HighgroundLimited)); // street light, far right corner
 
             // default
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-2230, -70553, -80), new Vector3f(-1202, -69921, -80), new Angle(-0.02f, 1.00f)).Mask(SpawnPlane.Mask_Flatground)); // near exit

@@ -148,6 +148,7 @@ namespace GhostrunnerRNG.Maps {
             //layout.AddSpawnPlane(new SpawnPlane(new Vector3f(18352, -29019, 3338), new Vector3f(18233, -27237, 3338), new Angle(0.82f, 0.58f)).Mask(SpawnPlane.Mask_Airborne).AsVerticalPlane());
             //layout.AddSpawnPlane(new SpawnPlane(new Vector3f(16222, -29200, 3134), new Vector3f(16132, -27307, 3134), new Angle(0.54f, 0.84f)).Mask(SpawnPlane.Mask_Airborne).AsVerticalPlane());
             //Rooms.Add(layout);
+
         }
 
         public void Gen_Nightmare() {

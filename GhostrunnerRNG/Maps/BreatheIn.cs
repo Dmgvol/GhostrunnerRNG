@@ -593,7 +593,7 @@ namespace GhostrunnerRNG.Maps {
 
             // enemies
             enemies.RemoveRange(0, 5); // get rid of orbs
-            RandomPickEnemiesWithoutCP(ref enemies, force: true);
+            RandomPickEnemiesWithoutCP(ref enemies, force: true, enemyIndex: 2); // UZI
             layout = new RoomLayout(enemies);
             // default
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(63108, -68457, 3598), new Vector3f(64752, -67860, 3598), new Angle(-0.71f, 0.70f)).Mask(SpawnPlane.Mask_Flatground));
@@ -890,6 +890,24 @@ namespace GhostrunnerRNG.Maps {
             // right after room 10
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(80545, -57743, 4503), new Angle(0.79f, 0.61f)).Mask(SpawnPlane.Mask_Highground));
             Rooms.Add(layout);
+
+            #region Uplinks
+            // mid-room shuriken
+            NonPlaceableObject uplink = new UplinkShurikens(0x30, 0xA8);
+            uplink.AddNewSpawnInfo(new UplinkShurikensSpawnInfo { MaxAttacks = 1});
+            worldObjects.Add(uplink);
+
+            // first kill room
+            uplink = new UplinkSlowmo(0x60, 0xF8, 0xA0);
+            uplink.AddNewSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(2, 5)});
+            worldObjects.Add(uplink);
+
+            // 2nd room
+            uplink = new UplinkShurikens(0x60, 0x120);
+            uplink.AddNewSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(2, 5), MaxAttacks = Config.GetInstance().r.Next(1, 4)});
+            worldObjects.Add(uplink);
+            #endregion
+
         }
 
         public void Gen_Nightmare_BeforeCV() {}

@@ -483,7 +483,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-119447, -18607, -14931), new Vector3f(-117391, -17666, -14931), new Angle(-0.71f, 0.70f)).Mask(SpawnPlane.Mask_Flatground).AllowSplitter());
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-116126, -17672, -14528), new Vector3f(-115463, -18196, -14528), new Angle(-0.92f, 0.39f)).Mask(SpawnPlane.Mask_Flatground).AllowSplitter());
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-115836, -19438, -15031), new Vector3f(-113218, -20428, -15031), new Angle(1.00f, 0.04f)).Mask(SpawnPlane.Mask_Flatground).AllowSplitter());
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-116664, -22337, -15281), new Vector3f(-115964, -21465, -15281), new Angle(0.94f, 0.34f)).Mask(SpawnPlane.Mask_Flatground).AllowSplitter());
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-116664, -22337, -15281), new Vector3f(-115964, -21465, -15281), new Angle(0.94f, 0.34f)).Mask(SpawnPlane.Mask_Highground).AllowSplitter());
             // special/high
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-118127, -20071, -14331), new Angle(-1.00f, 0.02f)).Mask(SpawnPlane.Mask_Highground)); // end slope
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-113720, -19188, -13991), new Angle(-0.97f, 0.23f)).Mask(SpawnPlane.Mask_Highground)); // crate stack
@@ -938,6 +938,17 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-91242, 16274, -12432), new QuaternionAngle(-0.71f, 0.00f, 0.00f, 0.71f)).Mask(SpawnPlane.Mask_Turret)
                 .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 0, HorizontalSpeed = 0, VerticalAngle = 20 }));
             chainedOrbs_Rooms.Add(layout);
+
+
+            #region Uplinks
+            NonPlaceableObject uplink = new UplinkShurikens(0x8, 0x1A8); // last room shurikens
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(3,5), MaxAttacks = Config.GetInstance().r.Next(1, 4) });
+            worldObjects.Add(uplink);
+
+            uplink = new UplinkShurikens(0x48, 0x170); // triple target, after airvent
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(3, 5), MaxAttacks = Config.GetInstance().r.Next(3, 5)});
+            worldObjects.Add(uplink);
+            #endregion
 
         }
 

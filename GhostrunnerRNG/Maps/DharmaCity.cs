@@ -895,19 +895,24 @@ namespace GhostrunnerRNG.Maps {
                 .Mask(SpawnPlane.Mask_Highground).SetMaxEnemies(3)); // after laser maze
             Rooms.Add(layout);
 
-            #region Shurikens
-            //DEV_FindUplinks(Uplinks.Shuriken);
-
-
-            //// (0x04609420, 0x98, 0x18, 0x128, 0xA8, 0x5F0, 0x248, 0x1D0)
-            //// (0x04609420, 0x98, 0x18, 0x128, 0xA8, 0x7E8, 0x248, 0x1D0)
-            //var shuriken = new UplinkShurikens(0x18, 0x7E8);
-            //shuriken.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 2, MaxAttacks = 2 }); // short time
-            //worldObjects.Add(shuriken);
-
-
+            #region Uplinks
+            // first slowmo
+            NonPlaceableObject uplink = new UplinkSlowmo(0x0, 0x268, 0xA0);
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = 4 });
+            worldObjects.Add(uplink);
+            // first locked door with orbs, on ramp
+            uplink = new UplinkShurikens(0x18, 0x100);
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(3, 6), MaxAttacks = 2 });
+            worldObjects.Add(uplink);
+            // middle platform
+            uplink = new UplinkShurikens(0x18, 0x120);
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(3, 6), MaxAttacks = Config.GetInstance().r.Next(2, 5)});
+            worldObjects.Add(uplink);
+            // last closed room
+            uplink = new UplinkShurikens(0x28, 0xE8);
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(2, 6), MaxAttacks = Config.GetInstance().r.Next(1, 4) });
+            worldObjects.Add(uplink);
             #endregion
-
 
         }
 

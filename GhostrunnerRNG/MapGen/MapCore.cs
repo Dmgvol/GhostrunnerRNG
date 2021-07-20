@@ -161,6 +161,33 @@ namespace GhostrunnerRNG.MapGen {
             return enemies;
         }
 
+        public static List<Enemy> GetAllEnemies_Bulk(int index, int target, List<Vector3f> positions) {
+            List<Enemy> enemiesBulk = new List<Enemy>();
+            List<Enemy> enemies = new List<Enemy>();
+            Enemy enemy;
+            bool ValidEnemy = true;
+            index--;
+            // get bulk enemies
+            while(ValidEnemy || index < target) {
+                index++;
+                enemy = new Enemy(new DeepPointer(PtrDB.DP_EnemyListFirstEntity).MultiplyOffset(3, index + 1));
+                ValidEnemy = !enemy.GetMemoryPos(GameHook.game).IsEmpty();
+                if(ValidEnemy) {
+                    enemiesBulk.Add(enemy);
+                }
+            }
+
+            // get needed only
+            for(int i = 0; i < enemiesBulk.Count; i++) {
+                for(int j = 0; j < positions.Count; j++) {
+                    if(MapCore.EnemyInApproximetry(enemiesBulk[i].Pos, positions[j])) {
+                        enemies.Add(enemiesBulk[i]);
+                    }
+                }
+            }
+            return enemies;
+        }
+
         protected abstract void Gen_PerRoom();
 
         // new RNG
@@ -269,8 +296,6 @@ namespace GhostrunnerRNG.MapGen {
                 CheckPlayerMove();
 
             // forced restart?
-            
-
             if(Config.GetInstance().Settings_ForcedRestart && !ForcedCPFlag && CPRequired && GameHook.CP_COUNTER == 0) {
                 float value = 0;
                 bool canRestart;
@@ -285,219 +310,6 @@ namespace GhostrunnerRNG.MapGen {
                
         }
 
-
-        public void DEV_FindAllCP(List<Room> rooms) {
-            int c = 0;
-
-            DeepPointer CheckpointDP = PtrDB.ObjectsTypes["checkpoint"];
-            CheckpointDP.DerefOffsets(GameHook.game, out IntPtr CheckpointVFT);
-
-            DeepPointer SublevelsDP = new DeepPointer(PtrDB.DP_SublevelsCount);
-            SublevelsDP.DerefOffsets(GameHook.game, out IntPtr SublevelsPtr);
-            GameHook.game.ReadValue(SublevelsPtr, out int Sublevels);
-
-            for(var j = 1; j < Sublevels; j++) {
-
-                DeepPointer ObjectsDP = new DeepPointer(PtrDB.DP_ObjectsCount).Format(0x8 * (j - 1));
-                ObjectsDP.DerefOffsets(GameHook.game, out IntPtr ObjectsPtr);
-                GameHook.game.ReadValue(ObjectsPtr, out int Objects);
-
-                for(var i = 1; i < Objects; i++) {
-
-                    DeepPointer VFTableDP = new DeepPointer(PtrDB.DP_VFTablePattern).Format(0x8 * (j - 1), 0x8 * (i - 1), 0x0);
-                    VFTableDP.DerefOffsets(GameHook.game, out IntPtr VFTablePtr);
-                    GameHook.game.ReadValue(VFTablePtr, out IntPtr VFTable);
-                    if(VFTable == CheckpointVFT) {
-
-                        GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x2A0), out bool triggerbyoverlap);
-                        GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x2A1), out bool workinHC);
-                        GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x2A2), out bool workinCL);
-
-                        List<int> offsets = new List<int>(VFTableDP.GetOffsets());
-                        offsets[offsets.Count - 1] = 0x248;
-                        offsets.Add(0x1d0);
-
-                        DeepPointer PosDP = new DeepPointer(VFTableDP.GetBase(), offsets);
-                        PosDP.DerefOffsets(GameHook.game, out IntPtr PosPtr);
-
-                        float x, y, z;
-                        GameHook.game.ReadValue(PosPtr, out x);
-                        GameHook.game.ReadValue(PosPtr + 4, out y);
-                        GameHook.game.ReadValue(PosPtr + 8, out z);
-
-                        if(rooms.Where(r => PlayerWithinRectangle(new Vector3f(x, y, z), r.pointA, r.pointB)).Count() > 0) {
-                            c++;
-                            Console.WriteLine($"CP:\nPos: {x} {y} {z}");
-                            Console.WriteLine($"TriggerbyOverlap: {triggerbyoverlap}, WorkinHC: {workinHC}, WorkinCl: {workinCL}");
-                            Console.WriteLine($"(0x04609420, 0x98, 0x{0x8 * (j - 1):X}, 0x128, 0xA8, 0x{0x8 * (i - 1):X}, 0x248, 0x1D0)\n");
-                        }
-
-                    }
-
-                }
-            }
-            Console.WriteLine("found: " + c);
-        }
-
-        public void DEV_FindAllCP() {
-            int c = 0;
-
-            DeepPointer CheckpointDP = PtrDB.ObjectsTypes["checkpoint"];
-            CheckpointDP.DerefOffsets(GameHook.game, out IntPtr CheckpointVFT);
-
-            DeepPointer SublevelsDP = new DeepPointer(PtrDB.DP_SublevelsCount);
-            SublevelsDP.DerefOffsets(GameHook.game, out IntPtr SublevelsPtr);
-            GameHook.game.ReadValue(SublevelsPtr, out int Sublevels);
-
-            for(var j = 1; j < Sublevels; j++) {
-
-                DeepPointer ObjectsDP = new DeepPointer(PtrDB.DP_ObjectsCount).Format(0x8 * (j - 1));
-                ObjectsDP.DerefOffsets(GameHook.game, out IntPtr ObjectsPtr);
-                GameHook.game.ReadValue(ObjectsPtr, out int Objects);
-
-                for(var i = 1; i < Objects; i++) {
-
-                    DeepPointer VFTableDP = new DeepPointer(PtrDB.DP_VFTablePattern).Format(0x8 * (j - 1), 0x8 * (i - 1), 0x0);
-                    VFTableDP.DerefOffsets(GameHook.game, out IntPtr VFTablePtr);
-                    GameHook.game.ReadValue(VFTablePtr, out IntPtr VFTable);
-                    if(VFTable == CheckpointVFT) {
-
-                        GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x2A0), out bool triggerbyoverlap);
-                        GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x2A1), out bool workinHC);
-                        GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x2A2), out bool workinCL);
-
-                        List<int> offsets = new List<int>(VFTableDP.GetOffsets());
-                        offsets[offsets.Count - 1] = 0x248;
-                        offsets.Add(0x1d0);
-
-                        DeepPointer PosDP = new DeepPointer(VFTableDP.GetBase(), offsets);
-                        PosDP.DerefOffsets(GameHook.game, out IntPtr PosPtr);
-
-                        float x, y, z;
-                        GameHook.game.ReadValue(PosPtr, out x);
-                        GameHook.game.ReadValue(PosPtr + 4, out y);
-                        GameHook.game.ReadValue(PosPtr + 8, out z);
-
-                        c++;
-                        Console.WriteLine($"CP:\nPos: {x} {y} {z}");
-                        Console.WriteLine($"TriggerbyOverlap: {triggerbyoverlap}, WorkinHC: {workinHC}, WorkinCl: {workinCL}");
-                        Console.WriteLine($"(0x04609420, 0x98, 0x{0x8 * (j - 1):X}, 0x128, 0xA8, 0x{0x8 * (i - 1):X}, 0x248, 0x1D0)\n");
-                    }
-
-                }
-            }
-            Console.WriteLine("found: " + c);
-        }
-
-
-        public enum Uplinks { Shuriken, Jump, BulletTimeDevice };
-        public void DEV_FindUplinks(Uplinks uplink) {
-            int c = 0;
-
-            DeepPointer TriggerBaseDP = PtrDB.ObjectsTypes["triggerbase"];
-            TriggerBaseDP.DerefOffsets(GameHook.game, out IntPtr TriggerBaseVFT);
-
-            DeepPointer SublevelsDP = new DeepPointer(PtrDB.DP_SublevelsCount);
-            SublevelsDP.DerefOffsets(GameHook.game, out IntPtr SublevelsPtr);
-            GameHook.game.ReadValue(SublevelsPtr, out int Sublevels);
-            for(var j = 1; j < Sublevels; j++) {
-
-                DeepPointer ObjectsDP = new DeepPointer(PtrDB.DP_ObjectsCount).Format(0x8 * (j - 1));
-                ObjectsDP.DerefOffsets(GameHook.game, out IntPtr ObjectsPtr);
-                GameHook.game.ReadValue(ObjectsPtr, out int Objects);
-                for(var i = 1; i < Objects; i++) {
-
-                    DeepPointer VFTableDP = new DeepPointer(PtrDB.DP_VFTablePattern).Format(0x8 * (j - 1), 0x8 * (i - 1), 0x0);
-                    VFTableDP.DerefOffsets(GameHook.game, out IntPtr VFTablePtr);
-                    GameHook.game.ReadValue(VFTablePtr, out IntPtr VFTable);
-
-                    if(VFTable == TriggerBaseVFT) {
-                        GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x230), out byte Type);
-
-                        List<int> offsets = new List<int>(VFTableDP.GetOffsets());
-                        offsets[offsets.Count - 1] = 0x130;
-                        offsets.Add(0x11c);
-
-                        DeepPointer PosDP = new DeepPointer(VFTableDP.GetBase(), offsets);
-                        PosDP.DerefOffsets(GameHook.game, out IntPtr PosPtr);
-
-                        float x, y, z;
-                        GameHook.game.ReadValue(PosPtr, out x);
-                        GameHook.game.ReadValue(PosPtr + 4, out y);
-                        GameHook.game.ReadValue(PosPtr + 8, out z);
-
-                        if(uplink == Uplinks.Shuriken && Type == 3) {
-
-                            GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x238), out float duration);
-                            GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x270), out int attacks);
-                            GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x260), out bool HC);
-
-                            if(duration > 0.5f && duration < 100.0f && attacks >= 1 && attacks < 500 && Type == 3) {
-                                c++;
-                                Console.WriteLine($"Shuriken: duration: {duration}, attacks: {attacks} , HC: {HC}");
-                                Console.WriteLine($"Pos: {x} {y} {z}");
-                                Console.WriteLine($"(0x{PtrDB.BASE_KR_Update:X}, 0x98, 0x{0x8 * (j - 1):X}, 0x128, 0xA8, 0x{0x8 * (i - 1):X}, 0x238)\n");
-
-                            }
-                        }
-
-                        if(uplink == Uplinks.Jump && Type == 10) {
-                            GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x234), out float timetoactivate);
-                            GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x238), out float duration);
-                            GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x280), out float jumpmultiplier);
-                            GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x284), out float jumpforward);
-                            GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x288), out float jumpgravity);
-                            GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x260), out bool HC);
-                            List<float> parameters = new List<float> { timetoactivate, duration, jumpmultiplier, jumpforward, jumpgravity };
-
-                            if(parameters.All(parameter => parameter > 0.5f && parameter < 100.0f)) {
-                                c++;
-                                Console.WriteLine($"Jumps: timetoactivate: {timetoactivate}, jumpmultiplier: {jumpmultiplier}, jumpforward: {jumpforward}, jumpgravity: {jumpgravity} , HC: {HC}");
-                                Console.WriteLine($"Pos: {x} {y} {z}");
-                                Console.WriteLine($"(0x{PtrDB.BASE_KR_Update:X}, 0x98, 0x{0x8 * (j - 1):X}, 0x128, 0xA8, 0x{0x8 * (i - 1):X}, 0x234)\n");
-                            }
-                        }
-
-                        if(uplink == Uplinks.BulletTimeDevice && Type == 4) {
-                            DeepPointer CurveFloatDP = PtrDB.ObjectsTypes["curvefloat"];
-                            CurveFloatDP.DerefOffsets(GameHook.game, out IntPtr CurveFloatVFT);
-
-                            GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x270), out IntPtr CurveFloat);
-                            if(CurveFloat != IntPtr.Zero) {
-                                GameHook.game.ReadValue(CurveFloat, out IntPtr CurveFloatVFTable);
-                                GameHook.game.ReadValue(IntPtr.Add(VFTablePtr, 0x260), out bool HC);
-
-                                if(CurveFloatVFT == CurveFloatVFTable) {
-                                    c++;
-                                    Console.WriteLine($"Slowmo: HC: {HC}");
-                                    Console.WriteLine($"Pos: {x} {y} {z}");
-                                    Console.WriteLine($"(0x{PtrDB.BASE_KR_Update:X}, 0x98, 0x{0x8 * (j - 1):X}, 0x128, 0xA8, 0x{0x8 * (i - 1):X}, 0x270, 0xA0, 0x0)\n");
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            Console.WriteLine("found: " + c);
-        }
-
-
-
-        public void DEV_GetEnemyTypes(List<Enemy> enemies) {
-            for(int i = 0; i < enemies.Count; i++) {
-                List<int> offsets = new List<int>(enemies[i].GetObjectDP().GetOffsets());
-                offsets[offsets.Count - 1] = 0x0;
-                DeepPointer parentDP = new DeepPointer(enemies[i].GetObjectDP().GetBase(), offsets);
-                IntPtr parentPtr;
-                parentDP.DerefOffsets(GameHook.game, out parentPtr);
-                //  pos
-                int value;
-                GameHook.game.ReadValue(parentPtr, out value);
-                Console.WriteLine($"Enemy: {i}: {value}");
-            }
-        }
-
-       
 
         public void ForceRestart() {
             // Doing it on a separated thread to avoid game/rng getting stuck
@@ -556,34 +368,6 @@ namespace GhostrunnerRNG.MapGen {
             // add select to list and remove it from enemies, so it won't be used in spawnplanes
             EnemiesWithoutCP.Add(enemies[index]);
             enemies.RemoveAt(index);
-        }
-
-        protected List<Enemy> GetAllEnemies_Bulk(int index, int target, Process game, List<Vector3f> positions) {
-            List<Enemy> enemiesBulk = new List<Enemy>();
-            List<Enemy> enemies = new List<Enemy>();
-            Enemy enemy;
-            bool ValidEnemy = true;
-            index--;
-            // get bulk enemies
-            while(ValidEnemy || index < target) {
-                index++;
-                enemy = new Enemy(new DeepPointer(PtrDB.DP_EnemyListFirstEntity).MultiplyOffset(3, index + 1));
-                ValidEnemy = !enemy.GetMemoryPos(game).IsEmpty();
-                if(ValidEnemy) {
-                    enemiesBulk.Add(enemy);
-                }
-            }
-
-            // get needed only
-            for(int i = 0; i < enemiesBulk.Count; i++) {
-                for(int j = 0; j < positions.Count; j++) {
-                    if(EnemyInApproximetry(enemiesBulk[i].Pos, positions[j])) { 
-                        enemies.Add(enemiesBulk[i]);
-                    }
-                }
-            }
-
-            return enemies;
         }
 
         public static bool EnemyInApproximetry(Vector3f enemy, Vector3f target, float threshold = 50) {

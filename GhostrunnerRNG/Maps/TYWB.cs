@@ -51,7 +51,7 @@ namespace GhostrunnerRNG.Maps {
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 29);
             AllEnemies.AddRange(GetAllEnemies(GameHook.game, 39, 30));
             // dynamic gap: bulk search and filter by exact locations
-            var lst = GetAllEnemies_Bulk(29, 40, GameHook.game, new List<Vector3f>() {
+            var lst = GetAllEnemies_Bulk(29, 40, new List<Vector3f>() {
                 // room 6
                 new Vector3f(68825, 63495, 5021),
                 // room7
@@ -570,6 +570,7 @@ namespace GhostrunnerRNG.Maps {
             uplink = new UplinkSlowmo(0x10, 0x9E8, 0xA0);
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(5, 15) });
             uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = 5, TimeMultiplier = 0.05f });
+            worldObjects.Add(uplink);
             #endregion
 
         }
@@ -1111,10 +1112,6 @@ namespace GhostrunnerRNG.Maps {
 
 
 
-
-
-
-
             ////// Room 16 ////
             enemies = room_hc_16.ReturnEnemiesInRoom(AllEnemies);
             enemies[0] = new EnemyTurret(enemies[0]);
@@ -1153,17 +1150,19 @@ namespace GhostrunnerRNG.Maps {
                 .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 30, HorizontalSpeed = 30, VerticalAngle = 10}));
 
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(68200, 167899, 5021), new Angle(0.96f, 0.30f)).Mask(SpawnPlane.Mask_Turret)
-                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 40, HorizontalSpeed = 20, VerticalAngle = 0 }));
+                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 40, HorizontalSpeed = 20, VerticalAngle = 0, Range = 4000 }));
 
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(68785, 166799, 5021), new Angle(-0.84f, 0.55f)).Mask(SpawnPlane.Mask_Turret)
-                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 10, HorizontalSpeed = 20, VerticalAngle = 30 }));
+                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 10, HorizontalSpeed = 20, VerticalAngle = 30, Range = 3800 }));
 
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(68011, 166930, 5423), new Angle(-0.72f, 0.70f)).Mask(SpawnPlane.Mask_Turret)
-                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 20, HorizontalSpeed = 10, VerticalAngle = 20 }));
+                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 20, HorizontalSpeed = 10, VerticalAngle = 20, Range = 4000}));
 
             Rooms.Add(layout);
 
+
             //// ChainedOrb Rooms ////
+            #region ChainedOrb Rooms
             chainedOrbs_Rooms.Add(new RoomLayout() { });
             // first door
             layout = new RoomLayout();
@@ -1207,7 +1206,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(65569, 173222, 3959)).Mask(SpawnPlane.Mask_ShieldOrb));
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(65534, 174054, 2841), new Angle(-0.74f, 0.68f)).Mask(SpawnPlane.Mask_Highground));
             chainedOrbs_Rooms.Add(layout);
-
+            #endregion
 
             //// EXTRA
             layout = new RoomLayout();
@@ -1215,6 +1214,21 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(72230, 138533, 4707), new Angle(1.00f, 0.00f)).Mask(SpawnPlane.Mask_Highground));
             Rooms.Add(layout);
 
+
+            #region Uplinks
+            // first slowmo(infront of elevator)
+            NonPlaceableObject uplink = new UplinkSlowmo(0x0, 0x2B0, 0xA0);
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = 7.5f }); // half time
+            worldObjects.Add(uplink);
+            // 5 shuriken target room
+            uplink = new UplinkShurikens(0x18, 0x218);
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { MaxAttacks = 5 }); // 5 targets? 5 attacks
+            worldObjects.Add(uplink);
+            // room 12 slowmo
+            uplink = new UplinkSlowmo(0x48, 0x188, 0xA0);
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = 5 }); // half time
+            worldObjects.Add(uplink);
+            #endregion
         }
 
         public override void RandomizeEnemies(Process game) {

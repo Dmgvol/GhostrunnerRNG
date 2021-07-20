@@ -619,7 +619,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(14531, 645, 7063), new Angle(0.07f, 1.00f)).Mask(SpawnPlane.Mask_Highground)); // rooftop
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(13894, 2171, 6860), new Angle(-0.15f, 0.99f)).Mask(SpawnPlane.Mask_Highground)); // umbrella
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(12030, 1526, 6803), new Angle(-0.10f, 1.00f)).Mask(SpawnPlane.Mask_Highground)); // ad
-            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(15166, 1265, 6458), new Angle(0.00f, 1.00f)).Mask(SpawnPlane.Mask_Highground)); // ledge
+            layout.AddSpawnPlane(new SpawnPlane(new Vector3f(15166, 1265, 6458), new Angle(0.00f, 1.00f)).Mask(SpawnPlane.Mask_Waver)); // ledge
             Rooms.Add(layout);
 
             //// Room 4 ////
@@ -801,7 +801,7 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-10671, -78, 7446), new Angle(-0.44f, 0.90f)).Mask(SpawnPlane.Mask_Highground)); // ac unit
             // additional (drones)
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-8982, -2122, 6653), new Vector3f(-8996, -3389, 6653), new Angle(-0.03f, 1.00f)).Mask(SpawnPlane.Mask_Turret)
-                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 30, HorizontalSpeed = 30, VerticalAngle = -20 })); // default with range
+                .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 30, HorizontalSpeed = 20, VerticalAngle = -20 })); // default with range
 
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-6316, -1594, 5109), new Angle(-0.53f, 0.85f)).Mask(SpawnPlane.Mask_Turret)
                 .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 20, HorizontalSpeed = 30, VerticalAngle = 15 })); // lower platfrom ledge
@@ -955,9 +955,6 @@ namespace GhostrunnerRNG.Maps {
                 .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 0.5f, HorizontalSpeed = 0.5f, VerticalAngle = 0, VisibleLaserLength = 0 }));
 
             // sniper
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// TODO
-            ///////////////////////////////////////////////////////////////////////////////////////
-            //////////////////////////////////////////////////////////////////////////////////////////
 
             // additional (drones)
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-12784, 11529, 9246), new Angle(0.80f, 0.61f)).Mask(SpawnPlane.Mask_Airborne));
@@ -1044,10 +1041,6 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-29031, -17855, 10300), new Angle(0.78f, 0.63f)).Mask(SpawnPlane.Mask_Highground)); // near default sniper
              
             // sniper
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// TODO
-            ///////////////////////////////////////////////////////////////////////////////////////
-            //////////////////////////////////////////////////////////////////////////////////////////
-
 
             // additional (drones)
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-29492, -13250, 10579), new Vector3f(-29920, -9114, 10822), new Angle(0.71f, 0.71f)).Mask(SpawnPlane.Mask_Airborne));
@@ -1131,6 +1124,8 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-32137, 7993, 8520), new Angle(0.58f, 0.81f)).Mask(SpawnPlane.Mask_Turret)
                 .SetSpawnInfo(new TurretSpawnInfo { HorizontalAngle = 0, HorizontalSpeed = 0, VerticalAngle = 27, Range = 3500}));
             chainedOrbs_Rooms.Add(layout);
+
+
         }
 
         public override void RandomizeEnemies(Process game) {

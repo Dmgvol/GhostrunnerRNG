@@ -2,6 +2,7 @@
 using GhostrunnerRNG.Game;
 using GhostrunnerRNG.MapGen;
 using GhostrunnerRNG.MemoryUtils;
+using GhostrunnerRNG.NonPlaceableObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -384,6 +385,12 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-78044, -14506, 13386), new Angle(-0.28f, 0.96f)).Mask(SpawnPlane.Mask_Airborne)); // above vertical laser
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-74187, -22740, 9948), new Angle(-0.12f, 0.99f)).Mask(SpawnPlane.Mask_Airborne)); // infront of door
             Rooms.Add(layout);
+
+            #region Uplinks
+            var uplink = new UplinkSlowmo(0x40, 0x120, 0xA0);
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(2, 6)});
+            worldObjects.Add(uplink);
+            #endregion
         }
 
         public void Gen_Nightmare() {throw new NotImplementedException();}

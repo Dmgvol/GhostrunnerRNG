@@ -23,8 +23,16 @@ namespace GhostrunnerRNG.Game {
         DeepPointer mapNameDP, hcDP, capsuleDP, LoadingDP, preciseTimeDP, reloadCounterDP, SettingsLangDP;
         public static IntPtr mapNamePtr, hcPtr, xPosPtr, yPosPtr, zPosPtr, angleSinPtr, angleCosPtr, LoadingPtr, preciseTimePtr, reloadCounterPtr, SettingsLangPtr;
 
-        // player pos&aim, timer, hcFlag
-        public static bool IsHC;
+        private static bool _isHC;
+        public static bool IsHC {
+            get { return _isHC; }
+            set { 
+                if(_isHC != value) {
+                    _isHC = value; 
+                    ModeChanged(); 
+                }
+            }
+        }
         public static float xPos, yPos, zPos, angleSin, angleCos;
         public float oldPreciseTimer, preciseTimer;
         public static Angle angle = new Angle();
@@ -203,7 +211,6 @@ namespace GhostrunnerRNG.Game {
                     LogStatus("CV RNG is disabled by user.");
                     return;
                 }
-
 
                 // Maps with RNG
                 if(MapHasRng(AccurateMapType)) {
@@ -394,7 +401,16 @@ namespace GhostrunnerRNG.Game {
 
         // Is it Hardcore mode?
         private void checkHCMode() {
-            game.ReadValue<bool>(hcPtr, out IsHC);
+            bool hc;
+            game.ReadValue<bool>(hcPtr, out hc);
+            IsHC = hc;
+        }
+
+        private static void ModeChanged() {
+            IntPtr tempestPtr;
+            PtrDB.DP_Tempest_refund.DerefOffsets(game, out tempestPtr);
+            game.WriteValue(tempestPtr, IsHC ? 3 : 2); // 3 for HC, 2 for classic/default
+            Console.WriteLine("changed to  " + (IsHC ? 3 : 2));
         }
 
         private void cpCounterChanged(int value) {

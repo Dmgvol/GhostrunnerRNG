@@ -11,7 +11,15 @@ namespace GhostrunnerRNG.NonPlaceableObjects {
         // 0x045A3C20, 0x98, firstOffset, 0x128, 0xA8, secondOffset
         public UplinkShurikens(int firstOffset, int secondOffset) {
             ObjectDP = new DeepPointer(PtrDB.DP_UplinkShurikens).ModifyOffset(1, firstOffset).ModifyOffset(4, secondOffset);
+            AddPointers();
+        }
 
+        public UplinkShurikens(DeepPointer customDP) {
+            ObjectDP = customDP;
+            AddPointers();
+        }
+
+        private void AddPointers() {
             // Add points
             Pointers.Add("Duration", new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(0x238), IntPtr.Zero));
             Pointers.Add("MaxAttacks", new Tuple<DeepPointer, IntPtr>(AppendBaseOffset(0x270), IntPtr.Zero));

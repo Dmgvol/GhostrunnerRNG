@@ -72,6 +72,7 @@
     <Compile Include="Enemies\EnemyTurret.cs" />
     <Compile Include="GameObjects\GreenPlatform.cs" />
     <Compile Include="Game\Config.cs" />
+    <Compile Include="Game\DevUtils.cs" />
     <Compile Include="Game\EasyPointers.cs" />
     <Compile Include="Game\GameHook.cs" />
     <Compile Include="Game\OverlayManager.cs" />

@@ -54,6 +54,14 @@ namespace GhostrunnerRNG.Maps {
 
         public ReignInHell() : base(MapType.ReignInHell, BeforeCV: GameHook.yPos < 20000) {
             ModifyCP(new DeepPointer(PtrDB.DP_ReignInHell_ElevatorCP), new Vector3f(-4295, -11605, 2455), GameHook.game);
+
+            #region DoorTrigger
+            IntPtr triggerPtr;
+            DeepPointer triggerDP = new DeepPointer(PtrDB.DP_RiH_DoorTrigger);
+            triggerDP.DerefOffsets(GameHook.game, out triggerPtr);
+            GameHook.game.WriteBytes(triggerPtr, BitConverter.GetBytes((float)0));
+            #endregion
+
         }
         public void Gen_Normal_BeforeCV() {
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 36);
@@ -1026,6 +1034,18 @@ namespace GhostrunnerRNG.Maps {
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(-3858, 33859, 7408), new Angle(-0.76f, 0.65f)).Mask(SpawnPlane.Mask_Highground)); // beam, room 8
             layout.AddSpawnPlane(new SpawnPlane(new Vector3f(20708, 40956, 7362), new Angle(-1.00f, 0.08f)).Mask(SpawnPlane.Mask_Highground)); // room 10, first platform
             Rooms.Add(layout);
+
+
+            #region Uplinks
+            NonPlaceableObject uplink = new UplinkShurikens(new DeepPointer(PtrDB.DP_RiH_HC_Room14_Shuriken)); // 2'nd segment of map 
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 5, MaxAttacks = Config.GetInstance().r.Next(2,4)});
+            worldObjects.Add(uplink);
+            #endregion
+        }
+
+        public override void RandomizeEnemies(Process game) {
+            base.RandomizeEnemies(game);
+            DevUtils.DEV_FindObjects("shuriken", new List<Room>() {new Room(new Vector3f(25883, -4791, 7665), new Vector3f(31187, -963, 9864)) });
 
         }
 

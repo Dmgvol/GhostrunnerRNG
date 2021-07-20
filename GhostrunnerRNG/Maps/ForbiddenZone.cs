@@ -1030,6 +1030,17 @@ namespace GhostrunnerRNG.Maps {
             enemies.ForEach(x => x.DisableAttachedCP(GameHook.game));
             EnemiesWithoutCP.AddRange(enemies);
 
+
+            #region Uplinks
+            // the room with a lot of shield orbs, default total-time is above 20 seconds.. too easy
+            NonPlaceableObject uplink = new UplinkSlowmo(0x40, 0x190, 0xA0);
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = Config.GetInstance().r.Next(5, 10) });
+            worldObjects.Add(uplink);
+            // turret platforms, before hellroom
+            uplink = new UplinkShurikens(0x48, 0xD8);
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(1, 3), MaxAttacks = Config.GetInstance().r.Next(1, 3)});
+            worldObjects.Add(uplink);
+            #endregion
         }
 
         public void Gen_Nightmare() {

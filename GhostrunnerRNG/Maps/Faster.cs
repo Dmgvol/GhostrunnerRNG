@@ -36,7 +36,94 @@ namespace GhostrunnerRNG.Maps {
         private Room room_HC_7 = new Room(new Vector3f(281790, 202947, 1397), new Vector3f(298765, 222590, 4989)); //
         #endregion
 
-        public Faster() : base(GameUtils.MapType.Faster) { }
+        public Faster() : base(GameUtils.MapType.Faster) {
+
+
+            if(GameHook.IsHC || Config.GetInstance().Setting_Difficulty >= Config.Difficulty.Normal) {
+                #region Signs1
+                ChainedSignSpawners chained = new ChainedSignSpawners(0x3c0, 0x3c8, 0x3b8);
+                //mixed
+                chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
+                new SignSpawnerSpawnInfo { DelayOnStart = 1, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 3},
+            });
+
+                chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
+                new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 1, SpawnDelay = 3},
+            });
+
+                //some double sign))
+                chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 2},
+                new SignSpawnerSpawnInfo { DelayOnStart = 1, SpawnDelay = 3},
+            });
+
+                chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 2},
+                new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 3},
+            });
+
+                //should be rare
+                chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 2},
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 1},
+                new SignSpawnerSpawnInfo { DelayOnStart = 3, SpawnDelay = 4},
+            });
+
+                //default
+                chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
+                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 1, SpawnDelay = 3},
+                new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 3},
+            });
+
+                worldObjects.Add(chained);
+                #endregion
+
+                #region Signs2
+                chained = new ChainedSignSpawners(0x3b0, 0x3a8, 0x3a0, 0x398, 0x390, 0x388, 0x3D0);
+                //default
+                var delays = new List<float>() { 0.0f, 1.1f, 2.2f, 3.3f, 4.0f, 4.8f, 5.8f };
+                var result = delays.Select(x => new { value = x, order = Config.GetInstance().r.Next() }).OrderBy(x => x.order).Select(x => x.value).ToList();
+                chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
+                new SignSpawnerSpawnInfo { DelayOnStart = result[0], SpawnDelay = 6.8f},
+                new SignSpawnerSpawnInfo { DelayOnStart = result[1], SpawnDelay = 6.8f},
+                new SignSpawnerSpawnInfo { DelayOnStart = result[2], SpawnDelay = 6.8f},
+                new SignSpawnerSpawnInfo { DelayOnStart = result[3], SpawnDelay = 6.8f},
+                new SignSpawnerSpawnInfo { DelayOnStart = result[4], SpawnDelay = 6.8f},
+                new SignSpawnerSpawnInfo { DelayOnStart = result[5], SpawnDelay = 6.8f},
+                new SignSpawnerSpawnInfo { DelayOnStart = result[6], SpawnDelay = 6.8f},
+            });
+                worldObjects.Add(chained);
+                #endregion
+
+                #region ForceSlideTrigger
+                if(Config.GetInstance().Settings_RemoveForceSlideTrigger) {
+                    IntPtr triggerPtr;
+                    DeepPointer triggerDP = new DeepPointer(PtrDB.DP_Faster_ForcedSliderTrigger);
+                    triggerDP.DerefOffsets(GameHook.game, out triggerPtr);
+                    GameHook.game.WriteBytes(triggerPtr, BitConverter.GetBytes((float)0));
+                }
+                #endregion
+
+                #region Signs Triggers
+                // force signs, section 1
+                // Default: -11830, 160550, 2040 | 650, 1025, 540
+                worldObjects.Add(new Trigger(0x18, 0x380, new Vector3f(-11815, 139661, 350), new Vector3f(650, 1025, 540), // first wagon doorframe
+                    new DeepPointer(PtrDB.DP_SignTrigger_Scan), PtrDB.SignTrigger_ScanLength, PtrDB.SignTrigger1_Signature));
+
+                // trigger to disable first signs moved upwards, to avoid double signs(because speedrunners...)
+                worldObjects.Add(new Trigger(0x18, 0x17c8, new Vector3f(-11801, 181093, 1609), new Vector3f(595, 40, 528.75f),
+                    new DeepPointer(PtrDB.DP_SignTrigger_Scan), PtrDB.SignTrigger_ScanLength, PtrDB.SignTrigger2_Signature));
+
+                #endregion
+            }
+        }
 
         public void Gen_Normal() {
             List<Enemy> AllEnemies = GetAllEnemies(GameHook.game, 0, 6);
@@ -223,89 +310,6 @@ namespace GhostrunnerRNG.Maps {
             worldObjects.Add(new ShurikenTarget(0x10, 0xce0).AddSpawnInfo(new ShurikenTargetSpawnInfo { HitsNeeded = Config.GetInstance().r.Next(1, 4) }));
             #endregion
 
-            #region Signs1
-            ChainedSignSpawners chained = new ChainedSignSpawners(0x3c0, 0x3c8, 0x3b8);
-            //mixed
-            chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
-                new SignSpawnerSpawnInfo { DelayOnStart = 1, SpawnDelay = 3},
-                new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 3},
-                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 3},
-            });
-
-            chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
-                new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 3},
-                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 3},
-                new SignSpawnerSpawnInfo { DelayOnStart = 1, SpawnDelay = 3},
-            });
-
-            //some double sign))
-            chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
-                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 3},
-                new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 2},
-                new SignSpawnerSpawnInfo { DelayOnStart = 1, SpawnDelay = 3},
-            });
-
-            chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
-                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 3},
-                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 2},
-                new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 3},
-            });
-
-            //should be rare
-            chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
-                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 2},
-                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 1},
-                new SignSpawnerSpawnInfo { DelayOnStart = 3, SpawnDelay = 4},
-            });
-
-            //default
-            chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
-                new SignSpawnerSpawnInfo { DelayOnStart = 0, SpawnDelay = 3},
-                new SignSpawnerSpawnInfo { DelayOnStart = 1, SpawnDelay = 3},
-                new SignSpawnerSpawnInfo { DelayOnStart = 2, SpawnDelay = 3},
-            });
-
-            worldObjects.Add(chained);
-            #endregion
-
-            #region Signs2
-            chained = new ChainedSignSpawners(0x3b0, 0x3a8, 0x3a0, 0x398, 0x390, 0x388, 0x3D0);
-            //default
-            var delays = new List<float>() { 0.0f, 1.1f, 2.2f, 3.3f, 4.0f, 4.8f, 5.8f };
-            var result = delays.Select(x => new { value = x, order = Config.GetInstance().r.Next() }).OrderBy(x => x.order).Select(x => x.value).ToList();
-            chained.AddChainedInfo(new List<SignSpawnerSpawnInfo>() {
-                new SignSpawnerSpawnInfo { DelayOnStart = result[0], SpawnDelay = 6.8f},
-                new SignSpawnerSpawnInfo { DelayOnStart = result[1], SpawnDelay = 6.8f},
-                new SignSpawnerSpawnInfo { DelayOnStart = result[2], SpawnDelay = 6.8f},
-                new SignSpawnerSpawnInfo { DelayOnStart = result[3], SpawnDelay = 6.8f},
-                new SignSpawnerSpawnInfo { DelayOnStart = result[4], SpawnDelay = 6.8f},
-                new SignSpawnerSpawnInfo { DelayOnStart = result[5], SpawnDelay = 6.8f},
-                new SignSpawnerSpawnInfo { DelayOnStart = result[6], SpawnDelay = 6.8f},
-            });
-            worldObjects.Add(chained);
-            #endregion
-
-            #region ForceSlideTrigger
-            if(Config.GetInstance().Settings_RemoveForceSlideTrigger) {
-                IntPtr triggerPtr;
-                DeepPointer triggerDP = new DeepPointer(PtrDB.DP_Faster_ForcedSliderTrigger);
-                triggerDP.DerefOffsets(GameHook.game, out triggerPtr);
-                GameHook.game.WriteBytes(triggerPtr, BitConverter.GetBytes((float)0));
-            }
-            #endregion
-
-
-            #region Signs Triggers
-            // force signs, section 1
-            // Default: -11830, 160550, 2040 | 650, 1025, 540
-            worldObjects.Add(new Trigger(0x18, 0x380, new Vector3f(-11815, 139661, 350), new Vector3f(650, 1025, 540), // first wagon doorframe
-                new DeepPointer(PtrDB.DP_SignTrigger_Scan), PtrDB.SignTrigger_ScanLength, PtrDB.SignTrigger1_Signature));
-
-            // trigger to disable first signs moved upwards, to avoid double signs(because speedrunners...)
-            worldObjects.Add(new Trigger(0x18, 0x17c8, new Vector3f(-11801, 181093, 1609), new Vector3f(595, 40, 528.75f),
-                new DeepPointer(PtrDB.DP_SignTrigger_Scan), PtrDB.SignTrigger_ScanLength, PtrDB.SignTrigger2_Signature));
-
-            #endregion
         }
 
         public void Gen_Easy() {
@@ -499,6 +503,20 @@ namespace GhostrunnerRNG.Maps {
                 x.DisableAttachedCP(GameHook.game);
             });
             EnemiesWithoutCP.AddRange(enemies);
+
+
+            #region Uplinks
+            // shuriken for fan
+            NonPlaceableObject uplink = new UplinkShurikens(0x10, 0x368);
+            uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { MaxAttacks = 1, Duration = 1});
+            worldObjects.Add(uplink);
+            // train slowmo
+            uplink = new UplinkSlowmo(0x18, 0x1F8, 0xA0);
+            uplink.AddSpawnInfo(new UplinkSlowmoSpawnInfo { TotalTime = 3});
+            worldObjects.Add(uplink);
+            #endregion
+
+
         }
 
         public void Gen_Nightmare() {

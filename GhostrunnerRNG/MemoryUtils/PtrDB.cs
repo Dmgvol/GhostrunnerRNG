@@ -78,6 +78,9 @@ namespace GhostrunnerRNG.MemoryUtils {
         public static readonly DeepPointer DP_Tom_Rotation = new DeepPointer(BASE_KR_Update, 0x98, 0x30, 0x128, 0xA8, 0x708, 0x840, 0xA0, 0x20);
         public static readonly DeepPointer DP_Faster_ForcedSliderTrigger = new DeepPointer(BASE_KR_Update, 0x98, 0x10, 0x128, 0xA8, 0x3C0, 0x230, 0x398, 0x150);
         public static readonly DeepPointer DP_SignTrigger_Scan = new DeepPointer(BASE_KR_Update, 0x1F8, 0x60, 0xD0, 0x298, 0x830, 0xB0, 0x5A0, 0x1A8, 0x0);
+        public static readonly DeepPointer DP_RiH_DoorTrigger = new DeepPointer(BASE_KR_Update, 0x98, 0x0, 0x128, 0xA8, 0xD00, 0x5C);
+        public static readonly DeepPointer DP_RiH_HC_Room14_Shuriken = new DeepPointer(BASE_KR_Update, 0x30, 0xA8, 0x90);
+
         public static readonly DeepPointer DP_HCEchoes_Sniperpoints1 = new DeepPointer(BASE_KR_Update, 0x98, 0x28, 0x128, 0xA8, 0xB68);
         public static readonly DeepPointer DP_HCEchoes_Sniperpoints2 = new DeepPointer(BASE_KR_Update, 0x98, 0x30, 0x128, 0xA8, 0xBD8);
         public static readonly int SignTrigger_ScanLength = 0x19000;
@@ -120,10 +123,14 @@ namespace GhostrunnerRNG.MemoryUtils {
         public static readonly DeepPointer DP_JumpPad = new DeepPointer(BASE_KR_Update, 0x30, 0xA8, 0x0);
 
 
+        ////// Abilities //////
+        public static readonly DeepPointer DP_Tempest_refund = new DeepPointer(0x0438D7F0, 0x20, 0x118, 0xD38, 0x9c); //PlayerInputOML->BlueprintGeneratedClass->BP_PlayerCharacter_C->UpgradesValueDatabase->Tempest_refund
+
         ////// DEV //////
         public static readonly DeepPointer DP_SublevelsCount = new DeepPointer(BASE_KR_Update, 0xA0);
         public static readonly DeepPointer DP_ObjectsCount = new DeepPointer(BASE_KR_Update, 0x98, 0x0, 0x128, 0xB0);
         public static readonly DeepPointer DP_VFTablePattern = new DeepPointer(BASE_KR_Update, 0x98, 0x0, 0x128, 0xA8, 0x0, 0x0);
+        public const int FNamePool = 0x044ADE80; //FNamePool -> PtrDB
         // ObjectsTypes
         public static Dictionary<string, DeepPointer> ObjectsTypes = new Dictionary<string, DeepPointer>() {
             {"triggerbase", new DeepPointer(0x3189000 +  0x80578)},
