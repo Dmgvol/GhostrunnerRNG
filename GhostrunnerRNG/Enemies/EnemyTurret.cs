@@ -85,7 +85,6 @@ namespace GhostrunnerRNG.Enemies {
                     info.HorizontalAngle = info.HorizontalSpeed = 0.005f;
                 }
 
-
                 ModifyIfChanged(game, Pointers["AngleToDestoryFromFace"].Item2, ref info.AngleToDestoryFromFace, DefaultData.AngleToDestoryFromFace);
                 ModifyIfChanged(game, Pointers["HorizontalAngle"].Item2, ref info.HorizontalAngle, DefaultData.HorizontalAngle);
                 ModifyIfChanged(game, Pointers["HorizontalSpeed"].Item2, ref info.HorizontalSpeed, DefaultData.HorizontalSpeed);
@@ -140,7 +139,6 @@ namespace GhostrunnerRNG.Enemies {
         public float? MaxAttackRange2; // max attack/detection range
 
         public const float DefaultRange = 8000;
-
 
         public float Range { // trick to call SetRange through variable 
             get { return (float)MaxAttackRange; }

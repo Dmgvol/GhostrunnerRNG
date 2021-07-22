@@ -410,7 +410,6 @@ namespace GhostrunnerRNG.Game {
             IntPtr tempestPtr;
             PtrDB.DP_Tempest_refund.DerefOffsets(game, out tempestPtr);
             game.WriteValue(tempestPtr, IsHC ? 3 : 2); // 3 for HC, 2 for classic/default
-            Console.WriteLine("changed to  " + (IsHC ? 3 : 2));
         }
 
         private void cpCounterChanged(int value) {
@@ -556,29 +555,30 @@ namespace GhostrunnerRNG.Game {
 
         private void MenuLoaded() {
             Config.GetInstance().SetLanguage(GetSettingsLang()); // read UI language
-                                                                 // get localized text
+
+            // get localized text - Classic mode panel
             string Title = Config.GetInstance().GetString(LocalizationBase.TextAlias.Mode_Title);
             string Description = Config.GetInstance().GetString(LocalizationBase.TextAlias.Mode_Description);
-            // title
-            DeepPointer titleDP = new DeepPointer(PtrDB.DP_MenuTitle);
-            DeepPointer titleLengthDP = new DeepPointer(PtrDB.DP_MenuTitleLength);
-            //description
-            DeepPointer descDP = new DeepPointer(PtrDB.DP_MenuDes);
-            DeepPointer descLengthDP = new DeepPointer(PtrDB.DP_MenuDescLength);
+            WriteUI(PtrDB.DP_MenuTitle, PtrDB.DP_MenuTitleLength, Title);
+            WriteUI(PtrDB.DP_MenuDes, PtrDB.DP_MenuDescLength, Description);
+            // get localized text - Hardcore mode panel
+            Title = Config.GetInstance().GetString(LocalizationBase.TextAlias.HCMode_Title);
+            Description = Config.GetInstance().GetString(LocalizationBase.TextAlias.HCMode_Description);
+            WriteUI(PtrDB.DP_MenuTitle_HC, PtrDB.DP_MenuTitleLength_HC, Title);
+            WriteUI(PtrDB.DP_MenuDes_HC, PtrDB.DP_MenuDescLength_HC, Description);
+        }
+
+        private void WriteUI(DeepPointer TextDP, DeepPointer TextLengthDP, string text) {
             // pointers
-            IntPtr titlePtr, titleLengthPtr, descPtr, descLengthPtr;
-            // deref
-            titleDP.DerefOffsets(game, out titlePtr);
-            descDP.DerefOffsets(game, out descPtr);
-            titleLengthDP.DerefOffsets(game, out titleLengthPtr);
-            descLengthDP.DerefOffsets(game, out descLengthPtr);
+            IntPtr titlePtr, titleLengthPtr;
+            TextDP.DerefOffsets(game, out titlePtr);
+            TextLengthDP.DerefOffsets(game, out titleLengthPtr);
 
             // set title and length + 1
-            game.WriteBytes(titleLengthPtr, BitConverter.GetBytes((int)(Title.Length + 1)));
-            game.WriteBytes(descLengthPtr, BitConverter.GetBytes((int)(Description.Length + 1)));
-            game.WriteBytes(titlePtr, StringToMemoryBytes(Title));
-            game.WriteBytes(descPtr, StringToMemoryBytes(Description));
+            game.WriteBytes(titleLengthPtr, BitConverter.GetBytes((int)(text.Length + 1)));
+            game.WriteBytes(titlePtr, StringToMemoryBytes(text));
         }
+
 
         private byte[] StringToMemoryBytes(string str) {
             var titleBytes = Encoding.Unicode.GetBytes(str).ToList();

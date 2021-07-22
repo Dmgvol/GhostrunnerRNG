@@ -21,8 +21,12 @@ namespace GhostrunnerRNG.MemoryUtils {
         public static readonly DeepPointer DP_MenuTitleLength = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x2F0, 0x28);
         public static readonly DeepPointer DP_MenuDes = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x2F0, 0x0, 0x0);
         public static readonly DeepPointer DP_MenuDescLength = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x2F0, 0x8);
+        public static readonly DeepPointer DP_MenuTitle_HC = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x270, 0x20, 0x0);
+        public static readonly DeepPointer DP_MenuTitleLength_HC = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x270, 0x28);
+        public static readonly DeepPointer DP_MenuDes_HC = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x270, 0x0, 0x0);
+        public static readonly DeepPointer DP_MenuDescLength_HC = new DeepPointer(0x044629B0, 0x3E8, 0x70, 0x270, 0x8);
 
-        // Enemies - Genral
+        // Enemies - General
         public static readonly DeepPointer DP_EnemyListFirstEntity = new DeepPointer(BASE_KR_Update, 0x138, 0xB0, 0xB0, 0x20, 0x4F0);
         public static readonly DeepPointer DP_SurgeCV_EnemyEntity = new DeepPointer(BASE_KR_Update, 0x30, 0xA8, 0x0, 0x130, 0x1D0);
         public static readonly DeepPointer DP_Drone_Dharma_Patrol = new DeepPointer(BASE_KR_Update, 0x98, 0x28, 0x128, 0xA8, 0x238, 0x130, 0x1D0);

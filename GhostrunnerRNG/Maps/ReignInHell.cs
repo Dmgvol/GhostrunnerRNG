@@ -1041,14 +1041,11 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddSpawnInfo(new UplinkShurikensSpawnInfo { Duration = 5, MaxAttacks = Config.GetInstance().r.Next(2,4)});
             worldObjects.Add(uplink);
             #endregion
-        }
 
-        public override void RandomizeEnemies(Process game) {
-            base.RandomizeEnemies(game);
-            DevUtils.DEV_FindObjects("shuriken", new List<Room>() {new Room(new Vector3f(25883, -4791, 7665), new Vector3f(31187, -963, 9864)) });
+            #region FirstFanFix
+            #endregion
 
         }
-
 
         public void Gen_Nightmare_BeforeCV() {
             throw new NotImplementedException();

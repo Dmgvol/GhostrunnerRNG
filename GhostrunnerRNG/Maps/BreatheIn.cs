@@ -907,7 +907,6 @@ namespace GhostrunnerRNG.Maps {
             uplink.AddNewSpawnInfo(new UplinkShurikensSpawnInfo { Duration = Config.GetInstance().r.Next(2, 5), MaxAttacks = Config.GetInstance().r.Next(1, 4)});
             worldObjects.Add(uplink);
             #endregion
-
         }
 
         public void Gen_Nightmare_BeforeCV() {}

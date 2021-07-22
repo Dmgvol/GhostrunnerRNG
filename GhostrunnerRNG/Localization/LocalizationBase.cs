@@ -12,8 +12,9 @@ namespace GhostrunnerRNG.Localization {
 
         public enum TextAlias {
             Mode_Title,
-            Mode_Description
-
+            Mode_Description,
+            HCMode_Title,
+            HCMode_Description
         };
 
         public Dictionary<TextAlias, string> LangStrings = new Dictionary<TextAlias, string>();
