@@ -33,6 +33,7 @@ namespace GhostrunnerRNG.Game {
                 }
             }
         }
+
         public static float xPos, yPos, zPos, angleSin, angleCos;
         public float oldPreciseTimer, preciseTimer;
         public static Angle angle = new Angle();
@@ -165,6 +166,7 @@ namespace GhostrunnerRNG.Game {
             // we don't need main menu
             if(AccurateMapType == MapType.MainMenu) {
                 rngLoaded = false;
+                checkHCMode();
                 return;
             }
             // level loaded but that's no menu? 
@@ -407,9 +409,32 @@ namespace GhostrunnerRNG.Game {
         }
 
         private static void ModeChanged() {
+            // tempest refund
             IntPtr tempestPtr;
             PtrDB.DP_Tempest_refund.DerefOffsets(game, out tempestPtr);
             game.WriteValue(tempestPtr, IsHC ? 3 : 2); // 3 for HC, 2 for classic/default
+            // update ui
+            MainWindow.GlobalLog = IsHC ? "Hardcore Changes:\n- Nerfed Uplinks.\n- Tempest refund: 3 kills." : " ";
+
+            // update tempest color
+            PtrDB.DP_Tempest_TetrisColor.DerefOffsets(game, out tempestPtr);
+            float r = 0, g = 0, b = 0;
+            if(IsHC) {
+                r = 1f;
+                g = b = 0f;
+            } else {
+                r = 0.051269f;
+                g = 0.838799f; 
+                b = 0.806952f;
+            }
+            game.WriteValue(tempestPtr,r);
+            game.WriteValue(tempestPtr + 4, g);
+            game.WriteValue(tempestPtr + 8, b);
+
+            // tempest description
+            string TempestDescription = Config.GetInstance().GetString(IsHC ?  
+                LocalizationBase.TextAlias.Ability_Tempest_RefundDesc_HC : LocalizationBase.TextAlias.Ability_Tempest_RefundDesc_Default);
+            WriteUI(PtrDB.DP_Tempest_Description, PtrDB.DP_Tempest_DescriptionLength, TempestDescription);
         }
 
         private void cpCounterChanged(int value) {
@@ -568,7 +593,7 @@ namespace GhostrunnerRNG.Game {
             WriteUI(PtrDB.DP_MenuDes_HC, PtrDB.DP_MenuDescLength_HC, Description);
         }
 
-        private void WriteUI(DeepPointer TextDP, DeepPointer TextLengthDP, string text) {
+        private static void WriteUI(DeepPointer TextDP, DeepPointer TextLengthDP, string text) {
             // pointers
             IntPtr titlePtr, titleLengthPtr;
             TextDP.DerefOffsets(game, out titlePtr);
@@ -580,7 +605,7 @@ namespace GhostrunnerRNG.Game {
         }
 
 
-        private byte[] StringToMemoryBytes(string str) {
+        private static byte[] StringToMemoryBytes(string str) {
             var titleBytes = Encoding.Unicode.GetBytes(str).ToList();
             List<byte> memoryBytes = new List<byte>();
             for(int i = 0; i < titleBytes.Count; i++) {

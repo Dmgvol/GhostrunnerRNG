@@ -15,7 +15,7 @@ namespace GhostrunnerRNG {
         private GameHook game; // Main game hook and logic
 
         /// <summary>Log outside MainWindow/GameHook</summary>
-        public static string GlobalLog;
+        public static string GlobalLog = "";
 
         private void SeedChanged(int seed) {
             LabelSeed.Content = $"RNG Seed: {seed}";
@@ -67,9 +67,9 @@ namespace GhostrunnerRNG {
 
         private string globalLogTemp = GlobalLog;
         public void CheckOutsideLog() {
-            if(globalLogTemp != GlobalLog) {
+            if(!globalLogTemp.Equals(GlobalLog)) {
                 globalLogTemp = GlobalLog;
-                label_GlobalLog.Text = "Debug: " + GlobalLog;
+                label_GlobalLog.Text = GlobalLog;
             }
         }
 

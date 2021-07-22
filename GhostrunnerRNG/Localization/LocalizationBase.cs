@@ -14,7 +14,9 @@ namespace GhostrunnerRNG.Localization {
             Mode_Title,
             Mode_Description,
             HCMode_Title,
-            HCMode_Description
+            HCMode_Description,
+            Ability_Tempest_RefundDesc_Default,
+            Ability_Tempest_RefundDesc_HC
         };
 
         public Dictionary<TextAlias, string> LangStrings = new Dictionary<TextAlias, string>();

@@ -74,7 +74,7 @@ The exe window will show relevant info regarding the rng.
 Changelog [0.4.0]
 - RNG for all hardcore levels.
 - Added: Easy difficulty for casual RNG.
-- Fixed:
+- Added: Tempest refund color + description change for HC.
 - Fixed: TYWB, wrong splitters spawn.
 - Fixed: Faster, stuck "new-upgrade" message.
 - Fixed: Faster, Double-signs.

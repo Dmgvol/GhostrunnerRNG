@@ -129,6 +129,9 @@ namespace GhostrunnerRNG.MemoryUtils {
 
         ////// Abilities //////
         public static readonly DeepPointer DP_Tempest_refund = new DeepPointer(0x0438D7F0, 0x20, 0x118, 0xD38, 0x9c); //PlayerInputOML->BlueprintGeneratedClass->BP_PlayerCharacter_C->UpgradesValueDatabase->Tempest_refund
+        public static readonly DeepPointer DP_Tempest_TetrisColor = new DeepPointer(0x0438D7F0, 0x20, 0x118, 0xD48, 0x30, 0xB8);
+        public static readonly DeepPointer DP_Tempest_Description = new DeepPointer(0x044629B0, 0x468, 0x200, 0x4d8, 0x0, 0x0);
+        public static readonly DeepPointer DP_Tempest_DescriptionLength = new DeepPointer(0x044629B0, 0x468, 0x200, 0x4d8, 0x8);
 
         ////// DEV //////
         public static readonly DeepPointer DP_SublevelsCount = new DeepPointer(BASE_KR_Update, 0xA0);

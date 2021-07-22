@@ -7,6 +7,10 @@
 
             LangStrings.Add(TextAlias.HCMode_Title, "Hardkorowy Randomizator");
             LangStrings.Add(TextAlias.HCMode_Description, "Ulepszenia są dostępne od samego początku, większa liczba wrogów jest losowana tak, aby stanowili śmiertelne wyzwanie.");
+
+            LangStrings.Add(TextAlias.Ability_Tempest_RefundDesc_Default, "Zabicie Burza co najmniej dwóch przeciwników naraz zapewnia natychmiastowe odzyskanie wykorzystanych na nia punktów Skupienia.");
+            LangStrings.Add(TextAlias.Ability_Tempest_RefundDesc_HC, "Zabicie Burza co najmniej trzech przeciwników naraz zapewnia natychmiastowe odzyskanie wykorzystanych na nia punktów Skupienia.");
+
         }
     }
 }
