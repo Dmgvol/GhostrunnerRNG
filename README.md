@@ -1,7 +1,7 @@
 ![](https://img.shields.io/badge/Dharma-Unlocked-green) [![](https://img.shields.io/badge/Discord-GRSR-%237289da)](https://discord.com/invite/eZRz3Q5) [![](https://img.shields.io/badge/Discord-discord.gg/ghostrunner-%237289da)](https://discord.gg/ghostrunner)  ![GitHub all releases](https://img.shields.io/github/downloads/dmgvol/ghostrunnerrng/total?color=green&label=Downloads) ![](https://img.shields.io/badge/Game_Version-0.34834.545-orange)
 ![ModLogo](/GhostrunnerRNG/Resources/header.png)
 # GhostrunnerRNG
-**New Update: Hardcore Levels**
+**Doesn't support latest game version yet, update coming soon!**
 
 Randomizes enemies in a challenging and unexpected way, every time you load a level.<br>
 It is challenging and it will test how fast you can adapt and figure out how to clear the kill rooms.<br>
@@ -64,10 +64,9 @@ The exe window will show relevant info regarding the rng.
 - [x] Hardcore Levels
 - [x] Abilities
 - [ ] Boss levels
-- [ ] Custom modes (TBA)
+- [ ] Custom modes 
 - [ ] Tasks + custom overlay
 - [ ] Reward system
-- [ ] WaveMode DLC RNG (planned)
 - [ ] More RNG!
 
 ### Latest Changelog
